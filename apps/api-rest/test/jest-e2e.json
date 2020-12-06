@@ -1,0 +1,15 @@
+{
+	"moduleFileExtensions": ["js", "json", "ts"],
+	"rootDir": "../",
+	"testEnvironment": "node",
+	"testMatch": ["<rootDir>/test/e2e/**/*.e2e-spec.ts"],
+	"transform": {
+		"^.+\\.(t|j)s$": "ts-jest"
+	},
+	"collectCoverageFrom": ["src/**/*.ts", "!src/test"],
+	"coveragePathIgnorePatterns": [],
+	"moduleNameMapper": {
+		"api/student-mgmt-api/(.*)": "<rootDir>/../libs/student-mgmt-api/src/$1",
+		"api/student-mgmt-api": "<rootDir>/../libs/student-mgmt-api/src"
+	}
+}

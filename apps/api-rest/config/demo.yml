@@ -1,0 +1,18 @@
+db: 
+  host: "127.0.0.1"
+  username: "postgres"
+  password: "postgres"
+  synchronize: true
+  dropSchema: true
+
+jwt:
+  secret: "jwt-dev-secret"
+
+logger:
+  levels:
+    - error
+    - warn
+    - debug
+    - verbose
+  requests: false
+  dbErrors: true

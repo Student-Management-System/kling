@@ -35,6 +35,12 @@
 		},
 		"shared-data-access-api-rest-ng-client": {
 			"tags": ["scope:shared", "type:data-access"]
+		},
+		"api-rest": {
+			"tags": ["scope:api-rest"]
+		},
+		"code-runner-service": {
+			"tags": ["scope:code-runner-service"]
 		}
 	}
 }

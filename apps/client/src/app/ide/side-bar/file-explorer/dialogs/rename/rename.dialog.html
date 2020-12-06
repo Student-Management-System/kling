@@ -1,0 +1,16 @@
+<mat-card-title mat-dialog-title>{{ 'Action.Rename' | translate }}</mat-card-title>
+
+<div mat-dialog-content>
+	<mat-form-field>
+		<mat-label>Name</mat-label>
+		<input [(ngModel)]="newName" matInput required (keyup.enter)="save()" autocomplete="off" />
+		<mat-error></mat-error>
+	</mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+	<button mat-raised-button color="accent" (click)="save()">
+		{{ 'Action.Save' | translate }}
+	</button>
+	<button mat-flat-button (click)="close()">{{ 'Action.Cancel' | translate }}</button>
+</div>

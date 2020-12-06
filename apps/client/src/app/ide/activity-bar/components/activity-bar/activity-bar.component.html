@@ -1,0 +1,41 @@
+<div class="activity-bar-container">
+	<div class="menu-btn-container">
+		<button class="menu-btn" mat-icon-button disableRipple (click)="sidenav.open()">
+			<mat-icon>menu</mat-icon>
+		</button>
+	</div>
+
+	<div class="tabs">
+		<div class="top" *ngIf="settings.sideBarComponent$ | async as selectedTab">
+			<div class="tab" [class.selected]="selectedTab === 'EXPLORER'">
+				<button
+					mat-icon-button
+					disableRipple
+					(click)="onTabClick('EXPLORER')"
+					[matTooltip]="'Explorer'"
+				>
+					<mat-icon class="icon-light">file_copy</mat-icon>
+				</button>
+			</div>
+
+			<div class="tab" [class.selected]="selectedTab === 'HISTORY'">
+				<button
+					mat-icon-button
+					disableRipple
+					(click)="onTabClick('HISTORY')"
+					[matTooltip]="'History'"
+				>
+					<mat-icon class="icon-light">history</mat-icon>
+				</button>
+			</div>
+		</div>
+
+		<div class="bottom">
+			<div class="tab">
+				<button mat-icon-button disableRipple [matTooltip]="'Help'">
+					<mat-icon class="icon-light">help</mat-icon>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

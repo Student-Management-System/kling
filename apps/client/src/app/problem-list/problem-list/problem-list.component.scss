@@ -1,0 +1,34 @@
+.problem-list-container {
+	padding-top: 8px;
+}
+
+.title-container {
+	button {
+		margin-left: 16px;
+	}
+}
+
+.filter {
+	margin-top: 8px;
+	display: grid;
+	grid-template-columns: 1fr 0.5fr 0.5fr 0.5fr;
+	column-gap: 16px;
+}
+
+.date-column {
+	text-align: center !important;
+	width: 96px;
+}
+
+.status-column {
+	text-align: center !important;
+	width: 96px;
+}
+
+.title-column {
+	width: 256px;
+}
+
+.difficulty-column {
+	width: 128px;
+}

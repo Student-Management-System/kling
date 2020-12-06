@@ -1,0 +1,26 @@
+<div class="file" data-cy="file">
+	<button
+		mat-button
+		disableRipple="true"
+		[class.selected]="isSelected"
+		(click)="openFile()"
+		(middleclick)="openFile()"
+		[contextMenu]="fileContextMenu"
+	>
+		{{ file.name }}
+	</button>
+
+	<context-menu #fileContextMenu class="context-menu">
+		<ng-template contextMenuItem (execute)="rename()">
+			<span class="context-menu-item"
+				><mat-icon class="icon-light">edit</mat-icon>Rename</span
+			>
+		</ng-template>
+		<ng-template contextMenuItem (execute)="removeFileIfConfirmed()">
+			<span class="context-menu-item"
+				><mat-icon class="icon-light">delete</mat-icon
+				>{{ "Action.Delete" | translate }}</span
+			>
+		</ng-template>
+	</context-menu>
+</div>

@@ -1,0 +1,52 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
+import { createReducer, on } from "@ngrx/store";
+import * as FileActions from "./file.actions";
+import { File } from "./file.model";
+
+export const filesFeatureKey = "files";
+
+export interface State extends EntityState<File> {
+	// additional entity state properties
+	selectedFileId: string;
+}
+
+export const adapter: EntityAdapter<File> = createEntityAdapter<File>({
+	selectId: file => file.path,
+	sortComparer: (fileA, fileB) => fileA.path.localeCompare(fileB.path)
+});
+
+export const initialState: State = adapter.getInitialState({
+	// additional entity state properties
+	selectedFileId: null
+});
+
+export const reducer = createReducer(
+	initialState,
+	on(
+		FileActions.addFile,
+		FileActions.addFile_FileExplorer,
+		FileActions.addFile_Directory,
+		(state, action) => _addFile(action, state)
+	),
+	on(FileActions.addFiles, (state, action) => adapter.addMany(action.files, state)),
+	on(FileActions.upsertFile, (state, action) => adapter.upsertOne(action.file, state)),
+	on(FileActions.updateFile, (state, action) => adapter.updateOne(action.file, state)),
+	on(FileActions.deleteFile, (state, action) =>
+		adapter.removeOne(action.fileId, {
+			...state,
+			selectedFileId: action.fileId !== state.selectedFileId ? state.selectedFileId : null
+		})
+	),
+	on(FileActions.clearFiles, state => adapter.removeAll(state)),
+	on(
+		FileActions.setSelectedFile,
+		FileActions.setSelectedFile_FileTabRemoved,
+		(state, action) => ({ ...state, selectedFileId: action.fileId })
+	)
+);
+
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors();
+
+function _addFile(action: { file: File }, state: State): State {
+	return adapter.addOne(action.file, state);
+}

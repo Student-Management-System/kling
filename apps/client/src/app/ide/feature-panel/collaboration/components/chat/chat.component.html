@@ -1,0 +1,30 @@
+<div class="chat-container">
+	<div class="messages">
+		<div class="message" *ngFor="let message of messages$ | async">
+			<span class="content">
+				<span class="text-light"
+					>[{{ message.date | date: "shortTime" }}] {{ message.from }}:
+				</span>
+				<span [class]="message.type === 'EVENT' ? 'text-light' : ''">{{
+					message.content
+				}}</span>
+			</span>
+		</div>
+	</div>
+
+	<div class="chatbox">
+		<mat-form-field>
+			<textarea [(ngModel)]="messageContent" matInput rows="5"></textarea>
+		</mat-form-field>
+
+		<button
+			class="send-btn"
+			mat-flat-button
+			color="accent"
+			[disabled]="messageContent.length == 0"
+			(click)="send()"
+		>
+			Send
+		</button>
+	</div>
+</div>

@@ -1,0 +1,214 @@
+{
+	"Action": {
+		"Add": "Add",
+		"Cancel": "Cancel",
+		"Close": "Close",
+		"Confirm": "Confirm",
+		"Create": "Create",
+		"Delete": "Delete",
+		"Edit": "Edit",
+		"Join": "Join",
+		"Leave": "Leave",
+		"No": "No",
+		"Ok": "Ok",
+		"Open": "Open",
+		"Remove": "Remove",
+		"Save": "Save",
+		"Search": "Search",
+		"Select": "Select",
+		"Send": "Send",
+		"View": "View",
+		"Yes": "Yes"
+	},
+	"Common": {
+		"All": "All",
+		"AssignedTo": "Assigned to",
+		"Count": "Count",
+		"Date": "Date",
+		"For": "For",
+		"Help": "Help",
+		"Multiple": "Multiple",
+		"My": "My",
+		"Name": "Name",
+		"Names": "Names",
+		"No": "No",
+		"Other": "Other",
+		"Password": "Password",
+		"Single": "Single",
+		"Title": "Title",
+		"Yes": "Yes"
+	},
+	"Domain": {
+		"Assessment": "Assessment",
+		"Assessments": "Assessments",
+		"Assignment": "Assignment",
+		"Assignments": "Assignments",
+		"Course": "Course",
+		"Courses": "Courses",
+		"Group": "Group",
+		"Groups": "Groups",
+		"Lecturer": "Lecturer",
+		"Lecturers": "Lecturers",
+		"Member": "Member",
+		"Members": "Members",
+		"Participant": "Participant",
+		"Participants": "Participants",
+		"Problem": "Problem",
+		"Problems": "Problems",
+		"Semester": "Semester",
+		"Solved": "Solved",
+		"User": "User",
+		"Users": "Users"
+	},
+	"Enum": {
+		"AssignmentState": {
+			"CLOSED": "Closed",
+			"EVALUATED": "Evaluated",
+			"INVISIBLE": "Invisible",
+			"IN_PROGRESS": "In progress",
+			"IN_REVIEW": "In review"
+		},
+		"AssignmentType": {
+			"HOMEWORK": "Homework",
+			"OTHER": "Other",
+			"PROJECT": "Project",
+			"SEMINAR": "Seminar",
+			"TESTAT": "Testat"
+		},
+		"CollaborationType": {
+			"GROUP": "Group",
+			"GROUP_OR_SINGLE": "Group or single",
+			"SINGLE": "Single"
+		},
+		"CourseRole": {
+			"LECTURER": "Lecturer",
+			"STUDENT": "Student",
+			"TUTOR": "Tutor"
+		},
+		"Difficulty": {
+			"EASY": "Easy",
+			"HARD": "Hard",
+			"MEDIUM": "Medium"
+		},
+		"Status": {
+			"ATTEMPTED": "Attempted",
+			"SOLVED": "Solved",
+			"UNSOLVED": "Unsolved"
+		},
+		"UserRole": {
+			"ADMIN_TOOL": "ADMIN_TOOL",
+			"MGTM_ADMIN": "MGTM_ADMIN",
+			"SYSTEM_ADMIN": "SYSTEM_ADMIN",
+			"USER": "USER"
+		}
+	},
+	"Error": {
+		"AlreadyExists": "Already exists.",
+		"Assessment": {
+			"AchievedPointsMaxValueExceeded": "Achieved point exceeds the maximum amount of possible points."
+		},
+		"AssignmentNotInReview": "Assignment creation requires the \"In Review\"-state.",
+		"FailedToLoadRequiredData": "Failed to load the required data.",
+		"SomethingWentWrong": "Oops, something went wrong!",
+		"ValueMissing": "Value is missing."
+	},
+	"Event": {
+		"UserJoinedCourseEvent": "joined the course.",
+		"UserJoinedGroupEvent": "joined the group.",
+		"UserLeftCourseEvent": "left the course.",
+		"UserLeftGroupEvent": "left the group."
+	},
+	"Message": {
+		"Created": "Created",
+		"Deleted": "Deleted",
+		"Error": "Error",
+		"Removed": "Removed",
+		"Saved": "Saved",
+		"Success": "Success"
+	},
+	"Misc": {
+		"BasicData": "Basic Data",
+		"ExtendedOptions": "Extended options",
+		"Home": "Home",
+		"Imprint": "Imprint",
+		"Language": "Language",
+		"Link": "Link",
+		"Privacy": "Privacy",
+		"Settings": "Settings"
+	},
+	"Prompt": {
+		"PleaseChoose": "Please choose",
+		"Question": {
+			"AreYouSure": "Do you confirm this action ?"
+		}
+	},
+	"Property": {
+		"Assessment": {
+			"AchievedPoints": "Achieved points",
+			"Comment": "Comment",
+			"Creator": "Evaluated by",
+			"PartialAssessments": "Partial assessments"
+		},
+		"Assignment": {
+			"BonusPoints": "Bonus points",
+			"Collaboration": "Collaboration",
+			"Comment": "Comment",
+			"EndDate": "End date",
+			"Name": "Name",
+			"Points": "Points",
+			"StartDate": "Start date",
+			"State": "State",
+			"Type": "Type"
+		},
+		"AssignmentTemplate": {
+			"State": "Initial state",
+			"TemplateName": "Template name",
+			"Timespan": "Timespan",
+			"TitleSchema": "Titel"
+		},
+		"Course": {
+			"IsClosed": "Closed",
+			"Link": "Link",
+			"Shortname": "Shortname",
+			"Title": "Title"
+		},
+		"CourseConfig": {
+			"SubscriptionUrl": "SubscriptionUrlTODO"
+		},
+		"Group": {
+			"History": "History",
+			"IsClosed": "Closed",
+			"Name": "Name"
+		},
+		"GroupSettings": {
+			"AllowGroups": "Allow groups",
+			"NameSchema": "Prefix",
+			"Selfmanaged": "Selfmanaged",
+			"SizeMax": "Max. size",
+			"SizeMin": "Min. size"
+		},
+		"PartialAssessment": {
+			"Comment": "Comment",
+			"Points": "Points",
+			"Severity": "Severity",
+			"Title": "Title",
+			"Type": "Type"
+		},
+		"Problem": {
+			"Categories": "Categories",
+			"Difficulty": "Difficulty",
+			"Title": "Title"
+		},
+		"User": {
+			"CourseRole": "Role in course",
+			"Email": "Email",
+			"Role": "Role",
+			"Username": "Username"
+		}
+	},
+	"Title": {
+		"AppName": "Kling",
+		"CompareParticipantsList": "Compare participants list",
+		"CreateProblem": "Create new problem"
+	}
+}

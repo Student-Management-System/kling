@@ -1,0 +1,15 @@
+<mat-form-field>
+	<mat-select
+		[formControl]="selectedCategories"
+		placeholder="{{ 'Property.Problem.Categories' | translate }}"
+		[multiple]="true"
+		#multiSelect
+	>
+		<mat-option>
+			<ngx-mat-select-search [formControl]="categoryFilterCtrl"></ngx-mat-select-search>
+		</mat-option>
+		<mat-option *ngFor="let category of filteredCategoriesSubject | async" [value]="category">
+			{{ category }}
+		</mat-option>
+	</mat-select>
+</mat-form-field>

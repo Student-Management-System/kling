@@ -1,0 +1,47 @@
+.directory {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	color: var(--file-inactive);
+
+	button {
+		height: 24px;
+		padding-left: 0px !important;
+		line-height: 24px;
+		width: 100%;
+		font-size: 14px;
+		font-weight: 300;
+		text-align: start;
+
+		.expand-icon {
+			font-size: 18px;
+			margin-top: 4px;
+			margin-left: -4px;
+			margin-right: 0px;
+		}
+
+		.folder-icon {
+			color: #90a4ae;
+			font-size: 18px;
+			padding-top: 2px;
+		}
+	}
+
+	button:hover {
+		color: var(--text);
+	}
+}
+
+.contains-selected-file {
+	color: var(--selected);
+}
+
+.indent {
+	padding-left: 24px;
+}
+
+.files {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}

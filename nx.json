@@ -25,5 +25,16 @@
 			}
 		}
 	},
-	"projects": {}
+	"projects": {
+		"client": {
+			"tags": ["scope:client"]
+		},
+		"client-e2e": {
+			"tags": [],
+			"implicitDependencies": ["client"]
+		},
+		"shared-data-access-api-rest-ng-client": {
+			"tags": ["scope:shared", "type:data-access"]
+		}
+	}
 }

@@ -1,0 +1,22 @@
+<mat-card-title mat-dialog-title>{{ 'Title.CreateFile' | translate }}</mat-card-title>
+
+<div mat-dialog-content>
+	<mat-form-field>
+		<mat-label>Filename</mat-label>
+		<input
+			[(ngModel)]="filename"
+			matInput
+			required
+			(keyup.enter)="create()"
+			autocomplete="off"
+		/>
+		<mat-error *ngIf="errors">{{errors | translate}}</mat-error>
+	</mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+	<button mat-raised-button color="accent" (click)="create()">
+		{{ 'Action.Create' | translate }}
+	</button>
+	<button mat-flat-button (click)="close()">{{ 'Action.Cancel' | translate }}</button>
+</div>

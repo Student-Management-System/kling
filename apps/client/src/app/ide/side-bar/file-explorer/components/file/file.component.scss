@@ -1,0 +1,23 @@
+.file {
+	display: flex;
+	width: 100%;
+	color: var(--file-inactive);
+
+	button {
+		padding-left: 0px;
+		height: 24px;
+		line-height: 24px;
+		width: 100%;
+		font-size: 14px;
+		font-weight: 300;
+		text-align: start;
+	}
+
+	button:hover:not(.selected) {
+		color: var(--text);
+	}
+
+	.selected {
+		color: var(--file-active);
+	}
+}

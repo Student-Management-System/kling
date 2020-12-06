@@ -1,0 +1,26 @@
+.tab-group {
+	height: 100%;
+
+	::ng-deep .mat-tab-body-wrapper {
+		height: 100%;
+	}
+
+	.tab-content-container {
+		height: 100%;
+	}
+}
+
+::ng-deep .mat-tab-header .mat-tab-label {
+	height: 36px !important;
+}
+
+::ng-deep .mat-tab-label {
+	padding-left: 16px !important;
+	padding-right: 16px !important;
+	min-width: 0 !important;
+}
+
+::ng-deep .mat-ink-bar {
+	height: 1px !important;
+	background-color: var(--selected) !important;
+}

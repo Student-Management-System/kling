@@ -1,0 +1,408 @@
+@import "./custom-theme.scss";
+
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+	--titlebar-height: 56px;
+	--margin-default: 8px;
+	--margin-content: 128px;
+
+	--color-bg: #f1f1f1;
+	--color-titlebar: white;
+	--color-sidenav: white;
+	--color-header: #f9f9f9;
+
+	--card-bg: white;
+	--table-bg: transparent;
+
+	--grey-light: rgb(230, 230, 230);
+	--grey-normal: rgb(255, 255, 255);
+	--grey-dark: rgb(41, 41, 41);
+
+	--text: black;
+	--text-inverse: white;
+	--text-light: rgba(0, 0, 0, 0.6);
+
+	--link-active: red;
+	--link-active-bg: rgba(0, 0, 0, 0.1);
+
+	// Editor
+	--workspace-text: white;
+	--workspace-text-light: rgba(255, 255, 255, 0.5);
+	--activity-bar-bg: #333333;
+	--activity-inactive: #848484;
+	--file-explorer-bg: #252526;
+	--editor-background: #1e1e1e;
+	--file-tab-inactive: #2d2d2d;
+	--file-tab-active: #1e1e1e;
+	--selected: #90e5ff;
+	--status-bar: #007acc;
+
+	--primary: map-get($student-mgmt-client-primary, 600);
+	--accent: map-get($student-mgmt-client-accent, 900);
+	--warn: map-get($student-mgmt-client-warn);
+
+	@media (max-width: 799px) {
+		--margin-content: 8px;
+		--margin-default: 8px;
+	}
+	@media (min-width: 800px) {
+		--margin-content: 64px;
+		--margin-default: 16px;
+	}
+	@media (min-width: 1500px) {
+		--margin-content: 128px;
+		--margin-default: 32px;
+	}
+}
+
+.default-theme {
+	height: 100%;
+	--grey-light: rgb(230, 230, 230);
+	--grey-normal: rgb(255, 255, 255);
+	--grey-dark: rgb(41, 41, 41);
+
+	--color-bg: #f1f1f1;
+	--color-titlebar: white;
+	--color-sidenav: white;
+	--color-header: #f9f9f9;
+
+	--table-bg: white;
+
+	--text: black;
+	--text-inverse: white;
+	--text-light: rgba(0, 0, 0, 0.6);
+
+	--link-active: red;
+	--link-active-bg: rgba(0, 0, 0, 0.1);
+
+	// Editor
+	--workspace-text: black;
+	--workspace-text-light: rgba(0, 0, 0, 0.8);
+	--activity-bar-bg: #2c2c2c;
+	--activity-active: white;
+	--activity-inactive: #848484;
+	--file-explorer-bg: #f3f3f3;
+	--sidebar-header-bg: #dedede;
+	--sidebar-section-header-bg: #dedede;
+	--editor-background: white;
+	--file-active: rgb(0, 174, 197);
+	--file-inactive: rgba(0, 0, 0, 0.808);
+	--file-tab-inactive: #ececec;
+	--file-tab-active: #dedede;
+	--file-tab-bg: #f3f3f3;
+	--selected: #90e5ff;
+	--status-bar: #007acc;
+}
+
+.dark-theme {
+	height: 100%;
+	--color-bg: rgb(15, 15, 15);
+	--color-titlebar: #202020;
+	--color-sidenav: #212121;
+	--color-header: rgb(24, 24, 24);
+
+	--card-bg: rgb(41, 41, 41);
+	--table-bg: #292929;
+
+	--text: white;
+	--text-inverse: black;
+	--text-light: rgba(255, 255, 255, 0.5);
+
+	--link-active: white;
+	--link-active-bg: rgba(255, 255, 255, 0.1);
+
+	// Editor
+	--activity-bar-bg: #333333;
+	--activity-active: white;
+	--activity-inactive: #848484;
+	--file-explorer-bg: #252526;
+	--sidebar-header-bg: #2c2c2c;
+	--sidebar-section-header-bg: #2c2c2c;
+	--editor-background: #1e1e1e;
+	--file-active: #90e5ff;
+	--file-inactive: rgba(255, 255, 255, 0.5);
+	--file-tab-inactive: #2d2d2d;
+	--file-tab-active: #1e1e1e;
+	--file-tab-bg: #252526;
+	--selected: #90e5ff;
+	--status-bar: #007acc;
+}
+
+.blue-theme {
+	height: 100%;
+	--color-bg: #0f1724;
+	--color-titlebar: #212c3d;
+	--color-sidenav: #1d2636;
+	--color-header: #1f293a;
+
+	--card-bg: #1d2636;
+	--table-bg: #1f293a;
+
+	--text: white;
+	--text-inverse: black;
+	--text-light: #92abcfe7;
+
+	--link-active: white;
+	--link-active-bg: rgba(255, 255, 255, 0.1);
+}
+
+.green-theme {
+	height: 100%;
+	--link-active: green;
+}
+
+html,
+body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+*::-webkit-scrollbar {
+	width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+	background-color: var(--color-header);
+}
+
+:root > *::-webkit-scrollbar-track {
+	margin-top: var(--titlebar-height); // Start below Titlebar
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: var(--text-light);
+}
+
+// Remove arrows of number-input
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
+.content-container {
+	padding-top: 64px;
+	padding-left: var(--margin-default);
+	padding-right: var(--margin-default);
+	padding-bottom: var(--margin-default);
+}
+
+.content-padding {
+	padding-left: var(--margin-content);
+	padding-right: var(--margin-content);
+}
+
+.background-container {
+	background-color: var(--color-bg);
+	width: 100%;
+	min-height: 100%;
+	max-height: max-content;
+	transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+.dialog-container {
+	display: flexbox;
+	min-width: 300px;
+}
+
+.form-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.button-container {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.radio-group-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.radio-group {
+	display: flex;
+	flex-direction: column;
+	mat-radio-button {
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+}
+
+.grid-left-right {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 16px;
+}
+
+.radio-group-label {
+	font-weight: 500;
+}
+
+.tab {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.card-title {
+	align-items: center !important;
+	display: flex !important;
+	justify-content: space-between !important;
+}
+
+mat-card {
+	background-color: var(--card-bg) !important;
+}
+
+table,
+mat-paginator {
+	background-color: var(--table-bg) !important;
+}
+
+.mat-menu-panel,
+.mat-dialog-container,
+.mat-select-panel {
+	background-color: var(--card-bg) !important;
+}
+
+.mat-drawer-backdrop {
+	background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.mat-tab-label-active {
+	opacity: 1 !important;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.full-height {
+	height: 100%;
+}
+
+.link-none {
+	text-decoration: none;
+	color: inherit;
+}
+
+.font-bold {
+	font-weight: 500;
+}
+
+.icon-light {
+	color: var(--text-light);
+}
+
+.text-light {
+	color: var(--text-light);
+}
+
+.text-red {
+	color: red;
+}
+
+.text-green {
+	color: green;
+}
+
+.context-menu-item {
+	mat-icon {
+		vertical-align: middle;
+		margin-right: 16px;
+		margin-left: -8px;
+	}
+}
+
+.snackbar-success {
+	background-color: rgb(211, 255, 200);
+
+	.mat-simple-snackbar {
+		color: rgb(0, 71, 24);
+	}
+	.mat-button-wrapper {
+		color: rgb(0, 71, 24);
+	}
+}
+
+.snackbar-error {
+	background-color: rgb(255, 0, 0);
+
+	.mat-simple-snackbar {
+		color: rgb(255, 255, 255);
+	}
+	.mat-button-wrapper {
+		color: rgb(255, 255, 255);
+	}
+}
+
+mat-form-field.mat-form-field-should-float label {
+	font-size: 16px;
+}
+
+mat-form-field .mat-hint {
+	font-size: 12px;
+}
+
+.mat-button-focus-overlay {
+	background-color: transparent !important;
+}
+
+.toast-container .ngx-toastr {
+	box-shadow: 0 0 12px var(--text-light) !important;
+}
+
+.INFORMATIONAL {
+	font-weight: 500;
+	color: rgb(0, 130, 173);
+}
+.WARNING {
+	font-weight: 500;
+	color: rgb(233, 185, 55);
+}
+.ERROR {
+	font-weight: 500;
+	color: rgb(206, 134, 0);
+}
+.CRITICAL {
+	font-weight: 500;
+	color: red;
+}
+
+.EASY {
+	font-weight: 500;
+	color: green;
+}
+.MEDIUM {
+	font-weight: 500;
+	color: rgb(212, 168, 45);
+}
+.HARD {
+	font-weight: 500;
+	color: red;
+}
+
+.chip-EASY {
+	background-color: green !important;
+}
+.chip-MEDIUM {
+	background-color: orange !important;
+}
+.chip-HARD {
+	background-color: red !important;
+}

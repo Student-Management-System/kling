@@ -1,0 +1,10 @@
+#editor {
+	height: calc(100vh - 36px);
+	width: 100%;
+}
+
+::ng-deep .editor-container,
+.monaco-editor {
+	width: 100% !important;
+	height: 100% !important;
+}

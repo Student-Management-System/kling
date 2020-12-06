@@ -15,7 +15,11 @@
 		"skipLibCheck": true,
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
-		"paths": {}
+		"paths": {
+			"@kling/shared/data-access/api-rest-ng-client": [
+				"libs/shared/data-access/api-rest-ng-client/src/index.ts"
+			]
+		}
 	},
 	"exclude": ["node_modules", "tmp"]
 }

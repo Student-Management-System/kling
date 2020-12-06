@@ -1,0 +1,88 @@
+.run-code-container {
+	display: flex;
+	height: 100%;
+	overflow: hidden;
+}
+
+.run-btn {
+	color: white;
+	background-color: green;
+	padding-left: 0px;
+
+	mat-icon {
+		padding: 0px !important;
+	}
+}
+
+.run-result {
+	background-color: rgb(255, 220, 220);
+	padding: 8px;
+	border: 2px solid red;
+	border-radius: 8px;
+	margin-right: 16px;
+}
+
+.log {
+	height: 100%;
+	font-weight: 500;
+	border: 2px solid black;
+	border-radius: 8px;
+	width: 650px;
+	background-color: white;
+	padding: 8px;
+	margin-right: 16px;
+
+	ul {
+		font-family: consolas;
+		list-style: none;
+		padding-left: 0;
+	}
+}
+
+.console {
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.verdict {
+	color: red;
+	font-weight: 500;
+}
+
+.hint {
+	color: rgb(44, 136, 211);
+	background-color: rgba(44, 136, 211, 0.068);
+	padding: 8px;
+	border: 2px solid rgb(44, 136, 211);
+	border-radius: 8px;
+	font-weight: 500;
+	display: flex;
+	width: 400px;
+	margin-bottom: 16px;
+
+	.hint-title {
+		height: 100%;
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-right: 12px;
+	}
+
+	.hint-text {
+		font-weight: 400;
+		color: black;
+	}
+}
+
+.actions {
+	display: flex;
+
+	button {
+		border-radius: 0px;
+	}
+}
+
+.submit-btn {
+	width: 128px;
+	line-height: 1.5;
+	padding: unset;
+}

@@ -1,0 +1,62 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import "~@angular/material/theming";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$student-mgmt-client-primary: mat-palette($mat-grey, 600);
+$student-mgmt-client-accent: mat-palette($mat-red, 900);
+
+// The warn palette is optional (defaults to red).
+$student-mgmt-client-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$student-mgmt-client-theme: mat-light-theme(
+	$student-mgmt-client-primary,
+	$student-mgmt-client-accent,
+	$student-mgmt-client-warn
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($student-mgmt-client-theme);
+
+// https://stackoverflow.com/questions/43919927/angular-material2-theming-how-to-set-app-background
+
+.dark-theme {
+	color: $light-primary-text;
+	$dark-primary: mat-palette($mat-grey, 600, 800, 900);
+	$dark-accent: mat-palette($mat-red, 900);
+	$dark-warn: mat-palette($mat-red);
+	$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+	@include angular-material-theme($dark-theme);
+}
+
+.blue-theme {
+	color: #92abcf;
+	$blue-primary: mat-palette($mat-cyan, 800);
+	$blue-accent: mat-palette($mat-cyan, 300);
+	$blue-warn: mat-palette($mat-red);
+	$blue-theme: mat-dark-theme($blue-primary, $blue-accent, $blue-warn);
+
+	@include angular-material-theme($blue-theme);
+}
+
+.green-theme {
+	color: $light-primary-text;
+	$green-primary: mat-palette($mat-grey, 600);
+	$green-accent: mat-palette($mat-green, 800);
+	$green-warn: mat-palette($mat-red);
+	$green-theme: mat-light-theme($green-primary, $green-accent, $green-warn);
+
+	@include angular-material-theme($green-theme);
+}

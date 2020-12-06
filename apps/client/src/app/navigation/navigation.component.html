@@ -1,0 +1,148 @@
+<div [class]="theme.theme$ | async">
+	<!-- TOP BAR -->
+	<ng-container *ngIf="showTitlebar">
+		<mat-toolbar class="titlebar mat-elevation-z0">
+			<div id="nav-left">
+				<button mat-icon-button type="button" (click)="drawer.toggle()">
+					<mat-icon>menu</mat-icon>
+				</button>
+				<img id="logo" src="./assets/img/uni-logo.png" />
+				{{ "Title.AppName" | translate }}
+			</div>
+			<div id="nav-right">
+				<!-- <ng-container [ngSwitch]="isLoggedIn()">
+				<button *ngSwitchCase="false" class="btn-link" mat-flat-button (click)="openLoginDialog()">Login</button>
+				<ng-container *ngSwitchCase="true">
+					<button class="btn-link" mat-flat-button (click)="snackbar.openErrorMessage()">{{getUsername()}}</button>
+					<button class="btn-link" mat-flat-button (click)="logout()">Logout</button>
+				</ng-container>
+			</ng-container> -->
+
+				<mat-menu #appMenu="matMenu">
+					<div id="appMenu-container">
+						<button mat-menu-item [matMenuTriggerFor]="langMenu">
+							{{ "Misc.Language" | translate }}
+						</button>
+						<mat-menu #langMenu="matMenu">
+							<button mat-menu-item (click)="setLanguage('en')">English</button>
+							<button mat-menu-item (click)="setLanguage('de')">Deutsch</button>
+						</mat-menu>
+
+						<button mat-menu-item [matMenuTriggerFor]="themeMenu">Theme</button>
+						<mat-menu #themeMenu="matMenu">
+							<button
+								mat-menu-item
+								*ngFor="let t of theme.availableThemes"
+								(click)="theme.setTheme(t.cssClass)"
+							>
+								{{ t.name }}
+							</button>
+						</mat-menu>
+					</div>
+				</mat-menu>
+
+				<button mat-icon-button [matMenuTriggerFor]="appMenu">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+			</div>
+		</mat-toolbar>
+	</ng-container>
+
+	<!-- SIDE MENU -->
+	<mat-sidenav-container class="sidenav-container">
+		<mat-sidenav
+			#drawer
+			class="sidenav mat-elevation-z0"
+			[ngClass]="showTitlebar ? '.show-titlebar' : 'hide-titlebar'"
+			fixedInViewport
+			[opened]="(isHandset$ | async) === false"
+			[mode]="(isHandset$ | async) ? 'over' : 'side'"
+		>
+			<!-- TOP BAR -->
+			<ng-container *ngIf="!showTitlebar; else titlebarpadding">
+				<mat-toolbar class="sidenav-titlebar">
+					<div id="nav-left">
+						<button mat-icon-button type="button" (click)="drawer.toggle()">
+							<mat-icon>menu</mat-icon>
+						</button>
+						<img id="logo" src="./assets/img/uni-logo.png" />
+						{{ "Title.AppName" | translate }}
+					</div>
+					<div id="nav-right"></div>
+				</mat-toolbar>
+			</ng-container>
+			<ng-template #titlebarpadding>
+				<div class="titlebar-padding"></div>
+			</ng-template>
+
+			<mat-nav-list>
+				<div id="sidenav-links">
+					<a
+						mat-list-item
+						[routerLink]="['/']"
+						routerLinkActive="router-link-active"
+						[routerLinkActiveOptions]="{ exact: true }"
+					>
+						<mat-icon>home</mat-icon>{{ "Misc.Home" | translate }}
+					</a>
+
+					<a
+						mat-list-item
+						[routerLink]="['/problems']"
+						routerLinkActive="router-link-active"
+						[routerLinkActiveOptions]="{ exact: true }"
+					>
+						<mat-icon>assignment</mat-icon>Problems
+					</a>
+
+					<a
+						mat-list-item
+						[routerLink]="['/problems/test-problem']"
+						routerLinkActive="router-link-active"
+					>
+						<mat-icon>code</mat-icon>Programming
+					</a>
+				</div>
+
+				<div id="sidenav-footer">
+					<mat-divider></mat-divider>
+					<a
+						mat-list-item
+						[routerLink]="['/login']"
+						routerLinkActive="router-link-active"
+					>
+						<mat-icon>code</mat-icon>Developer-Login
+					</a>
+
+					<a
+						mat-list-item
+						[routerLink]="['/privacy']"
+						routerLinkActive="router-link-active"
+					>
+						<mat-icon>security</mat-icon>{{ "Misc.Privacy" | translate }}
+					</a>
+
+					<a
+						mat-list-item
+						[routerLink]="['/imprint']"
+						routerLinkActive="router-link-active"
+					>
+						<mat-icon>info</mat-icon>{{ "Misc.Imprint" | translate }}
+					</a>
+				</div>
+			</mat-nav-list>
+		</mat-sidenav>
+
+		<mat-sidenav-content>
+			<!-- Add Content Here -->
+			<div class="background-container">
+				<div class="content-container" *ngIf="showTitlebar; else contentWithoutTopPadding">
+					<router-outlet></router-outlet>
+				</div>
+				<ng-template #contentWithoutTopPadding>
+					<router-outlet></router-outlet>
+				</ng-template>
+			</div>
+		</mat-sidenav-content>
+	</mat-sidenav-container>
+</div>

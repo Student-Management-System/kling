@@ -1,0 +1,52 @@
+<div class="explorer">
+	<app-side-bar-header>
+		<ng-container headerTitle>Explorer</ng-container>
+		<ng-container headerMenu>
+			<mat-menu #menu>
+				<button mat-menu-item>Save</button>
+			</mat-menu>
+
+			<button class="menu-btn" mat-icon-button [matMenuTriggerFor]="menu" disableRipple>
+				<mat-icon class="icon-light">more_horiz</mat-icon>
+			</button>
+		</ng-container>
+	</app-side-bar-header>
+
+	<div class="sections">
+		<!-- Project (File Explorer) -->
+		<app-side-bar-section class="top">
+			<ng-container sectionTitle>{{ (workspace$ | async)?.projectName }}</ng-container>
+
+			<ng-container sectionActions *ngIf="rootDirectory$ | async as rootDir">
+				<button
+					class="add-file-btn"
+					mat-icon-button
+					disableRipple
+					(click)="workspaceDialogs.openCreateFileDialog(rootDir)"
+				>
+					<mat-icon class="icon-light">note_add</mat-icon>
+				</button>
+				<button
+					class="add-directory-btn"
+					mat-icon-button
+					disableRipple
+					(click)="workspaceDialogs.openCreateDirectoryDialog(rootDir)"
+				>
+					<mat-icon class="icon-light">create_new_folder</mat-icon>
+				</button>
+			</ng-container>
+
+			<ng-container sectionContent>
+				<app-file-explorer></app-file-explorer>
+			</ng-container>
+		</app-side-bar-section>
+
+		<!-- Settings -->
+		<app-side-bar-section>
+			<ng-container sectionTitle>Settings</ng-container>
+			<ng-container sectionContent>
+				<app-workspace-settings></app-workspace-settings>
+			</ng-container>
+		</app-side-bar-section>
+	</div>
+</div>

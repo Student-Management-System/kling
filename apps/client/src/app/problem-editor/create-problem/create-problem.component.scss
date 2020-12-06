@@ -1,0 +1,46 @@
+.create-problem-container {
+	margin-left: auto;
+	margin-right: auto;
+	width: fit-content;
+}
+
+.create-problem-form {
+	display: grid;
+	row-gap: 8px;
+
+	@media (min-width: 800px) {
+		width: 300px;
+	}
+}
+
+.id-availability {
+	margin-bottom: 24px;
+}
+
+.categories {
+	margin-top: -16px;
+	margin-bottom: 8px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.categories-label {
+}
+
+.category {
+	display: flex;
+	justify-content: space-between;
+
+	mat-form-field {
+		width: 100%;
+	}
+	button {
+		align-self: center;
+	}
+}
+
+.difficulty-radio-group {
+	display: flex;
+	flex-direction: column;
+}

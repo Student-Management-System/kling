@@ -1,0 +1,12 @@
+<div
+	class="dropzone"
+	dropzone
+	(hovered)="toggleHover($event)"
+	(drop)="onDrop($event)"
+	[class.hovering]="isHovering"
+>
+	<p class="drag-and-drop-text">
+		<mat-icon class="upload-icon">cloud_upload</mat-icon>
+	</p>
+	<p class="drag-and-drop-text">Drag and Drop</p>
+</div>

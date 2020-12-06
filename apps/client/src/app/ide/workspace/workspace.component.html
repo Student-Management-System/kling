@@ -1,0 +1,33 @@
+<div class="full-height">
+	<div class="activity-bar">
+		<app-activity-bar></app-activity-bar>
+	</div>
+
+	<as-split unit="percent" direction="horizontal" [gutterSize]="4" (dragEnd)="onDragEnd($event)">
+		<as-split-area
+			[size]="layout.explorerWidth"
+			[order]="1"
+			*ngIf="workspaceSettings.sideBarComponent$ | async"
+		>
+			<div class="side-bar">
+				<app-side-bar></app-side-bar>
+			</div>
+		</as-split-area>
+
+		<as-split-area [size]="layout.editorWidth" [order]="2" (dragEnd)="onDragEnd($event)">
+			<div class="code-editor">
+				<div class="tabbar">
+					<app-file-tabs></app-file-tabs>
+					<app-run-code (onRun)="run()"></app-run-code>
+				</div>
+				<app-code-editor #editor (onEditorInit)="handleEditorInit()"></app-code-editor>
+			</div>
+		</as-split-area>
+
+		<as-split-area [size]="layout.featurePanelWidth" [order]="3" (dragEnd)="onDragEnd($event)">
+			<div class="feature-panel">
+				<app-feature-panel></app-feature-panel>
+			</div>
+		</as-split-area>
+	</as-split>
+</div>

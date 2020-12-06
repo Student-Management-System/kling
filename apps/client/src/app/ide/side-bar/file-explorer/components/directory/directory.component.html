@@ -1,0 +1,55 @@
+<div class="directory">
+	<button
+		mat-button
+		disableRipple="true"
+		[contextMenu]="directoryContextMenu"
+		(click)="toggleIsExpanded()"
+		(middleclick)="toggleIsExpanded()"
+	>
+		<mat-icon class="expand-icon" *ngIf="isExpanded">expand_more</mat-icon>
+		<mat-icon class="expand-icon" *ngIf="!isExpanded">chevron_right</mat-icon>
+		<mat-icon class="folder-icon">folder</mat-icon>
+		<span class="directory-name">{{ directory.name }}</span>
+	</button>
+
+	<context-menu #directoryContextMenu>
+		<ng-template contextMenuItem (execute)="workspaceDialogs.openCreateFileDialog(directory)">
+			<span class="context-menu-item"
+				><mat-icon class="icon-light">note_add</mat-icon>Add file</span
+			>
+		</ng-template>
+		<ng-template
+			contextMenuItem
+			(execute)="workspaceDialogs.openCreateDirectoryDialog(directory)"
+		>
+			<span class="context-menu-item"
+				><mat-icon class="icon-light">create_new_folder</mat-icon>Add directory</span
+			>
+		</ng-template>
+		<ng-template contextMenuItem (execute)="rename()">
+			<span class="context-menu-item"
+				><mat-icon class="icon-light">edit</mat-icon>Rename</span
+			>
+		</ng-template>
+		<ng-template contextMenuItem (execute)="removeDirectoryIfConfirmed()">
+			<span class="context-menu-item"
+				><mat-icon class="icon-light">delete</mat-icon
+				>{{ "Action.Delete" | translate }}</span
+			>
+		</ng-template>
+	</context-menu>
+
+	<div class="indent directory-content" *ngIf="isExpanded">
+		<div class="files">
+			<ng-container *ngFor="let file of files$ | async">
+				<app-file [file]="file" [isSelected]="selectedFile?.path === file.path"></app-file>
+			</ng-container>
+		</div>
+
+		<div class="directories">
+			<ng-container *ngFor="let dir of directories$ | async">
+				<app-directory [directory]="dir" [selectedFile]="selectedFile"></app-directory>
+			</ng-container>
+		</div>
+	</div>
+</div>

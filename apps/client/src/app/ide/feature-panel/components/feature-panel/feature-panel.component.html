@@ -1,0 +1,22 @@
+<mat-tab-group
+	color="accent"
+	class="tab-group"
+	[selectedIndex]="selectedTabIndex"
+	(selectedIndexChange)="selectedIndexChanged($event)"
+>
+	<mat-tab label="Terminal">
+		<app-terminal></app-terminal>
+	</mat-tab>
+
+	<mat-tab label="Collaboration">
+		<app-collaboration></app-collaboration>
+	</mat-tab>
+
+	<mat-tab label="Description">
+		<div class="problem-view">
+			<app-problem-view></app-problem-view>
+		</div>
+	</mat-tab>
+	<mat-tab label="Submissions"> </mat-tab>
+	<mat-tab label="Solution" disabled> </mat-tab>
+</mat-tab-group>

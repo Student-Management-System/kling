@@ -1,0 +1,17 @@
+<div class="workspace-settings-container">
+	<mat-form-field>
+		<mat-label>Language</mat-label>
+		<mat-select [value]="language$ | async" (selectionChange)="onLanguageChange($event)">
+			<mat-option value="typescript">Typescript</mat-option>
+			<mat-option value="java">Java</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field>
+		<mat-label>Theme</mat-label>
+		<mat-select [value]="theme$ | async" (selectionChange)="onThemeChange($event)">
+			<mat-option value="light">light</mat-option>
+			<mat-option value="dark">dark</mat-option>
+		</mat-select>
+	</mat-form-field>
+</div>

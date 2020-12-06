@@ -1,0 +1,26 @@
+<mat-card-title mat-dialog-title>{{ 'Title.CreateDirectory' | translate }}</mat-card-title>
+
+<div mat-dialog-content>
+	<mat-form-field>
+		<mat-label>Name</mat-label>
+		<input
+			[(ngModel)]="name"
+			matInput
+			required
+			(keyup)="validate()"
+			(keyup.enter)="create()"
+			autocomplete="off"
+		/>
+	</mat-form-field>
+
+	<div class="error">
+		<mat-error *ngIf="error$ | async as error">{{error | translate}}</mat-error>
+	</div>
+</div>
+
+<div mat-dialog-actions class="actions">
+	<button mat-raised-button color="accent" (click)="create()" [disabled]="error$ | async">
+		{{ 'Action.Create' | translate }}
+	</button>
+	<button mat-flat-button (click)="close()">{{ 'Action.Cancel' | translate }}</button>
+</div>

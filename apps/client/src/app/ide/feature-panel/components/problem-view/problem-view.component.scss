@@ -1,0 +1,45 @@
+.problem-view-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.problem-description {
+	display: flex;
+	flex-direction: column;
+	padding: 8px;
+}
+
+.problem-title {
+	margin-bottom: 2px;
+}
+
+.problem-info {
+	display: flex;
+}
+
+.categories {
+	display: flex;
+}
+
+.created-by {
+	color: var(--text-light);
+	font-size: 12px;
+	margin-bottom: 4px;
+}
+
+.difficulty {
+	margin-right: 8px;
+	line-height: 34px;
+}
+
+.zoom-btns {
+	display: flex;
+}
+
+.md-viewer {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 8px;
+	color: var(--text);
+}

@@ -1,0 +1,16 @@
+<div class="dialog-container">
+	<mat-card-title> {{ getTitle() | translate }} </mat-card-title>
+
+	<p>{{ getMessage() | translate }}</p>
+
+	<p id="param-container">
+		<ng-container *ngFor="let param of data.params"> {{ param }}<br /> </ng-container>
+	</p>
+
+	<div class="button-container">
+		<button mat-raised-button color="accent" (click)="onConfirm()">
+			{{ 'Action.Confirm' | translate }}
+		</button>
+		<button mat-flat-button (click)="onCancel()">{{ 'Action.Cancel' | translate }}</button>
+	</div>
+</div>

@@ -1,0 +1,29 @@
+{
+	"npmScope": "kling",
+	"affected": {
+		"defaultBase": "master"
+	},
+	"implicitDependencies": {
+		"workspace.json": "*",
+		"package.json": {
+			"dependencies": "*",
+			"devDependencies": "*"
+		},
+		"tsconfig.base.json": "*",
+		"tslint.json": "*",
+		".eslintrc.json": "*",
+		"nx.json": "*"
+	},
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "@nrwl/nx-cloud",
+			"options": {
+				"accessToken": "MGI1YTViOWMtM2E5OC00NDQyLTk5MGEtZDQxZGE5YmI1YWFkfHJlYWQtd3JpdGU=",
+				"cacheableOperations": ["build", "test", "lint", "e2e"],
+				"canTrackAnalytics": false,
+				"showUsageWarnings": true
+			}
+		}
+	},
+	"projects": {}
+}

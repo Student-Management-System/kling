@@ -13,7 +13,6 @@ import { WorkspaceEffects } from "./workspace-store/workspace.effects";
 import * as fromWorkspace from "./workspace-store/workspace.reducer";
 
 @NgModule({
-	declarations: [],
 	imports: [
 		CommonModule,
 		StoreModule.forRoot(
@@ -38,4 +37,4 @@ import * as fromWorkspace from "./workspace-store/workspace.reducer";
 		StoreModule.forFeature(fromFileTab.fileTabFeatureKey, fromFileTab.reducer)
 	]
 })
-export class RootStoreModule {}
+export class ClientDataAccessStateModule {}

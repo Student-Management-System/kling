@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
+import { File } from "@kling/client/data-access/state";
 import { BehaviorSubject, Subject } from "rxjs";
-import { File } from "../../root-store/file-store/file.model";
 
 @Injectable({ providedIn: "root" })
 export class WorkspaceFacade {

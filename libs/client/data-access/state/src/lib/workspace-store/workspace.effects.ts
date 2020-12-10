@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { switchMap, tap } from "rxjs/operators";
-import { WorkspaceFacade } from "../../ide/services/workspace.facade";
+import { WorkspaceFacade } from "../../../../../../../apps/client/src/app/ide/services/workspace.facade";
 import { DirectoryActions } from "../directory-store";
 import { FileActions } from "../file-store";
 import { FileTabActions } from "../file-tabs-store";

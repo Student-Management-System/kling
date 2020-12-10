@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
+import { WorkspaceActions, WorkspaceSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
-import { WorkspaceActions, WorkspaceSelectors } from "../../../../root-store";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 
 @Component({

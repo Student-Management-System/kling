@@ -41,6 +41,9 @@
 		},
 		"code-runner-service": {
 			"tags": ["scope:code-runner-service"]
+		},
+		"client-data-access-state": {
+			"tags": ["scope:client", "type:data-access"]
 		}
 	}
 }

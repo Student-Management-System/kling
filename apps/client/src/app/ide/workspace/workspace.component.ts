@@ -1,9 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import {
+	createDirectory,
+	createFile,
+	File,
+	FileActions,
+	FileSelectors,
+	WorkspaceActions
+} from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { take } from "rxjs/operators";
-import { FileActions, FileSelectors, WorkspaceActions } from "../../root-store";
-import { createDirectory } from "../../root-store/directory-store/directory.model";
-import { createFile, File } from "../../root-store/file-store/file.model";
 import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
 import { SidenavService } from "../../shared/services/sidenav.service";
 import { WebSocketService } from "../../shared/services/web-socket.service";

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
-import { File } from "../../../../../root-store/file-store/file.model";
+import { File } from "@kling/client/data-access/state";
 
 /**
  * Dialog that allows the user to enter a filename and possibly some options.

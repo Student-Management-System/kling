@@ -232,6 +232,32 @@
 					}
 				}
 			}
+		},
+		"client-data-access-state": {
+			"projectType": "library",
+			"root": "libs/client/data-access/state",
+			"sourceRoot": "libs/client/data-access/state/src",
+			"prefix": "kling",
+			"architect": {
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": ["libs/client/data-access/state/src/**/*.ts"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"options": {
+						"jestConfig": "libs/client/data-access/state/jest.config.js",
+						"passWithNoTests": true
+					}
+				}
+			},
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "scss"
+				}
+			}
 		}
 	},
 	"cli": {

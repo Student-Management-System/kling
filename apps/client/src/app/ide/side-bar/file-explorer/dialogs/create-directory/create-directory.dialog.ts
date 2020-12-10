@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Directory } from "@kling/client/data-access/state";
 import { Subject } from "rxjs";
-import { Directory } from "../../../../../root-store/directory-store/directory.model";
 
 export class CreateDirectoryDialogData {
 	directory: Directory;

@@ -1,11 +1,16 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import {
+	createDirectory,
+	createFile,
+	Directory,
+	DirectoryActions,
+	DirectoryState,
+	File,
+	FileActions
+} from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { DirectoryActions, FileActions } from "../../../../root-store";
-import { createDirectory, Directory } from "../../../../root-store/directory-store/directory.model";
-import { State as DirectoryState } from "../../../../root-store/directory-store/directory.reducer";
-import { createFile, File } from "../../../../root-store/file-store/file.model";
 import {
 	CreateDirectoryDialog,
 	CreateDirectoryDialogData

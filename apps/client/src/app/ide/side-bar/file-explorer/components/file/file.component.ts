@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
+import { File, FileActions } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
-import { FileActions } from "../../../../../root-store";
-import { File } from "../../../../../root-store/file-store/file.model";
 import { DialogService } from "../../../../../shared/services/dialog.service";
 import { FileExplorerDialogs } from "../../services/file-explorer-dialogs.facade";
 

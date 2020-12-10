@@ -22,7 +22,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { MaterialModule } from "./material/material.module";
 import { NavigationComponent } from "./navigation/navigation.component";
-import { RootStoreModule } from "./root-store/root-store.module";
+import { ClientDataAccessStateModule } from "@kling/client/data-access/state";
 import { SharedModule } from "./shared/shared.module";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
@@ -84,7 +84,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
 		),
 		NgxMatSelectSearchModule,
 		NgTerminalModule,
-		RootStoreModule,
+		ClientDataAccessStateModule,
 		StoreDevtoolsModule.instrument({
 			name: "Instruments DevTools",
 			maxAge: 25

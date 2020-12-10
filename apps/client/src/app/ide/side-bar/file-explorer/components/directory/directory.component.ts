@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
+import {
+	Directory,
+	DirectoryActions,
+	DirectorySelectors,
+	File,
+	FileSelectors
+} from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { DirectoryActions, DirectorySelectors, FileSelectors } from "../../../../../root-store";
-import { Directory } from "../../../../../root-store/directory-store/directory.model";
-import { File } from "../../../../../root-store/file-store/file.model";
 import { DialogService } from "../../../../../shared/services/dialog.service";
 import { FileExplorerDialogs } from "../../services/file-explorer-dialogs.facade";
 

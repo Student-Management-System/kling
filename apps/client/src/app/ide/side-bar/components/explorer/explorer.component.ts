@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { DirectorySelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
-import { DirectorySelectors, WorkspaceSelectors } from "../../../../root-store";
 import { FileExplorerDialogs } from "../../file-explorer/services/file-explorer-dialogs.facade";
 
 @Component({

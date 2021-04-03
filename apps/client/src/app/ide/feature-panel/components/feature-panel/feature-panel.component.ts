@@ -10,7 +10,7 @@ import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-
 })
 export class FeaturePanelComponent extends UnsubscribeOnDestroy implements OnInit {
 	selectedTabIndex = 0;
-	private tabs = ["terminal", "collaborators", "description"];
+	private tabs = ["terminal", "testing", "collaborators", "description"];
 
 	constructor(private route: ActivatedRoute, private router: Router) {
 		super();

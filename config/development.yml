@@ -1,0 +1,12 @@
+db: 
+  host: "localhost"
+  username: "postgres"
+  password: "admin"
+  synchronize: true
+
+jwt:
+  secret: "jwt-dev-secret"
+
+logger:
+  requests: true
+  dbErrors: true

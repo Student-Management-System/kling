@@ -12,7 +12,7 @@ export interface State {
 export const initialState: State = {
 	projectName: null,
 	language: "typescript",
-	theme: "dark"
+	theme: localStorage.getItem("theme") === "default-theme" ? "light" : "dark"
 };
 
 export const reducer = createReducer(

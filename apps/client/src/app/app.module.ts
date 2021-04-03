@@ -42,7 +42,14 @@ const monacoConfig: NgxMonacoEditorConfig = {
 		monaco.languages.register({
 			id: "typescript",
 			extensions: [".ts"],
-			aliases: ["typescript, ts"],
+			aliases: ["typescript", "ts"],
+			mimetypes: ["application/text"]
+		});
+
+		monaco.languages.register({
+			id: "java",
+			extensions: [".java"],
+			aliases: ["java"],
 			mimetypes: ["application/text"]
 		});
 	}

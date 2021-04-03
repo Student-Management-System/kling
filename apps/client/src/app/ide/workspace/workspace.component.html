@@ -7,7 +7,7 @@
 		<as-split-area
 			[size]="layout.explorerWidth"
 			[order]="1"
-			*ngIf="workspaceSettings.sideBarComponent$ | async"
+			*ngIf="(workspaceSettings.sideBarComponent$ | async) !== 'HIDDEN'"
 		>
 			<div class="side-bar">
 				<app-side-bar></app-side-bar>
@@ -18,7 +18,12 @@
 			<div class="code-editor">
 				<div class="tabbar">
 					<app-file-tabs></app-file-tabs>
-					<app-run-code (onRun)="run()"></app-run-code>
+					<span class="actions">
+						<app-run-code (onRun)="run()"></app-run-code>
+						<button class="btn-run-tests" mat-flat-button (click)="runTests()">
+							<mat-icon>bug_report</mat-icon>Run Tests
+						</button>
+					</span>
 				</div>
 				<app-code-editor #editor (onEditorInit)="handleEditorInit()"></app-code-editor>
 			</div>

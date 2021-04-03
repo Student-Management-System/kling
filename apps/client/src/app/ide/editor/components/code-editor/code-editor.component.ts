@@ -9,7 +9,7 @@ import {
 import { Store } from "@ngrx/store";
 import { EditorComponent } from "ngx-monaco-editor";
 import { Subscription } from "rxjs";
-import { tap } from "rxjs/operators";
+import { debounce, debounceTime, skipUntil, tap } from "rxjs/operators";
 import { FileSelectors, File, WorkspaceSelectors } from "@kling/client/data-access/state";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { ThemeService } from "../../../../shared/services/theme.service";
@@ -29,7 +29,7 @@ class EditorModelState {
 export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit {
 	editorOptions = {
 		theme: "vs-dark",
-		language: "typescript",
+		language: "java",
 		minimap: {
 			enabled: false
 		}
@@ -52,7 +52,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	ngOnInit(): void {
-		this.subs.sink = this.subscribeToTheme();
+		this.subs.sink = this.subscribeToThemeChanged();
 		this.subs.sink = this.subscribeToFileSelected();
 		this.subs.sink = this.subscribeToFileAdded();
 		this.subs.sink = this.subscribeToFileRemoved();
@@ -66,7 +66,19 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 		if (!this.isInitialized) {
 			this.isInitialized = true;
+
 			monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
+			this.editor.addAction({
+				id: "RUN_CODE",
+				label: "Run Code",
+				contextMenuOrder: 1,
+				contextMenuGroupId: "Custom",
+				keybindings: [monaco.KeyCode.F5],
+				run: (editor, ...args) => {
+					console.log("RUN_CODE", args);
+				}
+			});
+
 			this.onEditorInit.emit();
 		}
 	}
@@ -136,18 +148,19 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		});
 	}
 
-	private subscribeToTheme(): Subscription {
+	private subscribeToThemeChanged(): Subscription {
 		return this.store.select(WorkspaceSelectors.selectTheme).subscribe(theme => {
-			console.log(theme);
-			switch (theme) {
-				case "light":
-					monaco.editor.setTheme("vs-light");
-					break;
-				case "dark":
-					monaco.editor.setTheme("vs-dark");
-					break;
-				default:
-					break;
+			if (this.isInitialized) {
+				switch (theme) {
+					case "light":
+						monaco.editor?.setTheme("vs-light");
+						break;
+					case "dark":
+						monaco.editor?.setTheme("vs-dark");
+						break;
+					default:
+						break;
+				}
 			}
 		});
 	}
@@ -164,9 +177,12 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private createModel(file: File): monaco.editor.ITextModel {
+		const split = file.path.split(".");
+		const language = split[split.length - 1];
+
 		const model = window.monaco.editor.createModel(
 			file.content,
-			"typescript",
+			language,
 			this.createFileUri(file.path)
 		);
 

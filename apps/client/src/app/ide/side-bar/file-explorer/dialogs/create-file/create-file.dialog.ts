@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
-import { File } from "@kling/client/data-access/state";
+import { File, WorkspaceSelectors } from "@kling/client/data-access/state";
+import { Store } from "@ngrx/store";
+import { take } from "rxjs/operators";
 
 /**
  * Dialog that allows the user to enter a filename and possibly some options.
@@ -18,7 +20,7 @@ export class CreateFileDialog implements OnInit {
 	filename: string;
 	errors: string;
 
-	constructor(private dialogRef: MatDialogRef<CreateFileDialog>) {}
+	constructor(private dialogRef: MatDialogRef<CreateFileDialog>, private store: Store) {}
 
 	ngOnInit(): void {}
 
@@ -29,9 +31,15 @@ export class CreateFileDialog implements OnInit {
 
 	/** Closes the dialog and returns a `Partial<File>` to the calling component/service.  */
 	create(): void {
-		const file: Partial<File> = {
-			name: this.filename
-		};
-		this.dialogRef.close(file);
+		this.store
+			.select(WorkspaceSelectors.selectLanguage)
+			.pipe(take(1))
+			.subscribe(language => {
+				const file: Partial<File> = {
+					name: this.filename,
+					language
+				};
+				this.dialogRef.close(file);
+			});
 	}
 }

@@ -1,5 +1,6 @@
 import { Module, Provider } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
+import { CqrsModule } from "@nestjs/cqrs";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import * as config from "config";
@@ -23,6 +24,7 @@ const optionalProviders = (): Provider<any>[] => {
 
 @Module({
 	imports: [
+		CqrsModule,
 		TypeOrmModule.forRoot(typeOrmConfig),
 		AuthModule,
 		AuthorizationModule,

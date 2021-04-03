@@ -14,11 +14,9 @@ export class TerminalComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		this.terminalFacade.write$.subscribe(text => {
-			const date = new Date();
-			const minutes = date.getMinutes() >= 10 ? date.getMinutes() : "0" + date.getMinutes();
-			this.terminal.underlying.writeln(
-				`\x1b[1;36m[${date.getHours()}:${minutes}] \x1b[1;37m${text}`
-			);
+			// const date = new Date();
+			// const minutes = date.getMinutes() >= 10 ? date.getMinutes() : "0" + date.getMinutes();
+			this.terminal.underlying.writeln(`${text}`);
 		});
 
 		this.terminalFacade.clear$.subscribe(() => {

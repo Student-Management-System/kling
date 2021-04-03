@@ -4,7 +4,7 @@ import { SolutionDto } from "../../programming/dto/solution.dto";
 import { SolutionStorageFacade } from "../solution-storage.facade";
 
 @ApiBearerAuth()
-@ApiTags("solutions")
+@ApiTags("solution")
 @Controller("solutions")
 export class SolutionController {
 	constructor(private readonly solutionStorage: SolutionStorageFacade) {}

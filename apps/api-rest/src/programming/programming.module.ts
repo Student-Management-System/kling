@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { HttpModule, Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { RunCodeGateway } from "./gateways/run-code.gateway";
@@ -17,7 +17,8 @@ import { ReviewServiceProxy } from "./services/review-service-proxy.service";
 					queue: "review"
 				}
 			}
-		])
+		]),
+		HttpModule
 	],
 	controllers: [],
 	providers: [

@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import {
 	createDirectory,
@@ -8,6 +9,7 @@ import {
 	WorkspaceActions
 } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
+import { from } from "rxjs";
 import { take } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
 import { SidenavService } from "../../shared/services/sidenav.service";
@@ -128,6 +130,40 @@ const person = new Person("Lukas", "K");
 console.log(person);
 `;
 
+const javaExample = `// Java Example
+public class Main { 
+	public static void main(String[] args) {
+		System.out.println("Hello World from Java");
+
+		for (int i = 0; i < 10; i++) {
+			System.out.println(i);
+		}
+	}
+}
+`;
+
+const javaCountToNumber = `public class Solution {
+
+    /**
+    * Print each number from "start" to "end" (inclusive) on a seperate line.
+    */
+    public void countToNumber(int start, int end) {
+        for (int i = start; i <= end, i++) {
+            System.out.println(i);
+        }
+    }
+
+}`;
+
+type PistonResponse = {
+	ran: boolean;
+	language: string;
+	version: string;
+	output: string;
+	stdout: string;
+	stderr: string;
+};
+
 @Component({
 	selector: "app-workspace",
 	templateUrl: "./workspace.component.html",
@@ -145,6 +181,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		private workspace: WorkspaceFacade,
 		private terminal: TerminalFacade,
 		private websocket: WebSocketService,
+		private http: HttpClient,
 		private readonly store: Store
 	) {
 		super();
@@ -161,33 +198,36 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	handleEditorInit(): void {
-		const directories = [
-			createDirectory("root"),
-			createDirectory("robots", "root"),
-			createDirectory("animals", "root"),
-			createDirectory("birds", "root/animals")
-		];
+		// const directories = [
+		// 	createDirectory("root"),
+		// 	createDirectory("robots", "root"),
+		// 	createDirectory("animals", "root"),
+		// 	createDirectory("birds", "root/animals")
+		// ];
 
-		const files = [
-			createFile("running-sum.ts", "root", exampleRunningSum),
-			createFile("helper-methods.ts", "root", example),
-			createFile("abstract-animal.ts", "root/animals", "// abstract-animal.ts"),
-			createFile("dog.ts", "root/animals", "// dog.ts"),
-			createFile("cat.ts", "root/animals", "// cat.ts"),
-			createFile("robot.ts", "root/robots", "// robot.ts"),
-			createFile("bird.ts", "root/animals/birds", "// bird.ts")
-		];
+		// const files = [
+		// 	createFile("running-sum.ts", "root", exampleRunningSum),
+		// 	createFile("helper-methods.ts", "root", example),
+		// 	createFile("abstract-animal.ts", "root/animals", "// abstract-animal.ts"),
+		// 	createFile("dog.ts", "root/animals", "// dog.ts"),
+		// 	createFile("cat.ts", "root/animals", "// cat.ts"),
+		// 	createFile("robot.ts", "root/robots", "// robot.ts"),
+		// 	createFile("bird.ts", "root/animals/birds", "// bird.ts")
+		// ];
+
+		const file = createFile("Main.java", "java", "root", javaExample);
+		const file2 = createFile("Solution.java", "java", "root", javaCountToNumber);
 
 		const project = {
-			directories,
-			files,
+			directories: [createDirectory("root")],
+			files: [file, file2],
 			projectName: "Example project",
-			language: "typescript",
+			language: "java",
 			theme: "dark"
 		};
 
 		this.store.dispatch(WorkspaceActions.loadProject(project));
-		this.store.dispatch(FileActions.setSelectedFile({ fileId: "root/running-sum.ts" }));
+		this.store.dispatch(FileActions.setSelectedFile({ fileId: "root/Main.java" }));
 	}
 
 	onDragEnd(event: any): void {
@@ -204,29 +244,73 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 			.select(FileSelectors.selectAllFiles)
 			.pipe(take(1))
 			.subscribe(files => {
-				const filesWithContent = files.map(file =>
-					createFile(
-						file.name,
-						file.directoryPath,
-						this.codeEditor.getFileContent(file.path)
-					)
-				);
-				const solution = new Solution(filesWithContent, "typescript");
-
-				const submission = {
-					solution,
-					language: "typescript",
-					problemId: "example"
-				};
+				const submission = this.createSubmission(files);
 
 				this.terminal.clear();
-				this.terminal.write("Connecting to server...");
+
+				this.http
+					.post("https://emkc.org/api/v1/piston/execute", {
+						language: "java",
+						source: submission.solution.files[0].content
+					})
+					.subscribe({
+						next: (result: PistonResponse) => {
+							console.log(result);
+							result.output.split("\n").forEach(line => {
+								this.terminal.write(line);
+							});
+						},
+						error: error => {
+							console.log(error);
+						}
+					});
+
+				// this.terminal.write("Connecting to server...");
+				// this.websocket.connect("/run-code");
+				// this.websocket.emit("RUN_CODE", submission);
+				// this.subs.sink = this.websocket.listenTo("RUN_CODE_RESULT").subscribe({
+				// 	next: result => {
+				// 		console.log("RUN_CODE_RESULT:", result);
+				// 		this.terminal.write(result as string);
+				// 	},
+				// 	complete: () => {
+				// 		this.terminal.write("Completed. Disconnecting.");
+				// 		this.websocket.disconnect();
+				// 	},
+				// 	error: error => {
+				// 		console.log("Error", error);
+				// 		this.terminal.write(JSON.stringify(error));
+				// 		this.websocket.disconnect();
+				// 	}
+				// });
+
+				// this.subs.sink = this.websocket.listenTo("disconnect").subscribe({
+				// 	next: result => {
+				// 		this.terminal.write("Disconnected.");
+				// 	},
+				// 	error: error => {
+				// 		this.terminal.write("Disconnected (from error).");
+				// 	}
+				// });
+			});
+	}
+
+	runTests(): void {
+		this.store
+			.select(FileSelectors.selectAllFiles)
+			.pipe(take(1))
+			.subscribe(files => {
+				this.terminal.clear();
+				const submission = this.createSubmission(files);
+
 				this.websocket.connect("/run-code");
-				this.websocket.emit("RUN_CODE", submission);
-				this.subs.sink = this.websocket.listenTo("RUN_CODE_RESULT").subscribe({
+				this.websocket.emit("RUN_TESTS", submission);
+				this.subs.sink = this.websocket.listenTo("RUN_TESTS_RESPONSE").subscribe({
 					next: result => {
-						console.log("RUN_CODE_RESULT:", result);
-						this.terminal.write(result as string);
+						console.log("RUN_TESTS_RESPONSE:", result);
+						(result as string).split("\n").forEach(line => {
+							this.terminal.write(line.trim());
+						});
 					},
 					complete: () => {
 						this.terminal.write("Completed. Disconnecting.");
@@ -239,15 +323,34 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 					}
 				});
 
-				this.subs.sink = this.websocket.listenTo("disconnect").subscribe({
-					next: result => {
-						this.terminal.write("Disconnected.");
-					},
-					error: error => {
-						this.terminal.write("Disconnected (from error).");
-					}
-				});
+				this.subs.sink = this.websocket
+					.listenTo("disconnect")
+					.pipe(take(1))
+					.subscribe({
+						next: result => {
+							this.terminal.write("Disconnected.");
+						},
+						error: error => {
+							this.terminal.write("Disconnected (from error).");
+						}
+					});
 			});
+	}
+
+	private createSubmission(files: File[]) {
+		const filesWithContent = files.map(file => ({
+			...file,
+			content: this.codeEditor.getFileContent(file.path)
+		}));
+
+		const solution = new Solution(filesWithContent, "typescript");
+
+		const submission = {
+			solution,
+			language: "typescript",
+			problemId: "example"
+		};
+		return submission;
 	}
 
 	ngOnDestroy(): void {

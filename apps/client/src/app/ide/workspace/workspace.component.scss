@@ -39,6 +39,20 @@
 	background: var(--file-tab-bg);
 }
 
+.actions {
+	display: flex;
+	gap: 4px;
+}
+
+.btn-run-tests {
+	border-radius: 0;
+	background-color: rgb(80, 155, 201);
+
+	mat-icon {
+		margin-right: 8px;
+	}
+}
+
 ::ng-deep .as-split-gutter-icon {
 	background-color: var(--editor-background) !important;
 	background-image: none !important;

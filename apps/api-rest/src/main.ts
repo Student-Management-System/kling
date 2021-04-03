@@ -46,6 +46,7 @@ async function bootstrap(): Promise<void> {
 		.addTag("authentication")
 		.addTag("problem")
 		.addTag("category")
+		.addTag("solution")
 		.addTag("submission")
 		.addTag("user")
 		.build();

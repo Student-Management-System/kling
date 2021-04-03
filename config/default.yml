@@ -1,0 +1,21 @@
+server:
+  url: "http://localhost:3100"
+  port: 3100
+
+db: 
+  type: "postgres"
+  port: 5432
+  database: "KlingDb"
+
+jwt:
+  expiresIn: 36000
+
+logger:
+  levels:
+    - log
+    - error
+    - warn
+    - debug
+    - verbose
+  requests: false
+  dbErrors: false

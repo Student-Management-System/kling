@@ -15,7 +15,7 @@ import { NgTerminalModule } from "ng-terminal";
 import { ContextMenuModule } from "ngx-contextmenu";
 import { MarkdownModule } from "ngx-markdown";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
-import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor";
+//import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor";
 import { ToastrModule } from "ngx-toastr";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
@@ -24,6 +24,7 @@ import { MaterialModule } from "./material/material.module";
 import { NavigationComponent } from "./navigation/navigation.component";
 import { ClientDataAccessStateModule } from "@kling/client/data-access/state";
 import { SharedModule } from "./shared/shared.module";
+import { EditorModule } from "./ide/editor/editor.module";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
 
@@ -33,27 +34,27 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 	return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
 
-const monacoConfig: NgxMonacoEditorConfig = {
-	//baseUrl: "./assets", // configure base path for monaco editor default: './assets'
-	defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
-	onMonacoLoad: () => {
-		console.log(window.monaco);
-		// register Monaco languages
-		monaco.languages.register({
-			id: "typescript",
-			extensions: [".ts"],
-			aliases: ["typescript", "ts"],
-			mimetypes: ["application/text"]
-		});
+// const monacoConfig: NgxMonacoEditorConfig = {
+// 	//baseUrl: "./assets", // configure base path for monaco editor default: './assets'
+// 	defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
+// 	onMonacoLoad: () => {
+// 		console.log(window.monaco);
+// 		// register Monaco languages
+// 		monaco.languages.register({
+// 			id: "typescript",
+// 			extensions: [".ts"],
+// 			aliases: ["typescript", "ts"],
+// 			mimetypes: ["application/text"]
+// 		});
 
-		monaco.languages.register({
-			id: "java",
-			extensions: [".java"],
-			aliases: ["java"],
-			mimetypes: ["application/text"]
-		});
-	}
-};
+// 		monaco.languages.register({
+// 			id: "java",
+// 			extensions: [".java"],
+// 			aliases: ["java"],
+// 			mimetypes: ["application/text"]
+// 		});
+// 	}
+// };
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent],
@@ -76,7 +77,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
 		SharedModule,
 		MaterialModule,
 		LayoutModule,
-		MonacoEditorModule.forRoot(monacoConfig),
+		//MonacoEditorModule.forRoot(monacoConfig),
 		MarkdownModule.forRoot({
 			loader: HttpClient,
 			sanitize: SecurityContext.NONE
@@ -92,6 +93,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
 		NgxMatSelectSearchModule,
 		NgTerminalModule,
 		ClientDataAccessStateModule,
+		EditorModule,
 		StoreDevtoolsModule.instrument({
 			name: "Instruments DevTools",
 			maxAge: 25

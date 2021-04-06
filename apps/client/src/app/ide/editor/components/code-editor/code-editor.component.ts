@@ -7,13 +7,16 @@ import {
 	ViewChild
 } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { EditorComponent } from "ngx-monaco-editor";
-import { Subscription } from "rxjs";
+import * as monaco from "monaco-editor";
+//import { EditorComponent } from "ngx-monaco-editor";
+import { fromEvent, Subscription } from "rxjs";
+import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 import { debounce, debounceTime, skipUntil, tap } from "rxjs/operators";
 import { FileSelectors, File, WorkspaceSelectors } from "@kling/client/data-access/state";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { ThemeService } from "../../../../shared/services/theme.service";
 import { WorkspaceFacade } from "../../../services/workspace.facade";
+import { main } from "./src/app";
 
 class EditorModelState {
 	textModel: monaco.editor.ITextModel;
@@ -37,7 +40,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 	@Output() onEditorInit = new EventEmitter<void>();
 
-	@ViewChild("editor") private editorComponent: EditorComponent;
+	//@ViewChild("editor") private editorComponent: EditorComponent;
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByFileId = new Map<string, EditorModelState>();
 	private selectedFilePath: string;
@@ -51,33 +54,40 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		super();
 	}
 
-	ngOnInit(): void {
+	async ngOnInit(): Promise<void> {
+		this.editor = await main("typescript");
+
 		this.subs.sink = this.subscribeToThemeChanged();
 		this.subs.sink = this.subscribeToFileSelected();
 		this.subs.sink = this.subscribeToFileAdded();
 		this.subs.sink = this.subscribeToFileRemoved();
 		this.subs.sink = this.workspace.init$.subscribe(() => this._disposeAllModels());
+
+		this.initEditor();
 	}
 
-	initEditor(event: any): void {
-		this.editor = event;
-		setTimeout(() => this.resize(), 500);
+	initEditor(): void {
+		this.subs.sink = fromEvent(window, "resize").subscribe(e => {
+			this.resize();
+		});
+
+		//setTimeout(() => this.resize(), 500);
 		this._disposeAllModels(); // Remove automatically created initial model
 
 		if (!this.isInitialized) {
 			this.isInitialized = true;
 
-			monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
-			this.editor.addAction({
-				id: "RUN_CODE",
-				label: "Run Code",
-				contextMenuOrder: 1,
-				contextMenuGroupId: "Custom",
-				keybindings: [monaco.KeyCode.F5],
-				run: (editor, ...args) => {
-					console.log("RUN_CODE", args);
-				}
-			});
+			monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+			// this.editor.addAction({
+			// 	id: "RUN_CODE",
+			// 	label: "Run Code",
+			// 	contextMenuOrder: 1,
+			// 	contextMenuGroupId: "Custom",
+			// 	keybindings: [monaco.KeyCode.F5],
+			// 	run: (editor, ...args) => {
+			// 		console.log("RUN_CODE", args);
+			// 	}
+			// });
 
 			this.onEditorInit.emit();
 		}
@@ -90,7 +100,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 				this.editorModelByFileId.delete(fileId);
 
 				// Dispose model
-				const model = window?.monaco?.editor?.getModel(this.createFileUri(fileId));
+				const model = monaco?.editor?.getModel(this.createFileUri(fileId));
 				model.dispose();
 			}
 		});
@@ -180,9 +190,9 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		const split = file.path.split(".");
 		const language = split[split.length - 1];
 
-		const model = window.monaco.editor.createModel(
+		const model = monaco.editor.createModel(
 			file.content,
-			language,
+			undefined,
 			this.createFileUri(file.path)
 		);
 
@@ -203,7 +213,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private _disposeAllModels() {
-		window?.monaco?.editor?.getModels().forEach(model => model.dispose());
+		monaco?.editor?.getModels().forEach(model => model.dispose());
 		this.editorModelByFileId.clear();
 	}
 }

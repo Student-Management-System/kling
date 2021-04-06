@@ -1,12 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import {
 	createDirectory,
 	createFile,
 	File,
 	FileActions,
 	FileSelectors,
-	WorkspaceActions
+	WorkspaceActions,
+	WorkspaceSelectors
 } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { from } from "rxjs";
@@ -182,6 +184,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		private terminal: TerminalFacade,
 		private websocket: WebSocketService,
 		private http: HttpClient,
+		private route: ActivatedRoute,
 		private readonly store: Store
 	) {
 		super();
@@ -198,36 +201,71 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	handleEditorInit(): void {
-		// const directories = [
-		// 	createDirectory("root"),
-		// 	createDirectory("robots", "root"),
-		// 	createDirectory("animals", "root"),
-		// 	createDirectory("birds", "root/animals")
-		// ];
+		this.createDemoFiles();
+	}
 
-		// const files = [
-		// 	createFile("running-sum.ts", "root", exampleRunningSum),
-		// 	createFile("helper-methods.ts", "root", example),
-		// 	createFile("abstract-animal.ts", "root/animals", "// abstract-animal.ts"),
-		// 	createFile("dog.ts", "root/animals", "// dog.ts"),
-		// 	createFile("cat.ts", "root/animals", "// cat.ts"),
-		// 	createFile("robot.ts", "root/robots", "// robot.ts"),
-		// 	createFile("bird.ts", "root/animals/birds", "// bird.ts")
-		// ];
+	private createDemoFiles() {
+		const lang = this.route.snapshot.queryParams.lang;
+		let data = this.route.snapshot.queryParams.data;
 
-		const file = createFile("Main.java", "java", "root", javaExample);
-		const file2 = createFile("Solution.java", "java", "root", javaCountToNumber);
+		if (data) {
+			data = JSON.parse(atob(data));
+		}
 
-		const project = {
-			directories: [createDirectory("root")],
-			files: [file, file2],
-			projectName: "Example project",
-			language: "java",
-			theme: "dark"
-		};
+		console.log(data);
 
-		this.store.dispatch(WorkspaceActions.loadProject(project));
-		this.store.dispatch(FileActions.setSelectedFile({ fileId: "root/Main.java" }));
+		if (!lang || lang === "typescript") {
+			const directories = [
+				createDirectory("root"),
+				createDirectory("robots", "root"),
+				createDirectory("animals", "root"),
+				createDirectory("birds", "root/animals")
+			];
+
+			const files = [
+				createFile("running-sum.ts", "typescript", "root", exampleRunningSum),
+				createFile("helper-methods.ts", "typescript", "root", example),
+				createFile(
+					"abstract-animal.ts",
+					"typescript",
+					"root/animals",
+					"// abstract-animal.ts"
+				),
+				createFile("dog.ts", "typescript", "root/animals", "// dog.ts"),
+				createFile("cat.ts", "typescript", "root/animals", "// cat.ts"),
+				createFile("robot.ts", "typescript", "root/robots", "// robot.ts"),
+				createFile("bird.ts", "typescript", "root/animals/birds", "// bird.ts")
+			];
+
+			const project = {
+				directories,
+				files,
+				projectName: "Example project",
+				language: "typescript",
+				theme: "dark"
+			};
+
+			this.store.dispatch(WorkspaceActions.loadProject(project));
+			this.store.dispatch(FileActions.setSelectedFile({ fileId: files[0].path }));
+		}
+
+		if (lang == "java") {
+			const files = [
+				createFile("Main.java", "java", "root", javaExample),
+				createFile("Solution.java", "java", "root", javaCountToNumber)
+			];
+
+			const project = {
+				directories: [createDirectory("root")],
+				files: files,
+				projectName: "Example project",
+				language: "java",
+				theme: "dark"
+			};
+
+			this.store.dispatch(WorkspaceActions.loadProject(project));
+			this.store.dispatch(FileActions.setSelectedFile({ fileId: project.files[0].path }));
+		}
 	}
 
 	onDragEnd(event: any): void {
@@ -244,55 +282,38 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 			.select(FileSelectors.selectAllFiles)
 			.pipe(take(1))
 			.subscribe(files => {
-				const submission = this.createSubmission(files);
+				const encoded = btoa(JSON.stringify(files));
+				console.log(encoded);
 
-				this.terminal.clear();
-
-				this.http
-					.post("https://emkc.org/api/v1/piston/execute", {
-						language: "java",
-						source: submission.solution.files[0].content
-					})
-					.subscribe({
-						next: (result: PistonResponse) => {
-							console.log(result);
-							result.output.split("\n").forEach(line => {
-								this.terminal.write(line);
-							});
-						},
-						error: error => {
-							console.log(error);
-						}
-					});
-
-				// this.terminal.write("Connecting to server...");
-				// this.websocket.connect("/run-code");
-				// this.websocket.emit("RUN_CODE", submission);
-				// this.subs.sink = this.websocket.listenTo("RUN_CODE_RESULT").subscribe({
-				// 	next: result => {
-				// 		console.log("RUN_CODE_RESULT:", result);
-				// 		this.terminal.write(result as string);
-				// 	},
-				// 	complete: () => {
-				// 		this.terminal.write("Completed. Disconnecting.");
-				// 		this.websocket.disconnect();
-				// 	},
-				// 	error: error => {
-				// 		console.log("Error", error);
-				// 		this.terminal.write(JSON.stringify(error));
-				// 		this.websocket.disconnect();
-				// 	}
-				// });
-
-				// this.subs.sink = this.websocket.listenTo("disconnect").subscribe({
-				// 	next: result => {
-				// 		this.terminal.write("Disconnected.");
-				// 	},
-				// 	error: error => {
-				// 		this.terminal.write("Disconnected (from error).");
-				// 	}
-				// });
+				const decoded = JSON.parse(atob(encoded));
+				console.log(decoded);
 			});
+
+		// this.store
+		// 	.select(FileSelectors.selectAllFiles)
+		// 	.pipe(take(1))
+		// 	.subscribe(files => {
+		// 		const submission = this.createSubmission(files);
+
+		// 		this.terminal.clear();
+
+		// 		this.http
+		// 			.post("https://emkc.org/api/v1/piston/execute", {
+		// 				language: "java",
+		// 				source: submission.solution.files[0].content
+		// 			})
+		// 			.subscribe({
+		// 				next: (result: PistonResponse) => {
+		// 					console.log(result);
+		// 					result.output.split("\n").forEach(line => {
+		// 						this.terminal.write(line);
+		// 					});
+		// 				},
+		// 				error: error => {
+		// 					console.log(error);
+		// 				}
+		// 			});
+		// 	});
 	}
 
 	runTests(): void {

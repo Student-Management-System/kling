@@ -6,11 +6,11 @@
 .problem-description {
 	display: flex;
 	flex-direction: column;
-	padding: 8px;
+	padding: 16px;
 }
 
 .problem-title {
-	margin-bottom: 2px;
+	margin-bottom: 4px;
 }
 
 .problem-info {
@@ -40,6 +40,6 @@
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	padding: 8px;
+	padding: 16px;
 	color: var(--text);
 }

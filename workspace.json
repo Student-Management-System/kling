@@ -13,7 +13,13 @@
 			"prefix": "kling",
 			"architect": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-builders/custom-webpack:browser",
+					"customWebpackConfig": {
+						"path": "./apps/client/webpack.config.cjs",
+						"mergeStrategies": {
+							"externals": "replace"
+						}
+					},
 					"options": {
 						"outputPath": "dist/apps/client",
 						"index": "apps/client/src/index.html",
@@ -27,8 +33,23 @@
 							"apps/client/src/env.js",
 							{
 								"glob": "**/*",
-								"input": "node_modules/ngx-monaco-editor/assets/monaco",
-								"output": "./assets/monaco/"
+								"input": "./apps/client/src/app/ide/editor/components/code-editor/grammars",
+								"output": "./grammars/"
+							},
+							{
+								"glob": "**/*",
+								"input": "./apps/client/src/app/ide/editor/components/code-editor/configurations",
+								"output": "./configurations/"
+							},
+							{
+								"glob": "**/*",
+								"input": "./apps/client/src/app/ide/editor/components/code-editor/vscode-oniguruma",
+								"output": "./node_modules/vscode-oniguruma/"
+							},
+							{
+								"glob": "**/*",
+								"input": "./apps/client/src/app/ide/editor/components/code-editor/gen",
+								"output": "./workers/"
 							}
 						],
 						"styles": [

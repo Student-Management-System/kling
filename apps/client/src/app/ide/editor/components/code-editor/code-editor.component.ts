@@ -1,21 +1,16 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	EventEmitter,
-	OnInit,
-	Output,
-	ViewChild
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { connectAnonymously } from "@convergence/convergence";
+import { File, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
+import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 //import { EditorComponent } from "ngx-monaco-editor";
 import { fromEvent, Subscription } from "rxjs";
-import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
-import { debounce, debounceTime, skipUntil, tap } from "rxjs/operators";
-import { FileSelectors, File, WorkspaceSelectors } from "@kling/client/data-access/state";
+import { tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { ThemeService } from "../../../../shared/services/theme.service";
 import { WorkspaceFacade } from "../../../services/workspace.facade";
+import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 import { main } from "./src/app";
 
 class EditorModelState {
@@ -44,7 +39,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByFileId = new Map<string, EditorModelState>();
 	private selectedFilePath: string;
-	private isInitialized = false;
 
 	constructor(
 		private store: Store,
@@ -71,26 +65,43 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			this.resize();
 		});
 
-		//setTimeout(() => this.resize(), 500);
 		this._disposeAllModels(); // Remove automatically created initial model
 
-		if (!this.isInitialized) {
-			this.isInitialized = true;
+		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+		// this.editor.addAction({
+		// 	id: "RUN_CODE",
+		// 	label: "Run Code",
+		// 	contextMenuOrder: 1,
+		// 	contextMenuGroupId: "Custom",
+		// 	keybindings: [monaco.KeyCode.F5],
+		// 	run: (editor, ...args) => {
+		// 		console.log("RUN_CODE", args);
+		// 	}
+		// });
 
-			monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
-			// this.editor.addAction({
-			// 	id: "RUN_CODE",
-			// 	label: "Run Code",
-			// 	contextMenuOrder: 1,
-			// 	contextMenuGroupId: "Custom",
-			// 	keybindings: [monaco.KeyCode.F5],
-			// 	run: (editor, ...args) => {
-			// 		console.log("RUN_CODE", args);
-			// 	}
-			// });
+		connectAnonymously(
+			"http://localhost:8000/api/realtime/convergence/default",
+			"User-" + Math.floor(Math.random() * 1000)
+		)
+			.then(d => {
+				// Now open the model, creating it using the initial data if it does not exist.
+				return d.models().openAutoCreate({
+					collection: "example-monaco",
+					id: "convergenceExampleId",
+					data: {
+						text: this.getFileContent(this.selectedFilePath)
+					}
+				});
+			})
+			.then(model => {
+				const adapter = new MonacoConvergenceAdapter(this.editor, model.elementAt("text"));
+				adapter.bind();
+			})
+			.catch(error => {
+				console.error("Could not open model ", error);
+			});
 
-			this.onEditorInit.emit();
-		}
+		this.onEditorInit.emit();
 	}
 
 	private subscribeToFileRemoved(): Subscription {
@@ -160,17 +171,15 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 	private subscribeToThemeChanged(): Subscription {
 		return this.store.select(WorkspaceSelectors.selectTheme).subscribe(theme => {
-			if (this.isInitialized) {
-				switch (theme) {
-					case "light":
-						monaco.editor?.setTheme("vs-light");
-						break;
-					case "dark":
-						monaco.editor?.setTheme("vs-dark");
-						break;
-					default:
-						break;
-				}
+			switch (theme) {
+				case "light":
+					monaco.editor?.setTheme("vs-light");
+					break;
+				case "dark":
+					monaco.editor?.setTheme("vs-dark");
+					break;
+				default:
+					break;
 			}
 		});
 	}

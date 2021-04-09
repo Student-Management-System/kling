@@ -135,7 +135,7 @@ console.log(person);
 const javaExample = `// Java Example
 public class Main { 
 	public static void main(String[] args) {
-		System.out.println("Hello World from Java");
+		System.out.println("Hello World");
 
 		for (int i = 0; i < 10; i++) {
 			System.out.println(i);
@@ -224,7 +224,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 
 			const files = [
 				createFile("running-sum.ts", "typescript", "root", exampleRunningSum),
-				createFile("helper-methods.ts", "typescript", "root", example),
+				createFile("person.ts", "typescript", "root", example),
 				createFile(
 					"abstract-animal.ts",
 					"typescript",
@@ -278,42 +278,42 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	run(): void {
-		this.store
-			.select(FileSelectors.selectAllFiles)
-			.pipe(take(1))
-			.subscribe(files => {
-				const encoded = btoa(JSON.stringify(files));
-				console.log(encoded);
-
-				const decoded = JSON.parse(atob(encoded));
-				console.log(decoded);
-			});
-
 		// this.store
 		// 	.select(FileSelectors.selectAllFiles)
 		// 	.pipe(take(1))
 		// 	.subscribe(files => {
-		// 		const submission = this.createSubmission(files);
+		// 		const encoded = btoa(JSON.stringify(files));
+		// 		console.log(encoded);
 
-		// 		this.terminal.clear();
-
-		// 		this.http
-		// 			.post("https://emkc.org/api/v1/piston/execute", {
-		// 				language: "java",
-		// 				source: submission.solution.files[0].content
-		// 			})
-		// 			.subscribe({
-		// 				next: (result: PistonResponse) => {
-		// 					console.log(result);
-		// 					result.output.split("\n").forEach(line => {
-		// 						this.terminal.write(line);
-		// 					});
-		// 				},
-		// 				error: error => {
-		// 					console.log(error);
-		// 				}
-		// 			});
+		// 		const decoded = JSON.parse(atob(encoded));
+		// 		console.log(decoded);
 		// 	});
+
+		this.store
+			.select(FileSelectors.selectAllFiles)
+			.pipe(take(1))
+			.subscribe(files => {
+				const submission = this.createSubmission(files);
+
+				this.terminal.clear();
+
+				this.http
+					.post("https://emkc.org/api/v1/piston/execute", {
+						language: "java",
+						source: submission.solution.files[0].content
+					})
+					.subscribe({
+						next: (result: PistonResponse) => {
+							console.log(result);
+							result.output.split("\n").forEach(line => {
+								this.terminal.write(line);
+							});
+						},
+						error: error => {
+							console.log(error);
+						}
+					});
+			});
 	}
 
 	runTests(): void {

@@ -209,6 +209,8 @@
 	"Title": {
 		"AppName": "Kling",
 		"CompareParticipantsList": "Compare participants list",
+		"CreateDirectory": "Create Directory",
+		"CreateFile": "Create File",
 		"CreateProblem": "Create new problem"
 	}
 }

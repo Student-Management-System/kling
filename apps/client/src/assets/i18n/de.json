@@ -209,6 +209,8 @@
 	"Title": {
 		"AppName": "Kling",
 		"CompareParticipantsList": "Teilnehmerliste vergleichen",
+		"CreateDirectory": "Ordner erstellen",
+		"CreateFile": "Datei erstellen",
 		"CreateProblem": "Neues Problem erstellen"
 	}
 }

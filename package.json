@@ -26,7 +26,7 @@
 		"help": "nx help",
 		"postinstall": "ngcc --properties es2015 browser module main",
 		"workspace-generator": "nx workspace-generator",
-		"apigen:stdmgmt": "openapi-generator-cli generate"
+		"apigen:stdmgmt": "openapi-generator-cli generate && nx format:write --projects=shared-data-access-student-mgmt-ng-client"
 	},
 	"private": true,
 	"dependencies": {

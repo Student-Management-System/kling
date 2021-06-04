@@ -118,7 +118,8 @@
 					"options": {
 						"jestConfig": "apps/client/jest.config.js",
 						"passWithNoTests": true
-					}
+					},
+					"outputs": ["coverage/apps/client"]
 				}
 			}
 		},
@@ -187,7 +188,8 @@
 							"inspect": false,
 							"fileReplacements": []
 						}
-					}
+					},
+					"outputs": ["{options.outputPath}"]
 				},
 				"serve": {
 					"builder": "@nrwl/node:execute",
@@ -206,7 +208,8 @@
 					"options": {
 						"jestConfig": "apps/api-rest/jest.config.js",
 						"passWithNoTests": true
-					}
+					},
+					"outputs": ["coverage/apps/api-rest"]
 				}
 			}
 		},
@@ -231,7 +234,8 @@
 							"inspect": false,
 							"fileReplacements": []
 						}
-					}
+					},
+					"outputs": ["{options.outputPath}"]
 				},
 				"serve": {
 					"builder": "@nrwl/node:execute",
@@ -250,7 +254,8 @@
 					"options": {
 						"jestConfig": "apps/code-runner-service/jest.config.js",
 						"passWithNoTests": true
-					}
+					},
+					"outputs": ["coverage/apps/code-runner-service"]
 				}
 			}
 		},
@@ -271,7 +276,8 @@
 					"options": {
 						"jestConfig": "libs/client/data-access/state/jest.config.js",
 						"passWithNoTests": true
-					}
+					},
+					"outputs": ["coverage/libs/client/data-access/state"]
 				}
 			},
 			"schematics": {

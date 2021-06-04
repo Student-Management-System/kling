@@ -19,7 +19,8 @@
 			"@kling/shared/data-access/api-rest-ng-client": [
 				"libs/shared/data-access/api-rest-ng-client/src/index.ts"
 			],
-			"@kling/client/data-access/state": ["libs/client/data-access/state/src/index.ts"]
+			"@kling/client/data-access/state": ["libs/client/data-access/state/src/index.ts"],
+			"@student-mgmt": ["libs/shared/data-access/student-mgmt-ng-client/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

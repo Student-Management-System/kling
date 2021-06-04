@@ -1,8 +1,4 @@
 {
-	"npmScope": "kling",
-	"affected": {
-		"defaultBase": "master"
-	},
 	"implicitDependencies": {
 		"workspace.json": "*",
 		"package.json": {
@@ -14,6 +10,10 @@
 		".eslintrc.json": "*",
 		"nx.json": "*"
 	},
+	"affected": {
+		"defaultBase": "master"
+	},
+	"npmScope": "kling",
 	"tasksRunnerOptions": {
 		"default": {
 			"runner": "@nrwl/nx-cloud",
@@ -44,6 +44,9 @@
 		},
 		"client-data-access-state": {
 			"tags": ["scope:client", "type:data-access"]
+		},
+		"shared-data-access-student-mgmt-ng-client": {
+			"tags": ["scope:shared", "type:data-access"]
 		}
 	}
 }

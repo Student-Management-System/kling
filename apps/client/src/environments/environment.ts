@@ -5,8 +5,8 @@
 export const environment = {
 	production: false,
 	hmr: false,
-	API_BASE_PATH: "http://localhost:3000",
-	SMS_BASE_PATH: "http://localhost:4000",
+	API_BASE_PATH: "http://localhost:4000",
+	STUDENT_MGMT_BASE_PATH: "http://localhost:3000",
 	AUTH_BASE_PATH: "http://147.172.178.30:8080"
 };
 

@@ -7,24 +7,27 @@ import { InjectionToken, LOCALE_ID, NgModule, SecurityContext } from "@angular/c
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ClientDataAccessStateModule } from "@kling/client/data-access/state";
 import { ApiModule, Configuration } from "@kling/shared/data-access/api-rest-ng-client";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import {
+	ApiModule as StudentMgmtApiModule,
+	Configuration as StudentMgmtConfiguration
+} from "@student-mgmt";
 import { NgTerminalModule } from "ng-terminal";
 import { ContextMenuModule } from "ngx-contextmenu";
 import { MarkdownModule } from "ngx-markdown";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
-//import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor";
 import { ToastrModule } from "ngx-toastr";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { EditorModule } from "./ide/editor/editor.module";
 import { MaterialModule } from "./material/material.module";
 import { NavigationComponent } from "./navigation/navigation.component";
-import { ClientDataAccessStateModule } from "@kling/client/data-access/state";
 import { SharedModule } from "./shared/shared.module";
-import { EditorModule } from "./ide/editor/editor.module";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
 
@@ -33,28 +36,6 @@ export const LOCAL_STORAGE = new InjectionToken<Storage>("LOCALSTORAGE");
 export function createTranslateLoader(http: HttpClient): TranslateLoader {
 	return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
-
-// const monacoConfig: NgxMonacoEditorConfig = {
-// 	//baseUrl: "./assets", // configure base path for monaco editor default: './assets'
-// 	defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
-// 	onMonacoLoad: () => {
-// 		console.log(window.monaco);
-// 		// register Monaco languages
-// 		monaco.languages.register({
-// 			id: "typescript",
-// 			extensions: [".ts"],
-// 			aliases: ["typescript", "ts"],
-// 			mimetypes: ["application/text"]
-// 		});
-
-// 		monaco.languages.register({
-// 			id: "java",
-// 			extensions: [".java"],
-// 			aliases: ["java"],
-// 			mimetypes: ["application/text"]
-// 		});
-// 	}
-// };
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent],
@@ -87,7 +68,14 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 			() =>
 				new Configuration({
 					basePath: window["__env"]["API_BASE_PATH"] ?? environment.API_BASE_PATH
-					//accessToken: (): string => AuthService.getAccessToken()
+				})
+		),
+		StudentMgmtApiModule.forRoot(
+			() =>
+				new StudentMgmtConfiguration({
+					basePath:
+						window["__env"]["STUDENT_MGMT_BASE_PATH"] ??
+						environment.STUDENT_MGMT_BASE_PATH
 				})
 		),
 		NgxMatSelectSearchModule,

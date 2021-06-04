@@ -1,16 +1,16 @@
 server:
-  port: 9999
+    port: 9999
 
-db: 
-  host: "127.0.0.1"
-  username: "postgres"
-  password: "postgres"
-  synchronize: true
-  dropSchema: true
+db:
+    host: "127.0.0.1"
+    username: "postgres"
+    password: "postgres"
+    synchronize: true
+    dropSchema: true
 
 jwt:
-  secret: "jwt-dev-secret"
+    secret: "jwt-dev-secret"
 
 logger:
-  requests: false
-  dbErrors: true
+    requests: false
+    dbErrors: true

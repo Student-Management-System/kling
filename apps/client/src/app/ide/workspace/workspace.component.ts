@@ -210,9 +210,8 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 
 		if (data) {
 			data = JSON.parse(atob(data));
+			console.log(data);
 		}
-
-		console.log(data);
 
 		if (!lang || lang === "typescript") {
 			const directories = [

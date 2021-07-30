@@ -152,6 +152,77 @@
 	--link-active: green;
 }
 
+// Roboto
+// https://www.mittwald.de/blog/mittwald/howtos/dem-datenschutz-zuliebe-wie-ihr-google-fonts-lokal-in-eure-webseiten-einbindet#Notwendig-dank-der-DSGVO--Google-Fonts-sollten-lokal-eingebunden-werden
+// https://google-webfonts-helper.herokuapp.com/fonts
+
+/* roboto-300 - latin */
+@font-face {
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 300;
+	src: local("Roboto Light"), local("Roboto-Light"),
+		url("assets/fonts/roboto-v20-latin-300.woff2") format("woff2"),
+		/* Chrome 26+, Opera 23+, Firefox 39+ */ url("assets/fonts/roboto-v20-latin-300.woff")
+			format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-regular - latin */
+@font-face {
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Roboto"), local("Roboto-Regular"),
+		url("assets/fonts/roboto-v20-latin-regular.woff2") format("woff2"),
+		/* Chrome 26+, Opera 23+, Firefox 39+ */ url("assets/fonts/roboto-v20-latin-regular.woff")
+			format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-500 - latin */
+@font-face {
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 500;
+	src: local("Roboto Medium"), local("Roboto-Medium"),
+		url("assets/fonts/roboto-v20-latin-500.woff2") format("woff2"),
+		/* Chrome 26+, Opera 23+, Firefox 39+ */ url("assets/fonts/roboto-v20-latin-500.woff")
+			format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+// Material Icons
+@font-face {
+	font-family: "Material Icons";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Material Icons"), local("MaterialIcons-Regular"),
+		url("assets/fonts/MaterialIcons-Regular.woff2") format("woff2"),
+		url("assets/fonts/MaterialIcons-Regular.woff") format("woff"),
+		url("assets/fonts/MaterialIcons-Regular.ttf") format("truetype");
+}
+
+.material-icons {
+	font-family: "Material Icons";
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px; /* Preferred icon size */
+	display: inline-block;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+
+	/* Support for Firefox. */
+	-moz-osx-font-smoothing: grayscale;
+
+	/* Support for IE. */
+	font-feature-settings: "liga";
+}
+
 html,
 body {
 	height: 100%;

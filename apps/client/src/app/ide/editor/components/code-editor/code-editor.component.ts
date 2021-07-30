@@ -25,17 +25,8 @@ class EditorModelState {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit {
-	editorOptions = {
-		theme: "vs-dark",
-		language: "java",
-		minimap: {
-			enabled: false
-		}
-	};
-
 	@Output() onEditorInit = new EventEmitter<void>();
 
-	//@ViewChild("editor") private editorComponent: EditorComponent;
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByFileId = new Map<string, EditorModelState>();
 	private selectedFilePath: string;
@@ -61,7 +52,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	initEditor(): void {
-		this.subs.sink = fromEvent(window, "resize").subscribe(e => {
+		this.subs.sink = fromEvent(window, "resize").subscribe(() => {
 			this.resize();
 		});
 
@@ -79,27 +70,27 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		// 	}
 		// });
 
-		connectAnonymously(
-			"http://localhost:8000/api/realtime/convergence/default",
-			"User-" + Math.floor(Math.random() * 1000)
-		)
-			.then(d => {
-				// Now open the model, creating it using the initial data if it does not exist.
-				return d.models().openAutoCreate({
-					collection: "example-monaco",
-					id: "convergenceExampleId",
-					data: {
-						text: this.getFileContent(this.selectedFilePath)
-					}
-				});
-			})
-			.then(model => {
-				const adapter = new MonacoConvergenceAdapter(this.editor, model.elementAt("text"));
-				adapter.bind();
-			})
-			.catch(error => {
-				console.error("Could not open model ", error);
-			});
+		// connectAnonymously(
+		// 	"http://localhost:8000/api/realtime/convergence/default",
+		// 	"User-" + Math.floor(Math.random() * 1000)
+		// )
+		// 	.then(d => {
+		// 		// Now open the model, creating it using the initial data if it does not exist.
+		// 		return d.models().openAutoCreate({
+		// 			collection: "example-monaco",
+		// 			id: "convergenceExampleId",
+		// 			data: {
+		// 				text: this.getFileContent(this.selectedFilePath)
+		// 			}
+		// 		});
+		// 	})
+		// 	.then(model => {
+		// 		const adapter = new MonacoConvergenceAdapter(this.editor, model.elementAt("text"));
+		// 		adapter.bind();
+		// 	})
+		// 	.catch(error => {
+		// 		console.error("Could not open model ", error);
+		// 	});
 
 		this.onEditorInit.emit();
 	}

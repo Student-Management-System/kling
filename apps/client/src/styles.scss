@@ -1,3 +1,6 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 @import "./custom-theme.scss";
 
 /* You can add global styles to this file, and also import other style files */
@@ -58,6 +61,10 @@
 
 .default-theme {
 	height: 100%;
+	--primary: #757575;
+	--accent: #b71c1c;
+	--warn: red;
+
 	--grey-light: rgb(230, 230, 230);
 	--grey-normal: rgb(255, 255, 255);
 	--grey-dark: rgb(41, 41, 41);
@@ -97,6 +104,10 @@
 
 .dark-theme {
 	height: 100%;
+	--primary: #757575;
+	--accent: #b71c1c;
+	--warn: red;
+
 	--color-bg: rgb(15, 15, 15);
 	--color-titlebar: #202020;
 	--color-sidenav: #212121;
@@ -198,31 +209,6 @@
 		url("assets/fonts/MaterialIcons-Regular.ttf") format("truetype");
 }
 
-.material-icons {
-	font-family: "Material Icons";
-	font-weight: normal;
-	font-style: normal;
-	font-size: 24px; /* Preferred icon size */
-	display: inline-block;
-	line-height: 1;
-	text-transform: none;
-	letter-spacing: normal;
-	word-wrap: normal;
-	white-space: nowrap;
-	direction: ltr;
-
-	/* Support for all WebKit browsers. */
-	-webkit-font-smoothing: antialiased;
-	/* Support for Safari and Chrome. */
-	text-rendering: optimizeLegibility;
-
-	/* Support for Firefox. */
-	-moz-osx-font-smoothing: grayscale;
-
-	/* Support for IE. */
-	font-feature-settings: "liga";
-}
-
 html,
 body {
 	height: 100%;
@@ -230,6 +216,10 @@ body {
 body {
 	margin: 0;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-icon {
+	fill: white;
 }
 
 *::-webkit-scrollbar {
@@ -378,6 +368,7 @@ mat-paginator {
 
 .icon-light {
 	color: var(--text-light);
+	fill: var(--text-light);
 }
 
 .text-light {
@@ -390,14 +381,6 @@ mat-paginator {
 
 .text-green {
 	color: green;
-}
-
-.context-menu-item {
-	mat-icon {
-		vertical-align: middle;
-		margin-right: 16px;
-		margin-left: -8px;
-	}
 }
 
 .snackbar-success {

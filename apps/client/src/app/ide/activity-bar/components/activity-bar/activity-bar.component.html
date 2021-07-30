@@ -1,7 +1,7 @@
 <div class="activity-bar-container">
 	<div class="menu-btn-container">
 		<button class="menu-btn" mat-icon-button disableRipple (click)="sidenav.open()">
-			<mat-icon>menu</mat-icon>
+			<app-icon name="menu"></app-icon>
 		</button>
 	</div>
 
@@ -14,7 +14,7 @@
 					(click)="onTabClick('EXPLORER')"
 					[matTooltip]="'Explorer'"
 				>
-					<mat-icon class="icon-light">file_copy</mat-icon>
+					<app-icon name="file_copy" class="icon-light"></app-icon>
 				</button>
 			</div>
 
@@ -25,7 +25,7 @@
 					(click)="onTabClick('HISTORY')"
 					[matTooltip]="'History'"
 				>
-					<mat-icon class="icon-light">history</mat-icon>
+					<app-icon name="history" class="icon-light"></app-icon>
 				</button>
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 		<div class="bottom">
 			<div class="tab">
 				<button mat-icon-button disableRipple [matTooltip]="'Help'">
-					<mat-icon class="icon-light">help</mat-icon>
+					<app-icon name="help" class="icon-light"></app-icon>
 				</button>
 			</div>
 		</div>

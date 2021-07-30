@@ -43,7 +43,9 @@
 		<div formArrayName="categories" class="categories">
 			<span class="categories-label">
 				<mat-label>{{ "Property.Problem.Categories" | translate }}</mat-label>
-				<button mat-icon-button (click)="addCategory()"><mat-icon>add</mat-icon></button>
+				<button mat-icon-button (click)="addCategory()">
+					<app-icon name="add"></app-icon>
+				</button>
 			</span>
 
 			<span
@@ -64,7 +66,7 @@
 				</mat-form-field>
 
 				<button mat-icon-button (click)="removeCategory(i)">
-					<mat-icon>clear</mat-icon>
+					<app-icon name="clear"></app-icon>
 				</button>
 			</span>
 		</div>

@@ -10,6 +10,7 @@ import { Paginator } from "./paginator/paginator.component";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { CategorySelectorComponent } from "./components/category-selector/category-selector.component";
 import { MiddleClickDirective } from "./directives/middle-click.directive";
+import { IconComponent } from "./components/icon.component";
 
 @NgModule({
 	declarations: [
@@ -17,7 +18,8 @@ import { MiddleClickDirective } from "./directives/middle-click.directive";
 		ConfirmDialog,
 		Paginator,
 		CategorySelectorComponent,
-		MiddleClickDirective
+		MiddleClickDirective,
+		IconComponent
 	],
 	imports: [
 		CommonModule,
@@ -36,7 +38,8 @@ import { MiddleClickDirective } from "./directives/middle-click.directive";
 		MatNativeDateModule,
 		Paginator,
 		CategorySelectorComponent,
-		MiddleClickDirective
+		MiddleClickDirective,
+		IconComponent
 	],
 	providers: []
 })

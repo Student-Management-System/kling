@@ -17,7 +17,7 @@
 	background: inherit;
 }
 
-.sidenav mat-icon {
+.sidenav app-icon {
 	margin-right: 24px;
 	padding-left: 8px;
 	color: var(--text-light);
@@ -43,8 +43,8 @@
 	background-color: var(--link-active-bg);
 	font-weight: 500 !important;
 
-	mat-icon {
-		color: var(--link-active);
+	app-icon {
+		fill: var(--link-active);
 	}
 }
 
@@ -72,9 +72,10 @@
 }
 
 #logo {
-	padding: 8px;
-	height: 48px;
-	width: 48px;
+	margin: 8px;
+	path {
+		fill: var(--accent) !important;
+	}
 }
 
 #nav-left {

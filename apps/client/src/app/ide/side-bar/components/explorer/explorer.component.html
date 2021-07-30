@@ -7,7 +7,7 @@
 			</mat-menu>
 
 			<button class="menu-btn" mat-icon-button [matMenuTriggerFor]="menu" disableRipple>
-				<mat-icon class="icon-light">more_horiz</mat-icon>
+				<app-icon name="more_horiz" class="icon-light"></app-icon>
 			</button>
 		</ng-container>
 	</app-side-bar-header>
@@ -24,7 +24,7 @@
 					disableRipple
 					(click)="workspaceDialogs.openCreateFileDialog(rootDir)"
 				>
-					<mat-icon class="icon-light">note_add</mat-icon>
+					<app-icon name="note_add" class="icon-light"></app-icon>
 				</button>
 				<button
 					class="add-directory-btn"
@@ -32,7 +32,7 @@
 					disableRipple
 					(click)="workspaceDialogs.openCreateDirectoryDialog(rootDir)"
 				>
-					<mat-icon class="icon-light">create_new_folder</mat-icon>
+					<app-icon name="create_new_folder" class="icon-light"></app-icon>
 				</button>
 			</ng-container>
 

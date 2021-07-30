@@ -1,8 +1,8 @@
 <div class="section">
 	<div class="section-header">
 		<button class="section-header-left" disableRipple (click)="toggleIsExpanded()">
-			<mat-icon class="expand-icon" *ngIf="isExpanded">expand_more</mat-icon>
-			<mat-icon class="expand-icon" *ngIf="!isExpanded">chevron_right</mat-icon>
+			<app-icon name="expand_more" class="expand-icon" *ngIf="isExpanded"></app-icon>
+			<app-icon name="chevron_right" class="expand-icon" *ngIf="!isExpanded"></app-icon>
 			<ng-content select="[sectionTitle]"></ng-content>
 		</button>
 

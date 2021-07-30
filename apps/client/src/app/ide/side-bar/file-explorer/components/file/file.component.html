@@ -24,7 +24,7 @@
 	<context-menu #fileContextMenu class="context-menu">
 		<ng-template contextMenuItem (execute)="rename()">
 			<span class="context-menu-item"
-				><mat-icon class="icon-light">edit</mat-icon>Rename</span
+				><app-icon name="edit" class="icon-light"></app-icon>Rename</span
 			>
 		</ng-template>
 		<ng-template contextMenuItem (execute)="removeFileIfConfirmed()">

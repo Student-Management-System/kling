@@ -34,7 +34,7 @@
 	align-items: center;
 	padding-top: 2px;
 
-	mat-icon {
+	app-icon {
 		padding-top: 2px;
 		font-size: 18px;
 	}
@@ -50,7 +50,7 @@
 		padding-right: 4px;
 		width: fit-content !important;
 	}
-	mat-icon {
+	app-icon {
 		font-size: 16px;
 		padding: 0px !important;
 		margin-top: -16px;

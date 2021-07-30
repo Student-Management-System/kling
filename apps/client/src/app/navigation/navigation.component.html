@@ -4,9 +4,9 @@
 		<mat-toolbar class="titlebar mat-elevation-z0">
 			<div id="nav-left">
 				<button mat-icon-button type="button" (click)="drawer.toggle()">
-					<mat-icon>menu</mat-icon>
+					<app-icon name="menu"></app-icon>
 				</button>
-				<img id="logo" src="./assets/img/uni-logo.png" />
+				<ng-template *ngTemplateOutlet="uniLogo"></ng-template>
 				{{ "Title.AppName" | translate }}
 			</div>
 			<div id="nav-right">
@@ -42,7 +42,7 @@
 				</mat-menu>
 
 				<button mat-icon-button [matMenuTriggerFor]="appMenu">
-					<mat-icon>more_vert</mat-icon>
+					<app-icon name="more_vert"></app-icon>
 				</button>
 			</div>
 		</mat-toolbar>
@@ -63,9 +63,9 @@
 				<mat-toolbar class="sidenav-titlebar">
 					<div id="nav-left">
 						<button mat-icon-button type="button" (click)="drawer.toggle()">
-							<mat-icon>menu</mat-icon>
+							<app-icon name="menu"></app-icon>
 						</button>
-						<img id="logo" src="./assets/img/uni-logo.png" />
+						<ng-template *ngTemplateOutlet="uniLogo"></ng-template>
 						{{ "Title.AppName" | translate }}
 					</div>
 					<div id="nav-right"></div>
@@ -83,7 +83,7 @@
 						routerLinkActive="router-link-active"
 						[routerLinkActiveOptions]="{ exact: true }"
 					>
-						<mat-icon>home</mat-icon>{{ "Misc.Home" | translate }}
+						<app-icon name="home"></app-icon>{{ "Misc.Home" | translate }}
 					</a>
 
 					<a
@@ -92,7 +92,7 @@
 						routerLinkActive="router-link-active"
 						[routerLinkActiveOptions]="{ exact: true }"
 					>
-						<mat-icon>assignment</mat-icon>Problems
+						<app-icon name="assignment"></app-icon>Problems
 					</a>
 
 					<a
@@ -100,7 +100,7 @@
 						[routerLink]="['/problems/test-problem']"
 						routerLinkActive="router-link-active"
 					>
-						<mat-icon>code</mat-icon>Programming
+						<app-icon name="code"></app-icon>Programming
 					</a>
 				</div>
 
@@ -111,7 +111,7 @@
 						[routerLink]="['/login']"
 						routerLinkActive="router-link-active"
 					>
-						<mat-icon>code</mat-icon>Developer-Login
+						<app-icon name="code"></app-icon>Developer-Login
 					</a>
 
 					<a
@@ -119,7 +119,7 @@
 						[routerLink]="['/privacy']"
 						routerLinkActive="router-link-active"
 					>
-						<mat-icon>security</mat-icon>{{ "Misc.Privacy" | translate }}
+						<app-icon name="security"></app-icon>{{ "Misc.Privacy" | translate }}
 					</a>
 
 					<a
@@ -127,7 +127,7 @@
 						[routerLink]="['/imprint']"
 						routerLinkActive="router-link-active"
 					>
-						<mat-icon>info</mat-icon>{{ "Misc.Imprint" | translate }}
+						<app-icon name="info"></app-icon>{{ "Misc.Imprint" | translate }}
 					</a>
 				</div>
 			</mat-nav-list>
@@ -146,3 +146,11 @@
 		</mat-sidenav-content>
 	</mat-sidenav-container>
 </div>
+
+<ng-template #uniLogo>
+	<svg id="logo" width="48" height="48" viewBox="-2.17491372 -2.17491372 76.99035344 76.84695144">
+		<path
+			d="M 18.269274,20.145 L 18.269274,41.98875 L 39.599274,29.63375 L 39.599274,20.14625 L 31.249274,20.145 L 31.249274,29.53875 L 26.555524,32.3325 L 26.556774,20.14625 L 18.269274,20.145 M 18.579274,44.8825 L 18.579274,54.4275 L 26.610524,54.4275 L 26.610524,45.06 L 52.839274,29.635 L 52.839274,20.1475 L 44.418024,20.1475 L 44.419274,29.5175 L 18.579274,44.8825 M 52.839274,54.4275 L 52.839274,32.3625 L 31.480524,44.8825 L 31.480524,54.4275 L 39.599274,54.4275 L 39.599274,45.00875 L 44.294274,42.215 L 44.293024,54.4275 L 52.839274,54.4275"
+		/>
+	</svg>
+</ng-template>

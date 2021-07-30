@@ -77,6 +77,14 @@
 						"scripts": ["node_modules/marked/lib/marked.js"]
 					},
 					"configurations": {
+						"development": {
+							"buildOptimizer": false,
+							"optimization": false,
+							"vendorChunk": true,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"namedChunks": true
+						},
 						"production": {
 							"fileReplacements": [
 								{
@@ -113,10 +121,14 @@
 						"browserTarget": "client:build"
 					},
 					"configurations": {
+						"development": {
+							"browserTarget": "client:build:development"
+						},
 						"production": {
 							"browserTarget": "client:build:production"
 						}
-					}
+					},
+					"defaultConfiguration": "development"
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",

@@ -1,0 +1,19 @@
+.diff-dialog {
+	padding-left: 8px;
+	padding-right: 8px;
+	height: 80vh;
+	width: 80vw;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	height: 100%;
+	width: 100%;
+}
+
+#diff-editor {
+	height: 100%;
+	width: 100%;
+}

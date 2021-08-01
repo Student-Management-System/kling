@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { connectAnonymously } from "@convergence/convergence";
 import { File, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 //import { EditorComponent } from "ngx-monaco-editor";
-import { fromEvent, Subscription } from "rxjs";
+import { BehaviorSubject, fromEvent, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { ThemeService } from "../../../../shared/services/theme.service";
 import { WorkspaceFacade } from "../../../services/workspace.facade";
 import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
+import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
 
 class EditorModelState {
@@ -27,6 +29,8 @@ class EditorModelState {
 export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit {
 	@Output() onEditorInit = new EventEmitter<void>();
 
+	//showDiff$ = new BehaviorSubject(false);
+
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByFileId = new Map<string, EditorModelState>();
 	private selectedFilePath: string;
@@ -34,6 +38,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	constructor(
 		private store: Store,
 		private workspace: WorkspaceFacade,
+		private dialog: MatDialog,
 		private theme: ThemeService
 	) {
 		super();
@@ -51,7 +56,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		this.initEditor();
 	}
 
-	initEditor(): void {
+	private initEditor(): void {
 		this.subs.sink = fromEvent(window, "resize").subscribe(() => {
 			this.resize();
 		});
@@ -59,16 +64,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		this._disposeAllModels(); // Remove automatically created initial model
 
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
-		// this.editor.addAction({
-		// 	id: "RUN_CODE",
-		// 	label: "Run Code",
-		// 	contextMenuOrder: 1,
-		// 	contextMenuGroupId: "Custom",
-		// 	keybindings: [monaco.KeyCode.F5],
-		// 	run: (editor, ...args) => {
-		// 		console.log("RUN_CODE", args);
-		// 	}
-		// });
+
+		this.registerCustomActions();
 
 		// connectAnonymously(
 		// 	"http://localhost:8000/api/realtime/convergence/default",
@@ -93,6 +90,75 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		// 	});
 
 		this.onEditorInit.emit();
+	}
+
+	/**
+	 * Adds custom actions to the editor that can be accessed through the editor's command palette.
+	 */
+	private registerCustomActions(): void {
+		this.editor.addAction({
+			id: "VIEW_DIFFERENCE",
+			label: "View Difference",
+			contextMenuOrder: 1,
+			contextMenuGroupId: "Custom",
+			run: () => {
+				const modified = this.getCurrentModel();
+				const original = monaco.editor.createModel(
+					modified.getValue(),
+					this.getLanguageOfFile(this.selectedFilePath)
+				);
+
+				this.openDiffEditorDialog({
+					model: { original, modified },
+					filename: this.selectedFilePath,
+					previousVersionName: new Date().toLocaleString("de")
+				});
+			}
+		});
+
+		this.editor.addAction({
+			id: "SET_DIAGNOSTICS",
+			label: "Set Diagnostics",
+			contextMenuOrder: 2,
+			contextMenuGroupId: "Custom",
+			run: () => {
+				this.setDiagnostics(this.getCurrentModel(), [
+					{
+						message: "Custom message",
+						startLineNumber: 1,
+						startColumn: 0,
+						endLineNumber: 2,
+						endColumn: 5,
+						severity: monaco.MarkerSeverity.Warning
+					}
+				]);
+			}
+		});
+	}
+
+	/**
+	 * Looks up the file extension of the given path and returns the corresponding language.
+	 * - `.py` -> `python`
+	 * - `.ts` -> `typescript`
+	 */
+	private getLanguageOfFile(path: string) {
+		const split = path.split(".");
+		return this.getLanguageId(split[split.length - 1]);
+	}
+
+	/** Returns the model that is currently opened. */
+	private getCurrentModel(): monaco.editor.ITextModel {
+		return this.editorModelByFileId.get(this.selectedFilePath).textModel;
+	}
+
+	private setDiagnostics(model: monaco.editor.ITextModel, markers: monaco.editor.IMarkerData[]) {
+		monaco.editor.setModelMarkers(model, "???", markers);
+	}
+
+	private openDiffEditorDialog(data: DiffEditorDialogData): void {
+		this.dialog.open<DiffEditorDialog, DiffEditorDialogData, undefined>(DiffEditorDialog, {
+			data
+		});
 	}
 
 	private subscribeToFileRemoved(): Subscription {
@@ -215,5 +281,16 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	private _disposeAllModels() {
 		monaco?.editor?.getModels().forEach(model => model.dispose());
 		this.editorModelByFileId.clear();
+	}
+
+	private getLanguageId(extension: string): string {
+		switch (extension) {
+			case "ts":
+				return "typescript";
+			case "py":
+				return "python";
+			default:
+				return extension;
+		}
 	}
 }

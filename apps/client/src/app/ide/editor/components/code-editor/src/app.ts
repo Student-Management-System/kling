@@ -55,7 +55,7 @@ export async function main(language: LanguageId): Promise<monaco.editor.IStandal
 		{
 			id: "typescript",
 			extensions: [".ts"],
-			aliases: ["typescript"]
+			aliases: ["typescript", "ts"]
 		}
 	];
 	const grammars: { [scopeName: string]: DemoScopeNameInfo } = {

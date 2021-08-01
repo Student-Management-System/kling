@@ -10,7 +10,7 @@ import { FileExplorerDialogs } from "../../file-explorer/services/file-explorer-
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExplorerComponent implements OnInit {
-	rootDirectory$ = this.store.select(DirectorySelectors.selectDirectoryByPath("root"));
+	rootDirectory$ = this.store.select(DirectorySelectors.selectDirectoryByPath(""));
 	workspace$ = this.store.select(WorkspaceSelectors.selectWorkspaceState);
 
 	constructor(public workspaceDialogs: FileExplorerDialogs, private store: Store) {}

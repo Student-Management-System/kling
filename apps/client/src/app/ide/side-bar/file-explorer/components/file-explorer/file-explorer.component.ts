@@ -11,9 +11,9 @@ import { FileExplorerDialogs } from "../../services/file-explorer-dialogs.facade
 })
 export class FileExplorerComponent implements OnInit {
 	/** Top-level directories of this project. */
-	directories$ = this.store.select(DirectorySelectors.selectSubdirectories("root"));
+	directories$ = this.store.select(DirectorySelectors.selectSubdirectories(""));
 	/** Top-level files of this project. */
-	files$ = this.store.select(FileSelectors.selectFilesOfDirectory("root"));
+	files$ = this.store.select(FileSelectors.selectFilesOfDirectory(""));
 	/** The file that is currently selected by the user (displayed in the editor). */
 	selectedFile$ = this.store.select(FileSelectors.selectCurrentFile);
 

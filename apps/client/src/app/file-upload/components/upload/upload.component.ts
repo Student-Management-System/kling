@@ -37,7 +37,7 @@ export class UploadComponent implements OnInit {
 			const item = items[i];
 			if (item.kind === "file") {
 				const entry = item.webkitGetAsEntry() as FileEntry;
-				await this.convertEntryToDirectoryOrFile(entry, "root");
+				await this.convertEntryToDirectoryOrFile(entry, "");
 			}
 		}
 	}

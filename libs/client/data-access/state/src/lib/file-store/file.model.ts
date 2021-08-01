@@ -13,7 +13,7 @@ export function createFile(
 	content = ""
 ): File {
 	return {
-		path: directoryPath + "/" + name,
+		path: directoryPath?.length > 0 ? directoryPath + "/" + name : name,
 		name,
 		language,
 		directoryPath,

@@ -215,25 +215,20 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 
 		if (!lang || lang === "typescript") {
 			const directories = [
-				createDirectory("root"),
-				createDirectory("robots", "root"),
-				createDirectory("animals", "root"),
-				createDirectory("birds", "root/animals")
+				createDirectory(""),
+				createDirectory("robots", ""),
+				createDirectory("animals", ""),
+				createDirectory("birds", "animals")
 			];
 
 			const files = [
-				createFile("running-sum.ts", "typescript", "root", exampleRunningSum),
-				createFile("person.ts", "typescript", "root", example),
-				createFile(
-					"abstract-animal.ts",
-					"typescript",
-					"root/animals",
-					"// abstract-animal.ts"
-				),
-				createFile("dog.ts", "typescript", "root/animals", "// dog.ts"),
-				createFile("cat.ts", "typescript", "root/animals", "// cat.ts"),
-				createFile("robot.ts", "typescript", "root/robots", "// robot.ts"),
-				createFile("bird.ts", "typescript", "root/animals/birds", "// bird.ts")
+				createFile("running-sum.ts", "typescript", "", exampleRunningSum),
+				createFile("person.ts", "typescript", "", example),
+				createFile("abstract-animal.ts", "typescript", "animals", "// abstract-animal.ts"),
+				createFile("dog.ts", "typescript", "animals", "// dog.ts"),
+				createFile("cat.ts", "typescript", "animals", "// cat.ts"),
+				createFile("robot.ts", "typescript", "robots", "// robot.ts"),
+				createFile("bird.ts", "typescript", "animals/birds", "// bird.ts")
 			];
 
 			const project = {
@@ -250,12 +245,12 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 
 		if (lang == "java") {
 			const files = [
-				createFile("Main.java", "java", "root", javaExample),
-				createFile("Solution.java", "java", "root", javaCountToNumber)
+				createFile("Main.java", "java", "", javaExample),
+				createFile("Solution.java", "java", "", javaCountToNumber)
 			];
 
 			const project = {
-				directories: [createDirectory("root")],
+				directories: [createDirectory("")],
 				files: files,
 				projectName: "Example project",
 				language: "java",

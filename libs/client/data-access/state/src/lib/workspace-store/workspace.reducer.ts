@@ -9,14 +9,18 @@ export interface State {
 	theme: string;
 }
 
-export const initialState: State = {
-	projectName: null,
-	language: "typescript",
-	theme: localStorage.getItem("theme") === "default-theme" ? "light" : "dark"
-};
+function createInitialState(): State {
+	const stored = JSON.parse(localStorage.getItem("workspaceSettings"));
+
+	return {
+		projectName: "Unnamed Project",
+		language: stored?.language ?? "java",
+		theme: localStorage.getItem("theme") === "default-theme" ? "light" : "dark"
+	};
+}
 
 export const reducer = createReducer(
-	initialState,
+	createInitialState(),
 	on(WorkspaceActions.initEmptyProject, state => state),
 	on(WorkspaceActions.loadProject, (state, action) => ({
 		...state,

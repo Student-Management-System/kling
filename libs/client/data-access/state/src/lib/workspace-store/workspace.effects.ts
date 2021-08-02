@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { switchMap, tap } from "rxjs/operators";
+import { Store } from "@ngrx/store";
+import { switchMap, tap, withLatestFrom } from "rxjs/operators";
+import { WorkspaceSelectors } from ".";
 import { WorkspaceFacade } from "../../../../../../../apps/client/src/app/ide/services/workspace.facade";
 import { DirectoryActions } from "../directory-store";
 import { FileActions } from "../file-store";
@@ -36,5 +38,28 @@ export class WorkspaceEffects {
 		);
 	});
 
-	constructor(private actions$: Actions, private workspace: WorkspaceFacade) {}
+	onSettingsChanged$ = createEffect(
+		() => {
+			return this.actions$.pipe(
+				ofType(WorkspaceActions.setLanguage, WorkspaceActions.setTheme),
+				withLatestFrom(this.store.select(WorkspaceSelectors.selectWorkspaceState)),
+				tap(([_, state]) => {
+					localStorage.setItem(
+						"workspaceSettings",
+						JSON.stringify({
+							theme: state.theme,
+							language: state.language
+						})
+					);
+				})
+			);
+		},
+		{ dispatch: false }
+	);
+
+	constructor(
+		private actions$: Actions,
+		private workspace: WorkspaceFacade,
+		private store: Store
+	) {}
 }

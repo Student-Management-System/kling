@@ -14,7 +14,7 @@ export class TitlebarService {
 		router.events
 			.pipe(filter(event => event instanceof NavigationEnd))
 			.subscribe((event: NavigationEnd) => {
-				if (event.url.match(/problems\/.*/)) {
+				if (event.url.match(/problems/) || event.url.match("/playground")) {
 					this.hide();
 				} else {
 					this.show();

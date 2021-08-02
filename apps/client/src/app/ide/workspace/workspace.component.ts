@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
 	createDirectory,
 	createFile,
@@ -185,6 +185,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		private websocket: WebSocketService,
 		private http: HttpClient,
 		private route: ActivatedRoute,
+		private router: Router,
 		private readonly store: Store
 	) {
 		super();
@@ -201,10 +202,36 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	handleEditorInit(): void {
-		this.createDemoFiles();
+		if (this.router.url.match(/\/playground/)) {
+			console.log("Playground-Mode");
+			this.createPlaygroundFiles();
+		} else if (this.route.snapshot.params.problemId === "test-problem") {
+			console.log("Demo-Mode");
+			this.createDemoFiles();
+		}
 	}
 
-	private createDemoFiles() {
+	private createPlaygroundFiles(): void {
+		this.store
+			.select(WorkspaceSelectors.selectWorkspaceState)
+			.pipe(take(1))
+			.subscribe(state => {
+				const initialFile = createFile("main.ts", state.language, "", "// main.ts");
+
+				const project = {
+					files: [initialFile],
+					directories: [],
+					projectName: "Playground",
+					language: state.language ?? "java",
+					theme: state.theme
+				};
+
+				this.store.dispatch(WorkspaceActions.loadProject(project));
+				this.store.dispatch(FileActions.setSelectedFile({ fileId: initialFile.path }));
+			});
+	}
+
+	private createDemoFiles(): void {
 		const lang = this.route.snapshot.queryParams.lang;
 		let data = this.route.snapshot.queryParams.data;
 
@@ -272,29 +299,16 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	run(): void {
-		// this.store
-		// 	.select(FileSelectors.selectAllFiles)
-		// 	.pipe(take(1))
-		// 	.subscribe(files => {
-		// 		const encoded = btoa(JSON.stringify(files));
-		// 		console.log(encoded);
-
-		// 		const decoded = JSON.parse(atob(encoded));
-		// 		console.log(decoded);
-		// 	});
-
 		this.store
 			.select(FileSelectors.selectAllFiles)
 			.pipe(take(1))
 			.subscribe(files => {
-				const submission = this.createSubmission(files);
-
 				this.terminal.clear();
 
 				this.http
 					.post("https://emkc.org/api/v1/piston/execute", {
-						language: "java",
-						source: submission.solution.files[0].content
+						language: files[0].language,
+						source: this.codeEditor.getFileContent(files[0].path)
 					})
 					.subscribe({
 						next: (result: PistonResponse) => {

@@ -5,7 +5,11 @@ import { PageNotFoundComponent } from "./shared/components/page-not-found/page-n
 const routes: Routes = [
 	{ path: "404", component: PageNotFoundComponent, pathMatch: "full" },
 	{ path: "", redirectTo: "/home", pathMatch: "full" },
-	{ path: "problems/:id", loadChildren: () => import("./ide/ide.module").then(m => m.IdeModule) },
+	{ path: "playground", loadChildren: () => import("./ide/ide.module").then(m => m.IdeModule) },
+	{
+		path: "problems/:problemId",
+		loadChildren: () => import("./ide/ide.module").then(m => m.IdeModule)
+	},
 	{
 		path: "problem-editor",
 		loadChildren: () =>
@@ -19,7 +23,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes, { paramsInheritanceStrategy: "always", relativeLinkResolution: 'legacy' })],
+	imports: [
+		RouterModule.forRoot(routes, {
+			paramsInheritanceStrategy: "always",
+			relativeLinkResolution: "legacy"
+		})
+	],
 	exports: [RouterModule]
 })
 export class AppRoutingModule {}

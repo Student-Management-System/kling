@@ -7,9 +7,10 @@ import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 //import { EditorComponent } from "ngx-monaco-editor";
 import { BehaviorSubject, fromEvent, Subscription } from "rxjs";
-import { tap } from "rxjs/operators";
+import { take, tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { ThemeService } from "../../../../shared/services/theme.service";
+import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
 import { WorkspaceFacade } from "../../../services/workspace.facade";
 import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
@@ -29,17 +30,16 @@ class EditorModelState {
 export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit {
 	@Output() onEditorInit = new EventEmitter<void>();
 
-	//showDiff$ = new BehaviorSubject(false);
-
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByFileId = new Map<string, EditorModelState>();
 	private selectedFilePath: string;
 
 	constructor(
-		private store: Store,
-		private workspace: WorkspaceFacade,
-		private dialog: MatDialog,
-		private theme: ThemeService
+		private readonly store: Store,
+		private readonly workspace: WorkspaceFacade,
+		private readonly dialog: MatDialog,
+		private readonly codeExecution: CodeExecutionService,
+		private readonly theme: ThemeService
 	) {
 		super();
 	}
@@ -97,9 +97,57 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 */
 	private registerCustomActions(): void {
 		this.editor.addAction({
+			id: "RUN_CODE",
+			label: "Run Code",
+			contextMenuOrder: 1,
+			contextMenuGroupId: "Custom",
+			run: () => {
+				const language = this.getLanguageOfFile(this.selectedFilePath);
+				const version = this.getLanguageVersion(language);
+
+				console.log(
+					`Running ${language} (${version}) code with "${this.selectedFilePath}" as entry point.`
+				);
+
+				this.store
+					.select(FileSelectors.selectAllFiles)
+					.pipe(take(1))
+					.subscribe(files => {
+						const request: ExecuteRequest = {
+							language,
+							version,
+							files: files.map(file => ({
+								name: file.path,
+								content: this.getFileContent(file.path)
+							}))
+						};
+
+						this.codeExecution.execute(request).subscribe({
+							next: result => {
+								console.log(result);
+							},
+							error: error => {
+								console.log(error);
+							}
+						});
+					});
+			}
+		});
+
+		this.editor.addAction({
+			id: "GET_RUNTIMES",
+			label: "Get Runtimes",
+			contextMenuOrder: 5,
+			contextMenuGroupId: "Custom",
+			run: () => {
+				this.codeExecution.getRuntimes().subscribe(console.log);
+			}
+		});
+
+		this.editor.addAction({
 			id: "VIEW_DIFFERENCE",
 			label: "View Difference",
-			contextMenuOrder: 1,
+			contextMenuOrder: 2,
 			contextMenuGroupId: "Custom",
 			run: () => {
 				const modified = this.getCurrentModel();
@@ -119,7 +167,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		this.editor.addAction({
 			id: "SET_DIAGNOSTICS",
 			label: "Set Diagnostics",
-			contextMenuOrder: 2,
+			contextMenuOrder: 3,
 			contextMenuGroupId: "Custom",
 			run: () => {
 				this.setDiagnostics(this.getCurrentModel(), [
@@ -291,6 +339,19 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 				return "python";
 			default:
 				return extension;
+		}
+	}
+
+	private getLanguageVersion(language: string): string {
+		switch (language) {
+			case "java":
+				return "15.0.2";
+			case "python":
+				return "3.9.4";
+			case "typescript":
+				return "4.2.3";
+			default:
+				throw new Error("Unknown language");
 		}
 	}
 }

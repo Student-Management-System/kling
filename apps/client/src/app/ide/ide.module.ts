@@ -1,10 +1,13 @@
+import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { AngularSplitModule } from "angular-split";
+import { environment } from "../../environments/environment";
 import { SharedModule } from "../shared/shared.module";
 import { ActivityBarModule } from "./activity-bar/activity-bar.module";
 import { EditorModule } from "./editor/editor.module";
 import { FeaturePanelModule } from "./feature-panel/feature-panel.module";
 import { IdeRoutingModule } from "./ide-routing.module";
+import { CodeExecutionService, PISTON_API_URL } from "./services/code-execution.service";
 import { WorkspaceSettingsService } from "./services/workspace-settings.service";
 import { SideBarModule } from "./side-bar/side-bar.module";
 import { WorkspaceComponent } from "./workspace/workspace.component";
@@ -13,6 +16,7 @@ import { WorkspaceComponent } from "./workspace/workspace.component";
 	declarations: [WorkspaceComponent],
 	imports: [
 		SharedModule,
+		HttpClientModule,
 		IdeRoutingModule,
 		ActivityBarModule,
 		SideBarModule,
@@ -20,7 +24,16 @@ import { WorkspaceComponent } from "./workspace/workspace.component";
 		FeaturePanelModule,
 		AngularSplitModule
 	],
-	providers: [WorkspaceSettingsService],
+	providers: [
+		WorkspaceSettingsService,
+		CodeExecutionService,
+		{
+			provide: PISTON_API_URL,
+			useValue:
+				window["__env"]["PISTON_CODE_EXECUTION_BASE_PATH"] ??
+				environment.PISTON_CODE_EXECUTION_BASE_PATH
+		}
+	],
 	exports: []
 })
 export class IdeModule {}

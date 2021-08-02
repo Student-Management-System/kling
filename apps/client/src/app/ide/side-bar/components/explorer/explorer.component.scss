@@ -10,3 +10,10 @@
 	flex-direction: column;
 	justify-content: space-between;
 }
+
+.add-file-btn,
+.add-directory-btn {
+	div {
+		margin-top: -8px;
+	}
+}

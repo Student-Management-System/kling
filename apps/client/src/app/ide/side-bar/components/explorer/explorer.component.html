@@ -19,20 +19,34 @@
 
 			<ng-container sectionActions *ngIf="rootDirectory$ | async as rootDir">
 				<button
-					class="add-file-btn"
+					class="mr-2 add-file-btn"
 					mat-icon-button
 					disableRipple
+					matTooltip="New File"
 					(click)="workspaceDialogs.openCreateFileDialog(rootDir)"
 				>
-					<app-icon name="note_add" class="icon-light"></app-icon>
+					<div>
+						<app-icon
+							name="note_add"
+							size="18"
+							class="mt-[-16px] icon-light"
+						></app-icon>
+					</div>
 				</button>
 				<button
 					class="add-directory-btn"
 					mat-icon-button
 					disableRipple
+					matTooltip="New Folder"
 					(click)="workspaceDialogs.openCreateDirectoryDialog(rootDir)"
 				>
-					<app-icon name="create_new_folder" class="icon-light"></app-icon>
+					<div>
+						<app-icon
+							name="create_new_folder"
+							size="18"
+							class="mt-[-4px] icon-light"
+						></app-icon>
+					</div>
 				</button>
 			</ng-container>
 

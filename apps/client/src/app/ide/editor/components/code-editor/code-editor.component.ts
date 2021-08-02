@@ -33,6 +33,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByFileId = new Map<string, EditorModelState>();
 	private selectedFilePath: string;
+	private showRulers = true;
 
 	constructor(
 		private readonly store: Store,
@@ -180,6 +181,19 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 						severity: monaco.MarkerSeverity.Warning
 					}
 				]);
+			}
+		});
+
+		this.editor.addAction({
+			id: "TOGGLE_RULER",
+			label: "Toggle Ruler (80 characters)",
+			contextMenuOrder: 6,
+			contextMenuGroupId: "Custom",
+			run: editor => {
+				this.showRulers = !this.showRulers;
+				editor.updateOptions({
+					rulers: this.showRulers ? [80] : []
+				});
 			}
 		});
 	}

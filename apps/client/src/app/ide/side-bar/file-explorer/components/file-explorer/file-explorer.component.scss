@@ -3,5 +3,6 @@
 	flex-direction: column;
 	height: 100%;
 	overflow: hidden;
+	min-width: 200px;
 	background-color: var(--file-explorer-bg);
 }

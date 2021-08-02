@@ -8,8 +8,8 @@
 	>
 		<app-icon name="expand_more" size="18" class="ml-[-3px]" *ngIf="isExpanded"></app-icon>
 		<app-icon name="chevron_right" size="18" class="ml-[-3px]" *ngIf="!isExpanded"></app-icon>
-		<app-icon name="folder" size="18" class="px-1 text-gray-300 fill-current"></app-icon>
-		<span>{{ directory.name }}</span>
+		<app-icon name="folder" size="18" class="pl-1 pr-2 folder-icon"></app-icon>
+		<span class="directory-name">{{ directory.name }}</span>
 	</button>
 
 	<context-menu #directoryContextMenu>

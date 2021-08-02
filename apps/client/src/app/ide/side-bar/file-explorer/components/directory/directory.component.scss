@@ -7,29 +7,20 @@
 	button {
 		height: 24px;
 		padding-left: 0px !important;
-		line-height: 24px;
+		line-height: 20px;
 		width: 100%;
 		font-size: 14px;
 		font-weight: 300;
 		text-align: start;
-
-		.expand-icon {
-			font-size: 18px;
-			margin-top: 4px;
-			margin-left: -4px;
-			margin-right: 0px;
-		}
-
-		.folder-icon {
-			color: #90a4ae;
-			font-size: 18px;
-			padding-top: 2px;
-		}
 	}
 
 	button:hover {
 		color: var(--text);
 	}
+}
+
+.folder-icon {
+	fill: #94a3ad !important;
 }
 
 .contains-selected-file {

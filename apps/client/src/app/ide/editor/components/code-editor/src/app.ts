@@ -23,6 +23,8 @@ interface DemoScopeNameInfo extends ScopeNameInfo {
 	path: string;
 }
 
+let wasmLoaded = false;
+
 export async function main(language: LanguageId): Promise<monaco.editor.IStandaloneCodeEditor> {
 	// In this demo, the following values are hardcoded to support Python using
 	// the VS Code Dark+ theme. Currently, end users are responsible for
@@ -92,7 +94,12 @@ export async function main(language: LanguageId): Promise<monaco.editor.IStandal
 	};
 
 	const data: ArrayBuffer | Response = await loadVSCodeOnigurumWASM();
-	loadWASM(data);
+
+	if (!wasmLoaded) {
+		await loadWASM(data);
+		wasmLoaded = true;
+	}
+
 	const onigLib = Promise.resolve({
 		createOnigScanner,
 		createOnigString
@@ -146,7 +153,8 @@ export async function main(language: LanguageId): Promise<monaco.editor.IStandal
 		theme: "vs-dark",
 		minimap: {
 			enabled: false
-		}
+		},
+		rulers: [80]
 	});
 	provider.injectCSS();
 

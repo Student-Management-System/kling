@@ -6,10 +6,10 @@
 		(click)="toggleIsExpanded()"
 		(middleclick)="toggleIsExpanded()"
 	>
-		<app-icon name="expand_more" class="expand-icon" *ngIf="isExpanded"></app-icon>
-		<app-icon name="chevron_right" class="expand-icon" *ngIf="!isExpanded"></app-icon>
-		<app-icon name="folder" class="folder-icon"></app-icon>
-		<span class="directory-name">{{ directory.name }}</span>
+		<app-icon name="expand_more" size="18" class="ml-[-3px]" *ngIf="isExpanded"></app-icon>
+		<app-icon name="chevron_right" size="18" class="ml-[-3px]" *ngIf="!isExpanded"></app-icon>
+		<app-icon name="folder" size="18" class="px-1 text-gray-300 fill-current"></app-icon>
+		<span>{{ directory.name }}</span>
 	</button>
 
 	<context-menu #directoryContextMenu>

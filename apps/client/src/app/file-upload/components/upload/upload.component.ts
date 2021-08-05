@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { DirectoryActions, FileActions } from "../../../root-store";
-import { createDirectory } from "../../../root-store/directory-store/directory.model";
-import { createFile, File } from "../../../root-store/file-store/file.model";
 import { UploadService } from "../../services/upload.service";
+import {
+	createDirectory,
+	createFile,
+	DirectoryActions,
+	FileActions
+} from "@kling/client/data-access/state";
 
 interface FileEntry {
 	filesystem: any;

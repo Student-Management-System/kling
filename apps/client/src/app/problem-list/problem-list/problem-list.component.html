@@ -13,13 +13,13 @@
 				<input
 					matInput
 					[(ngModel)]="filter.title"
-					(keyup)="titleFilterChangedSubject.next()"
+					(keyup)="titleFilterChangedSubject.next(null)"
 				/>
 			</mat-form-field>
 
 			<mat-form-field>
 				<mat-label>Status</mat-label>
-				<mat-select [(ngModel)]="filter.status" (ngModelChange)="filterSubject.next()">
+				<mat-select [(ngModel)]="filter.status" (ngModelChange)="filterSubject.next(null)">
 					<mat-option [value]="undefined">-</mat-option>
 					<mat-option [value]="statusEnum.UNSOLVED">{{
 						"Enum.Status.UNSOLVED" | translate
@@ -38,7 +38,7 @@
 				<mat-select
 					multiple
 					[(ngModel)]="filter.difficulties"
-					(ngModelChange)="filterSubject.next()"
+					(ngModelChange)="filterSubject.next(null)"
 				>
 					<mat-option [value]="difficultyEnum.EASY">{{
 						"Enum.Difficulty.EASY" | translate

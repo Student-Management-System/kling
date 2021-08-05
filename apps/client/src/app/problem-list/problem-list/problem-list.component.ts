@@ -41,7 +41,7 @@ export class ProblemListComponent extends UnsubscribeOnDestroy implements OnInit
 
 		this.subs.sink = this.titleFilterChangedSubject
 			.pipe(debounceTime(300))
-			.subscribe(() => this.filterSubject.next());
+			.subscribe(() => this.filterSubject.next(null));
 
 		this.subs.sink = this.filterSubject.pipe(skip(1)).subscribe(() => this.loadProblems());
 	}

@@ -46,15 +46,24 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	async ngOnInit(): Promise<void> {
-		this.editor = await main("typescript");
+		this.store
+			.select(WorkspaceSelectors.selectWorkspaceState)
+			.pipe(take(1))
+			.subscribe(async state => {
+				const language = state.language ?? "typescript";
+				const theme = state.theme ?? "dark";
 
-		this.subs.sink = this.subscribeToThemeChanged();
-		this.subs.sink = this.subscribeToFileSelected();
-		this.subs.sink = this.subscribeToFileAdded();
-		this.subs.sink = this.subscribeToFileRemoved();
-		this.subs.sink = this.workspace.init$.subscribe(() => this._disposeAllModels());
+				console.log({ language, theme });
+				this.editor = await main(language, theme);
 
-		this.initEditor();
+				this.subs.sink = this.subscribeToThemeChanged();
+				this.subs.sink = this.subscribeToFileSelected();
+				this.subs.sink = this.subscribeToFileAdded();
+				this.subs.sink = this.subscribeToFileRemoved();
+				this.subs.sink = this.workspace.init$.subscribe(() => this._disposeAllModels());
+
+				this.initEditor();
+			});
 	}
 
 	private initEditor(): void {

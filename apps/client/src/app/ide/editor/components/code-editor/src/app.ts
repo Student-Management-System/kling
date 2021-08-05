@@ -18,6 +18,7 @@ import { SimpleLanguageInfoProvider } from "./providers";
 import { registerLanguages } from "./register";
 import { rehydrateRegexps } from "./configuration";
 import VsCodeDarkTheme from "./vs-dark-plus-theme";
+import VsCodeLightTheme from "./vs-light-plus-theme";
 
 interface DemoScopeNameInfo extends ScopeNameInfo {
 	path: string;
@@ -25,7 +26,10 @@ interface DemoScopeNameInfo extends ScopeNameInfo {
 
 let wasmLoaded = false;
 
-export async function main(language: LanguageId): Promise<monaco.editor.IStandaloneCodeEditor> {
+export async function main(
+	language: LanguageId,
+	theme: string
+): Promise<monaco.editor.IStandaloneCodeEditor> {
 	// In this demo, the following values are hardcoded to support Python using
 	// the VS Code Dark+ theme. Currently, end users are responsible for
 	// extracting the data from the relevant VS Code extensions themselves to
@@ -110,7 +114,7 @@ export async function main(language: LanguageId): Promise<monaco.editor.IStandal
 		fetchGrammar,
 		configurations: languages.map(language => language.id),
 		fetchConfiguration,
-		theme: VsCodeDarkTheme,
+		theme: theme === "light" ? VsCodeLightTheme : VsCodeDarkTheme,
 		onigLib,
 		monaco
 	});
@@ -150,13 +154,17 @@ export async function main(language: LanguageId): Promise<monaco.editor.IStandal
 	const editor = monaco.editor.create(element, {
 		value,
 		language,
-		theme: "vs-dark",
+		theme: `vs-${theme}`,
 		minimap: {
 			enabled: false
 		},
 		rulers: [80]
 	});
-	provider.injectCSS();
+
+	// Hack: Delay CSS injection to ensure that it overwrites existing CSS
+	setTimeout(() => {
+		provider.injectCSS();
+	}, 250);
 
 	return editor;
 }

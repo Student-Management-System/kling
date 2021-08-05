@@ -219,7 +219,7 @@ body {
 }
 
 app-icon {
-	fill: white;
+	fill: var(--text);
 }
 
 *::-webkit-scrollbar {
@@ -373,6 +373,11 @@ mat-paginator {
 
 .text-light {
 	color: var(--text-light);
+}
+
+.text-white {
+	color: white;
+	fill: white;
 }
 
 .text-red {

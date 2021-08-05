@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import io from "socket.io-client";
 import { Observable } from "rxjs";
+import { io, Socket } from "socket.io-client";
 
 @Injectable({ providedIn: "root" })
 export class WebSocketService {
-	socket: SocketIOClient.Socket;
+	socket: Socket;
 	protected readonly url = "http://localhost:3100";
 
 	connect(namespace?: string): void {

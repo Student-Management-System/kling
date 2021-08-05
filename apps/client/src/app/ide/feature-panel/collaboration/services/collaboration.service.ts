@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import io from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import {
 	ChatMessage as ChatMessageDto,
 	LeaveMessage,
@@ -19,7 +19,7 @@ export class ChatMessage {
 
 @Injectable()
 export class CollaborationService {
-	private socket: SocketIOClient.Socket;
+	private socket: Socket;
 	private collaboratorsSubject = new BehaviorSubject<string[]>([]);
 	private chatMessagesSubject = new BehaviorSubject<ChatMessage[]>([]);
 

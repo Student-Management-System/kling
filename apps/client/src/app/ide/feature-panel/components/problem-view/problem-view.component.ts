@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 })
 export class ProblemViewComponent implements OnInit {
 	title = "Find the maximum subarray";
-	pdfSrc = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
 	mdSrc = "";
 	"http://localhost:3000/postings/winf-1920/file";
 	mdContent: string;

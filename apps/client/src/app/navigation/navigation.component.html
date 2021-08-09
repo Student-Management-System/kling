@@ -107,6 +107,7 @@
 				<div id="sidenav-footer">
 					<mat-divider></mat-divider>
 					<a
+						*ngIf="isDevelopment"
 						mat-list-item
 						[routerLink]="['/login']"
 						routerLinkActive="router-link-active"

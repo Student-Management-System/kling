@@ -13,6 +13,7 @@ import { MatSidenav } from "@angular/material/sidenav";
 import { NavigationEnd, Router } from "@angular/router";
 import { combineLatest, Observable } from "rxjs";
 import { filter, map, shareReplay, withLatestFrom } from "rxjs/operators";
+import { environment } from "../../environments/environment";
 import { SidenavService } from "../shared/services/sidenav.service";
 import { SnackbarService } from "../shared/services/snackbar.service";
 import { ThemeService } from "../shared/services/theme.service";
@@ -38,6 +39,8 @@ export class NavigationComponent implements OnInit {
 	);
 
 	showTitlebar: boolean;
+
+	isDevelopment = !environment.production;
 
 	constructor(
 		private breakpointObserver: BreakpointObserver,

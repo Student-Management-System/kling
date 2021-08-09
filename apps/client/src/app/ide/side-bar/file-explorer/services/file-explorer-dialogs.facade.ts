@@ -33,9 +33,14 @@ export class FileExplorerDialogs {
 		this.dialog
 			.open<CreateFileDialog, any, Partial<File>>(CreateFileDialog)
 			.afterClosed()
-			.subscribe(({ name, language }) => {
-				if (name) {
-					const file = createFile(name, language, fromDirectory.path, `// ${name}`);
+			.subscribe(partialFile => {
+				if (partialFile?.name?.length > 0) {
+					const file = createFile(
+						partialFile.name,
+						partialFile.language,
+						fromDirectory.path,
+						`// ${name}`
+					);
 					this.store.dispatch(FileActions.addFile({ file }));
 					this.store.dispatch(FileActions.setSelectedFile({ fileId: file.path }));
 				}

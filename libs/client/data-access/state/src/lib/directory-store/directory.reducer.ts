@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { createReducer, on } from "@ngrx/store";
 import * as DirectoryActions from "./directory.actions";
-import { Directory } from "./directory.model";
+import { createDirectory, Directory } from "./directory.model";
 
 export const directoriesFeatureKey = "directories";
 
@@ -41,7 +41,10 @@ export const reducer = createReducer(
 	on(DirectoryActions.loadDirectories, (state, action) =>
 		adapter.setAll(action.directories, state)
 	),
-	on(DirectoryActions.clearDirectories, (state): State => adapter.removeAll(state))
+	on(DirectoryActions.clearDirectories, (state): State => {
+		const emptyState = adapter.removeAll(state);
+		return adapter.addOne(createDirectory(""), emptyState); // Add root directory
+	})
 );
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors();

@@ -138,18 +138,18 @@ export async function main(
 	self.MonacoEnvironment = {
 		getWorkerUrl: function (moduleId: any, label: any) {
 			if (label === "json") {
-				return "./workers/json.worker.bundle.js";
+				return `${baseHref}/workers/json.worker.bundle.js`;
 			}
 			if (label === "css" || label === "scss" || label === "less") {
-				return "./workers/css.worker.bundle.js";
+				return `${baseHref}/workers/css.worker.bundle.js`;
 			}
 			if (label === "html" || label === "handlebars" || label === "razor") {
-				return "./workers/html.worker.bundle.js";
+				return `${baseHref}/workers/html.worker.bundle.js`;
 			}
 			if (label === "typescript" || label === "javascript") {
-				return "./workers/ts.worker.bundle.js";
+				return `${baseHref}/workers/ts.worker.bundle.js`;
 			}
-			return "./workers/editor.worker.bundle.js";
+			return `${baseHref}/workers/editor.worker.bundle.js`;
 		}
 	};
 

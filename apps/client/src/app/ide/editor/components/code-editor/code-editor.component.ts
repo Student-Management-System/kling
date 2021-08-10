@@ -150,7 +150,14 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			contextMenuOrder: 5,
 			contextMenuGroupId: "Custom",
 			run: () => {
-				this.codeExecution.getRuntimes().subscribe(console.log);
+				this.codeExecution.getRuntimes().subscribe({
+					next: result => {
+						console.log(result);
+					},
+					error: error => {
+						console.log(error);
+					}
+				});
 			}
 		});
 

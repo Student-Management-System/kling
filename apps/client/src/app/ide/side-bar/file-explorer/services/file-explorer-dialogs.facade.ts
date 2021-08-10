@@ -39,7 +39,7 @@ export class FileExplorerDialogs {
 						partialFile.name,
 						partialFile.language,
 						fromDirectory.path,
-						`// ${name}`
+						`// ${partialFile.name}`
 					);
 					this.store.dispatch(FileActions.addFile({ file }));
 					this.store.dispatch(FileActions.setSelectedFile({ fileId: file.path }));

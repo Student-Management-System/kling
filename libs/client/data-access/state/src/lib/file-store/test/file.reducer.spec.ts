@@ -103,7 +103,7 @@ describe("File Reducer", () => {
 
 	describe("deleteFile", () => {
 		it("Deletes the file with given id", () => {
-			const action = FileActions.deleteFile({ fileId: file.path });
+			const action = FileActions.deleteFile({ path: file.path });
 			const result = reducer(state, action);
 			expect(result.entities[file.path]).toBeFalsy();
 			expect(result.ids).toEqual([]);
@@ -121,9 +121,9 @@ describe("File Reducer", () => {
 
 	describe("setSelectedFile", () => {
 		it("Sets the selected file", () => {
-			const action = FileActions.setSelectedFile({ fileId: file.path });
+			const action = FileActions.setSelectedFile({ path: file.path });
 			const result = reducer(state, action);
-			expect(result.selectedFileId).toEqual(file.path);
+			expect(result.selectedPath).toEqual(file.path);
 		});
 	});
 

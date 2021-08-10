@@ -18,16 +18,13 @@ export const upsertFile = createAction("[File] Upsert File", props<{ file: File 
 
 export const updateFile = createAction("[File] Update File", props<{ file: Update<File> }>());
 
-export const deleteFile = createAction("[File] Delete File", props<{ fileId: string }>());
+export const deleteFile = createAction("[File] Delete File", props<{ path: string }>());
 
 export const clearFiles = createAction("[Workspace] Clear Files");
 
-export const setSelectedFile = createAction(
-	"[File] Select File",
-	props<{ fileId: string | null }>()
-);
+export const setSelectedFile = createAction("[File] Select File", props<{ path: string | null }>());
 
 export const setSelectedFile_FileTabRemoved = createAction(
 	"[Effect selectNextTab$] Select File",
-	props<{ fileId: string | null }>()
+	props<{ path: string | null }>()
 );

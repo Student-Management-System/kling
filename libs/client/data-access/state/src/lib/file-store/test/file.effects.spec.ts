@@ -52,14 +52,14 @@ describe("FileEffects", () => {
 
 	describe("fileRemoved$", () => {
 		it("Calls emitFileRemoved of WorkspaceFacade", () => {
-			const fileId = "root/removed-file.ts";
-			const action = FileActions.deleteFile({ fileId });
+			const path = "root/removed-file.ts";
+			const action = FileActions.deleteFile({ path });
 
 			actions$ = hot("a", { a: action });
 			const expected$ = cold("a", { a: action });
 
 			expect(fileEffects.fileRemoved$).toBeObservable(expected$);
-			expect(workspace.emitFileRemoved).toHaveBeenCalledWith(fileId);
+			expect(workspace.emitFileRemoved).toHaveBeenCalledWith(path);
 		});
 	});
 });

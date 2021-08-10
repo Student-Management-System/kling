@@ -9,7 +9,7 @@ export const selectFileEntities = createSelector(selectFileState, fromFile.selec
 
 export const selectCurrentFile = createSelector(
 	selectFileState,
-	state => state.entities[state.selectedFileId]
+	state => state.entities[state.selectedFilePath]
 );
 
 export const selectFileByPath = (path: string) =>

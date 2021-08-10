@@ -28,7 +28,7 @@ export class FileComponent implements OnInit {
 	 */
 	openFile(): void {
 		if (!this.isSelected) {
-			this.store.dispatch(FileActions.setSelectedFile({ fileId: this.file.path }));
+			this.store.dispatch(FileActions.setSelectedFile({ path: this.file.path }));
 		}
 	}
 
@@ -47,7 +47,7 @@ export class FileComponent implements OnInit {
 			})
 			.subscribe(confirmed => {
 				if (confirmed) {
-					this.store.dispatch(FileActions.deleteFile({ fileId: this.file.path }));
+					this.store.dispatch(FileActions.deleteFile({ path: this.file.path }));
 				}
 			});
 	}

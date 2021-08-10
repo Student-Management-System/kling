@@ -227,7 +227,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 				};
 
 				this.store.dispatch(WorkspaceActions.loadProject(project));
-				this.store.dispatch(FileActions.setSelectedFile({ fileId: initialFile.path }));
+				this.store.dispatch(FileActions.setSelectedFile({ path: initialFile.path }));
 			});
 	}
 
@@ -267,7 +267,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 			};
 
 			this.store.dispatch(WorkspaceActions.loadProject(project));
-			this.store.dispatch(FileActions.setSelectedFile({ fileId: files[0].path }));
+			this.store.dispatch(FileActions.setSelectedFile({ path: files[0].path }));
 		}
 
 		if (lang == "java") {
@@ -285,7 +285,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 			};
 
 			this.store.dispatch(WorkspaceActions.loadProject(project));
-			this.store.dispatch(FileActions.setSelectedFile({ fileId: project.files[0].path }));
+			this.store.dispatch(FileActions.setSelectedFile({ path: project.files[0].path }));
 		}
 	}
 

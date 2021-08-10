@@ -31,7 +31,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	@Output() onEditorInit = new EventEmitter<void>();
 
 	private editor: monaco.editor.IStandaloneCodeEditor;
-	private editorModelByFileId = new Map<string, EditorModelState>();
+	private editorModelByPath = new Map<string, EditorModelState>();
 	private selectedFilePath: string;
 	private showRulers = true;
 
@@ -226,7 +226,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 	/** Returns the model that is currently opened. */
 	private getCurrentModel(): monaco.editor.ITextModel {
-		return this.editorModelByFileId.get(this.selectedFilePath).textModel;
+		return this.editorModelByPath.get(this.selectedFilePath).textModel;
 	}
 
 	private setDiagnostics(model: monaco.editor.ITextModel, markers: monaco.editor.IMarkerData[]) {
@@ -240,20 +240,20 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private subscribeToFileRemoved(): Subscription {
-		return this.workspace.fileRemoved$.subscribe(fileId => {
-			if (fileId) {
+		return this.workspace.fileRemoved$.subscribe(path => {
+			if (path) {
 				// Remove from map
-				this.editorModelByFileId.delete(fileId);
+				this.editorModelByPath.delete(path);
 
 				// Dispose model
-				const model = monaco?.editor?.getModel(this.createFileUri(fileId));
+				const model = monaco?.editor?.getModel(this.createFileUri(path));
 				model.dispose();
 			}
 		});
 	}
 
-	private createFileUri(fileId: string): monaco.Uri {
-		return monaco.Uri.parse("file:///" + fileId);
+	private createFileUri(path: string): monaco.Uri {
+		return monaco.Uri.parse("file:///" + path);
 	}
 
 	private subscribeToFileAdded(): Subscription {
@@ -284,7 +284,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 * Also restores the view state (i.e scroll position, selections), if it has been saved before.
 	 */
 	private switchToSelectedFile(file: File) {
-		const editorModelState = file ? this.editorModelByFileId.get(file.path) : null;
+		const editorModelState = file ? this.editorModelByPath.get(file.path) : null;
 		if (editorModelState) {
 			this.editor?.setModel(editorModelState.textModel);
 
@@ -298,7 +298,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 * Stores the view state (i.e scroll position, selections) of the currently opened file.
 	 */
 	private saveCurrentViewState() {
-		this.editorModelByFileId.set(this.selectedFilePath, {
+		this.editorModelByPath.set(this.selectedFilePath, {
 			textModel: this.editor.getModel(),
 			viewState: this.editor.saveViewState()
 		});
@@ -322,8 +322,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	/**
 	 * Returns the current content of a file.
 	 */
-	getFileContent(fileId: string): string {
-		return this.editorModelByFileId.get(fileId).textModel?.getValue();
+	getFileContent(path: string): string {
+		return this.editorModelByPath.get(path).textModel?.getValue();
 	}
 
 	format(): void {
@@ -340,7 +340,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			this.createFileUri(file.path)
 		);
 
-		this.editorModelByFileId.set(file.path, {
+		this.editorModelByPath.set(file.path, {
 			textModel: model,
 			viewState: null
 		});
@@ -358,7 +358,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 	private _disposeAllModels() {
 		monaco?.editor?.getModels().forEach(model => model.dispose());
-		this.editorModelByFileId.clear();
+		this.editorModelByPath.clear();
 	}
 
 	private getLanguageId(extension: string): string {

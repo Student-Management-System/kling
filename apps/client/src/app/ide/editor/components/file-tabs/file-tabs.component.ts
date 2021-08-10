@@ -22,13 +22,13 @@ export class FileTabsComponent implements OnInit {
 
 	ngOnInit(): void {}
 
-	selectTab(selectedTab: File, currentTab: File): void {
-		if (selectedTab.path !== currentTab.path) {
-			this.store.dispatch(FileActions.setSelectedFile({ fileId: selectedTab.path }));
+	selectTab(selectedTab: string, currentTab: File): void {
+		if (selectedTab !== currentTab.path) {
+			this.store.dispatch(FileActions.setSelectedFile({ path: selectedTab }));
 		}
 	}
 
-	closeTab(file: File): void {
-		this.store.dispatch(FileTabActions.removeFileTab({ filePath: file.path }));
+	closeTab(path: string): void {
+		this.store.dispatch(FileTabActions.removeFileTab({ filePath: path }));
 	}
 }

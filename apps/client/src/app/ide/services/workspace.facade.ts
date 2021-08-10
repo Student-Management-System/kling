@@ -24,7 +24,7 @@ export class WorkspaceFacade {
 		this._fileAdded$.next(file);
 	}
 
-	emitFileRemoved(fileId: string): void {
-		this._fileRemoved$.next(fileId);
+	emitFileRemoved(path: string): void {
+		this._fileRemoved$.next(path);
 	}
 }

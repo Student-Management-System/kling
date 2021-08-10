@@ -7,7 +7,7 @@ export const filesFeatureKey = "files";
 
 export interface State extends EntityState<File> {
 	// additional entity state properties
-	selectedFileId: string;
+	selectedFilePath: string;
 }
 
 export const adapter: EntityAdapter<File> = createEntityAdapter<File>({
@@ -17,7 +17,7 @@ export const adapter: EntityAdapter<File> = createEntityAdapter<File>({
 
 export const initialState: State = adapter.getInitialState({
 	// additional entity state properties
-	selectedFileId: null
+	selectedFilePath: null
 });
 
 export const reducer = createReducer(
@@ -32,16 +32,16 @@ export const reducer = createReducer(
 	on(FileActions.upsertFile, (state, action) => adapter.upsertOne(action.file, state)),
 	on(FileActions.updateFile, (state, action) => adapter.updateOne(action.file, state)),
 	on(FileActions.deleteFile, (state, action) =>
-		adapter.removeOne(action.fileId, {
+		adapter.removeOne(action.path, {
 			...state,
-			selectedFileId: action.fileId !== state.selectedFileId ? state.selectedFileId : null
+			selectedPath: action.path !== state.selectedFilePath ? state.selectedFilePath : null
 		})
 	),
 	on(FileActions.clearFiles, state => adapter.removeAll(state)),
 	on(
 		FileActions.setSelectedFile,
 		FileActions.setSelectedFile_FileTabRemoved,
-		(state, action) => ({ ...state, selectedFileId: action.fileId })
+		(state, action) => ({ ...state, selectedFilePath: action.path })
 	)
 );
 

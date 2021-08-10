@@ -4,7 +4,6 @@ import { Store } from "@ngrx/store";
 import { filter, map, withLatestFrom } from "rxjs/operators";
 import { FileTabActions, FileTabSelectors } from ".";
 import { FileActions, FileSelectors } from "../file-store";
-import { File } from "../file-store/file.model";
 
 @Injectable()
 export class FileTabEffects {
@@ -19,10 +18,10 @@ export class FileTabEffects {
 				this.store.select(FileSelectors.selectCurrentFile),
 				this.store.select(FileTabSelectors.getFileTabs)
 			),
-			filter(([action, currentFile]) => action.filePath === currentFile.path),
-			map(([action, currentFile, tabs]) =>
+			filter(([action, currentFile]) => action.filePath === currentFile?.path),
+			map(([_action, _currentFile, tabs]) =>
 				FileActions.setSelectedFile_FileTabRemoved({
-					fileId: tabs.length > 0 ? tabs[0].path : null
+					path: tabs?.[0] ?? null
 				})
 			)
 		);
@@ -35,11 +34,11 @@ export class FileTabEffects {
 	addTabForSelectedFile$ = createEffect(() => {
 		return this.actions$.pipe(
 			ofType(FileActions.setSelectedFile, FileActions.setSelectedFile_FileTabRemoved),
-			filter(action => !!action.fileId),
+			filter(action => !!action.path),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
-			filter(([action, tabs]) => !tabs.find(file => file.path === action.fileId)),
+			filter(([action, tabs]) => !tabs.find(path => path === action.path)),
 			map(([action]) =>
-				FileTabActions.addFileTab_FileSelectedEffect({ filePath: action.fileId })
+				FileTabActions.addFileTab_FileSelectedEffect({ filePath: action.path })
 			)
 		);
 	});
@@ -52,8 +51,8 @@ export class FileTabEffects {
 		return this.actions$.pipe(
 			ofType(FileActions.deleteFile),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
-			filter(([action, tabs]) => this.removedFileHasTab(tabs, action.fileId)),
-			map(([action]) => FileTabActions.removeFileTab_FileRemoved({ filePath: action.fileId }))
+			filter(([action, tabs]) => this.removedFileHasTab(tabs, action.path)),
+			map(([action]) => FileTabActions.removeFileTab_FileRemoved({ filePath: action.path }))
 		);
 	});
 
@@ -62,7 +61,7 @@ export class FileTabEffects {
 	/**
 	 * Returns `true`, if `tabs` contain a file with the specified `path`.
 	 */
-	private removedFileHasTab(tabs: File[], path: string): boolean {
-		return !!tabs.find(file => file.path === path);
+	private removedFileHasTab(tabs: string[], deletedPath: string): boolean {
+		return !!tabs.find(path => path === deletedPath);
 	}
 }

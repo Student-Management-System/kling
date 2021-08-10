@@ -3,11 +3,11 @@
 		<button
 			mat-flat-button
 			disableRipple="true"
-			[class.selected]="selectedFile.path === tab.path"
+			[class.selected]="selectedFile.path === tab"
 			(click)="selectTab(tab, selectedFile)"
 			(middleclick)="closeTab(tab)"
 		>
-			{{ tab.name }}
+			{{ tab }}
 			<button mat-mini-fab class="clear-btn mat-elevation-z0" (click)="closeTab(tab)">
 				<app-icon
 					class="absolute mt-[-11px] -ml-2 icon-light"

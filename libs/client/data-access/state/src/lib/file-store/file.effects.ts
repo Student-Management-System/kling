@@ -36,7 +36,7 @@ export class FileEffects {
 		() => {
 			return this.actions$.pipe(
 				ofType(FileActions.deleteFile),
-				tap(({ fileId }) => this.workspace.emitFileRemoved(fileId))
+				tap(({ path }) => this.workspace.emitFileRemoved(path))
 			);
 		},
 		{ dispatch: false }

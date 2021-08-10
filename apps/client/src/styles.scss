@@ -415,6 +415,29 @@ mat-form-field .mat-hint {
 	box-shadow: 0 0 12px var(--text-light) !important;
 }
 
+.ngx-contextmenu .dropdown-menu {
+	background-color: var(--activity-bar-bg);
+}
+.ngx-contextmenu li {
+	display: block;
+	text-align: left;
+
+	app-icon {
+		margin-right: 8px;
+	}
+}
+.ngx-contextmenu li:first-child {
+	border-top: none;
+}
+.ngx-contextmenu a {
+	display: block;
+	padding: 0.5em 1em;
+}
+.ngx-contextmenu a:hover {
+	color: var(--selected);
+	background-color: var;
+}
+
 .INFORMATIONAL {
 	font-weight: 500;
 	color: rgb(0, 130, 173);

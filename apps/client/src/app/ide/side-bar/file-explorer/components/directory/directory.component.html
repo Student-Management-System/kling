@@ -15,7 +15,8 @@
 	<context-menu #directoryContextMenu>
 		<ng-template contextMenuItem (execute)="workspaceDialogs.openCreateFileDialog(directory)">
 			<span class="context-menu-item"
-				><app-icon name="note_add" class="icon-light"></app-icon>Add file</span
+				><app-icon name="note_add" class="icon-light"></app-icon
+				>{{ "Action.Custom.AddFile" | translate }}</span
 			>
 		</ng-template>
 		<ng-template
@@ -23,18 +24,19 @@
 			(execute)="workspaceDialogs.openCreateDirectoryDialog(directory)"
 		>
 			<span class="context-menu-item"
-				><app-icon name="create_new_folder" class="icon-light"></app-icon>Add
-				directory</span
+				><app-icon name="create_new_folder" class="icon-light"></app-icon
+				>{{ "Action.Custom.AddDirectory" | translate }}</span
 			>
 		</ng-template>
 		<ng-template contextMenuItem (execute)="rename()">
 			<span class="context-menu-item"
-				><app-icon name="edit" class="icon-light"></app-icon>Rename</span
+				><app-icon name="edit" class="icon-light"></app-icon
+				>{{ "Action.Rename" | translate }}</span
 			>
 		</ng-template>
 		<ng-template contextMenuItem (execute)="removeDirectoryIfConfirmed()">
 			<span class="context-menu-item"
-				><mat-icon class="icon-light">delete</mat-icon
+				><app-icon class="icon-light" name="delete"></app-icon
 				>{{ "Action.Delete" | translate }}</span
 			>
 		</ng-template>

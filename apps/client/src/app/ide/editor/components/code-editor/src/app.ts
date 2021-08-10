@@ -26,6 +26,7 @@ interface DemoScopeNameInfo extends ScopeNameInfo {
 }
 
 let wasmLoaded = false;
+const baseHref = environment.production ? "/WEB-IDE" : "";
 
 export async function main(
 	language: LanguageId,
@@ -82,7 +83,7 @@ export async function main(
 
 	const fetchGrammar = async (scopeName: ScopeName): Promise<TextMateGrammar> => {
 		const { path } = grammars[scopeName];
-		const uri = `/grammars/${path}`;
+		const uri = `${baseHref}/grammars/${path}`;
 		const response = await fetch(uri);
 		const grammar = await response.text();
 		const type = path.endsWith(".json") ? "json" : "plist";
@@ -92,7 +93,7 @@ export async function main(
 	const fetchConfiguration = async (
 		language: LanguageId
 	): Promise<monaco.languages.LanguageConfiguration> => {
-		const uri = `/configurations/${language}.json`;
+		const uri = `${baseHref}/configurations/${language}.json`;
 		const response = await fetch(uri);
 		const rawConfiguration = await response.text();
 		return rehydrateRegexps(rawConfiguration);
@@ -172,7 +173,6 @@ export async function main(
 
 // Taken from https://github.com/microsoft/vscode/blob/829230a5a83768a3494ebbc61144e7cde9105c73/src/vs/workbench/services/textMate/browser/textMateService.ts#L33-L40
 async function loadVSCodeOnigurumWASM(): Promise<Response | ArrayBuffer> {
-	const baseHref = environment.production ? "/WEB-IDE" : "";
 	const response = await fetch(baseHref + "/node_modules/vscode-oniguruma/release/onig.wasm");
 	const contentType = response.headers.get("content-type");
 	if (contentType === "application/wasm") {

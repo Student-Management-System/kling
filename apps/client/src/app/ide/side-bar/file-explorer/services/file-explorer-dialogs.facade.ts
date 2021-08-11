@@ -41,6 +41,9 @@ export class FileExplorerDialogs {
 						fromDirectory?.path ?? "",
 						`// ${partialFile.name}`
 					);
+
+					console.log("Adding file:", file);
+
 					this.store.dispatch(FileActions.addFile({ file }));
 					this.store.dispatch(FileActions.setSelectedFile({ file }));
 				}

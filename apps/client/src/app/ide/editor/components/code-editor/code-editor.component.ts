@@ -7,20 +7,16 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { connectAnonymously } from "@convergence/convergence";
 import { File, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 //import { EditorComponent } from "ngx-monaco-editor";
-import { BehaviorSubject, fromEvent, Subscription } from "rxjs";
+import { fromEvent, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
-import { ThemeService } from "../../../../shared/services/theme.service";
 import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
 import { WorkspaceFacade } from "../../../services/workspace.facade";
-import { FileExplorerDialogs } from "../../../side-bar/file-explorer/services/file-explorer-dialogs.facade";
-import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
 
@@ -58,11 +54,9 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			.select(WorkspaceSelectors.selectWorkspaceState)
 			.pipe(take(1))
 			.subscribe(async state => {
-				const language = "typescript";
 				const theme = state.theme ?? "dark";
 
-				console.log({ language, theme });
-				this.editor = await main(language, theme);
+				this.editor = await main(theme);
 
 				this.subs.sink = this.subscribeToThemeChanged();
 				this.subs.sink = this.subscribeToFileSelected();
@@ -344,9 +338,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private createModel(file: File): monaco.editor.ITextModel {
-		const split = file.path.split(".");
-		const language = split[split.length - 1];
-
 		const model = monaco.editor.createModel(
 			file.content,
 			undefined,
@@ -357,6 +348,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			textModel: model,
 			viewState: null
 		});
+
 		return model;
 	}
 

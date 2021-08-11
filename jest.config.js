@@ -4,6 +4,7 @@ module.exports = {
 		"<rootDir>/apps/api-rest",
 		"<rootDir>/apps/code-runner-service",
 		"<rootDir>/libs/libs/client/data-access/state",
-		"<rootDir>/libs/client/data-access/state"
+		"<rootDir>/libs/client/data-access/state",
+		"<rootDir>/libs/shared/util/programming"
 	]
 };

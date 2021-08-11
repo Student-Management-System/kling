@@ -26,27 +26,30 @@
 		}
 	},
 	"projects": {
+		"api-rest": {
+			"tags": ["scope:api-rest"]
+		},
 		"client": {
 			"tags": ["scope:client"]
+		},
+		"client-data-access-state": {
+			"tags": ["scope:client", "type:data-access"]
 		},
 		"client-e2e": {
 			"tags": [],
 			"implicitDependencies": ["client"]
 		},
-		"shared-data-access-api-rest-ng-client": {
-			"tags": ["scope:shared", "type:data-access"]
-		},
-		"api-rest": {
-			"tags": ["scope:api-rest"]
-		},
 		"code-runner-service": {
 			"tags": ["scope:code-runner-service"]
 		},
-		"client-data-access-state": {
-			"tags": ["scope:client", "type:data-access"]
+		"shared-data-access-api-rest-ng-client": {
+			"tags": ["scope:shared", "type:data-access"]
 		},
 		"shared-data-access-student-mgmt-ng-client": {
 			"tags": ["scope:shared", "type:data-access"]
+		},
+		"shared-util-programming": {
+			"tags": ["scope:shared", "type:util"]
 		}
 	}
 }

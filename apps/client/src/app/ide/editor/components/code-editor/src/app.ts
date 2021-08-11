@@ -28,10 +28,7 @@ interface DemoScopeNameInfo extends ScopeNameInfo {
 let wasmLoaded = false;
 const baseHref = environment.production ? "/WEB-IDE" : "";
 
-export async function main(
-	language: LanguageId,
-	theme: string
-): Promise<monaco.editor.IStandaloneCodeEditor> {
+export async function main(theme: string): Promise<monaco.editor.IStandaloneCodeEditor> {
 	// In this demo, the following values are hardcoded to support Python using
 	// the VS Code Dark+ theme. Currently, end users are responsible for
 	// extracting the data from the relevant VS Code extensions themselves to
@@ -126,11 +123,9 @@ export async function main(
 		monaco
 	);
 
-	const value = getSampleCodeForLanguage(language);
-	const id = "editor";
 	const element = document.getElementById("editor");
 	if (element == null) {
-		throw Error(`could not find element #${id}`);
+		throw Error("Could not find element with id: editor");
 	}
 
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -154,8 +149,7 @@ export async function main(
 	};
 
 	const editor = monaco.editor.create(element, {
-		value,
-		language,
+		model: null, // No initial model
 		theme: `vs-${theme}`,
 		minimap: {
 			enabled: false
@@ -183,43 +177,4 @@ async function loadVSCodeOnigurumWASM(): Promise<Response | ArrayBuffer> {
 	// Otherwise, a TypeError is thrown when using the streaming compiler.
 	// We therefore use the non-streaming compiler :(.
 	return await response.arrayBuffer();
-}
-
-function getSampleCodeForLanguage(language: LanguageId): string {
-	if (language === "python") {
-		return `\
-import foo
-
-async def bar(): string:
-  f = await foo()
-  f_string = f"Hooray {f}! format strings are not supported in current Monarch grammar"
-  return foo_string
-`;
-	}
-
-	if (language === "java") {
-		return `public class HelloWorld {
-
-			public static void main(String[] args) {
-
-				System.out.println("HelloWorld!");
-
-			}
-
-	  }`;
-	}
-
-	if (language === "typescript") {
-		return `export class TypeScript {
-	
-			public main (args: string[]) {
-	
-				console.log("HelloWorld!");
-	
-			}
-	
-	  }`;
-	}
-
-	throw Error(`unsupported language: ${language}`);
 }

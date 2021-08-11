@@ -1,4 +1,11 @@
-<div class="file-explorer" *ngIf="{ selectedFile: selectedFile$ | async } as obs">
+<div
+	class="file-explorer"
+	dropzone
+	(hovered)="toggleHover($event)"
+	(drop)="onDrop($event)"
+	[class.hovering]="isHovering"
+	*ngIf="{ selectedFile: selectedFile$ | async } as obs"
+>
 	<ng-container *ngFor="let file of files$ | async">
 		<app-file [file]="file" [isSelected]="obs.selectedFile?.path === file.path"></app-file>
 	</ng-container>

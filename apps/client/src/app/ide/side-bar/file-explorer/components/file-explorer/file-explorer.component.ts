@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { DirectorySelectors, FileSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
+import { DragAndDropService } from "../../services/drag-and-drop.service";
 import { FileExplorerDialogs } from "../../services/file-explorer-dialogs.facade";
 
 @Component({
@@ -17,7 +18,22 @@ export class FileExplorerComponent implements OnInit {
 	/** The file that is currently selected by the user (displayed in the editor). */
 	selectedFile$ = this.store.select(FileSelectors.selectCurrentFile);
 
-	constructor(public workspaceDialogs: FileExplorerDialogs, private store: Store) {}
+	isHovering = false;
+
+	constructor(
+		readonly workspaceDialogs: FileExplorerDialogs,
+		readonly dragAndDrop: DragAndDropService,
+		private store: Store
+	) {}
 
 	ngOnInit(): void {}
+
+	async onDrop(event: DragEvent): Promise<void> {
+		event.stopPropagation();
+		await this.dragAndDrop.onDrop(event);
+	}
+
+	toggleHover(value: boolean): void {
+		this.isHovering = value;
+	}
 }

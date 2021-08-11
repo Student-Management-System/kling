@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { UploadService } from "../../services/upload.service";
 import {
 	createDirectory,
 	createFile,
@@ -16,28 +15,17 @@ interface FileEntry {
 	name: string;
 }
 
-@Component({
-	selector: "app-upload",
-	templateUrl: "./upload.component.html",
-	styleUrls: ["./upload.component.scss"],
-	changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class UploadComponent implements OnInit {
-	isHovering: boolean;
+@Injectable({ providedIn: "root" })
+export class DragAndDropService {
+	constructor(private store: Store) {}
 
-	constructor(private uploadService: UploadService, private store: Store) {}
-
-	ngOnInit(): void {}
-
-	toggleHover(event: boolean): void {
-		this.isHovering = event;
-	}
-
-	async onDrop(event): Promise<void> {
+	async onDrop(event: DragEvent): Promise<void> {
 		const items = event.dataTransfer.items;
+		console.log(items);
 
 		for (let i = 0; i < items.length; i++) {
 			const item = items[i];
+			console.log(item);
 			if (item.kind === "file") {
 				const entry = item.webkitGetAsEntry() as FileEntry;
 				await this.convertEntryToDirectoryOrFile(entry, "");
@@ -48,12 +36,9 @@ export class UploadComponent implements OnInit {
 	private async convertEntryToDirectoryOrFile(entry: FileEntry, parentDirectoryId: string) {
 		if (entry.isFile) {
 			const file = await this.getFileFromEntry(entry);
-			const content = await this.uploadService.readFileContent(file as any);
-			this.store.dispatch(
-				FileActions.addFile({
-					file: createFile(entry.name, parentDirectoryId, content)
-				})
-			);
+			const content = await this.readFileContent(file as any);
+			const fileModel = createFile(entry.name, "typescript", parentDirectoryId, content);
+			this.store.dispatch(FileActions.addFile({ file: fileModel }));
 		} else if (entry.isDirectory) {
 			const subdirectory = createDirectory(entry.name, parentDirectoryId);
 			this.store.dispatch(
@@ -76,19 +61,6 @@ export class UploadComponent implements OnInit {
 		});
 	}
 
-	private parseFileEntry(fileEntry: any) {
-		return new Promise((resolve, reject) => {
-			fileEntry.file(
-				file => {
-					resolve(file);
-				},
-				err => {
-					reject(err);
-				}
-			);
-		});
-	}
-
 	private parseDirectoryEntry(directoryEntry: any): Promise<FileEntry[]> {
 		const directoryReader = directoryEntry.createReader();
 		return new Promise((resolve, reject) => {
@@ -104,10 +76,23 @@ export class UploadComponent implements OnInit {
 	}
 
 	private async getFileFromEntry(fileEntry): Promise<File> {
-		try {
-			return await new Promise((resolve, reject) => fileEntry.file(resolve, reject));
-		} catch (err) {
-			console.log(err);
-		}
+		return new Promise((resolve, reject) => fileEntry.file(resolve, reject));
+	}
+
+	private readFileContent(file: File): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			if (!file) {
+				resolve("");
+			}
+
+			const reader = new FileReader();
+
+			reader.onload = e => {
+				const text = reader.result.toString();
+				resolve(text);
+			};
+
+			reader.readAsText(file);
+		});
 	}
 }

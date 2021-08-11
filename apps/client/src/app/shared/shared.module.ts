@@ -12,6 +12,7 @@ import { CategorySelectorComponent } from "./components/category-selector/catego
 import { MiddleClickDirective } from "./directives/middle-click.directive";
 import { IconComponent } from "./components/icon.component";
 import { FileIconComponent } from "./components/file-icon/file-icon.component";
+import { DropzoneDirective } from "./directives/dropzone.directive";
 
 @NgModule({
 	declarations: [
@@ -20,6 +21,7 @@ import { FileIconComponent } from "./components/file-icon/file-icon.component";
 		Paginator,
 		CategorySelectorComponent,
 		MiddleClickDirective,
+		DropzoneDirective,
 		IconComponent,
 		FileIconComponent
 	],
@@ -41,6 +43,7 @@ import { FileIconComponent } from "./components/file-icon/file-icon.component";
 		Paginator,
 		CategorySelectorComponent,
 		MiddleClickDirective,
+		DropzoneDirective,
 		IconComponent,
 		FileIconComponent
 	],

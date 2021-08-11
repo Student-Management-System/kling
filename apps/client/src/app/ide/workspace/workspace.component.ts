@@ -212,23 +212,21 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	private createPlaygroundFiles(): void {
-		this.store
-			.select(WorkspaceSelectors.selectWorkspaceState)
-			.pipe(take(1))
-			.subscribe(state => {
-				const initialFile = createFile("main.ts", state.language, "", "// main.ts");
-
-				const project = {
-					files: [initialFile],
-					directories: [],
-					projectName: "Playground",
-					language: state.language ?? "java",
-					theme: state.theme
-				};
-
-				this.store.dispatch(WorkspaceActions.loadProject(project));
-				this.store.dispatch(FileActions.setSelectedFile({ file: initialFile }));
-			});
+		// this.store
+		// 	.select(WorkspaceSelectors.selectWorkspaceState)
+		// 	.pipe(take(1))
+		// 	.subscribe(state => {
+		// 		const initialFile = createFile("main.ts", state.language, "", "// main.ts");
+		// 		const project = {
+		// 			files: [initialFile],
+		// 			directories: [],
+		// 			projectName: "Playground",
+		// 			language: state.language ?? "java",
+		// 			theme: state.theme
+		// 		};
+		// 		this.store.dispatch(WorkspaceActions.loadProject(project));
+		// 		this.store.dispatch(FileActions.setSelectedFile({ file: initialFile }));
+		// 	});
 	}
 
 	private createDemoFiles(): void {

@@ -106,6 +106,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 * Adds custom actions to the editor that can be accessed through the editor's command palette.
 	 */
 	private registerCustomActions(): void {
+		this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+			console.log("[TODO] Save...");
+		});
+
 		this.editor.addAction({
 			id: "RUN_CODE",
 			label: "Run Code",

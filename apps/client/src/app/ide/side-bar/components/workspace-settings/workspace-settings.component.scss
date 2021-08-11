@@ -1,13 +1,14 @@
 .workspace-settings-container {
 	height: 100%;
-	margin-top: 8px;
-	margin-bottom: 8px;
+	padding-top: 8px;
+	padding-bottom: 8px;
 	display: grid;
 	row-gap: 16px;
 	overflow: hidden;
 
 	mat-form-field {
 		width: 100%;
+		min-width: 0px;
 	}
 
 	::ng-deep .mat-form-field-wrapper {

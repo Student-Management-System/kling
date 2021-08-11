@@ -1,10 +1,9 @@
 <div class="workspace-settings-container">
 	<mat-form-field>
-		<mat-label>Language</mat-label>
-		<mat-select [value]="language$ | async" (selectionChange)="onLanguageChange($event)">
-			<mat-option value="typescript">Typescript</mat-option>
-			<mat-option value="java">Java</mat-option>
-			<mat-option value="python">Python</mat-option>
+		<mat-label>{{ "Common.Language" | translate }}</mat-label>
+		<mat-select [value]="language" (selectionChange)="onLanguageChange($event)">
+			<mat-option value="en">English</mat-option>
+			<mat-option value="de">Deutsch</mat-option>
 		</mat-select>
 	</mat-form-field>
 

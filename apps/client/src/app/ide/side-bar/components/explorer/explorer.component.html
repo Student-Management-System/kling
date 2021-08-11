@@ -14,7 +14,7 @@
 
 	<div class="sections">
 		<!-- Project (File Explorer) -->
-		<app-side-bar-section class="flex-grow top">
+		<app-side-bar-section class="h-full">
 			<ng-container sectionTitle>{{ (workspace$ | async)?.projectName }}</ng-container>
 
 			<ng-container sectionActions *ngIf="rootDirectory$ | async as rootDir">

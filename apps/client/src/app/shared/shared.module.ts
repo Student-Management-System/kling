@@ -11,6 +11,7 @@ import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { CategorySelectorComponent } from "./components/category-selector/category-selector.component";
 import { MiddleClickDirective } from "./directives/middle-click.directive";
 import { IconComponent } from "./components/icon.component";
+import { FileIconComponent } from "./components/file-icon/file-icon.component";
 
 @NgModule({
 	declarations: [
@@ -19,7 +20,8 @@ import { IconComponent } from "./components/icon.component";
 		Paginator,
 		CategorySelectorComponent,
 		MiddleClickDirective,
-		IconComponent
+		IconComponent,
+		FileIconComponent
 	],
 	imports: [
 		CommonModule,
@@ -39,7 +41,8 @@ import { IconComponent } from "./components/icon.component";
 		Paginator,
 		CategorySelectorComponent,
 		MiddleClickDirective,
-		IconComponent
+		IconComponent,
+		FileIconComponent
 	],
 	providers: []
 })

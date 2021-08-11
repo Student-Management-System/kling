@@ -417,6 +417,7 @@ mat-form-field .mat-hint {
 
 .ngx-contextmenu .dropdown-menu {
 	background-color: var(--activity-bar-bg);
+	padding: 2px;
 }
 .ngx-contextmenu li {
 	display: block;
@@ -435,7 +436,6 @@ mat-form-field .mat-hint {
 }
 .ngx-contextmenu a:hover {
 	color: var(--selected);
-	background-color: var;
 }
 
 .INFORMATIONAL {

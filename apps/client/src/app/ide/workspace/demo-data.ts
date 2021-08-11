@@ -5,6 +5,7 @@ import {
 	FileActions,
 	WorkspaceActions
 } from "@kling/client/data-access/state";
+import { ActivatedRoute } from "@angular/router";
 
 const exampleRunningSum = `export function calculateRunningSum(nums: number[]) {
 	console.log("Input: " +  nums);
@@ -153,9 +154,9 @@ export function createPlaygroundFiles(store: Store): void {
 	// 	});
 }
 
-export function createDemoFiles(store: Store): void {
-	const lang = this.route.snapshot.queryParams.lang;
-	let data = this.route.snapshot.queryParams.data;
+export function createDemoFiles(store: Store, route: ActivatedRoute): void {
+	const lang = route.snapshot.queryParams.lang;
+	let data = route.snapshot.queryParams.data;
 
 	if (data) {
 		data = JSON.parse(atob(data));

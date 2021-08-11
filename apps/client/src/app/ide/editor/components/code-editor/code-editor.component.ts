@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from "@angular/core";
+import {
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	EventEmitter,
+	OnInit,
+	Output
+} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { connectAnonymously } from "@convergence/convergence";
 import { File, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
@@ -12,6 +19,7 @@ import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-
 import { ThemeService } from "../../../../shared/services/theme.service";
 import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
 import { WorkspaceFacade } from "../../../services/workspace.facade";
+import { FileExplorerDialogs } from "../../../side-bar/file-explorer/services/file-explorer-dialogs.facade";
 import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
@@ -29,10 +37,10 @@ class EditorModelState {
 })
 export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit {
 	@Output() onEditorInit = new EventEmitter<void>();
+	selectedFilePath: string;
 
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByPath = new Map<string, EditorModelState>();
-	private selectedFilePath: string;
 	private showRulers = true;
 
 	constructor(
@@ -40,7 +48,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		private readonly workspace: WorkspaceFacade,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
-		private readonly theme: ThemeService
+		private readonly cdRef: ChangeDetectorRef
 	) {
 		super();
 	}
@@ -50,7 +58,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			.select(WorkspaceSelectors.selectWorkspaceState)
 			.pipe(take(1))
 			.subscribe(async state => {
-				const language = state.language ?? "typescript";
+				const language = "typescript";
 				const theme = state.theme ?? "dark";
 
 				console.log({ language, theme });
@@ -278,6 +286,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 					}
 					this.switchToSelectedFile(file);
 					this.selectedFilePath = file?.path;
+					this.cdRef.detectChanges();
 				})
 			)
 			.subscribe();

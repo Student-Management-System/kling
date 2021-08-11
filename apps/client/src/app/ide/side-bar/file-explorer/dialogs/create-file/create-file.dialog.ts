@@ -31,15 +31,10 @@ export class CreateFileDialog implements OnInit {
 
 	/** Closes the dialog and returns a `Partial<File>` to the calling component/service.  */
 	create(): void {
-		this.store
-			.select(WorkspaceSelectors.selectLanguage)
-			.pipe(take(1))
-			.subscribe(language => {
-				const file: Partial<File> = {
-					name: this.filename,
-					language
-				};
-				this.dialogRef.close(file);
-			});
+		const file: Partial<File> = {
+			name: this.filename,
+			language: "typescript"
+		};
+		this.dialogRef.close(file);
 	}
 }

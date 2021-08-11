@@ -21,7 +21,7 @@ import { RenameDialog } from "../dialogs/rename/rename.dialog";
 /**
  * Facade for dialogs that are used in the workspace.
  */
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class FileExplorerDialogs {
 	constructor(private dialog: MatDialog, private store: Store<DirectoryState>) {}
 
@@ -29,7 +29,7 @@ export class FileExplorerDialogs {
 	 * Opens the `CreateFileDialog` and adds a new file to the workspace,
 	 * if confirmed by the user.
 	 */
-	openCreateFileDialog(fromDirectory: Directory): void {
+	openCreateFileDialog(fromDirectory?: Directory): void {
 		this.dialog
 			.open<CreateFileDialog, any, Partial<File>>(CreateFileDialog)
 			.afterClosed()
@@ -38,7 +38,7 @@ export class FileExplorerDialogs {
 					const file = createFile(
 						partialFile.name,
 						partialFile.language,
-						fromDirectory.path,
+						fromDirectory?.path ?? "",
 						`// ${partialFile.name}`
 					);
 					this.store.dispatch(FileActions.addFile({ file }));
@@ -52,7 +52,7 @@ export class FileExplorerDialogs {
 	 * if confirmed by the user.
 	 * If `fromDirectory` was specified, the directory is added as a subdirectory.
 	 */
-	openCreateDirectoryDialog(fromDirectory: Directory): void {
+	openCreateDirectoryDialog(fromDirectory?: Directory): void {
 		const data: CreateDirectoryDialogData = { directory: fromDirectory };
 		this.dialog
 			.open<CreateDirectoryDialog, CreateDirectoryDialogData, string>(CreateDirectoryDialog, {
@@ -62,9 +62,10 @@ export class FileExplorerDialogs {
 			.subscribe(directoryName => {
 				if (directoryName) {
 					if (directoryName.length > 0) {
+						const parentDirectory = fromDirectory?.path ?? "";
 						this.store.dispatch(
 							DirectoryActions.addDirectory({
-								directory: createDirectory(directoryName, fromDirectory.path)
+								directory: createDirectory(directoryName, parentDirectory)
 							})
 						);
 					} else {

@@ -22,8 +22,10 @@
     "Rename": "Umbenennen",
     "Custom": {
       "AddFile": "Datei hinzufügen",
-      "AddDirectory": "Verzeichnis hinzufügen"
-    }
+      "AddDirectory": "Verzeichnis hinzufügen",
+      "ImportFiles": "Dateien importieren"
+    },
+    "Run": "Ausführen"
   },
   "Common": {
     "All": "Alle",
@@ -41,7 +43,9 @@
     "Password": "Passwort",
     "Single": "Einzeln",
     "Title": "Titel",
-    "Yes": "Ja"
+    "Yes": "Ja",
+    "Language": "Sprache",
+    "Settings": "Einstellungen"
   },
   "Domain": {
     "Assessment": "Bewertung",

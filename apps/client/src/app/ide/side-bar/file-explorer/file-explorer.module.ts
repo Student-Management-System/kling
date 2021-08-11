@@ -7,7 +7,6 @@ import { FileComponent } from "./components/file/file.component";
 import { CreateDirectoryDialog } from "./dialogs/create-directory/create-directory.dialog";
 import { CreateFileDialog } from "./dialogs/create-file/create-file.dialog";
 import { RenameDialog } from "./dialogs/rename/rename.dialog";
-import { FileExplorerDialogs } from "./services/file-explorer-dialogs.facade";
 
 @NgModule({
 	declarations: [
@@ -20,6 +19,6 @@ import { FileExplorerDialogs } from "./services/file-explorer-dialogs.facade";
 	],
 	imports: [SharedModule, ContextMenuModule],
 	exports: [FileExplorerComponent],
-	providers: [FileExplorerDialogs]
+	providers: []
 })
 export class FileExplorerModule {}

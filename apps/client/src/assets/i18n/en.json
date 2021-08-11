@@ -22,8 +22,10 @@
     "Rename": "Rename",
     "Custom": {
       "AddDirectory": "Add Directory",
-      "AddFile": "Add File"
-    }
+      "AddFile": "Add File",
+      "ImportFiles": "Import Files"
+    },
+    "Run": "Run"
   },
   "Common": {
     "All": "All",
@@ -41,7 +43,9 @@
     "Password": "Password",
     "Single": "Single",
     "Title": "Title",
-    "Yes": "Yes"
+    "Yes": "Yes",
+    "Language": "Language",
+    "Settings": "Settings"
   },
   "Domain": {
     "Assessment": "Assessment",

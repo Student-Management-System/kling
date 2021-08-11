@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { filter, map, withLatestFrom } from "rxjs/operators";
 import { FileTabActions, FileTabSelectors } from ".";
-import { FileActions, FileSelectors } from "../file-store";
+import { File, FileActions, FileSelectors } from "../file-store";
 
 @Injectable()
 export class FileTabEffects {
@@ -21,7 +21,7 @@ export class FileTabEffects {
 			filter(([action, currentFile]) => action.filePath === currentFile?.path),
 			map(([_action, _currentFile, tabs]) =>
 				FileActions.setSelectedFile_FileTabRemoved({
-					path: tabs?.[0] ?? null
+					file: tabs?.[0] ?? null
 				})
 			)
 		);
@@ -34,12 +34,10 @@ export class FileTabEffects {
 	addTabForSelectedFile$ = createEffect(() => {
 		return this.actions$.pipe(
 			ofType(FileActions.setSelectedFile, FileActions.setSelectedFile_FileTabRemoved),
-			filter(action => !!action.path),
+			filter(action => !!action.file),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
-			filter(([action, tabs]) => !tabs.find(path => path === action.path)),
-			map(([action]) =>
-				FileTabActions.addFileTab_FileSelectedEffect({ filePath: action.path })
-			)
+			filter(([action, tabs]) => !tabs.find(tab => tab.path === action.file.path)),
+			map(([action]) => FileTabActions.addFileTab_FileSelectedEffect({ file: action.file }))
 		);
 	});
 
@@ -61,7 +59,7 @@ export class FileTabEffects {
 	/**
 	 * Returns `true`, if `tabs` contain a file with the specified `path`.
 	 */
-	private removedFileHasTab(tabs: string[], deletedPath: string): boolean {
-		return !!tabs.find(path => path === deletedPath);
+	private removedFileHasTab(tabs: File[], deletedPath: string): boolean {
+		return !!tabs.find(tab => tab.path === deletedPath);
 	}
 }

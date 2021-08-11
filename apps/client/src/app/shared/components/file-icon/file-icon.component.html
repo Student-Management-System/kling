@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="language">
+<div class="file-icon" [ngSwitch]="language">
 	<ng-container *ngSwitchCase="'typescript'">
 		<ng-container *ngTemplateOutlet="typeScriptIcon"></ng-container>
 	</ng-container>
@@ -8,7 +8,7 @@
 	<ng-container *ngSwitchCase="'python'">
 		<ng-container *ngTemplateOutlet="pythonIcon"></ng-container>
 	</ng-container>
-</ng-container>
+</div>
 
 <ng-template #typeScriptIcon>
 	<svg

@@ -1,4 +1,5 @@
 import { createAction, props } from "@ngrx/store";
+import { File } from "../file-store";
 
 // export const selectFileTab = createAction(
 // 	"[FileTab] Select FileTab",
@@ -9,14 +10,11 @@ import { createAction, props } from "@ngrx/store";
 // 	"[File Explorer] Select FileTab"
 // );
 
-export const addFileTab = createAction(
-	"[File Explorer] Add FileTab",
-	props<{ filePath: string }>()
-);
+export const addFileTab = createAction("[File Explorer] Add FileTab", props<{ file: File }>());
 
 export const addFileTab_FileSelectedEffect = createAction(
 	"[Effect addTabForSelectedFile$] Add FileTab",
-	props<{ filePath: string }>()
+	props<{ file: File }>()
 );
 
 export const removeFileTab = createAction(

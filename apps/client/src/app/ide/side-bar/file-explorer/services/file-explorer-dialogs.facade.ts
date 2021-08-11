@@ -42,7 +42,7 @@ export class FileExplorerDialogs {
 						`// ${partialFile.name}`
 					);
 					this.store.dispatch(FileActions.addFile({ file }));
-					this.store.dispatch(FileActions.setSelectedFile({ path: file.path }));
+					this.store.dispatch(FileActions.setSelectedFile({ file }));
 				}
 			});
 	}

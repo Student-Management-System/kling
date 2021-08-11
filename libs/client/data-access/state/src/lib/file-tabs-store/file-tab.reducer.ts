@@ -1,11 +1,12 @@
 import { createReducer, on } from "@ngrx/store";
+import { File } from "../file-store";
 import * as FileTabActions from "./file-tab.actions";
 
 export const fileTabFeatureKey = "fileTab";
 
 export interface State {
 	/** List of file paths. */
-	tabs: string[];
+	tabs: File[];
 }
 
 export const initialState: State = {
@@ -15,7 +16,7 @@ export const initialState: State = {
 export const reducer = createReducer(
 	initialState,
 	on(FileTabActions.addFileTab, FileTabActions.addFileTab_FileSelectedEffect, (state, action) =>
-		_addFileTab(state, action)
+		_addFileTab(state, action.file)
 	),
 	on(FileTabActions.removeFileTab, FileTabActions.removeFileTab_FileRemoved, (state, action) =>
 		_removeFileTab(state, action)
@@ -32,13 +33,13 @@ export const reducer = createReducer(
 function _removeFileTab(state: State, action: { filePath: string }): State {
 	return {
 		...state,
-		tabs: state.tabs.filter(filePath => filePath !== action.filePath)
+		tabs: state.tabs.filter(tab => tab.path !== action.filePath)
 	};
 }
 
-function _addFileTab(state: State, action: { filePath: string }): State {
+function _addFileTab(state: State, file: File): State {
 	return {
 		...state,
-		tabs: [...state.tabs, action.filePath]
+		tabs: [...state.tabs, { ...file }] // Create shallow copy of file to avoid issues
 	};
 }

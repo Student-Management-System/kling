@@ -1,20 +1,24 @@
 <div class="file-tabs" *ngIf="selectedFile$ | async as selectedFile">
 	<div class="file-tab" *ngFor="let tab of tabs$ | async">
 		<button
+			class="file-tab-btn"
+			[class.selected]="selectedFile.path === tab.path"
 			mat-flat-button
 			disableRipple="true"
-			[class.selected]="selectedFile.path === tab"
 			(click)="selectTab(tab, selectedFile)"
 			(middleclick)="closeTab(tab)"
 		>
-			{{ tab }}
-			<button mat-mini-fab class="clear-btn mat-elevation-z0" (click)="closeTab(tab)">
-				<app-icon
-					class="absolute mt-[-11px] -ml-2 icon-light"
-					size="16"
-					name="clear"
-				></app-icon>
-			</button>
+			<div class="flex items-center w-full h-full gap-2 inner-tab">
+				<app-file-icon class="mt-[-4px]" [language]="tab.language"></app-file-icon>
+				<span class="tab-name">{{ tab.name }}</span>
+				<button mat-mini-fab class="clear-btn mat-elevation-z0" (click)="closeTab(tab)">
+					<app-icon
+						class="absolute mt-[-18px] -ml-2 icon-light"
+						size="16"
+						name="clear"
+					></app-icon>
+				</button>
+			</div>
 		</button>
 	</div>
 </div>

@@ -41,7 +41,7 @@ export const reducer = createReducer(
 	on(
 		FileActions.setSelectedFile,
 		FileActions.setSelectedFile_FileTabRemoved,
-		(state, action) => ({ ...state, selectedFilePath: action.path })
+		(state, action) => ({ ...state, selectedFilePath: action.file?.path })
 	)
 );
 

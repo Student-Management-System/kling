@@ -1,12 +1,11 @@
-export type SupportedLanguage = "typescript" | "java" | "python";
-export type FileExtension = "ts" | "java" | "py";
+export type SupportedLanguage = "typescript" | "javascript" | "java" | "python";
+export type FileExtension = "ts" | "js" | "java" | "py";
 
-const languageExtensionMap = {
+const languageExtensionMap: { [Language in SupportedLanguage]: FileExtension } = {
 	typescript: "ts",
+	javascript: "js",
 	java: "java",
-	python: "py",
-	json: "json",
-	txt: "txt"
+	python: "py"
 } as const;
 
 type Extension<Lang extends SupportedLanguage> = typeof languageExtensionMap[Lang];

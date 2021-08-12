@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { tap } from "rxjs/operators";
-import { WorkspaceFacade } from "../../../../../../../apps/client/src/app/ide/services/workspace.facade";
+import { WorkspaceService } from "../../../../../../../apps/client/src/app/ide/services/workspace.service";
 import * as FileActions from "./file.actions";
 
 @Injectable()
@@ -42,5 +42,5 @@ export class FileEffects {
 		{ dispatch: false }
 	);
 
-	constructor(private actions$: Actions, private workspace: WorkspaceFacade) {}
+	constructor(private actions$: Actions, private workspace: WorkspaceService) {}
 }

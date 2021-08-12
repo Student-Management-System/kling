@@ -16,7 +16,7 @@ import { fromEvent, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
-import { WorkspaceFacade } from "../../../services/workspace.facade";
+import { WorkspaceService } from "../../../services/workspace.service";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
 
@@ -41,7 +41,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 	constructor(
 		private readonly store: Store,
-		private readonly workspace: WorkspaceFacade,
+		private readonly workspace: WorkspaceService,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
 		private readonly cdRef: ChangeDetectorRef

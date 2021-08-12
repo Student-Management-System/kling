@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { WorkspaceSelectors } from ".";
-import { WorkspaceFacade } from "../../../../../../../apps/client/src/app/ide/services/workspace.facade";
+import { WorkspaceService } from "../../../../../../../apps/client/src/app/ide/services/workspace.service";
 import { DirectoryActions } from "../directory-store";
 import { FileActions } from "../file-store";
 import { FileTabActions } from "../file-tabs-store";
@@ -59,7 +59,7 @@ export class WorkspaceEffects {
 
 	constructor(
 		private actions$: Actions,
-		private workspace: WorkspaceFacade,
+		private workspace: WorkspaceService,
 		private store: Store
 	) {}
 }

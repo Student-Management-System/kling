@@ -42,5 +42,19 @@ export class FileEffects {
 		{ dispatch: false }
 	);
 
+	fileSelected$ = createEffect(
+		() => {
+			return this.actions$.pipe(
+				ofType(FileActions.setSelectedFile, FileActions.setSelectedFile_FileTabRemoved),
+				tap(({ file }) => {
+					if (file) {
+						this.workspace.focusEditor();
+					}
+				})
+			);
+		},
+		{ dispatch: false }
+	);
+
 	constructor(private actions$: Actions, private workspace: WorkspaceService) {}
 }

@@ -17,6 +17,9 @@ export class WorkspaceService {
 	/** Emits the `id` of the removed file. */
 	fileRemoved$ = this._fileRemoved$.asObservable();
 
+	/** Emits when the editor should be focused programmatically, i.e. after adding a new file */
+	readonly focusEditor$ = new Subject<void>();
+
 	constructor(private readonly store: Store) {}
 
 	initWorkspace(): void {
@@ -29,5 +32,10 @@ export class WorkspaceService {
 
 	emitFileRemoved(path: string): void {
 		this._fileRemoved$.next(path);
+	}
+
+	/** Brings browser focus to the editor. */
+	focusEditor(): void {
+		this.focusEditor$.next();
 	}
 }

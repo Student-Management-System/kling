@@ -58,6 +58,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 				this.editor = await main(theme);
 
+				this.subs.sink = this.subscribeToEditorFocus();
 				this.subs.sink = this.subscribeToThemeChanged();
 				this.subs.sink = this.subscribeToFileSelected();
 				this.subs.sink = this.subscribeToFileAdded();
@@ -266,6 +267,12 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 				const model = monaco?.editor?.getModel(this.createFileUri(path));
 				model.dispose();
 			}
+		});
+	}
+
+	private subscribeToEditorFocus(): Subscription {
+		return this.workspace.focusEditor$.subscribe(() => {
+			this.editor.focus();
 		});
 	}
 

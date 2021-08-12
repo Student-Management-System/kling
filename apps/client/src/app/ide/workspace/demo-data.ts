@@ -136,22 +136,13 @@ const javaCountToNumber = `public class Solution {
 }`;
 
 export function createPlaygroundFiles(store: Store): void {
-	store.dispatch(WorkspaceActions.setProjectName({ name: "Playground" }));
-	// this.store
-	// 	.select(WorkspaceSelectors.selectWorkspaceState)
-	// 	.pipe(take(1))
-	// 	.subscribe(state => {
-	// 		const initialFile = createFile("main.ts", state.language, "", "// main.ts");
-	// 		const project = {
-	// 			files: [initialFile],
-	// 			directories: [],
-	// 			projectName: "Playground",
-	// 			language: state.language ?? "java",
-	// 			theme: state.theme
-	// 		};
-	// 		this.store.dispatch(WorkspaceActions.loadProject(project));
-	// 		this.store.dispatch(FileActions.setSelectedFile({ file: initialFile }));
-	// 	});
+	store.dispatch(
+		WorkspaceActions.loadProject({
+			projectName: "Playground",
+			directories: [],
+			files: []
+		})
+	);
 }
 
 export function createDemoFiles(store: Store, route: ActivatedRoute): void {

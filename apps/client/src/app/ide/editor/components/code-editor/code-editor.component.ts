@@ -73,8 +73,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			this.resize();
 		});
 
-		this._disposeAllModels(); // Remove automatically created initial model
-
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
 
 		this.registerCustomActions();
@@ -110,6 +108,19 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	private registerCustomActions(): void {
 		this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
 			console.log("[TODO] Save...");
+		});
+
+		this.editor.addAction({
+			id: "PRINT_DEBUG_INFO",
+			label: "[Developer] Print Debug Info",
+			contextMenuGroupId: "Custom",
+			run: () => {
+				console.log({
+					editorModelByPath: this.editorModelByPath,
+					activeModel: this.editor.getModel(),
+					models: monaco.editor.getModels()
+				});
+			}
 		});
 
 		this.editor.addAction({
@@ -305,10 +316,12 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 * Stores the view state (i.e scroll position, selections) of the currently opened file.
 	 */
 	private saveCurrentViewState() {
-		this.editorModelByPath.set(this.selectedFilePath, {
-			textModel: this.editor.getModel(),
-			viewState: this.editor.saveViewState()
-		});
+		if (this.selectedFilePath) {
+			this.editorModelByPath.set(this.selectedFilePath, {
+				textModel: this.editor.getModel(),
+				viewState: this.editor.saveViewState()
+			});
+		}
 	}
 
 	private subscribeToThemeChanged(): Subscription {

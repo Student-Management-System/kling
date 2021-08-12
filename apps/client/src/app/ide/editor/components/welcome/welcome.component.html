@@ -1,5 +1,5 @@
 <div class="grid justify-center w-full gap-8 p-6 text-light">
-	<div class="">
+	<div class="mx-auto">
 		<ng-template [ngTemplateOutlet]="uniLogo"></ng-template>
 	</div>
 
@@ -13,16 +13,70 @@
 		</ng-template>
 	</div>
 
-	<div class="grid gap-4">
-		<button mat-flat-button color="primary" (click)="dialogs.openCreateFileDialog()">
-			{{ "Action.Custom.AddFile" | translate }}
-		</button>
-		<button mat-flat-button color="primary" (click)="dialogs.openCreateDirectoryDialog()">
-			{{ "Action.Custom.AddDirectory" | translate }}
-		</button>
-		<button mat-flat-button color="primary">
-			{{ "Action.Custom.ImportFiles" | translate }}
-		</button>
+	<div>
+		<div class="mb-2">{{ "Misc.Quickstart" | translate }}</div>
+
+		<div class="flex flex-wrap gap-2">
+			<button
+				mat-stroked-button
+				color="primary"
+				class="flex justify-items-center"
+				(click)="createMainFile('java')"
+			>
+				<div class="flex items-center w-full h-full gap-2">
+					<app-file-icon class="mt-[-4px]" language="java"></app-file-icon>
+					<span>Java</span>
+				</div>
+			</button>
+			<button
+				mat-stroked-button
+				color="primary"
+				class="flex justify-items-center"
+				(click)="createMainFile('python')"
+			>
+				<div class="flex items-center w-full h-full gap-2">
+					<app-file-icon class="mt-[-4px]" language="python"></app-file-icon>
+					<span>Python</span>
+				</div>
+			</button>
+			<button
+				mat-stroked-button
+				color="primary"
+				class="flex justify-items-center"
+				(click)="createMainFile('typescript')"
+			>
+				<div class="flex items-center w-full h-full gap-2">
+					<app-file-icon class="mt-[-4px]" language="typescript"></app-file-icon>
+					<span>TypeScript</span>
+				</div>
+			</button>
+			<button
+				mat-stroked-button
+				color="primary"
+				class="flex justify-items-center"
+				(click)="createMainFile('javascript')"
+			>
+				<div class="flex items-center w-full h-full gap-2">
+					<app-file-icon class="mt-[-4px]" language="javascript"></app-file-icon>
+					<span>JavaScript</span>
+				</div>
+			</button>
+		</div>
+	</div>
+
+	<div>
+		<div class="mb-2">{{ "Common.Actions" | translate }}</div>
+		<div class="grid gap-4">
+			<button mat-flat-button color="primary" (click)="dialogs.openCreateFileDialog()">
+				{{ "Action.Custom.AddFile" | translate }}
+			</button>
+			<button mat-flat-button color="primary" (click)="dialogs.openCreateDirectoryDialog()">
+				{{ "Action.Custom.AddDirectory" | translate }}
+			</button>
+			<button mat-flat-button color="primary">
+				{{ "Action.Custom.ImportFiles" | translate }}
+			</button>
+		</div>
 	</div>
 </div>
 

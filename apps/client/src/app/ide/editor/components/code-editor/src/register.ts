@@ -20,7 +20,7 @@ export function registerLanguages(
 	languages: monaco.languages.ILanguageExtensionPoint[],
 	fetchLanguageInfo: (language: LanguageId) => Promise<LanguageInfo>,
 	monaco: Monaco
-) {
+): void {
 	// We have to register all of the languages with Monaco synchronously before
 	// we can configure them.
 	for (const extensionPoint of languages) {

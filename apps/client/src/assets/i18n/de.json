@@ -45,7 +45,8 @@
     "Title": "Titel",
     "Yes": "Ja",
     "Language": "Sprache",
-    "Settings": "Einstellungen"
+    "Settings": "Einstellungen",
+    "Actions": "Aktionen"
   },
   "Domain": {
     "Assessment": "Bewertung",
@@ -143,7 +144,8 @@
     "Language": "Sprache",
     "Link": "Link",
     "Privacy": "Datenschutz",
-    "Settings": "Einstellungen"
+    "Settings": "Einstellungen",
+    "Quickstart": "Schnellstart"
   },
   "Prompt": {
     "PleaseChoose": "Bitte auswählen",

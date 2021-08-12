@@ -45,7 +45,8 @@
     "Title": "Title",
     "Yes": "Yes",
     "Language": "Language",
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "Actions": "Actions"
   },
   "Domain": {
     "Assessment": "Assessment",
@@ -143,7 +144,8 @@
     "Language": "Language",
     "Link": "Link",
     "Privacy": "Privacy",
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "Quickstart": "Quickstart"
   },
   "Prompt": {
     "PleaseChoose": "Please choose",

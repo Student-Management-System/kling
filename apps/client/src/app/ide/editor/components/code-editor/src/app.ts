@@ -29,12 +29,6 @@ let wasmLoaded = false;
 const baseHref = environment.production ? "/WEB-IDE" : "";
 
 export async function main(theme: string): Promise<monaco.editor.IStandaloneCodeEditor> {
-	// In this demo, the following values are hardcoded to support Python using
-	// the VS Code Dark+ theme. Currently, end users are responsible for
-	// extracting the data from the relevant VS Code extensions themselves to
-	// leverage other TextMate grammars or themes. Scripts may be provided to
-	// facilitate this in the future.
-	//
 	// Note that adding a new TextMate grammar entails the following:
 	// - adding an entry in the languages array
 	// - adding an entry in the grammars map
@@ -42,8 +36,6 @@ export async function main(theme: string): Promise<monaco.editor.IStandaloneCode
 	// - making the monaco.languages.LanguageConfiguration available in the
 	//   configurations/ folder.
 	//
-	// You likely also want to add an entry in getSampleCodeForLanguage() and
-	// change the call to main() above to pass your LanguageId.
 	const languages: monaco.languages.ILanguageExtensionPoint[] = [
 		{
 			id: "python",
@@ -61,8 +53,14 @@ export async function main(theme: string): Promise<monaco.editor.IStandaloneCode
 			id: "typescript",
 			extensions: [".ts"],
 			aliases: ["typescript", "ts"]
+		},
+		{
+			id: "javascript",
+			extensions: [".js"],
+			aliases: ["javascript", "js"]
 		}
 	];
+
 	const grammars: { [scopeName: string]: DemoScopeNameInfo } = {
 		"source.python": {
 			language: "python",
@@ -75,6 +73,10 @@ export async function main(theme: string): Promise<monaco.editor.IStandaloneCode
 		"source.typescript": {
 			language: "typescript",
 			path: "TypeScript.tmLanguage.json"
+		},
+		"source.js": {
+			language: "javascript",
+			path: "JavaScript.tmLanguage.json"
 		}
 	};
 
@@ -117,6 +119,7 @@ export async function main(theme: string): Promise<monaco.editor.IStandaloneCode
 		onigLib,
 		monaco
 	});
+
 	registerLanguages(
 		languages,
 		(language: LanguageId) => provider.fetchLanguageInfo(language),

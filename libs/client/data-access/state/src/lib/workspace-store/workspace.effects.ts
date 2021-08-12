@@ -41,14 +41,13 @@ export class WorkspaceEffects {
 	onSettingsChanged$ = createEffect(
 		() => {
 			return this.actions$.pipe(
-				ofType(WorkspaceActions.setLanguage, WorkspaceActions.setTheme),
+				ofType(WorkspaceActions.setTheme),
 				withLatestFrom(this.store.select(WorkspaceSelectors.selectWorkspaceState)),
 				tap(([_, state]) => {
 					localStorage.setItem(
 						"workspaceSettings",
 						JSON.stringify({
-							theme: state.theme,
-							language: state.language
+							theme: state.theme
 						})
 					);
 				})

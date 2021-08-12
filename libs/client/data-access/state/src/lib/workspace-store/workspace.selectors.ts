@@ -5,8 +5,6 @@ export const selectWorkspaceState = createFeatureSelector<fromWorkspace.State>(
 	fromWorkspace.workspaceFeatureKey
 );
 
-export const selectLanguage = createSelector(selectWorkspaceState, state => state.language);
-
 export const selectProjectName = createSelector(selectWorkspaceState, state => state.projectName);
 
 export const selectTheme = createSelector(selectWorkspaceState, state => state.theme);

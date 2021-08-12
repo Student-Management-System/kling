@@ -8,7 +8,6 @@ export const loadProject = createAction(
 		files: File[];
 		directories: Directory[];
 		projectName?: string;
-		language?: string;
 	}>()
 );
 
@@ -17,11 +16,6 @@ export const initEmptyProject = createAction("[Workspace] Init empty Project");
 export const setProjectName = createAction(
 	"[Workspace] Set Project name",
 	props<{ name: string }>()
-);
-
-export const setLanguage = createAction(
-	"[Workspace Settings] Set Language",
-	props<{ language: string }>()
 );
 
 export const setTheme = createAction(

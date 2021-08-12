@@ -185,7 +185,6 @@ export function createDemoFiles(store: Store, route: ActivatedRoute): void {
 			directories,
 			files,
 			projectName: "Example project",
-			language: "typescript",
 			theme: "dark"
 		};
 
@@ -203,7 +202,6 @@ export function createDemoFiles(store: Store, route: ActivatedRoute): void {
 			directories: [createDirectory("")],
 			files: files,
 			projectName: "Example project",
-			language: "java",
 			theme: "dark"
 		};
 

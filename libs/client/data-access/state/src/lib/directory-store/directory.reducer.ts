@@ -12,9 +12,7 @@ export const adapter: EntityAdapter<Directory> = createEntityAdapter<Directory>(
 	sortComparer: (dirA, dirB) => dirA.path.localeCompare(dirB.path)
 });
 
-export const initialState: State = adapter.getInitialState({
-	// additional entity state properties
-});
+export const initialState: State = adapter.getInitialState();
 
 export const reducer = createReducer(
 	initialState,

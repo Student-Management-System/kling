@@ -40,6 +40,15 @@ function _removeFileTab(state: State, action: { filePath: string }): State {
 function _addFileTab(state: State, file: File): State {
 	return {
 		...state,
-		tabs: [...state.tabs, { ...file }] // Create shallow copy of file to avoid issues
+		tabs: [
+			...state.tabs,
+			{
+				name: file.name,
+				path: file.path,
+				directoryPath: file.directoryPath,
+				language: file.language,
+				content: undefined // Not required here
+			}
+		]
 	};
 }

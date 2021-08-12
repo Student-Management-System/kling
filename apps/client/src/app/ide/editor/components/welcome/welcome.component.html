@@ -64,18 +64,38 @@
 		</div>
 	</div>
 
-	<div>
-		<div class="mb-2">{{ "Common.Actions" | translate }}</div>
-		<div class="grid gap-4">
-			<button mat-flat-button color="primary" (click)="dialogs.openCreateFileDialog()">
-				{{ "Action.Custom.AddFile" | translate }}
-			</button>
-			<button mat-flat-button color="primary" (click)="dialogs.openCreateDirectoryDialog()">
-				{{ "Action.Custom.AddDirectory" | translate }}
-			</button>
-			<button mat-flat-button color="primary">
-				{{ "Action.Custom.ImportFiles" | translate }}
-			</button>
+	<div class="grid grid-cols-2 gap-8">
+		<div class="grid content-start">
+			<div class="mb-2">{{ "Common.Actions" | translate }}</div>
+			<div class="grid gap-4">
+				<button mat-flat-button color="primary" (click)="dialogs.openCreateFileDialog()">
+					{{ "Action.Custom.AddFile" | translate }}
+				</button>
+				<button
+					mat-flat-button
+					color="primary"
+					(click)="dialogs.openCreateDirectoryDialog()"
+				>
+					{{ "Action.Custom.AddDirectory" | translate }}
+				</button>
+				<button mat-flat-button color="primary">
+					{{ "Action.Custom.ImportFiles" | translate }}
+				</button>
+			</div>
+		</div>
+
+		<div class="grid content-start">
+			<div class="mb-2">{{ "Common.Recent" | translate }}</div>
+			<div class="grid">
+				<button
+					mat-button
+					*ngFor="let project of recentProjects"
+					class="recent-project"
+					(click)="openRecentProject(project)"
+				>
+					<span class="text-left text-selected">{{ project }}</span>
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

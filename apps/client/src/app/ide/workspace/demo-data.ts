@@ -7,6 +7,7 @@ import {
 	WorkspaceActions
 } from "@kling/client/data-access/state";
 import { ActivatedRoute } from "@angular/router";
+import { WorkspaceService } from "../services/workspace.service";
 
 const exampleRunningSum = `export function calculateRunningSum(nums: number[]) {
 	console.log("Input: " +  nums);
@@ -136,7 +137,11 @@ const javaCountToNumber = `public class Solution {
 
 }`;
 
-export function createPlaygroundFiles(store: Store, route: ActivatedRoute): void {
+export function createPlaygroundFiles(
+	store: Store,
+	route: ActivatedRoute,
+	workspace: WorkspaceService
+): void {
 	store.dispatch(
 		WorkspaceActions.loadProject({
 			projectName: "Playground",
@@ -146,11 +151,16 @@ export function createPlaygroundFiles(store: Store, route: ActivatedRoute): void
 	);
 
 	const language = route.snapshot.queryParams.lang;
+	const projectName = route.snapshot.queryParams.project;
 
-	if (language) {
+	if (language && !projectName) {
 		const file = createMainFile(language);
 		store.dispatch(FileActions.addFile({ file }));
 		store.dispatch(FileActions.setSelectedFile({ file }));
+	} else if (projectName && !language) {
+		workspace.restoreProject(projectName);
+	} else if (projectName && language) {
+		console.error("Please only use one of 'lang' or 'project' as query parameter.");
 	}
 }
 

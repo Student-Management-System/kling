@@ -6,6 +6,7 @@ import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-des
 import { SidenavService } from "../../shared/services/sidenav.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
 import { WorkspaceLayout, WorkspaceSettingsService } from "../services/workspace-settings.service";
+import { WorkspaceService } from "../services/workspace.service";
 import { createDemoFiles, createPlaygroundFiles } from "./demo-data";
 
 @Component({
@@ -22,9 +23,10 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 
 	constructor(
 		public workspaceSettings: WorkspaceSettingsService,
-		private sidenav: SidenavService,
-		private route: ActivatedRoute,
-		private router: Router,
+		private readonly workspaceService: WorkspaceService,
+		private readonly sidenav: SidenavService,
+		private readonly route: ActivatedRoute,
+		private readonly router: Router,
 		private readonly store: Store
 	) {
 		super();
@@ -43,7 +45,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	handleEditorInit(): void {
 		if (this.router.url.match(/\/playground/)) {
 			console.log("Playground-Mode");
-			createPlaygroundFiles(this.store, this.route);
+			createPlaygroundFiles(this.store, this.route, this.workspaceService);
 		} else if (this.route.snapshot.params.problemId === "test-problem") {
 			console.log("Demo-Mode");
 			createDemoFiles(this.store, this.route);

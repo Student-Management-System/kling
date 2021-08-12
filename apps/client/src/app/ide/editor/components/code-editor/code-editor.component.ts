@@ -50,6 +50,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	async ngOnInit(): Promise<void> {
+		this.workspace.setEditorComponent(this);
+
 		this.store
 			.select(WorkspaceSelectors.selectWorkspaceState)
 			.pipe(take(1))
@@ -58,7 +60,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 				this.editor = await main(theme);
 
-				this.subs.sink = this.subscribeToEditorFocus();
 				this.subs.sink = this.subscribeToThemeChanged();
 				this.subs.sink = this.subscribeToFileSelected();
 				this.subs.sink = this.subscribeToFileAdded();
@@ -108,7 +109,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 */
 	private registerCustomActions(): void {
 		this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-			console.log("[TODO] Save...");
+			console.log("Saving...");
+			this.workspace.saveProject();
 		});
 
 		this.editor.addAction({
@@ -270,12 +272,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		});
 	}
 
-	private subscribeToEditorFocus(): Subscription {
-		return this.workspace.focusEditor$.subscribe(() => {
-			this.editor.focus();
-		});
-	}
-
 	private createFileUri(path: string): monaco.Uri {
 		return monaco.Uri.parse("file:///" + path);
 	}
@@ -357,6 +353,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		this.editor.getAction("editor.action.formatDocument").run();
 	}
 
+	focus(): void {
+		this.editor.focus();
+	}
+
 	private createModel(file: File): monaco.editor.ITextModel {
 		const model = monaco.editor.createModel(
 			file.content,
@@ -379,6 +379,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	ngOnDestroy(): void {
 		super.ngOnDestroy();
 		this._disposeAllModels();
+		this.workspace.setEditorComponent(null);
 	}
 
 	private _disposeAllModels() {

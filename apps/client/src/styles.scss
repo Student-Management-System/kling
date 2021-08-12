@@ -377,6 +377,10 @@ mat-paginator {
 	color: green;
 }
 
+.text-selected {
+	color: var(--selected);
+}
+
 .snackbar-success {
 	background-color: rgb(211, 255, 200);
 

@@ -9,7 +9,6 @@ const languageExtensionMap: { [Language in SupportedLanguage]: FileExtension } =
 } as const;
 
 type Extension<Lang extends SupportedLanguage> = typeof languageExtensionMap[Lang];
-type InferredExtension<Filename> = Filename extends `${string}.${infer Ext}` ? Ext : string;
 
 /**
  * Returns the corresponding file extension for a specified programming language or file type.
@@ -24,12 +23,10 @@ export function getFileExtension<Language extends SupportedLanguage>(
  * Extracts the file extension from a file name. Returns an empty string, if the file name does not
  * contain an extension.
  */
-export function extractFileExtension<Filename extends string>(
-	filename: Filename
-): InferredExtension<Filename> {
+export function extractFileExtension(filename: string): string {
 	const split = filename.split(".");
 	const extension = split[split.length - 1];
-	return (extension ?? "") as InferredExtension<Filename>;
+	return extension ?? "";
 }
 
 /**

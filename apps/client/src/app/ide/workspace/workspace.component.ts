@@ -1,15 +1,11 @@
-import { HttpClient } from "@angular/common/http";
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FileSelectors, WorkspaceActions } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
 import { SidenavService } from "../../shared/services/sidenav.service";
-import { WebSocketService } from "../../shared/services/web-socket.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
-import { TerminalFacade } from "../feature-panel/services/terminal.facade";
 import { WorkspaceLayout, WorkspaceSettingsService } from "../services/workspace-settings.service";
-import { WorkspaceFacade } from "../services/workspace.facade";
 import { createDemoFiles, createPlaygroundFiles } from "./demo-data";
 
 @Component({
@@ -61,10 +57,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 			editorWidth: event.sizes[1],
 			featurePanelWidth: event.sizes[2]
 		});
-	}
-
-	run(): void {
-		//
 	}
 
 	ngOnDestroy(): void {

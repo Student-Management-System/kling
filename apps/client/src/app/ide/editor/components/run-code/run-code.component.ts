@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 @Component({
 	selector: "app-run-code",
@@ -7,5 +7,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from "@angul
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RunCodeComponent {
-	@Output() onRun = new EventEmitter<void>();
+	run(): void {
+		// TODO
+	}
 }

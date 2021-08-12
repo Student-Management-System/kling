@@ -1,4 +1,4 @@
-import { SupportedLanguage } from "@kling/programming";
+import { getFileExtension, SupportedLanguage } from "@kling/programming";
 
 export type File = {
 	path: string;
@@ -28,4 +28,21 @@ export function createFile(
 		directoryPath,
 		content: content ?? `// ${name}`
 	};
+}
+
+export function createMainFile(language: SupportedLanguage): File {
+	const name = language === "java" ? "Main" : "main";
+	const extension = getFileExtension(language);
+	const filename = name + "." + extension;
+	const content = getInitialContent(filename, language);
+	return createFile(filename, language, "", content);
+}
+
+function getInitialContent(filename: string, language: SupportedLanguage): string {
+	switch (language) {
+		case "python":
+			return "### " + filename;
+		default:
+			return "// " + filename;
+	}
 }

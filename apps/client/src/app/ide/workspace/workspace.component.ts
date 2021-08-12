@@ -43,7 +43,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	handleEditorInit(): void {
 		if (this.router.url.match(/\/playground/)) {
 			console.log("Playground-Mode");
-			createPlaygroundFiles(this.store);
+			createPlaygroundFiles(this.store, this.route);
 		} else if (this.route.snapshot.params.problemId === "test-problem") {
 			console.log("Demo-Mode");
 			createDemoFiles(this.store, this.route);

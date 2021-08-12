@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { AuthSelectors, createMainFile, FileActions } from "@kling/client/data-access/state";
+import { SupportedLanguage } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import { AuthSelectors, createFile, FileActions } from "@kling/client/data-access/state";
-import { getFileExtension, SupportedLanguage } from "@kling/programming";
 import { FileExplorerDialogs } from "../../../side-bar/file-explorer/services/file-explorer-dialogs.facade";
 
 @Component({
@@ -18,10 +18,7 @@ export class WelcomeComponent implements OnInit {
 	ngOnInit(): void {}
 
 	createMainFile(language: SupportedLanguage): void {
-		const name = language === "java" ? "Main" : "main";
-		const extension = getFileExtension(language);
-		const filename = name + "." + extension;
-		const file = createFile(filename, language);
+		const file = createMainFile(language);
 		this.store.dispatch(FileActions.addFile({ file }));
 		this.store.dispatch(FileActions.setSelectedFile({ file }));
 	}

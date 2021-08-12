@@ -2,6 +2,7 @@ import { Store } from "@ngrx/store";
 import {
 	createDirectory,
 	createFile,
+	createMainFile,
 	FileActions,
 	WorkspaceActions
 } from "@kling/client/data-access/state";
@@ -135,7 +136,7 @@ const javaCountToNumber = `public class Solution {
 
 }`;
 
-export function createPlaygroundFiles(store: Store): void {
+export function createPlaygroundFiles(store: Store, route: ActivatedRoute): void {
 	store.dispatch(
 		WorkspaceActions.loadProject({
 			projectName: "Playground",
@@ -143,6 +144,14 @@ export function createPlaygroundFiles(store: Store): void {
 			files: []
 		})
 	);
+
+	const language = route.snapshot.queryParams.lang;
+
+	if (language) {
+		const file = createMainFile(language);
+		store.dispatch(FileActions.addFile({ file }));
+		store.dispatch(FileActions.setSelectedFile({ file }));
+	}
 }
 
 export function createDemoFiles(store: Store, route: ActivatedRoute): void {

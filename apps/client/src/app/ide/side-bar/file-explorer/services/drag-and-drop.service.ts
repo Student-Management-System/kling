@@ -6,6 +6,7 @@ import {
 	DirectoryActions,
 	FileActions
 } from "@kling/client/data-access/state";
+import { extractFileExtension, FileExtension, getLanguageFromExtension } from "@kling/programming";
 
 interface FileEntry {
 	filesystem: any;
@@ -37,7 +38,9 @@ export class DragAndDropService {
 		if (entry.isFile) {
 			const file = await this.getFileFromEntry(entry);
 			const content = await this.readFileContent(file as any);
-			const fileModel = createFile(entry.name, "typescript", parentDirectoryId, content);
+			const extension = extractFileExtension(file.name) as FileExtension;
+			const language = getLanguageFromExtension(extension);
+			const fileModel = createFile(entry.name, language, parentDirectoryId, content);
 			this.store.dispatch(FileActions.addFile({ file: fileModel }));
 		} else if (entry.isDirectory) {
 			const subdirectory = createDirectory(entry.name, parentDirectoryId);

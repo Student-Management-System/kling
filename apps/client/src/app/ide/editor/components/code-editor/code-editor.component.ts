@@ -217,26 +217,43 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private createCodeExecutionRequest(): void {
-		const language = this.getLanguageOfFile(this.selectedFilePath);
-		const version = this.getLanguageVersion(language);
+		this.workspace.entryPoint$.pipe(take(1)).subscribe(_entryPoint => {
+			const entryPoint = _entryPoint || this.selectedFilePath;
 
-		const files: { name: string; content: string }[] = [];
-		this.editorModelByPath.forEach((model, path) => {
-			files.push({ name: path, content: model.textModel.getValue() });
-		});
+			if (this.editorModelByPath.has(entryPoint)) {
+				const language = this.getLanguageOfFile(entryPoint);
+				const version = this.getLanguageVersion(language);
 
-		const request: ExecuteRequest = { language, version, files };
+				const files: { name: string; content: string }[] = [];
 
-		console.log(
-			`Running ${language} (${version}) code with "${this.selectedFilePath}" as entry point.`
-		);
+				// Main file must be the first file
+				files.push({
+					name: entryPoint,
+					content: this.editorModelByPath.get(entryPoint).textModel.getValue()
+				});
 
-		this.codeExecution.execute(request).subscribe({
-			next: result => {
-				console.log(result);
-			},
-			error: error => {
-				console.log(error);
+				this.editorModelByPath.forEach((model, path) => {
+					if (path !== entryPoint) {
+						files.push({ name: path, content: model.textModel.getValue() });
+					}
+				});
+
+				const request: ExecuteRequest = { language, version, files };
+
+				console.log(
+					`Running ${language} (${version}) code with "${entryPoint}" as entry point.`
+				);
+
+				this.codeExecution.execute(request).subscribe({
+					next: result => {
+						console.log(result);
+					},
+					error: error => {
+						console.log(error);
+					}
+				});
+			} else {
+				console.error(`Entry point "${entryPoint}" does not exist.`);
 			}
 		});
 	}

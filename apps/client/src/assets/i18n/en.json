@@ -23,7 +23,8 @@
     "Custom": {
       "AddDirectory": "Add Directory",
       "AddFile": "Add File",
-      "ImportFiles": "Import Files"
+      "ImportFiles": "Import Files",
+      "MarkAsEntryPoint": "Mark as entry point"
     },
     "Run": "Run"
   },

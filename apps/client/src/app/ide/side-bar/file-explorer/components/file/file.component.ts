@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
-import { File, FileActions } from "@kling/client/data-access/state";
+import { File, FileActions, WorkspaceActions } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { DialogService } from "../../../../../shared/services/dialog.service";
 import { FileExplorerDialogs } from "../../services/file-explorer-dialogs.facade";
@@ -30,6 +30,10 @@ export class FileComponent implements OnInit {
 		if (!this.isSelected) {
 			this.store.dispatch(FileActions.setSelectedFile({ file: this.file }));
 		}
+	}
+
+	markAsEntryPoint(): void {
+		this.store.dispatch(WorkspaceActions.setEntryPoint({ path: this.file.path }));
 	}
 
 	rename(): void {

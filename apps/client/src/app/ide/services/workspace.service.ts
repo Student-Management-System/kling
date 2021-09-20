@@ -30,6 +30,9 @@ export class WorkspaceService {
 	/** Emits when the editor should be focused programmatically, i.e. after adding a new file */
 	readonly focusEditor$ = new Subject<void>();
 
+	/** Determines the application's entry point. */
+	readonly entryPoint$ = this.store.select(WorkspaceSelectors.selectEntryPoint);
+
 	private __editorComponent: CodeEditorComponent;
 	private recentProjectKey = "recentProject";
 
@@ -61,16 +64,17 @@ export class WorkspaceService {
 		combineLatest([
 			this.store.select(FileSelectors.selectAllFiles),
 			this.store.select(DirectorySelectors.selectAllDirectories),
-			this.store.select(WorkspaceSelectors.selectProjectName)
+			this.store.select(WorkspaceSelectors.selectProjectName),
+			this.store.select(WorkspaceSelectors.selectEntryPoint)
 		])
 			.pipe(take(1))
-			.subscribe(([files, directories, projectName]) => {
+			.subscribe(([files, directories, projectName, entryPoint]) => {
 				const copiedFiles = files.map(file => ({
 					...file,
 					content: this.__editorComponent.getFileContent(file.path)
 				}));
 
-				const project = { files: copiedFiles, directories, projectName };
+				const project = { files: copiedFiles, directories, projectName, entryPoint };
 
 				localStorage.setItem(this.recentProjectKey, JSON.stringify(project));
 				this.toast.success("Saved to Localstorage");
@@ -103,6 +107,16 @@ export class WorkspaceService {
 		if (project.files?.length > 0) {
 			this.store.dispatch(FileActions.setSelectedFile({ file: project.files[0] }));
 		}
+	}
+
+	/**
+	 * Sets the entry point for the currently opened project.
+	 * The entry point must be known to create code execution requests.
+	 *
+	 * @param path
+	 */
+	setEntryPoint(path: string): void {
+		this.store.dispatch(WorkspaceActions.setEntryPoint({ path }));
 	}
 
 	setEditorComponent(component: CodeEditorComponent): void {

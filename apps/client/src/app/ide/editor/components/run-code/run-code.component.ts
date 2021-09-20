@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { CodeExecutionService } from "../../../services/code-execution.service";
+import { WorkspaceService } from "../../../services/workspace.service";
 
 @Component({
 	selector: "app-run-code",
@@ -9,8 +10,12 @@ import { CodeExecutionService } from "../../../services/code-execution.service";
 })
 export class RunCodeComponent {
 	disabled$ = this.codeExecutionService.isRunning$;
+	entryPoint$ = this.workspace.entryPoint$;
 
-	constructor(private readonly codeExecutionService: CodeExecutionService) {}
+	constructor(
+		private workspace: WorkspaceService,
+		private readonly codeExecutionService: CodeExecutionService
+	) {}
 
 	run(): void {
 		this.codeExecutionService.triggerExecution();

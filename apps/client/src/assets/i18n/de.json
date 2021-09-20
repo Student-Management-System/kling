@@ -23,7 +23,8 @@
     "Custom": {
       "AddFile": "Datei hinzufügen",
       "AddDirectory": "Verzeichnis hinzufügen",
-      "ImportFiles": "Dateien importieren"
+      "ImportFiles": "Dateien importieren",
+      "MarkAsEntryPoint": "Als Einstiegspunkt markieren"
     },
     "Run": "Ausführen"
   },

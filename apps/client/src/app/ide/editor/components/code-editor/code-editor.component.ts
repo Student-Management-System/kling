@@ -119,6 +119,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			this.workspace.saveProject();
 		});
 
+		this.editor.addCommand(monaco.KeyCode.F5, () => {
+			this.createCodeExecutionRequest();
+		});
+
 		this.editor.addAction({
 			id: "PRINT_DEBUG_INFO",
 			label: "[Developer] Print Debug Info",

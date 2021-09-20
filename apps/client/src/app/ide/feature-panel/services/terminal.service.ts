@@ -9,6 +9,8 @@ export class TerminalService {
 	private output$ = new BehaviorSubject<StdStreams>(null);
 	readonly _output$ = this.output$.asObservable();
 
+	readonly displayLoadingIndicator$ = this.codeExecution.isRunning$;
+
 	constructor(private readonly codeExecution: CodeExecutionService) {
 		this.codeExecution.executeResult$.subscribe(result => {
 			if (result) {

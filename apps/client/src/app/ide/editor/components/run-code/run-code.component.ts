@@ -8,6 +8,8 @@ import { CodeExecutionService } from "../../../services/code-execution.service";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RunCodeComponent {
+	disabled$ = this.codeExecutionService.isRunning$;
+
 	constructor(private readonly codeExecutionService: CodeExecutionService) {}
 
 	run(): void {

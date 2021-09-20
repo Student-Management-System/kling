@@ -10,6 +10,12 @@
 	</div>
 
 	<ng-template #noOutput>
-		<span>The output of your program will appear here ...</span>
+		<div *ngIf="{ loading: terminalService.displayLoadingIndicator$ | async } as obs">
+			<span *ngIf="!obs.loading">The output of your program will appear here ...</span>
+
+			<div class="flex justify-center p-8" *ngIf="obs.loading">
+				<mat-spinner mode="indeterminate"></mat-spinner>
+			</div>
+		</div>
 	</ng-template>
 </div>

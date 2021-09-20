@@ -1,8 +1,14 @@
 <div class="run-code-container">
 	<div class="actions">
-		<button mat-flat-button class="run-btn" (click)="run()">
-			<app-icon name="play_arrow" class="text-white"></app-icon>
-			{{ "Action.Run" | translate }}
+		<button
+			*ngIf="{ disabled: disabled$ | async } as obs"
+			class="h-full py-2 pl-1 pr-3 bg-green-600"
+			(click)="run()"
+			[disabled]="obs.disabled"
+			[class.disabled]="obs.disabled"
+		>
+			<app-icon name="play_arrow" class="mr-1 text-white"></app-icon>
+			<span class="font-bold">{{ "Action.Run" | translate }}</span>
 		</button>
 	</div>
 </div>

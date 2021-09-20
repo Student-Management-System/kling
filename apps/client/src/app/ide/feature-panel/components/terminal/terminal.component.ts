@@ -11,11 +11,11 @@ import { TerminalService } from "../../services/terminal.service";
 export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
 	output$: Observable<{ stderr: string; stdout: string }>;
 
-	constructor(private terminalFacade: TerminalService) {
+	constructor(readonly terminalService: TerminalService) {
 		super();
 	}
 
 	ngOnInit(): void {
-		this.output$ = this.terminalFacade._output$;
+		this.output$ = this.terminalService._output$;
 	}
 }

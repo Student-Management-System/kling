@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, InjectionToken } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { tap } from "rxjs/operators";
+import { BehaviorSubject, Observable, Subject, throwError } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
 
 export type ExecuteRequest = {
 	/** The language to use for execution, must be a string and must be installed. */
@@ -99,9 +99,19 @@ export class CodeExecutionService {
 
 	/** Runs the given code, using the given runtime and arguments, returning the result. */
 	execute(request: ExecuteRequest): Observable<ExecuteResponse> {
-		return this.http
-			.post<ExecuteResponse>(this.executeUrl, request)
-			.pipe(tap(result => this.executeResult$.next(result)));
+		this.isRunning$.next(true);
+		this.executeResult$.next(null);
+
+		return this.http.post<ExecuteResponse>(this.executeUrl, request).pipe(
+			tap(result => {
+				this.isRunning$.next(false);
+				this.executeResult$.next(result);
+			}),
+			catchError(error => {
+				this.isRunning$.next(false);
+				return throwError(() => error);
+			})
+		);
 	}
 
 	/** Returns a list of available languages, including the version, runtime and aliases. */

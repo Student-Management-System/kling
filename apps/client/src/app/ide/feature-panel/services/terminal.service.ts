@@ -20,6 +20,8 @@ export class TerminalService {
 					this.setOutput(run);
 				} else if (compile?.stdout?.length > 0 || compile?.stderr?.length > 0) {
 					this.setOutput(compile);
+				} else {
+					this.setOutput({ stdout: "(No output)", stderr: null });
 				}
 			} else {
 				this.setOutput(null);

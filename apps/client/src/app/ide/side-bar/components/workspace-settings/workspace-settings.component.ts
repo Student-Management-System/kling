@@ -15,7 +15,7 @@ import { ToastService } from "../../../../shared/services/toast.service";
 })
 export class WorkspaceSettingsComponent extends UnsubscribeOnDestroy implements OnInit {
 	theme$ = this.store.select(WorkspaceSelectors.selectTheme);
-	language = localStorage.getItem("language") ?? "de";
+	language = localStorage.getItem("language") ?? "en";
 
 	constructor(
 		private store: Store,

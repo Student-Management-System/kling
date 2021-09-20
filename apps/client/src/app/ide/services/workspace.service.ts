@@ -74,6 +74,13 @@ export class WorkspaceService {
 
 				localStorage.setItem(this.recentProjectKey, JSON.stringify(project));
 				this.toast.success("Saved to Localstorage");
+
+				this.router.navigate([], {
+					relativeTo: this.route,
+					queryParams: {
+						project: projectName
+					}
+				});
 			});
 	}
 

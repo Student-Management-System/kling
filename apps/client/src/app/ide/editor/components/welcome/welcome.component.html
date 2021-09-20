@@ -4,12 +4,43 @@
 	</div>
 
 	<div class="flex justify-center">
-		<span *ngIf="user$ | async as user; else loginButton"
-			>{{ "Common.Hello" | translate }}, {{ user.username }}</span
-		>
+		<div class="grid justify-items-center" *ngIf="user$ | async as user; else loginButton">
+			<div class="text-xl">
+				{{ "Common.Hello" | translate }},
+				<span class="text-[#90e5ff]">{{ user.username }}</span
+				>.
+			</div>
+
+			<button mat-button (click)="logout()">
+				<span class="text-xs font-light">Logout</span>
+			</button>
+		</div>
 
 		<ng-template #loginButton>
-			<button class="w-full" mat-flat-button color="accent">Login</button>
+			<div class="grid gap-2">
+				<button class="w-full" mat-flat-button color="accent" (click)="openLoginDialog()">
+					Login
+				</button>
+
+				<div class="grid gap-2" *ngIf="_isDevelopment">
+					<button
+						mat-flat-button
+						color="primary"
+						(click)="_devLogin(devLoginUsername.value)"
+					>
+						DevLogin
+					</button>
+					<mat-form-field>
+						<mat-label>Username</mat-label>
+						<input
+							#devLoginUsername
+							matInput
+							value="mmustermann"
+							(keydown.enter)="_devLogin(devLoginUsername.value)"
+						/>
+					</mat-form-field>
+				</div>
+			</div>
 		</ng-template>
 	</div>
 

@@ -1,34 +1,79 @@
-import { Action, createReducer, on } from "@ngrx/store";
-import { UserDto } from "@kling/shared/data-access/api-rest-ng-client";
+import { createReducer, on } from "@ngrx/store";
+import { UserDto } from "@student-mgmt/api";
+import { MetaState } from "../interfaces";
 import * as AuthActions from "./auth.actions";
 
 export const authFeatureKey = "auth";
 
-export interface State {
-	authToken: any;
+export interface State extends MetaState {
+	accessToken: string;
 	user: UserDto;
-	loading: boolean;
 }
 
 export const initialState: State = {
-	authToken: null,
+	accessToken: null,
 	user: null,
-	loading: false
+	hasLoaded: false,
+	isLoading: false
 };
 
+function createInitialState(): State {
+	const initial = initialState;
+	const authState = JSON.parse(localStorage.getItem("studentMgmtToken")) as {
+		user: UserDto;
+		accessToken: string;
+	};
+
+	if (authState) {
+		initialState.user = authState.user;
+		initial.accessToken = authState.accessToken;
+	}
+
+	return initial;
+}
+
 export const reducer = createReducer(
-	initialState,
-	on(AuthActions.requestAuthentication, state => ({
+	createInitialState(),
+
+	on(
+		AuthActions.login,
+		(state): State => ({
+			...state,
+			isLoading: true,
+			hasLoaded: false,
+			error: undefined
+		})
+	),
+	on(
+		AuthActions.loginSuccess,
+		(state, action): State => ({
+			accessToken: action.accessToken,
+			user: action.user,
+			isLoading: false,
+			hasLoaded: true
+		})
+	),
+	on(
+		AuthActions.loginFailure,
+		(state, action): State => ({
+			...state,
+			isLoading: false,
+			hasLoaded: true,
+			error: action.error
+		})
+	),
+	on(
+		AuthActions.logout,
+		(state): State => ({
+			accessToken: null,
+			user: null,
+			isLoading: false,
+			hasLoaded: false,
+			error: undefined
+		})
+	),
+	on(AuthActions.setCourses, (state, action) => ({
 		...state,
-		loading: true
-	})),
-	on(AuthActions.authenticationSuccess, (state, { authToken }) => ({
-		...state,
-		authToken,
-		loading: false
-	})),
-	on(AuthActions.authenticationFail, (state, { error }) => ({
-		...state,
-		loading: false
+		user: { ...state.user, courses: action.courses }
 	}))
 );

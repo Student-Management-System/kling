@@ -1,17 +1,21 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import { createAction, props } from "@ngrx/store";
+import { CourseDto, UserDto } from "@student-mgmt/api";
 
-export const requestAuthentication = createAction(
-	"[Login Dialog] Request Authentication",
-	props<{ token: string }>()
+export const login = createAction(
+	"[Login Dialog] Login",
+	props<{ username: string; password: string }>()
 );
 
-export const authenticationSuccess = createAction(
-	"[Auth API] Authentication Success",
-	props<{ authToken: any }>()
+export const loginSuccess = createAction(
+	"[login$ Effect] Login Success",
+	props<{ user: UserDto; accessToken: string }>()
 );
 
-export const authenticationFail = createAction(
-	"[Auth API] Authentication Failure",
-	props<{ error: HttpErrorResponse }>()
+export const loginFailure = createAction(
+	"[login$ Effect] Login Failure",
+	props<{ error: unknown }>()
 );
+
+export const logout = createAction("[Logout] Logout");
+
+export const setCourses = createAction("[User] Set Courses", props<{ courses: CourseDto[] }>());

@@ -15,8 +15,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import {
 	ApiModule as StudentMgmtApiModule,
 	Configuration as StudentMgmtConfiguration
-} from "@student-mgmt";
-import { NgTerminalModule } from "ng-terminal";
+} from "@student-mgmt/api";
 import { ContextMenuModule } from "ngx-contextmenu";
 import { MarkdownModule } from "ngx-markdown";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
@@ -24,6 +23,8 @@ import { ToastrModule } from "ngx-toastr";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { AuthModule } from "./auth/auth.module";
+import { AuthService } from "./auth/services/auth.service";
 import { EditorModule } from "./ide/editor/editor.module";
 import { MaterialModule } from "./material/material.module";
 import { NavigationComponent } from "./navigation/navigation.component";
@@ -44,6 +45,7 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 		HttpClientModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
+		AuthModule,
 		TranslateModule.forRoot({
 			defaultLanguage: localStorage.getItem("language") ?? "en",
 			loader: {
@@ -53,12 +55,12 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 			}
 		}),
 		ToastrModule.forRoot({
-			positionClass: "toast-bottom-right"
+			positionClass: "toast-bottom-right",
+			progressBar: true
 		}),
 		SharedModule,
 		MaterialModule,
 		LayoutModule,
-		//MonacoEditorModule.forRoot(monacoConfig),
 		MarkdownModule.forRoot({
 			loader: HttpClient,
 			sanitize: SecurityContext.NONE
@@ -73,13 +75,13 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 		StudentMgmtApiModule.forRoot(
 			() =>
 				new StudentMgmtConfiguration({
+					accessToken: (): string => AuthService.getAccessToken(),
 					basePath:
 						window["__env"]["STUDENT_MGMT_BASE_PATH"] ??
 						environment.STUDENT_MGMT_BASE_PATH
 				})
 		),
 		NgxMatSelectSearchModule,
-		NgTerminalModule,
 		ClientDataAccessStateModule,
 		EditorModule,
 		StoreDevtoolsModule.instrument({

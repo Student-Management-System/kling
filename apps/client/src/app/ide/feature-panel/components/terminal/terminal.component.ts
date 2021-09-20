@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
-import { TerminalFacade } from "../../services/terminal.facade";
+import { TerminalService } from "../../services/terminal.service";
 
 @Component({
 	selector: "app-terminal",
@@ -11,7 +11,7 @@ import { TerminalFacade } from "../../services/terminal.facade";
 export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
 	output$: Observable<{ stderr: string; stdout: string }>;
 
-	constructor(private terminalFacade: TerminalFacade) {
+	constructor(private terminalFacade: TerminalService) {
 		super();
 	}
 

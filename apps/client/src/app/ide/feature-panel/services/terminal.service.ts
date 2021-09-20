@@ -5,7 +5,7 @@ import { CodeExecutionService } from "../../services/code-execution.service";
 type StdStreams = { stdout: string; stderr: string };
 
 @Injectable()
-export class TerminalFacade {
+export class TerminalService {
 	private output$ = new BehaviorSubject<StdStreams>(null);
 	readonly _output$ = this.output$.asObservable();
 

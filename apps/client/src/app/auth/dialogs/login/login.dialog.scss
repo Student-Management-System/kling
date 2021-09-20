@@ -1,0 +1,37 @@
+#login-dialog {
+	display: flex;
+	flex-direction: column;
+	width: 150px;
+}
+
+#dialog-title {
+	margin-bottom: 16px;
+}
+
+#password {
+	margin-top: -16px;
+}
+
+mat-form-field,
+#btn-login {
+	width: 100%;
+}
+
+#error-container {
+	display: flex;
+}
+
+mat-error {
+	justify-self: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.loading {
+	padding: 8px;
+
+	mat-spinner {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}

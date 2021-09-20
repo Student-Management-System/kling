@@ -1,3 +1,15 @@
 <div class="terminal">
-	<ng-terminal #terminal [ngStyle]="{ height: '100%' }"></ng-terminal>
+	<div class="output" *ngIf="output$ | async as output; else noOutput">
+		<div class="stdout" *ngIf="output.stdout?.length > 0">
+			<pre>{{ output.stdout }}</pre>
+		</div>
+
+		<div class="text-red-700 stderr" *ngIf="output.stderr?.length > 0">
+			<pre>{{ output.stderr }}</pre>
+		</div>
+	</div>
+
+	<ng-template #noOutput>
+		<span>The output of your program will appear here ...</span>
+	</ng-template>
 </div>

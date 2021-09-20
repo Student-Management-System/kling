@@ -8,10 +8,10 @@ import {
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { File, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
+import { extractFileExtension, FileExtension, getLanguageFromExtension } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
-//import { EditorComponent } from "ngx-monaco-editor";
 import { fromEvent, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
@@ -60,6 +60,9 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 				this.editor = await main(theme);
 
+				this.subs.sink = this.codeExecution.onTriggerExecution$.subscribe(() =>
+					this.createCodeExecutionRequest()
+				);
 				this.subs.sink = this.subscribeToThemeChanged();
 				this.subs.sink = this.subscribeToFileSelected();
 				this.subs.sink = this.subscribeToFileAdded();
@@ -76,6 +79,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		});
 
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+
+		// this.editor.onDidChangeModelContent(event => {
+		// 	console.log(event);
+		// });
 
 		this.registerCustomActions();
 
@@ -132,35 +139,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			contextMenuOrder: 1,
 			contextMenuGroupId: "Custom",
 			run: () => {
-				const language = this.getLanguageOfFile(this.selectedFilePath);
-				const version = this.getLanguageVersion(language);
-
-				console.log(
-					`Running ${language} (${version}) code with "${this.selectedFilePath}" as entry point.`
-				);
-
-				this.store
-					.select(FileSelectors.selectAllFiles)
-					.pipe(take(1))
-					.subscribe(files => {
-						const request: ExecuteRequest = {
-							language,
-							version,
-							files: files.map(file => ({
-								name: file.path,
-								content: this.getFileContent(file.path)
-							}))
-						};
-
-						this.codeExecution.execute(request).subscribe({
-							next: result => {
-								console.log(result);
-							},
-							error: error => {
-								console.log(error);
-							}
-						});
-					});
+				this.createCodeExecutionRequest();
 			}
 		});
 
@@ -234,14 +213,39 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		});
 	}
 
+	private createCodeExecutionRequest(): void {
+		const language = this.getLanguageOfFile(this.selectedFilePath);
+		const version = this.getLanguageVersion(language);
+
+		const files: { name: string; content: string }[] = [];
+		this.editorModelByPath.forEach((model, path) => {
+			files.push({ name: path, content: model.textModel.getValue() });
+		});
+
+		const request: ExecuteRequest = { language, version, files };
+
+		console.log(
+			`Running ${language} (${version}) code with "${this.selectedFilePath}" as entry point.`
+		);
+
+		this.codeExecution.execute(request).subscribe({
+			next: result => {
+				console.log(result);
+			},
+			error: error => {
+				console.log(error);
+			}
+		});
+	}
+
 	/**
 	 * Looks up the file extension of the given path and returns the corresponding language.
 	 * - `.py` -> `python`
 	 * - `.ts` -> `typescript`
 	 */
 	private getLanguageOfFile(path: string) {
-		const split = path.split(".");
-		return this.getLanguageId(split[split.length - 1]);
+		const extension = extractFileExtension(path) as FileExtension;
+		return getLanguageFromExtension(extension);
 	}
 
 	/** Returns the model that is currently opened. */
@@ -385,17 +389,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	private _disposeAllModels() {
 		monaco?.editor?.getModels().forEach(model => model.dispose());
 		this.editorModelByPath.clear();
-	}
-
-	private getLanguageId(extension: string): string {
-		switch (extension) {
-			case "ts":
-				return "typescript";
-			case "py":
-				return "python";
-			default:
-				return extension;
-		}
 	}
 
 	private getLanguageVersion(language: string): string {

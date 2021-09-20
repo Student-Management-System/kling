@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
 	DirectorySelectors,
 	File,
@@ -32,7 +33,12 @@ export class WorkspaceService {
 	private __editorComponent: CodeEditorComponent;
 	private recentProjectKey = "recentProject";
 
-	constructor(private readonly store: Store, private readonly toast: ToastService) {}
+	constructor(
+		private readonly router: Router,
+		private readonly route: ActivatedRoute,
+		private readonly store: Store,
+		private readonly toast: ToastService
+	) {}
 
 	initWorkspace(): void {
 		this._init$.next();
@@ -72,13 +78,21 @@ export class WorkspaceService {
 	}
 
 	restoreProject(projectName: string): void {
+		this.router.navigate([], {
+			relativeTo: this.route,
+			queryParams: {
+				project: projectName
+			}
+		});
+
 		const storedProject = localStorage.getItem(this.recentProjectKey);
 
 		const project = storedProject
 			? JSON.parse(storedProject)
-			: { files: [], directories: [], projectName: "Playground" };
+			: { files: [], directories: [], projectName };
 
 		this.store.dispatch(WorkspaceActions.loadProject(project));
+
 		if (project.files?.length > 0) {
 			this.store.dispatch(FileActions.setSelectedFile({ file: project.files[0] }));
 		}

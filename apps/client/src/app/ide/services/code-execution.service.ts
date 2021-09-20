@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable, InjectionToken } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { tap } from "rxjs/operators";
 
 export type ExecuteRequest = {
@@ -27,15 +27,7 @@ export type ExecuteRequest = {
 	run_memory_limit?: number;
 };
 
-type Output = {
-	stdout: string;
-	stderr: string;
-	output: string;
-	code: string;
-	signal: string;
-};
-
-type ExecuteResponse = {
+export type ExecuteResponse = {
 	/** Name (not alias) of the runtime used. */
 	language: string;
 	/** Version of the used runtime. */
@@ -44,6 +36,14 @@ type ExecuteResponse = {
 	run: Output;
 	/** Results from the compile stage, only provided if the runtime has a compile stage */
 	compile?: Output;
+};
+
+type Output = {
+	stdout: string;
+	stderr: string;
+	output: string;
+	code: string;
+	signal: string;
 };
 
 type RuntimesResponse = {
@@ -59,6 +59,18 @@ export const PISTON_API_URL = new InjectionToken<string>("URL of the piston code
 export class CodeExecutionService {
 	readonly executeResult$ = new BehaviorSubject<ExecuteResponse>(null);
 
+	private _onTriggerExecution$ = new Subject<void>();
+
+	/**
+	 * Emits when {@link triggerExecution} is called.
+	 *
+	 * There should be subscribed to by a single component or service that can build the necessary
+	 * objects to call this service's {@link execute} method.
+	 */
+	readonly onTriggerExecution$ = this._onTriggerExecution$.asObservable();
+
+	isRunning$ = new BehaviorSubject(false);
+
 	private executeUrl: string;
 	private runtimesUrl: string;
 
@@ -72,6 +84,17 @@ export class CodeExecutionService {
 
 		this.executeUrl = `${this.url}/api/v2/execute`;
 		this.runtimesUrl = `${this.url}/api/v2/runtimes`;
+	}
+
+	/**
+	 * Informs responsible listeners via the {@link onTriggerExecution$} observable to call the
+	 * {@link execute} method.
+	 *
+	 * Should be called from components that cannot access the necessary data to build the
+	 * {@link ExecuteRequest} themselves.
+	 */
+	triggerExecution(): void {
+		this._onTriggerExecution$.next();
 	}
 
 	/** Runs the given code, using the given runtime and arguments, returning the result. */

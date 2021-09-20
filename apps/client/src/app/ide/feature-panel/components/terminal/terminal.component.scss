@@ -2,3 +2,10 @@
 	height: 100%;
 	padding: 8px 0px 16px 16px;
 }
+
+.output {
+	pre {
+		line-break: normal;
+		font-family: "Consolas", monospace;
+	}
+}

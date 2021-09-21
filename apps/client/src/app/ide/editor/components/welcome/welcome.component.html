@@ -1,131 +1,142 @@
-<div class="grid justify-center w-full gap-8 p-6 text-light">
-	<div class="mx-auto">
-		<ng-template [ngTemplateOutlet]="uniLogo"></ng-template>
-	</div>
-
-	<div class="flex justify-center">
-		<div class="grid justify-items-center" *ngIf="user$ | async as user; else loginButton">
-			<div class="text-xl">
-				{{ "Common.Hello" | translate }},
-				<span class="text-[#90e5ff]">{{ user.username }}</span
-				>.
-			</div>
-
-			<button mat-button (click)="logout()">
-				<span class="text-xs font-light">Logout</span>
-			</button>
+<div class="h-full">
+	<div class="grid justify-center w-full gap-8 p-6 text-light">
+		<div class="mx-auto">
+			<ng-template [ngTemplateOutlet]="uniLogo"></ng-template>
 		</div>
 
-		<ng-template #loginButton>
-			<div class="grid gap-2">
-				<button class="w-full" mat-flat-button color="accent" (click)="openLoginDialog()">
-					Login
-				</button>
+		<div class="flex justify-center">
+			<div class="grid justify-items-center" *ngIf="user$ | async as user; else loginButton">
+				<div class="text-xl">
+					{{ "Common.Hello" | translate }},
+					<span class="text-[#90e5ff]">{{ user.username }}</span
+					>.
+				</div>
 
-				<div class="grid gap-2" *ngIf="_isDevelopment">
+				<button mat-button (click)="logout()">
+					<span class="text-xs font-light">Logout</span>
+				</button>
+			</div>
+
+			<ng-template #loginButton>
+				<div class="grid gap-2 min-w">
+					<button
+						class="w-full"
+						mat-flat-button
+						color="accent"
+						(click)="openLoginDialog()"
+					>
+						Login
+					</button>
+
+					<div class="grid gap-2" *ngIf="_isDevelopment">
+						<button
+							mat-flat-button
+							color="primary"
+							(click)="_devLogin(devLoginUsername.value)"
+						>
+							DevLogin
+						</button>
+						<mat-form-field>
+							<mat-label>Username</mat-label>
+							<input
+								#devLoginUsername
+								matInput
+								value="mmustermann"
+								(keydown.enter)="_devLogin(devLoginUsername.value)"
+							/>
+						</mat-form-field>
+					</div>
+				</div>
+			</ng-template>
+		</div>
+
+		<div>
+			<div class="mb-2">{{ "Misc.Quickstart" | translate }}</div>
+
+			<div class="flex flex-wrap gap-2">
+				<button
+					mat-stroked-button
+					color="primary"
+					class="flex justify-items-center"
+					(click)="createMainFile('java')"
+				>
+					<div class="flex items-center w-full h-full gap-2">
+						<app-file-icon class="mt-[-4px]" language="java"></app-file-icon>
+						<span>Java</span>
+					</div>
+				</button>
+				<button
+					mat-stroked-button
+					color="primary"
+					class="flex justify-items-center"
+					(click)="createMainFile('python')"
+				>
+					<div class="flex items-center w-full h-full gap-2">
+						<app-file-icon class="mt-[-4px]" language="python"></app-file-icon>
+						<span>Python</span>
+					</div>
+				</button>
+				<button
+					mat-stroked-button
+					color="primary"
+					class="flex justify-items-center"
+					(click)="createMainFile('typescript')"
+				>
+					<div class="flex items-center w-full h-full gap-2">
+						<app-file-icon class="mt-[-4px]" language="typescript"></app-file-icon>
+						<span>TypeScript</span>
+					</div>
+				</button>
+				<button
+					mat-stroked-button
+					color="primary"
+					class="flex justify-items-center"
+					(click)="createMainFile('javascript')"
+				>
+					<div class="flex items-center w-full h-full gap-2">
+						<app-file-icon class="mt-[-4px]" language="javascript"></app-file-icon>
+						<span>JavaScript</span>
+					</div>
+				</button>
+			</div>
+		</div>
+
+		<div class="grid grid-cols-2 gap-8">
+			<div class="grid content-start">
+				<div class="mb-2">{{ "Common.Actions" | translate }}</div>
+				<div class="grid gap-4">
 					<button
 						mat-flat-button
 						color="primary"
-						(click)="_devLogin(devLoginUsername.value)"
+						(click)="dialogs.openCreateFileDialog()"
 					>
-						DevLogin
+						{{ "Action.Custom.AddFile" | translate }}
 					</button>
-					<mat-form-field>
-						<mat-label>Username</mat-label>
-						<input
-							#devLoginUsername
-							matInput
-							value="mmustermann"
-							(keydown.enter)="_devLogin(devLoginUsername.value)"
-						/>
-					</mat-form-field>
+					<button
+						mat-flat-button
+						color="primary"
+						(click)="dialogs.openCreateDirectoryDialog()"
+					>
+						{{ "Action.Custom.AddDirectory" | translate }}
+					</button>
+					<button mat-flat-button color="primary">
+						{{ "Action.Custom.ImportFiles" | translate }}
+					</button>
 				</div>
 			</div>
-		</ng-template>
-	</div>
 
-	<div>
-		<div class="mb-2">{{ "Misc.Quickstart" | translate }}</div>
-
-		<div class="flex flex-wrap gap-2">
-			<button
-				mat-stroked-button
-				color="primary"
-				class="flex justify-items-center"
-				(click)="createMainFile('java')"
-			>
-				<div class="flex items-center w-full h-full gap-2">
-					<app-file-icon class="mt-[-4px]" language="java"></app-file-icon>
-					<span>Java</span>
+			<div class="grid content-start">
+				<div class="mb-2">{{ "Common.Recent" | translate }}</div>
+				<div class="grid">
+					<button
+						mat-button
+						*ngFor="let project of recentProjects"
+						class="recent-project"
+						(click)="openRecentProject(project)"
+					>
+						<span class="text-left text-selected">{{ project }}</span>
+					</button>
 				</div>
-			</button>
-			<button
-				mat-stroked-button
-				color="primary"
-				class="flex justify-items-center"
-				(click)="createMainFile('python')"
-			>
-				<div class="flex items-center w-full h-full gap-2">
-					<app-file-icon class="mt-[-4px]" language="python"></app-file-icon>
-					<span>Python</span>
-				</div>
-			</button>
-			<button
-				mat-stroked-button
-				color="primary"
-				class="flex justify-items-center"
-				(click)="createMainFile('typescript')"
-			>
-				<div class="flex items-center w-full h-full gap-2">
-					<app-file-icon class="mt-[-4px]" language="typescript"></app-file-icon>
-					<span>TypeScript</span>
-				</div>
-			</button>
-			<button
-				mat-stroked-button
-				color="primary"
-				class="flex justify-items-center"
-				(click)="createMainFile('javascript')"
-			>
-				<div class="flex items-center w-full h-full gap-2">
-					<app-file-icon class="mt-[-4px]" language="javascript"></app-file-icon>
-					<span>JavaScript</span>
-				</div>
-			</button>
-		</div>
-	</div>
-
-	<div class="grid grid-cols-2 gap-8">
-		<div class="grid content-start">
-			<div class="mb-2">{{ "Common.Actions" | translate }}</div>
-			<div class="grid gap-4">
-				<button mat-flat-button color="primary" (click)="dialogs.openCreateFileDialog()">
-					{{ "Action.Custom.AddFile" | translate }}
-				</button>
-				<button
-					mat-flat-button
-					color="primary"
-					(click)="dialogs.openCreateDirectoryDialog()"
-				>
-					{{ "Action.Custom.AddDirectory" | translate }}
-				</button>
-				<button mat-flat-button color="primary">
-					{{ "Action.Custom.ImportFiles" | translate }}
-				</button>
-			</div>
-		</div>
-
-		<div class="grid content-start">
-			<div class="mb-2">{{ "Common.Recent" | translate }}</div>
-			<div class="grid">
-				<button
-					mat-button
-					*ngFor="let project of recentProjects"
-					class="recent-project"
-					(click)="openRecentProject(project)"
-				>
-					<span class="text-left text-selected">{{ project }}</span>
-				</button>
 			</div>
 		</div>
 	</div>

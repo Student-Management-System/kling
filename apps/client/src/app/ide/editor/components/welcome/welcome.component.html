@@ -8,7 +8,7 @@
 			<div class="grid justify-items-center" *ngIf="user$ | async as user; else loginButton">
 				<div class="text-xl">
 					{{ "Common.Hello" | translate }},
-					<span class="text-[#90e5ff]">{{ user.username }}</span
+					<span class="text-selected">{{ user.username }}</span
 					>.
 				</div>
 

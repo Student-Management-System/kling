@@ -35,6 +35,7 @@ export class WorkspaceService {
 
 	private __editorComponent: CodeEditorComponent;
 	private recentProjectKey = "recentProject";
+	private stdin: string;
 
 	constructor(
 		private readonly router: Router,
@@ -117,6 +118,20 @@ export class WorkspaceService {
 	 */
 	setEntryPoint(path: string): void {
 		this.store.dispatch(WorkspaceActions.setEntryPoint({ path }));
+	}
+
+	/**
+	 * Sets the `stdin`, which will be included in code execution requests to enable programs to read
+	 * user input from the command line.
+	 *
+	 * @param content
+	 */
+	setStdin(content: string): void {
+		this.stdin = content;
+	}
+
+	getStdin(): string {
+		return this.stdin;
 	}
 
 	setEditorComponent(component: CodeEditorComponent): void {

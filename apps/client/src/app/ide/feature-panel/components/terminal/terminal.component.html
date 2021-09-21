@@ -1,17 +1,43 @@
-<div class="terminal">
-	<div class="output" *ngIf="output$ | async as output; else noOutput">
-		<div class="stdout" *ngIf="output.stdout?.length > 0">
-			<pre>{{ output.stdout }}</pre>
-		</div>
+<div class="flex flex-col h-full max-h-full px-4 py-2">
+	<!-- Input -->
+	<div class="flex flex-col gap-2">
+		<span class="text-xl">{{ "Domain.Input" | translate }}</span>
 
-		<div class="text-red-700 stderr" *ngIf="output.stderr?.length > 0">
-			<pre>{{ output.stderr }}</pre>
+		<div class="w-full input-textarea-form-field">
+			<mat-form-field class="w-full" appearance="outline">
+				<textarea
+					class="input-textarea"
+					#input
+					matInput
+					rows="10"
+					class="consolas"
+					(change)="setInput(input.value)"
+				></textarea>
+			</mat-form-field>
+		</div>
+	</div>
+
+	<!-- Output -->
+	<div class="flex flex-col h-full gap-2 overflow-hidden">
+		<span class="text-xl">{{ "Domain.Output" | translate }}</span>
+		<div class="flex-1 h-full p-2 overflow-auto border rounded output-area">
+			<ng-container *ngIf="output$ | async as output; else noOutput">
+				<div class="stdout" *ngIf="output.stdout?.length > 0">
+					<pre>{{ output.stdout }}</pre>
+				</div>
+
+				<div class="text-red-700 stderr" *ngIf="output.stderr?.length > 0">
+					<pre>{{ output.stderr }}</pre>
+				</div>
+			</ng-container>
 		</div>
 	</div>
 
 	<ng-template #noOutput>
 		<div *ngIf="{ loading: terminalService.displayLoadingIndicator$ | async } as obs">
-			<span *ngIf="!obs.loading">The output of your program will appear here ...</span>
+			<span *ngIf="!obs.loading" class="text-light"
+				>The output of your program will appear here ...</span
+			>
 
 			<div class="flex justify-center p-8" *ngIf="obs.loading">
 				<mat-spinner mode="indeterminate"></mat-spinner>

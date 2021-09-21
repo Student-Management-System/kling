@@ -215,9 +215,9 @@ app-icon {
 	width: 8px;
 }
 
-*::-webkit-scrollbar-track {
-	background-color: var(--color-header);
-}
+// *::-webkit-scrollbar-track {
+//  background-color: var(--color-header);
+// }
 
 :root > *::-webkit-scrollbar-track {
 	margin-top: var(--titlebar-height); // Start below Titlebar

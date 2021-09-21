@@ -223,7 +223,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			if (this.editorModelByPath.has(entryPoint)) {
 				const language = this.getLanguageOfFile(entryPoint);
 				const version = this.getLanguageVersion(language);
-
+				const stdin = this.workspace.getStdin();
 				const files: { name: string; content: string }[] = [];
 
 				// Main file must be the first file
@@ -238,7 +238,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 					}
 				});
 
-				const request: ExecuteRequest = { language, version, files };
+				const request: ExecuteRequest = { language, version, stdin, files };
 
 				console.log(
 					`Running ${language} (${version}) code with "${entryPoint}" as entry point.`

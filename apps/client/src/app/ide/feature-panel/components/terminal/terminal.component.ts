@@ -1,6 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
+import { Component } from "@angular/core";
+import { WorkspaceService } from "../../../services/workspace.service";
 import { TerminalService } from "../../services/terminal.service";
 
 @Component({
@@ -8,14 +7,15 @@ import { TerminalService } from "../../services/terminal.service";
 	templateUrl: "./terminal.component.html",
 	styleUrls: ["./terminal.component.scss"]
 })
-export class TerminalComponent extends UnsubscribeOnDestroy implements OnInit {
-	output$: Observable<{ stderr: string; stdout: string }>;
+export class TerminalComponent {
+	output$ = this.terminalService._output$;
 
-	constructor(readonly terminalService: TerminalService) {
-		super();
-	}
+	constructor(
+		readonly terminalService: TerminalService,
+		private readonly workspace: WorkspaceService
+	) {}
 
-	ngOnInit(): void {
-		this.output$ = this.terminalService._output$;
+	setInput(content: string): void {
+		this.workspace.setStdin(content);
 	}
 }

@@ -71,7 +71,9 @@
     "Semester": "Semester",
     "Solved": "Solved",
     "User": "User",
-    "Users": "Users"
+    "Users": "Users",
+    "Input": "Input",
+    "Output": "Output"
   },
   "Enum": {
     "AssignmentState": {

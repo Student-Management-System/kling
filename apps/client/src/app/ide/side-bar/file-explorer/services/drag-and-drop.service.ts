@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
 import {
 	createDirectory,
 	createFile,
 	DirectoryActions,
 	FileActions
 } from "@kling/client/data-access/state";
-import { extractFileExtension, FileExtension, getLanguageFromExtension } from "@kling/programming";
+import { Store } from "@ngrx/store";
 
 interface FileEntry {
 	filesystem: any;
@@ -26,7 +25,6 @@ export class DragAndDropService {
 
 		for (let i = 0; i < items.length; i++) {
 			const item = items[i];
-			console.log(item);
 			if (item.kind === "file") {
 				const entry = item.webkitGetAsEntry() as FileEntry;
 				await this.convertEntryToDirectoryOrFile(entry, "");
@@ -38,9 +36,7 @@ export class DragAndDropService {
 		if (entry.isFile) {
 			const file = await this.getFileFromEntry(entry);
 			const content = await this.readFileContent(file as any);
-			const extension = extractFileExtension(file.name) as FileExtension;
-			const language = getLanguageFromExtension(extension);
-			const fileModel = createFile(entry.name, language, parentDirectoryId, content);
+			const fileModel = createFile(entry.name, parentDirectoryId, content);
 			this.store.dispatch(FileActions.addFile({ file: fileModel }));
 		} else if (entry.isDirectory) {
 			const subdirectory = createDirectory(entry.name, parentDirectoryId);

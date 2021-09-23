@@ -27,6 +27,7 @@ export class WorkspaceEffects {
 		return this.actions$.pipe(
 			ofType(WorkspaceActions.loadProject),
 			tap(action => {
+				this.workspace.initWorkspace();
 				action.files.forEach(file => {
 					this.workspace.emitFileAdded(file);
 				});

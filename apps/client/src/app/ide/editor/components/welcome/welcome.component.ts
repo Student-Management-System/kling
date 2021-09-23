@@ -6,6 +6,7 @@ import { Store } from "@ngrx/store";
 import { environment } from "../../../../../environments/environment";
 import { LoginDialog } from "../../../../auth/dialogs/login/login.dialog";
 import { AuthService } from "../../../../auth/services/auth.service";
+import { FileSystemAccess } from "../../../services/file-system-access.service";
 import { WorkspaceService } from "../../../services/workspace.service";
 import { FileExplorerDialogs } from "../../../side-bar/file-explorer/services/file-explorer-dialogs.facade";
 
@@ -23,6 +24,7 @@ export class WelcomeComponent implements OnInit {
 
 	constructor(
 		readonly dialogs: FileExplorerDialogs,
+		readonly fileSystem: FileSystemAccess,
 		private readonly dialog: MatDialog,
 		private readonly authService: AuthService,
 		private readonly store: Store,

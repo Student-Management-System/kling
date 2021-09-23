@@ -9,7 +9,10 @@
 			(middleclick)="closeTab(tab)"
 		>
 			<div class="flex items-center w-full h-full gap-2 inner-tab">
-				<app-file-icon class="mt-[-4px]" [language]="tab.language"></app-file-icon>
+				<app-file-icon
+					class="mt-[-4px]"
+					[language]="tab.name | programmingLanguage"
+				></app-file-icon>
 				<span class="tab-name">{{ tab.name }}</span>
 				<button mat-mini-fab class="clear-btn mat-elevation-z0" (click)="closeTab(tab)">
 					<app-icon

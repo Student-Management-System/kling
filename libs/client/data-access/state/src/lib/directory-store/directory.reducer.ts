@@ -32,7 +32,9 @@ export const reducer = createReducer(
 	on(DirectoryActions.updateDirectories, (state, action) =>
 		adapter.updateMany(action.directories, state)
 	),
-	on(DirectoryActions.deleteDirectory, (state, action) => adapter.removeOne(action.id, state)),
+	on(DirectoryActions.deleteDirectory, (state, action) =>
+		adapter.removeOne(action.directory.path, state)
+	),
 	on(DirectoryActions.deleteDirectories, (state, action) =>
 		adapter.removeMany(action.ids, state)
 	),

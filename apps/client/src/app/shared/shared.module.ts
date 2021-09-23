@@ -13,6 +13,7 @@ import { MiddleClickDirective } from "./directives/middle-click.directive";
 import { IconComponent } from "./components/icon.component";
 import { FileIconComponent } from "./components/file-icon/file-icon.component";
 import { DropzoneDirective } from "./directives/dropzone.directive";
+import { ProgrammingLanguagePipe } from "./pipes/programming-language.pipe";
 
 @NgModule({
 	declarations: [
@@ -23,7 +24,8 @@ import { DropzoneDirective } from "./directives/dropzone.directive";
 		MiddleClickDirective,
 		DropzoneDirective,
 		IconComponent,
-		FileIconComponent
+		FileIconComponent,
+		ProgrammingLanguagePipe
 	],
 	imports: [
 		CommonModule,
@@ -45,7 +47,8 @@ import { DropzoneDirective } from "./directives/dropzone.directive";
 		MiddleClickDirective,
 		DropzoneDirective,
 		IconComponent,
-		FileIconComponent
+		FileIconComponent,
+		ProgrammingLanguagePipe
 	],
 	providers: []
 })

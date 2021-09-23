@@ -40,7 +40,7 @@ export const updateDirectories = createAction(
 
 export const deleteDirectory = createAction(
 	"[Directory/API] Delete Directory",
-	props<{ id: string }>()
+	props<{ directory: Directory }>()
 );
 
 export const deleteDirectories = createAction(

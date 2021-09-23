@@ -49,8 +49,10 @@ export class FileTabEffects {
 		return this.actions$.pipe(
 			ofType(FileActions.deleteFile),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
-			filter(([action, tabs]) => this.removedFileHasTab(tabs, action.path)),
-			map(([action]) => FileTabActions.removeFileTab_FileRemoved({ filePath: action.path }))
+			filter(([action, tabs]) => this.removedFileHasTab(tabs, action.file.path)),
+			map(([action]) =>
+				FileTabActions.removeFileTab_FileRemoved({ filePath: action.file.path })
+			)
 		);
 	});
 

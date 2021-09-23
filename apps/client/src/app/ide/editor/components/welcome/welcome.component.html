@@ -8,7 +8,7 @@
 			<div class="grid justify-items-center" *ngIf="user$ | async as user; else loginButton">
 				<div class="text-xl">
 					{{ "Common.Hello" | translate }},
-					<span class="text-selected">{{ user.username }}</span
+					<span class="text-selected">{{ user.displayName }}</span
 					>.
 				</div>
 
@@ -100,6 +100,19 @@
 			<div class="grid content-start">
 				<div class="mb-2">{{ "Common.Actions" | translate }}</div>
 				<div class="grid gap-4">
+					<button mat-flat-button color="primary" (click)="fileSystem.openFile()">
+						Import File
+					</button>
+					<button mat-flat-button color="primary" (click)="fileSystem.openDirectory()">
+						Import Directory
+					</button>
+					<button
+						mat-flat-button
+						color="primary"
+						(click)="fileSystem.synchronizeWithDirectory()"
+					>
+						Synchronize with Directory (Chrome)
+					</button>
 					<button
 						mat-flat-button
 						color="primary"
@@ -113,9 +126,6 @@
 						(click)="dialogs.openCreateDirectoryDialog()"
 					>
 						{{ "Action.Custom.AddDirectory" | translate }}
-					</button>
-					<button mat-flat-button color="primary">
-						{{ "Action.Custom.ImportFiles" | translate }}
 					</button>
 				</div>
 			</div>

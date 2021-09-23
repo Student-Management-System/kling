@@ -51,7 +51,7 @@ export class FileComponent implements OnInit {
 			})
 			.subscribe(confirmed => {
 				if (confirmed) {
-					this.store.dispatch(FileActions.deleteFile({ path: this.file.path }));
+					this.store.dispatch(FileActions.deleteFile({ file: this.file }));
 				}
 			});
 	}

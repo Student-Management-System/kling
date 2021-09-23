@@ -37,12 +37,9 @@ export class FileExplorerDialogs {
 				if (partialFile?.name?.length > 0) {
 					const file = createFile(
 						partialFile.name,
-						partialFile.language,
 						fromDirectory?.path ?? "",
 						`// ${partialFile.name}`
 					);
-
-					console.log("Adding file:", file);
 
 					this.store.dispatch(FileActions.addFile({ file }));
 					this.store.dispatch(FileActions.setSelectedFile({ file }));

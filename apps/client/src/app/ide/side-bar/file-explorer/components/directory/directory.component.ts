@@ -58,7 +58,7 @@ export class DirectoryComponent implements OnInit {
 			.subscribe(confirmed => {
 				if (confirmed) {
 					this.store.dispatch(
-						DirectoryActions.deleteDirectory({ id: this.directory.path })
+						DirectoryActions.deleteDirectory({ directory: this.directory })
 					);
 				}
 			});

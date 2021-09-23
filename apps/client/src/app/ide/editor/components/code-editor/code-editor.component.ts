@@ -16,6 +16,7 @@ import { fromEvent, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
+import { FileSystemAccess } from "../../../services/file-system-access.service";
 import { WorkspaceService } from "../../../services/workspace.service";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
@@ -42,6 +43,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	constructor(
 		private readonly store: Store,
 		private readonly workspace: WorkspaceService,
+		private readonly fileSystem: FileSystemAccess,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
 		private readonly cdRef: ChangeDetectorRef
@@ -117,6 +119,11 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	private registerCustomActions(): void {
 		this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
 			this.workspace.saveProject();
+
+			this.fileSystem.saveSynchronizedFile(
+				this.selectedFilePath,
+				this.getFileContent(this.selectedFilePath)
+			);
 		});
 
 		this.editor.addCommand(monaco.KeyCode.F5, () => {
@@ -284,13 +291,13 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private subscribeToFileRemoved(): Subscription {
-		return this.workspace.fileRemoved$.subscribe(path => {
-			if (path) {
+		return this.workspace.fileRemoved$.subscribe(file => {
+			if (file) {
 				// Remove from map
-				this.editorModelByPath.delete(path);
+				this.editorModelByPath.delete(file.path);
 
 				// Dispose model
-				const model = monaco?.editor?.getModel(this.createFileUri(path));
+				const model = monaco?.editor?.getModel(this.createFileUri(file.path));
 				model.dispose();
 			}
 		});

@@ -46,7 +46,7 @@ function _addFileTab(state: State, file: File): State {
 				name: file.name,
 				path: file.path,
 				directoryPath: file.directoryPath,
-				language: file.language,
+				hasUnsavedChanges: file.hasUnsavedChanges,
 				content: undefined // Not required here
 			}
 		]

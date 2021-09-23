@@ -14,11 +14,7 @@ export class FileEffects {
 	fileAdded$ = createEffect(
 		() => {
 			return this.actions$.pipe(
-				ofType(
-					FileActions.addFile,
-					FileActions.addFile_FileExplorer,
-					FileActions.addFile_Directory
-				),
+				ofType(FileActions.addFile),
 				tap(action => {
 					this.workspace.emitFileAdded(action.file);
 				})
@@ -36,7 +32,7 @@ export class FileEffects {
 		() => {
 			return this.actions$.pipe(
 				ofType(FileActions.deleteFile),
-				tap(({ path }) => this.workspace.emitFileRemoved(path))
+				tap(action => this.workspace.emitFileRemoved(action.file))
 			);
 		},
 		{ dispatch: false }

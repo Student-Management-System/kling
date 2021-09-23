@@ -23,7 +23,7 @@ export class WorkspaceService {
 	/** Emits the added file. */
 	fileAdded$ = this._fileAdded$.asObservable();
 
-	private _fileRemoved$ = new BehaviorSubject<string>(undefined);
+	private _fileRemoved$ = new BehaviorSubject<File>(undefined);
 	/** Emits the `id` of the removed file. */
 	fileRemoved$ = this._fileRemoved$.asObservable();
 
@@ -52,8 +52,8 @@ export class WorkspaceService {
 		this._fileAdded$.next(file);
 	}
 
-	emitFileRemoved(path: string): void {
-		this._fileRemoved$.next(path);
+	emitFileRemoved(file: File): void {
+		this._fileRemoved$.next(file);
 	}
 
 	/** Brings browser focus to the editor. */

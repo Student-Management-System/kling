@@ -26,7 +26,8 @@
       "ImportFiles": "Dateien importieren",
       "MarkAsEntryPoint": "Als Einstiegspunkt markieren"
     },
-    "Run": "Ausführen"
+    "Run": "Ausführen",
+    "Export": "Exportieren"
   },
   "Common": {
     "All": "Alle",

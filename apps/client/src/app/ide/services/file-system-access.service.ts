@@ -1,5 +1,6 @@
 /// <reference types="wicg-file-system-access" />
 import { Injectable } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
 	createDirectory,
 	createFile,
@@ -16,8 +17,8 @@ import { directoryOpen, fileOpen, fileSave, FileWithHandle } from "browser-fs-ac
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { BehaviorSubject, Subscription } from "rxjs";
-import { take, filter } from "rxjs/operators";
-import { WorkspaceService } from "./workspace.service";
+import { take } from "rxjs/operators";
+import { IndexedDbService } from "./indexed-db.service";
 
 @Injectable({ providedIn: "root" })
 export class FileSystemAccess {
@@ -29,8 +30,10 @@ export class FileSystemAccess {
 	private subscriptions: Subscription[];
 
 	constructor(
+		private readonly indexedDb: IndexedDbService,
+		private readonly route: ActivatedRoute,
+		private readonly router: Router,
 		private readonly store: Store,
-		private readonly workspace: WorkspaceService,
 		private readonly actions$: Actions
 	) {
 		this.synchronizedDirectory$.subscribe(enabled => {
@@ -48,7 +51,7 @@ export class FileSystemAccess {
 				await this.addFileToSynchronizedDirectory(action.file);
 			}),
 
-			this.workspace.fileRemoved$.pipe(filter(file => !!file)).subscribe(async file => {
+			this.actions$.pipe(ofType(FileActions.deleteFile)).subscribe(async ({ file }) => {
 				const directoryHandle = this.directoryHandleByPath.get(file.directoryPath);
 				this.fileSystemHandleByPath.delete(file.path);
 				await directoryHandle.removeEntry(file.name);
@@ -91,7 +94,7 @@ export class FileSystemAccess {
 					}
 
 					await parentDirectoryHandle.removeEntry(directoryHandle.name, {
-						recursive: true
+						recursive: false
 					});
 
 					const { files, directories } = await this.traverseDirectory(directoryHandle);
@@ -170,9 +173,22 @@ export class FileSystemAccess {
 		}
 
 		const directoryHandle = await window.showDirectoryPicker();
+		return this._synchronizeWithDirectory(directoryHandle);
+	}
+
+	async _synchronizeWithDirectory(directoryHandle: FileSystemDirectoryHandle): Promise<void> {
+		const hasPermission = await this.verifyPermission(directoryHandle);
+
+		if (!hasPermission) {
+			console.log("User did not grant permissions for file system access.");
+			return;
+		}
+
 		this.fileSystemHandleByPath.clear();
 
 		const { files, directories } = await this.traverseDirectory(directoryHandle);
+
+		// await directoryHandle.removeEntry("sub", { recursive: true });
 
 		this.store.dispatch(
 			WorkspaceActions.loadProject({
@@ -181,6 +197,23 @@ export class FileSystemAccess {
 				projectName: directoryHandle.name
 			})
 		);
+
+		this.indexedDb.putProject({
+			name: directoryHandle.name,
+			source: "fs",
+			lastOpened: new Date(),
+			directoryHandle
+		});
+
+		this.router.navigate([], {
+			relativeTo: this.route,
+			queryParams: {
+				project: directoryHandle.name,
+				source: "fs"
+			}
+		});
+
+		this.store.dispatch(FileActions.setSelectedFile({ file: files[0] }));
 
 		this.directoryHandleByPath.set("", directoryHandle);
 		this.synchronizedDirectory$.next(directoryHandle);
@@ -325,5 +358,18 @@ export class FileSystemAccess {
 
 				saveAs(zipBlob, "project.zip");
 			});
+	}
+
+	private async verifyPermission(handle: FileSystemDirectoryHandle): Promise<boolean> {
+		// Check if permission was already granted. If so, return true.
+		if ((await handle.queryPermission({ mode: "readwrite" })) === "granted") {
+			return true;
+		}
+		// Request permission. If the user grants permission, return true.
+		if ((await handle.requestPermission({ mode: "readwrite" })) === "granted") {
+			return true;
+		}
+		// The user didn't grant permission, so return false.
+		return false;
 	}
 }

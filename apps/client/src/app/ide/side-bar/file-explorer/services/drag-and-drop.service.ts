@@ -6,6 +6,7 @@ import {
 	FileActions
 } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
+import { FileSystemAccess } from "../../../services/file-system-access.service";
 
 interface FileEntry {
 	filesystem: any;
@@ -17,17 +18,29 @@ interface FileEntry {
 
 @Injectable({ providedIn: "root" })
 export class DragAndDropService {
-	constructor(private store: Store) {}
+	constructor(private store: Store, private fileSystem: FileSystemAccess) {}
 
 	async onDrop(event: DragEvent): Promise<void> {
 		const items = event.dataTransfer.items;
-		console.log(items);
 
 		for (let i = 0; i < items.length; i++) {
 			const item = items[i];
 			if (item.kind === "file") {
-				const entry = item.webkitGetAsEntry() as FileEntry;
-				await this.convertEntryToDirectoryOrFile(entry, "");
+				// If File System Access API is supported
+				if (item.getAsFileSystemHandle) {
+					console.log("Using File System Access API.");
+					const entry = await item.getAsFileSystemHandle();
+
+					if (entry.kind === "directory") {
+						await this.fileSystem._synchronizeWithDirectory(entry);
+					}
+				} else {
+					console.log(
+						"File System Access API is not supported. Using in-memory filesystem."
+					);
+					const entry = item.webkitGetAsEntry() as FileEntry;
+					await this.convertEntryToDirectoryOrFile(entry, "");
+				}
 			}
 		}
 	}

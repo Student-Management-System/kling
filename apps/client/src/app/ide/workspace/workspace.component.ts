@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { FileSelectors, WorkspaceActions } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
@@ -7,7 +7,6 @@ import { SidenavService } from "../../shared/services/sidenav.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
 import { WorkspaceLayout, WorkspaceSettingsService } from "../services/workspace-settings.service";
 import { WorkspaceService } from "../services/workspace.service";
-import { createDemoFiles, createPlaygroundFiles } from "./demo-data";
 
 @Component({
 	selector: "app-workspace",
@@ -26,7 +25,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		private readonly workspaceService: WorkspaceService,
 		private readonly sidenav: SidenavService,
 		private readonly route: ActivatedRoute,
-		private readonly router: Router,
 		private readonly store: Store
 	) {
 		super();
@@ -43,12 +41,10 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	handleEditorInit(): void {
-		if (this.router.url.match(/\/playground/)) {
-			console.log("Playground-Mode");
-			createPlaygroundFiles(this.store, this.route, this.workspaceService);
-		} else if (this.route.snapshot.params.problemId === "test-problem") {
-			console.log("Demo-Mode");
-			createDemoFiles(this.store, this.route);
+		const { project, source } = this.route.snapshot.queryParams;
+
+		if (project) {
+			this.workspaceService.restoreProject(project, source);
 		}
 	}
 

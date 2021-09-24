@@ -4,8 +4,6 @@ import { PageNotFoundComponent } from "./shared/components/page-not-found/page-n
 
 const routes: Routes = [
 	{ path: "404", component: PageNotFoundComponent, pathMatch: "full" },
-	{ path: "", redirectTo: "/home", pathMatch: "full" },
-	{ path: "playground", loadChildren: () => import("./ide/ide.module").then(m => m.IdeModule) },
 	{
 		path: "problems/:problemId",
 		loadChildren: () => import("./ide/ide.module").then(m => m.IdeModule)
@@ -19,7 +17,8 @@ const routes: Routes = [
 		path: "problems",
 		loadChildren: () =>
 			import("./problem-list/problem-list.module").then(m => m.ProblemListModule)
-	}
+	},
+	{ path: "ide", loadChildren: () => import("./ide/ide.module").then(m => m.IdeModule) }
 ];
 
 @NgModule({

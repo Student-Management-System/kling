@@ -137,33 +137,6 @@ const javaCountToNumber = `public class Solution {
 
 }`;
 
-export function createPlaygroundFiles(
-	store: Store,
-	route: ActivatedRoute,
-	workspace: WorkspaceService
-): void {
-	store.dispatch(
-		WorkspaceActions.loadProject({
-			projectName: "Playground",
-			directories: [],
-			files: []
-		})
-	);
-
-	const language = route.snapshot.queryParams.lang;
-	const projectName = route.snapshot.queryParams.project;
-
-	if (language && !projectName) {
-		const file = createMainFile(language);
-		store.dispatch(FileActions.addFile({ file }));
-		store.dispatch(FileActions.setSelectedFile({ file }));
-	} else if (projectName && !language) {
-		workspace.restoreProject(projectName);
-	} else if (projectName && language) {
-		console.error("Please only use one of 'lang' or 'project' as query parameter.");
-	}
-}
-
 export function createDemoFiles(store: Store, route: ActivatedRoute): void {
 	const lang = route.snapshot.queryParams.lang;
 	let data = route.snapshot.queryParams.data;

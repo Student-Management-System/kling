@@ -132,15 +132,22 @@
 
 			<div class="grid content-start">
 				<div class="mb-2">{{ "Common.Recent" | translate }}</div>
-				<div class="grid">
-					<button
-						mat-button
-						*ngFor="let project of recentProjects"
-						class="recent-project"
-						(click)="openRecentProject(project)"
-					>
-						<span class="text-left text-selected">{{ project }}</span>
-					</button>
+				<div class="grid gap-2">
+					<div class="flex gap-4" *ngFor="let project of recentProjects$ | async">
+						<button
+							class="p-0 bg-transparent w-max text-selected"
+							(click)="openRecentProject(project)"
+						>
+							{{ project.name }}
+						</button>
+						<span class="my-auto text-xs text-light">({{ project.source }})</span>
+						<button
+							class="p-0 text-xs bg-transparent w-max text-light"
+							(click)="removeRecentProject(project.name)"
+						>
+							{{ "Action.Delete" | translate }}
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

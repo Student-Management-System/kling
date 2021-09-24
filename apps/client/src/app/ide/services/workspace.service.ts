@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
+	Directory,
 	DirectorySelectors,
 	File,
 	FileActions,
@@ -12,6 +13,8 @@ import { Store } from "@ngrx/store";
 import { BehaviorSubject, combineLatest, Subject, take } from "rxjs";
 import { ToastService } from "../../shared/services/toast.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
+import { FileSystemAccess } from "./file-system-access.service";
+import { IndexedDbService, InMemoryProject, StoredProject } from "./indexed-db.service";
 
 @Injectable({ providedIn: "root" })
 export class WorkspaceService {
@@ -41,6 +44,8 @@ export class WorkspaceService {
 		private readonly router: Router,
 		private readonly route: ActivatedRoute,
 		private readonly store: Store,
+		private readonly fileSystem: FileSystemAccess,
+		private readonly indexedDb: IndexedDbService,
 		private readonly toast: ToastService
 	) {}
 
@@ -89,25 +94,52 @@ export class WorkspaceService {
 			});
 	}
 
-	restoreProject(projectName: string): void {
+	async restoreProject(projectName: string, source: "fs" | "in-memory"): Promise<void> {
 		this.router.navigate([], {
 			relativeTo: this.route,
 			queryParams: {
-				project: projectName
+				project: projectName,
+				source
 			}
 		});
 
-		const storedProject = localStorage.getItem(this.recentProjectKey);
+		try {
+			const project = await this.indexedDb.getProjectByName(projectName);
 
-		const project = storedProject
-			? JSON.parse(storedProject)
-			: { files: [], directories: [], projectName };
-
-		this.store.dispatch(WorkspaceActions.loadProject(project));
-
-		if (project.files?.length > 0) {
-			this.store.dispatch(FileActions.setSelectedFile({ file: project.files[0] }));
+			switch (project.source) {
+				case "fs":
+					this.fileSystem._synchronizeWithDirectory(project.directoryHandle);
+					break;
+				case "in-memory":
+					this.restoreInMemoryProject(project);
+					break;
+				default:
+					console.error(
+						`Unknown or missing source (${source}). URL query parameter should specify either "fs" or "in-memory".`
+					);
+					break;
+			}
+		} catch (error) {
+			console.error(`Failed to restore project: ${projectName}`);
+			console.error(error);
 		}
+	}
+
+	private restoreInMemoryProject(project: InMemoryProject) {
+		const {
+			name,
+			project: { files, directories }
+		} = project;
+
+		this.store.dispatch(
+			WorkspaceActions.loadProject({
+				projectName: name,
+				files: files ?? [],
+				directories: directories ?? []
+			})
+		);
+
+		this.store.dispatch(FileActions.setSelectedFile({ file: files?.[0] ?? null }));
 	}
 
 	/**

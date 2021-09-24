@@ -15,85 +15,96 @@ import { Store } from "@ngrx/store";
 import { directoryOpen, fileOpen, fileSave, FileWithHandle } from "browser-fs-access";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
+import { BehaviorSubject, Subscription } from "rxjs";
 import { take, filter } from "rxjs/operators";
 import { WorkspaceService } from "./workspace.service";
 
 @Injectable({ providedIn: "root" })
 export class FileSystemAccess {
-	private synchronizedDirectory: FileSystemDirectoryHandle;
+	private synchronizedDirectory$ = new BehaviorSubject<FileSystemDirectoryHandle>(null);
 	private fileWithHandleByPath = new Map<string, FileWithHandle>();
 
 	private fileSystemHandleByPath = new Map<string, FileSystemFileHandle>();
 	private directoryHandleByPath = new Map<string, FileSystemDirectoryHandle>();
+	private subscriptions: Subscription[];
 
 	constructor(
 		private readonly store: Store,
 		private readonly workspace: WorkspaceService,
 		private readonly actions$: Actions
 	) {
-		this.actions$
-			.pipe(ofType(FileActions.addFile))
-			.pipe(filter(action => this.synchronizedDirectory !== null))
-			.subscribe(async action => {
-				await this.addFileToSynchronizedDirectory(action.file);
-			});
+		this.synchronizedDirectory$.subscribe(enabled => {
+			if (enabled) {
+				this.subscriptions = this.createDirectoryRelatedSubscriptions();
+			} else {
+				this.subscriptions?.forEach(s => s.unsubscribe());
+			}
+		});
+	}
 
-		this.workspace.fileRemoved$
-			.pipe(filter(file => !!file && this.synchronizedDirectory !== null))
-			.subscribe(async file => {
+	private createDirectoryRelatedSubscriptions(): Subscription[] {
+		return [
+			this.actions$.pipe(ofType(FileActions.addFile)).subscribe(async action => {
+				await this.addFileToSynchronizedDirectory(action.file);
+			}),
+
+			this.workspace.fileRemoved$.pipe(filter(file => !!file)).subscribe(async file => {
 				const directoryHandle = this.directoryHandleByPath.get(file.directoryPath);
 				this.fileSystemHandleByPath.delete(file.path);
 				await directoryHandle.removeEntry(file.name);
-			});
+			}),
 
-		this.actions$
-			.pipe(ofType(DirectoryActions.addDirectory))
-			.pipe(filter(() => this.synchronizedDirectory !== null))
-			.subscribe(async ({ directory }) => {
-				const parentDirectoryHandle = this.directoryHandleByPath.get(
-					directory.parentDirectoryPath
-				);
+			this.actions$
+				.pipe(ofType(DirectoryActions.addDirectory))
+				.subscribe(async ({ directory }) => {
+					const parentDirectoryHandle = this.directoryHandleByPath.get(
+						directory.parentDirectoryPath
+					);
 
-				const directoryHandle = await parentDirectoryHandle.getDirectoryHandle(
-					directory.name,
-					{ create: true }
-				);
+					const directoryHandle = await parentDirectoryHandle.getDirectoryHandle(
+						directory.name,
+						{ create: true }
+					);
 
-				this.directoryHandleByPath.set(directory.path, directoryHandle);
-			});
+					this.directoryHandleByPath.set(directory.path, directoryHandle);
+				}),
 
-		this.actions$
-			.pipe(ofType(DirectoryActions.deleteDirectory))
-			.pipe(filter(() => this.synchronizedDirectory !== null))
-			.subscribe(async ({ directory }) => {
-				const parentDirectoryHandle = this.directoryHandleByPath.get(
-					directory.parentDirectoryPath
-				);
+			this.actions$
+				.pipe(ofType(DirectoryActions.deleteDirectory))
+				.subscribe(async ({ directory }) => {
+					const parentDirectoryHandle = this.directoryHandleByPath.get(
+						directory.parentDirectoryPath
+					);
 
-				if (!parentDirectoryHandle) {
-					console.error("(Parent) Directory not found: " + directory.parentDirectoryPath);
-					return;
-				}
+					if (!parentDirectoryHandle) {
+						console.error(
+							"(Parent) Directory not found: " + directory.parentDirectoryPath
+						);
+						return;
+					}
 
-				const directoryHandle = this.directoryHandleByPath.get(directory.path);
+					const directoryHandle = this.directoryHandleByPath.get(directory.path);
 
-				if (!directoryHandle) {
-					console.error("Directory not found: " + directory.path);
-					return;
-				}
+					if (!directoryHandle) {
+						console.error("Directory not found: " + directory.path);
+						return;
+					}
 
-				await parentDirectoryHandle.removeEntry(directoryHandle.name, { recursive: true });
+					await parentDirectoryHandle.removeEntry(directoryHandle.name, {
+						recursive: true
+					});
 
-				const { files, directories } = await this.traverseDirectory(directoryHandle);
-				files.forEach(file => {
-					this.fileSystemHandleByPath.delete(file.path);
-					this.store.dispatch(FileActions.deleteFile({ file }));
-				});
-				directories.forEach(d => {
-					this.directoryHandleByPath.delete(d.path);
-					this.store.dispatch(DirectoryActions.deleteDirectory({ directory: d }));
-				});
-			});
+					const { files, directories } = await this.traverseDirectory(directoryHandle);
+					files.forEach(file => {
+						this.fileSystemHandleByPath.delete(file.path);
+						this.store.dispatch(FileActions.deleteFile({ file }));
+					});
+					directories.forEach(d => {
+						this.directoryHandleByPath.delete(d.path);
+						this.store.dispatch(DirectoryActions.deleteDirectory({ directory: d }));
+					});
+				})
+		];
 	}
 
 	/**
@@ -171,8 +182,8 @@ export class FileSystemAccess {
 			})
 		);
 
-		this.synchronizedDirectory = directoryHandle;
 		this.directoryHandleByPath.set("", directoryHandle);
+		this.synchronizedDirectory$.next(directoryHandle);
 	}
 
 	/**

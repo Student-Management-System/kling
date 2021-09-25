@@ -118,12 +118,12 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 */
 	private registerCustomActions(): void {
 		this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-			//this.workspace.saveProject();
+			this.workspace.saveProject();
 
-			this.fileSystem.saveSynchronizedFile(
-				this.selectedFilePath,
-				this.getFileContent(this.selectedFilePath)
-			);
+			// this.fileSystem.saveSynchronizedFile(
+			// 	this.selectedFilePath,
+			// 	this.getFileContent(this.selectedFilePath)
+			// );
 		});
 
 		this.editor.addCommand(monaco.KeyCode.F5, () => {

@@ -82,13 +82,18 @@ export class WorkspaceService {
 
 				const project = { files: copiedFiles, directories, projectName, entryPoint };
 
-				localStorage.setItem(this.recentProjectKey, JSON.stringify(project));
-				this.toast.success("Saved to Localstorage");
+				this.indexedDb.putProject({
+					name: project.projectName,
+					project: { files: project.files, directories: project.directories },
+					source: "in-memory",
+					lastOpened: new Date()
+				});
 
 				this.router.navigate([], {
 					relativeTo: this.route,
 					queryParams: {
-						project: projectName
+						project: projectName,
+						source: "in-memory"
 					}
 				});
 			});

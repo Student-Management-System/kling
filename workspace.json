@@ -77,13 +77,7 @@
 			"prefix": "kling",
 			"architect": {
 				"build": {
-					"builder": "@angular-builders/custom-webpack:browser",
-					"customWebpackConfig": {
-						"path": "./apps/client/webpack.config.cjs",
-						"mergeStrategies": {
-							"externals": "replace"
-						}
-					},
+					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
 						"outputPath": "dist/apps/client",
 						"index": "apps/client/src/index.html",
@@ -112,7 +106,7 @@
 							},
 							{
 								"glob": "**/*",
-								"input": "./apps/client/src/app/ide/editor/components/code-editor/gen",
+								"input": "./apps/client/generated",
 								"output": "./workers/"
 							}
 						],

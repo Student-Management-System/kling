@@ -1,13 +1,17 @@
 .directory {
 	display: flex;
-	padding-left: 8px;
+	padding-left: 6px;
 	flex-direction: column;
 	width: 100%;
+	position: relative;
 	color: var(--file-inactive);
 
 	button {
+		background-color: transparent;
 		height: 24px;
-		padding-left: 0px !important;
+		padding-left: 0px;
+		padding-right: 0px;
+		border-radius: 0;
 		line-height: 20px;
 		width: 100%;
 		font-size: 14px;
@@ -16,6 +20,20 @@
 	}
 
 	button:hover {
+		background-color: var(--file-hover-bg);
+		color: var(--text);
+	}
+
+	button:hover::before {
+		height: 100%;
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+		transform: translateX(-100%);
+		width: 100%;
+		background-color: var(--file-hover-bg);
 		color: var(--text);
 	}
 }
@@ -36,5 +54,4 @@
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	margin-left: -2px;
 }

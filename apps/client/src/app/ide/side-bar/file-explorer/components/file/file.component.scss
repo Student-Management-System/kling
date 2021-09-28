@@ -1,6 +1,6 @@
 .file {
 	display: flex;
-	padding-left: 8px;
+	padding-left: 6px;
 	width: 100%;
 	color: var(--file-inactive);
 	position: relative;
@@ -30,7 +30,7 @@
 	display: block;
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	transform: translateX(-100%);
 	background-color: var(--selected-bg);
 	width: 100%;

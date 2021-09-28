@@ -229,5 +229,10 @@
     "CreateDirectory": "Ordner erstellen",
     "CreateFile": "Datei erstellen",
     "CreateProblem": "Neues Problem erstellen"
+  },
+  "Text": {
+    "Domain": {
+      "NoRecentProjects": "Keine zuletzt geöffneten Projekte"
+    }
   }
 }

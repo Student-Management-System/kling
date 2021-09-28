@@ -229,5 +229,10 @@
     "CreateDirectory": "Create Directory",
     "CreateFile": "Create File",
     "CreateProblem": "Create new problem"
+  },
+  "Text": {
+    "Domain": {
+      "NoRecentProjects": "No recent projects"
+    }
   }
 }

@@ -1,5 +1,6 @@
 .directory {
 	display: flex;
+	padding-left: 8px;
 	flex-direction: column;
 	width: 100%;
 	color: var(--file-inactive);
@@ -28,7 +29,7 @@
 }
 
 .indent {
-	padding-left: 24px;
+	padding-left: 16px;
 }
 
 .files {

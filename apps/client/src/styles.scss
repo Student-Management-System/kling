@@ -99,6 +99,8 @@
 	--file-tab-active: #dedede;
 	--file-tab-bg: #f3f3f3;
 	--selected: #90e5ff;
+	--selected-bg: #e4e6f1;
+	--file-hover-bg: #e8e8e8;
 	--status-bar: #007acc;
 }
 
@@ -137,30 +139,9 @@
 	--file-tab-active: #1e1e1e;
 	--file-tab-bg: #252526;
 	--selected: #90e5ff;
+	--selected-bg: #37373d;
+	--file-hover-bg: #37373d33;
 	--status-bar: #007acc;
-}
-
-.blue-theme {
-	height: 100%;
-	--color-bg: #0f1724;
-	--color-titlebar: #212c3d;
-	--color-sidenav: #1d2636;
-	--color-header: #1f293a;
-
-	--card-bg: #1d2636;
-	--table-bg: #1f293a;
-
-	--text: white;
-	--text-inverse: black;
-	--text-light: #92abcfe7;
-
-	--link-active: white;
-	--link-active-bg: rgba(255, 255, 255, 0.1);
-}
-
-.green-theme {
-	height: 100%;
-	--link-active: green;
 }
 
 // Roboto

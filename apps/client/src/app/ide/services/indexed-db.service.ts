@@ -17,7 +17,7 @@ export class IndexedDbService {
 	}
 
 	getProjects(): Promise<StoredProject[]> {
-		return this.db.projects.orderBy("lastOpened").toArray();
+		return this.db.projects.reverse().sortBy("lastOpened");
 	}
 
 	getProjectByName(projectName: string): Promise<StoredProject> {
@@ -40,15 +40,6 @@ class WebIdeDatabase extends Dexie {
 		});
 
 		this.projects = this.table("projects");
-
-		this.projects.put(
-			{ name: "Assignment 01", lastOpened: new Date(), source: "in-memory", project: null },
-			"Assignment 01"
-		);
-		this.projects.put(
-			{ name: "Hausaufgabe 02", lastOpened: new Date(), source: "in-memory", project: null },
-			"Hausaufgabe 02"
-		);
 	}
 }
 

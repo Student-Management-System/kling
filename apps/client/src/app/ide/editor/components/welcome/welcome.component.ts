@@ -45,7 +45,7 @@ export class WelcomeComponent implements OnInit {
 	}
 
 	private loadRecentProjects() {
-		from(this.indexedDb.getProjects())
+		from(this.indexedDb.projects.getMany())
 			.pipe(take(1))
 			.subscribe(projects => this.recentProjects$.next(projects));
 	}
@@ -73,7 +73,7 @@ export class WelcomeComponent implements OnInit {
 			.openConfirmDialog({ title: "Action.Delete", params: [projectName] })
 			.subscribe(async confirmed => {
 				if (confirmed) {
-					await this.indexedDb.deleteProject(projectName);
+					await this.indexedDb.projects.delete(projectName);
 					this.loadRecentProjects();
 				}
 			});

@@ -75,6 +75,7 @@
 		"marked": "^2.1.3",
 		"memory-streams": "^0.1.3",
 		"monaco-editor": "^0.28.1",
+		"nanoid": "^3.1.28",
 		"nats": "^2.1.0",
 		"ngx-contextmenu": "^6.0.0",
 		"ngx-markdown": "^12.0.1",

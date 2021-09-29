@@ -7,9 +7,19 @@
 		(middleclick)="openFile()"
 		[contextMenu]="fileContextMenu"
 	>
-		<span class="inner">
-			<app-file-icon [language]="file.name | programmingLanguage"></app-file-icon>
-			<span>{{ file.name }}</span>
+		<span class="flex content-center justify-between w-full">
+			<span class="flex gap-2">
+				<app-file-icon [language]="file.name | programmingLanguage"></app-file-icon>
+				<span>{{ file.name }}</span>
+			</span>
+			<span class="px-2"
+				><app-icon
+					*ngIf="file.hasUnsavedChanges"
+					name="lens"
+					size="8"
+					class="text"
+				></app-icon
+			></span>
 		</span>
 	</button>
 

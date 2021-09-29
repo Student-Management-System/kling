@@ -12,8 +12,6 @@ export const loadProject = createAction(
 	}>()
 );
 
-export const initEmptyProject = createAction("[Workspace] Init empty Project");
-
 export const setEntryPoint = createAction("[File] Mark as entry point", props<{ path: string }>());
 
 export const setProjectName = createAction(

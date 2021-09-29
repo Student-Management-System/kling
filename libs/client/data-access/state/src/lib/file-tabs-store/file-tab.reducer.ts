@@ -18,6 +18,12 @@ export const reducer = createReducer(
 	on(FileTabActions.addFileTab, FileTabActions.addFileTab_FileSelectedEffect, (state, action) =>
 		_addFileTab(state, action.file)
 	),
+	on(FileTabActions.updateFileTab, (state, action) => {
+		const index = state.tabs.findIndex(tab => tab.path === action.file.path);
+		const newTabs = [...state.tabs];
+		newTabs[index] = action.file;
+		return { tabs: newTabs };
+	}),
 	on(FileTabActions.removeFileTab, FileTabActions.removeFileTab_FileRemoved, (state, action) =>
 		_removeFileTab(state, action)
 	),

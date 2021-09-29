@@ -19,9 +19,12 @@ import JSZip from "jszip";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { take } from "rxjs/operators";
 import { IndexedDbService } from "./indexed-db.service";
+import { nanoid } from "nanoid";
 
 @Injectable({ providedIn: "root" })
 export class FileSystemAccess {
+	hasSynchronizedDirectory = false;
+
 	private synchronizedDirectory$ = new BehaviorSubject<FileSystemDirectoryHandle>(null);
 	private fileWithHandleByPath = new Map<string, FileWithHandle>();
 
@@ -37,6 +40,8 @@ export class FileSystemAccess {
 		private readonly actions$: Actions
 	) {
 		this.synchronizedDirectory$.subscribe(enabled => {
+			this.hasSynchronizedDirectory = !!enabled;
+
 			if (enabled) {
 				this.subscriptions = this.createDirectoryRelatedSubscriptions();
 			} else {
@@ -167,16 +172,16 @@ export class FileSystemAccess {
 		);
 	}
 
-	async synchronizeWithDirectory(): Promise<void> {
+	async openDirectoryAndSynchronize(): Promise<void> {
 		if (!window.showDirectoryPicker) {
 			throw new Error("This browser does not support the File System Access API.");
 		}
 
 		const directoryHandle = await window.showDirectoryPicker();
-		return this._synchronizeWithDirectory(directoryHandle);
+		return this.synchronizeWithDirectory(directoryHandle);
 	}
 
-	async _synchronizeWithDirectory(directoryHandle: FileSystemDirectoryHandle): Promise<void> {
+	async synchronizeWithDirectory(directoryHandle: FileSystemDirectoryHandle): Promise<void> {
 		const hasPermission = await this.verifyPermission(directoryHandle);
 
 		if (!hasPermission) {
@@ -188,18 +193,18 @@ export class FileSystemAccess {
 
 		const { files, directories } = await this.traverseDirectory(directoryHandle);
 
-		// await directoryHandle.removeEntry("sub", { recursive: true });
+		const projectName = directoryHandle.name + "-" + nanoid(6);
 
 		this.store.dispatch(
 			WorkspaceActions.loadProject({
 				directories: directories,
 				files: files,
-				projectName: directoryHandle.name
+				projectName
 			})
 		);
 
-		this.indexedDb.putProject({
-			name: directoryHandle.name,
+		await this.indexedDb.projects.put({
+			name: projectName,
 			source: "fs",
 			lastOpened: new Date(),
 			directoryHandle
@@ -208,12 +213,12 @@ export class FileSystemAccess {
 		this.router.navigate([], {
 			relativeTo: this.route,
 			queryParams: {
-				project: directoryHandle.name,
+				project: projectName,
 				source: "fs"
 			}
 		});
 
-		this.store.dispatch(FileActions.setSelectedFile({ file: files[0] }));
+		this.store.dispatch(FileActions.setSelectedFile({ file: files?.[0] ?? null }));
 
 		this.directoryHandleByPath.set("", directoryHandle);
 		this.synchronizedDirectory$.next(directoryHandle);

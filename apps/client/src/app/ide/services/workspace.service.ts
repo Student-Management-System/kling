@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
+	createDirectory,
 	Directory,
-	DirectorySelectors,
 	File,
 	FileActions,
 	FileSelectors,
@@ -10,11 +10,11 @@ import {
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
-import { BehaviorSubject, combineLatest, Subject, take } from "rxjs";
+import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
 import { ToastService } from "../../shared/services/toast.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
 import { FileSystemAccess } from "./file-system-access.service";
-import { IndexedDbService, InMemoryProject, StoredProject } from "./indexed-db.service";
+import { IndexedDbService, InMemoryProject } from "./indexed-db.service";
 
 @Injectable({ providedIn: "root" })
 export class WorkspaceService {
@@ -37,8 +37,9 @@ export class WorkspaceService {
 	readonly entryPoint$ = this.store.select(WorkspaceSelectors.selectEntryPoint);
 
 	private __editorComponent: CodeEditorComponent;
-	private recentProjectKey = "recentProject";
 	private stdin: string;
+
+	private projectName: string;
 
 	constructor(
 		private readonly router: Router,
@@ -47,7 +48,11 @@ export class WorkspaceService {
 		private readonly fileSystem: FileSystemAccess,
 		private readonly indexedDb: IndexedDbService,
 		private readonly toast: ToastService
-	) {}
+	) {
+		this.store.select(WorkspaceSelectors.selectProjectName).subscribe(projectName => {
+			this.projectName = projectName;
+		});
+	}
 
 	initWorkspace(): void {
 		this._init$.next();
@@ -66,37 +71,45 @@ export class WorkspaceService {
 		this.__editorComponent.focus();
 	}
 
-	saveProject(): void {
-		combineLatest([
-			this.store.select(FileSelectors.selectAllFiles),
-			this.store.select(DirectorySelectors.selectAllDirectories),
-			this.store.select(WorkspaceSelectors.selectProjectName),
-			this.store.select(WorkspaceSelectors.selectEntryPoint)
-		])
-			.pipe(take(1))
-			.subscribe(([files, directories, projectName, entryPoint]) => {
-				const copiedFiles = files.map(file => ({
-					...file,
-					content: this.__editorComponent.getFileContent(file.path)
-				}));
+	async saveFile(path: string, content: string): Promise<void> {
+		const file = await firstValueFrom(this.store.select(FileSelectors.selectFileByPath(path)));
+		const project = await this.indexedDb.projects.getByName(this.projectName);
 
-				const project = { files: copiedFiles, directories, projectName, entryPoint };
+		if (!project) {
+			console.log(`Project "${this.projectName}" does not exist yet. Creating new project.`);
 
-				this.indexedDb.putProject({
-					name: project.projectName,
-					project: { files: project.files, directories: project.directories },
-					source: "in-memory",
-					lastOpened: new Date()
-				});
+			const files = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
 
-				this.router.navigate([], {
-					relativeTo: this.route,
-					queryParams: {
-						project: projectName,
-						source: "in-memory"
-					}
-				});
+			await this.indexedDb.projects.createProject(
+				{
+					lastOpened: new Date(),
+					name: this.projectName,
+					source: "in-memory"
+				},
+				files
+			);
+		} else {
+			await this.indexedDb.files.put(this.projectName, {
+				...file,
+				content,
+				hasUnsavedChanges: false
 			});
+		}
+
+		if (this.fileSystem.hasSynchronizedDirectory) {
+			await this.fileSystem.saveSynchronizedFile(path, content);
+		}
+
+		this.store.dispatch(FileActions.saveFile({ path, content }));
+
+		this.router.navigate([], {
+			relativeTo: this.route,
+			queryParams: {
+				project: this.projectName,
+				source: this.fileSystem.hasSynchronizedDirectory ? "fs" : "in-memory"
+			},
+			skipLocationChange: true
+		});
 	}
 
 	async restoreProject(projectName: string, source: "fs" | "in-memory"): Promise<void> {
@@ -108,15 +121,27 @@ export class WorkspaceService {
 			}
 		});
 
+		this.store.dispatch(
+			WorkspaceActions.loadProject({
+				projectName,
+				files: [],
+				directories: []
+			})
+		);
+
 		try {
-			const project = await this.indexedDb.getProjectByName(projectName);
+			const project = await this.indexedDb.projects.getByName(projectName);
+
+			if (!project) {
+				throw new Error("Project does not exist.");
+			}
 
 			switch (project.source) {
 				case "fs":
-					this.fileSystem._synchronizeWithDirectory(project.directoryHandle);
+					await this.fileSystem.synchronizeWithDirectory(project.directoryHandle);
 					break;
 				case "in-memory":
-					this.restoreInMemoryProject(project);
+					await this.restoreInMemoryProject(project);
 					break;
 				default:
 					console.error(
@@ -124,23 +149,32 @@ export class WorkspaceService {
 					);
 					break;
 			}
+
+			await this.indexedDb.projects.put({ ...project, lastOpened: new Date() });
 		} catch (error) {
 			console.error(`Failed to restore project: ${projectName}`);
 			console.error(error);
 		}
 	}
 
-	private restoreInMemoryProject(project: InMemoryProject) {
-		const {
-			name,
-			project: { files, directories }
-		} = project;
+	private async restoreInMemoryProject(project: InMemoryProject): Promise<void> {
+		const files = await this.indexedDb.files.getFiles(project.name);
+
+		const directories: Directory[] = [];
+		const directorySet = new Set(files.map(f => f.directoryPath));
+
+		for (const directoryPath of directorySet) {
+			const dirHierarchy = directoryPath.split("/");
+			const dirName = dirHierarchy[dirHierarchy.length - 1];
+			const parentDir = dirHierarchy.length == 1 ? "" : dirHierarchy[dirHierarchy.length - 2];
+			directories.push(createDirectory(dirName, parentDir));
+		}
 
 		this.store.dispatch(
 			WorkspaceActions.loadProject({
-				projectName: name,
+				projectName: project.name,
 				files: files ?? [],
-				directories: directories ?? []
+				directories
 			})
 		);
 

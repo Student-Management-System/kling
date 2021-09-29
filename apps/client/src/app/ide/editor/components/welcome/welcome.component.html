@@ -109,7 +109,7 @@
 					<button
 						mat-flat-button
 						color="primary"
-						(click)="fileSystem.synchronizeWithDirectory()"
+						(click)="fileSystem.openDirectoryAndSynchronize()"
 					>
 						Synchronize with Directory (Chrome)
 					</button>
@@ -155,7 +155,7 @@
 
 									<button
 										class="p-0 text-xs bg-transparent w-min text-light hover:text-white"
-										(click)="removeRecentProject(project.name)"
+										(click)="removeRecentProject(project.name); $event.stopPropagation()"
 									>
 										{{ "Action.Delete" | translate }}
 									</button>

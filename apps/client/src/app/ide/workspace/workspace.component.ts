@@ -32,7 +32,13 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 
 	ngOnInit(): void {
 		this.sidenav.forceOverlayMode(true);
-		this.store.dispatch(WorkspaceActions.initEmptyProject());
+		this.store.dispatch(
+			WorkspaceActions.loadProject({
+				projectName: "Playground",
+				files: [],
+				directories: []
+			})
+		);
 
 		this.subs.sink = this.workspaceSettings.layout$.subscribe(layout => {
 			this.layout = layout;

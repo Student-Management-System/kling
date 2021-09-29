@@ -7,16 +7,21 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { File, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
+import {
+	File,
+	FileActions,
+	FileSelectors,
+	WorkspaceSelectors
+} from "@kling/client/data-access/state";
 import { extractFileExtension, FileExtension, getLanguageFromExtension } from "@kling/programming";
+import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
-import { fromEvent, Subscription } from "rxjs";
+import { fromEvent, Subject, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
-import { FileSystemAccess } from "../../../services/file-system-access.service";
 import { WorkspaceService } from "../../../services/workspace.service";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
@@ -36,14 +41,17 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	@Output() onEditorInit = new EventEmitter<void>();
 	selectedFilePath: string;
 
+	onFileChanged$ = new Subject<string>();
+
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByPath = new Map<string, EditorModelState>();
+	private filesWithUnsavedChanges = new Set<string>();
 	private showRulers = true;
 
 	constructor(
 		private readonly store: Store,
+		private readonly actions$: Actions,
 		private readonly workspace: WorkspaceService,
-		private readonly fileSystem: FileSystemAccess,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
 		private readonly cdRef: ChangeDetectorRef
@@ -73,6 +81,15 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 				this.initEditor();
 			});
+
+		this.subs.sink = this.actions$
+			.pipe(
+				ofType(FileActions.saveFile),
+				tap(action => {
+					this.filesWithUnsavedChanges.delete(action.path);
+				})
+			)
+			.subscribe();
 	}
 
 	private initEditor(): void {
@@ -82,9 +99,12 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
 
-		// this.editor.onDidChangeModelContent(event => {
-		// 	console.log(event);
-		// });
+		this.editor.onDidChangeModelContent(() => {
+			if (!this.filesWithUnsavedChanges.has(this.selectedFilePath)) {
+				this.filesWithUnsavedChanges.add(this.selectedFilePath);
+				this.store.dispatch(FileActions.markAsChanged({ path: this.selectedFilePath }));
+			}
+		});
 
 		this.registerCustomActions();
 
@@ -118,12 +138,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 */
 	private registerCustomActions(): void {
 		this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-			this.workspace.saveProject();
-
-			// this.fileSystem.saveSynchronizedFile(
-			// 	this.selectedFilePath,
-			// 	this.getFileContent(this.selectedFilePath)
-			// );
+			this.saveCurrentFile();
 		});
 
 		this.editor.addCommand(monaco.KeyCode.F5, () => {
@@ -221,6 +236,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 				});
 			}
 		});
+	}
+
+	private saveCurrentFile() {
+		this.workspace.saveFile(this.selectedFilePath, this.getFileContent(this.selectedFilePath));
 	}
 
 	private createCodeExecutionRequest(): void {

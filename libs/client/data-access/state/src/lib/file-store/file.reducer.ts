@@ -24,8 +24,23 @@ export const reducer = createReducer(
 	initialState,
 	on(FileActions.addFile, (state, action) => _addFile(action, state)),
 	on(FileActions.addFiles, (state, action) => adapter.addMany(action.files, state)),
-	on(FileActions.upsertFile, (state, action) => adapter.upsertOne(action.file, state)),
-	on(FileActions.updateFile, (state, action) => adapter.updateOne(action.file, state)),
+	on(FileActions.markAsChanged, (state, action) =>
+		adapter.updateOne(
+			{
+				id: action.path,
+				changes: {
+					hasUnsavedChanges: true
+				}
+			},
+			state
+		)
+	),
+	on(FileActions.saveFile, (state, action) =>
+		adapter.updateOne(
+			{ id: action.path, changes: { content: action.content, hasUnsavedChanges: false } },
+			state
+		)
+	),
 	on(FileActions.deleteFile, (state, action) =>
 		adapter.removeOne(action.file.path, {
 			...state,

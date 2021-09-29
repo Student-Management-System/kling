@@ -12,14 +12,13 @@ export interface State {
 function createInitialState(): State {
 	return {
 		entryPoint: null,
-		projectName: "Unnamed Project",
+		projectName: "Playground",
 		theme: localStorage.getItem("theme") === "default-theme" ? "light" : "dark"
 	};
 }
 
 export const reducer = createReducer(
 	createInitialState(),
-	on(WorkspaceActions.initEmptyProject, state => state),
 	on(WorkspaceActions.loadProject, (state, action) => ({
 		...state,
 		projectName: action.projectName,

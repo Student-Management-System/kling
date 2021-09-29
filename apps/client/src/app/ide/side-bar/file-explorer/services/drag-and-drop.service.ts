@@ -32,7 +32,7 @@ export class DragAndDropService {
 					const entry = await item.getAsFileSystemHandle();
 
 					if (entry.kind === "directory") {
-						await this.fileSystem._synchronizeWithDirectory(entry);
+						await this.fileSystem.synchronizeWithDirectory(entry);
 					}
 				} else {
 					console.log(

@@ -233,6 +233,9 @@
   "Text": {
     "Domain": {
       "NoRecentProjects": "Keine zuletzt geöffneten Projekte"
+    },
+    "Terminal": {
+      "InnerText": "Die Ausgabe des Programs wird hier erscheinen"
     }
   }
 }

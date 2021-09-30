@@ -36,7 +36,7 @@
 	<ng-template #noOutput>
 		<div *ngIf="{ loading: terminalService.displayLoadingIndicator$ | async } as obs">
 			<span *ngIf="!obs.loading" class="text-light"
-				>The output of your program will appear here ...</span
+				>{{ "Text.Terminal.InnerText" | translate }} ...</span
 			>
 
 			<div class="flex justify-center p-8" *ngIf="obs.loading">

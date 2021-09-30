@@ -233,6 +233,9 @@
   "Text": {
     "Domain": {
       "NoRecentProjects": "No recent projects"
+    },
+    "Terminal": {
+      "InnerText": "The output of your program will appear here"
     }
   }
 }

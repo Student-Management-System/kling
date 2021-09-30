@@ -1,6 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { Directory } from "../../../../../../shared/util/programming/src/lib/directory.model";
-import { File } from "@kling/programming";
+import { File, Directory } from "@kling/programming";
 
 export const loadProject = createAction(
 	"[Workspace] Load Project",

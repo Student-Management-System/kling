@@ -140,7 +140,6 @@
 		"file-loader": "6.2.0",
 		"gulp": "^4.0.2",
 		"gulp-rename": "^2.0.0",
-		"gulp-run-command": "0.0.10",
 		"gulp-svgmin": "^3.0.0",
 		"gulp-svgstore": "^7.0.1",
 		"jest": "^27.2.4",

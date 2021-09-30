@@ -2,7 +2,6 @@ const gulp = require("gulp");
 const svgstore = require("gulp-svgstore");
 const svgmin = require("gulp-svgmin");
 const rename = require("gulp-rename");
-const run = require("gulp-run-command").default;
 
 // Combines all .svg-icons to a single file
 gulp.task("svg-sprite", () => {

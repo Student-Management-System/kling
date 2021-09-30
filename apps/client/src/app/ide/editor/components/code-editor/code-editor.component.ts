@@ -7,13 +7,13 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { FileActions, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
 import {
+	extractFileExtension,
 	File,
-	FileActions,
-	FileSelectors,
-	WorkspaceSelectors
-} from "@kling/client/data-access/state";
-import { extractFileExtension, FileExtension, getLanguageFromExtension } from "@kling/programming";
+	FileExtension,
+	getLanguageFromExtension
+} from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";

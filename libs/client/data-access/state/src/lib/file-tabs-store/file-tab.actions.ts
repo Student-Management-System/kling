@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { File } from "../file-store";
+import { File } from "@kling/programming";
 
 export const addFileTab = createAction("[File Explorer] Add FileTab", props<{ file: File }>());
 

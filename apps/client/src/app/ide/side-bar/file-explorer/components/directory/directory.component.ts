@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import {
-	Directory,
 	DirectoryActions,
 	DirectorySelectors,
-	File,
 	FileSelectors
 } from "@kling/client/data-access/state";
+import { Directory, File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { DialogService } from "../../../../../shared/services/dialog.service";

@@ -3,7 +3,8 @@ import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { filter, map, withLatestFrom } from "rxjs/operators";
 import { FileTabActions, FileTabSelectors } from ".";
-import { File, FileActions, FileSelectors } from "../file-store";
+import { FileActions, FileSelectors } from "../file-store";
+import { File } from "@kling/programming";
 
 @Injectable()
 export class FileTabEffects {

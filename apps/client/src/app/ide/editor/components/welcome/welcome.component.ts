@@ -1,21 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { AuthSelectors, createMainFile, FileActions } from "@kling/client/data-access/state";
-import { SupportedLanguage } from "@kling/programming";
+import { AuthSelectors, FileActions } from "@kling/client/data-access/state";
+import { createMainFile, SupportedLanguage } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import { BehaviorSubject, first, from, take } from "rxjs";
+import { BehaviorSubject, from, take } from "rxjs";
 import { environment } from "../../../../../environments/environment";
 import { LoginDialog } from "../../../../auth/dialogs/login/login.dialog";
 import { AuthService } from "../../../../auth/services/auth.service";
-import {
-	ConfirmDialog,
-	ConfirmDialogData
-} from "../../../../shared/components/dialogs/confirm-dialog/confirm-dialog.dialog";
+import { DialogService } from "../../../../shared/services/dialog.service";
 import { FileSystemAccess } from "../../../services/file-system-access.service";
 import { IndexedDbService, StoredProject } from "../../../services/indexed-db.service";
 import { WorkspaceService } from "../../../services/workspace.service";
 import { FileExplorerDialogs } from "../../../side-bar/file-explorer/services/file-explorer-dialogs.facade";
-import { DialogService } from "../../../../shared/services/dialog.service";
 
 @Component({
 	selector: "app-welcome",

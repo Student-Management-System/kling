@@ -1,7 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { Update } from "@ngrx/entity";
-
-import { Directory } from "./directory.model";
+import { Directory } from "@kling/programming";
 
 export const addDirectory = createAction(
 	"[Directory/API] Add Directory",

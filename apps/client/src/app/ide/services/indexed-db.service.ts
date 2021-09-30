@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { File } from "@kling/client/data-access/state";
+import { File } from "@kling/programming";
 import Dexie from "dexie";
 
 function createFileId(projectName: string, path: string): string {

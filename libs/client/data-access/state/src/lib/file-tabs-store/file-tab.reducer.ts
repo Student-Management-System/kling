@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { File } from "../file-store";
+import { File } from "@kling/programming";
 import * as FileTabActions from "./file-tab.actions";
 
 export const fileTabFeatureKey = "fileTab";

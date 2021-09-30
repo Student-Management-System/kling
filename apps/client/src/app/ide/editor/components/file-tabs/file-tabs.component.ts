@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import {
-	File,
 	FileActions,
 	FileSelectors,
 	FileTabActions,
 	FileTabSelectors
 } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
+import { File } from "@kling/programming";
 
 @Component({
 	selector: "app-file-tabs",

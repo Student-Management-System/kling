@@ -1,8 +1,7 @@
-<div class="file" data-cy="file">
+<div class="file" data-cy="file" [class.selected]="isSelected">
 	<button
 		mat-button
 		disableRipple="true"
-		[class.selected]="isSelected"
 		(click)="openFile()"
 		(middleclick)="openFile()"
 		[contextMenu]="fileContextMenu"

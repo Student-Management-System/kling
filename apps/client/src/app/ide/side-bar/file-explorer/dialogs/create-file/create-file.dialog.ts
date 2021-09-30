@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
-import { File } from "@kling/client/data-access/state";
+import { File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 
 /**

@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { File } from "./file.model";
+import { File } from "@kling/programming";
 
 export const addFile = createAction("[Workspace] Add File", props<{ file: File }>());
 

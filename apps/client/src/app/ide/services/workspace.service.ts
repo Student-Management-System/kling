@@ -12,7 +12,7 @@ import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
 import { ToastService } from "../../shared/services/toast.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
 import { FileSystemAccess } from "./file-system-access.service";
-import { IndexedDbService, InMemoryProject } from "./indexed-db.service";
+import { IndexedDbService, InMemoryProject } from "@kling/indexed-db";
 
 @Injectable({ providedIn: "root" })
 export class WorkspaceService {

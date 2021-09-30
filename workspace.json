@@ -193,6 +193,28 @@
 				}
 			}
 		},
+		"client-data-access-indexed-db": {
+			"root": "libs/client/data-access/indexed-db",
+			"sourceRoot": "libs/client/data-access/indexed-db/src",
+			"projectType": "library",
+			"architect": {
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"outputs": ["{options.outputFile}"],
+					"options": {
+						"lintFilePatterns": ["libs/client/data-access/indexed-db/**/*.ts"]
+					}
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/client/data-access/indexed-db"],
+					"options": {
+						"jestConfig": "libs/client/data-access/indexed-db/jest.config.js",
+						"passWithNoTests": true
+					}
+				}
+			}
+		},
 		"client-data-access-state": {
 			"projectType": "library",
 			"root": "libs/client/data-access/state",

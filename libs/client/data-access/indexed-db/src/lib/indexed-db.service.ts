@@ -1,3 +1,4 @@
+/// <reference types="wicg-file-system-access" />
 import { Injectable } from "@angular/core";
 import { File } from "@kling/programming";
 import Dexie from "dexie";
@@ -6,9 +7,7 @@ function createFileId(projectName: string, path: string): string {
 	return `${projectName}_${path}`;
 }
 
-@Injectable({
-	providedIn: "root"
-})
+@Injectable({ providedIn: "root" })
 export class IndexedDbService {
 	private db: WebIdeDatabase;
 
@@ -56,7 +55,7 @@ class ProjectTable {
 	/**
 	 * Returns the project associated with the given `projectName`.
 	 */
-	getByName(projectName: string): Promise<StoredProject> {
+	getByName(projectName: string): Promise<StoredProject | undefined> {
 		return this.db.projects.get(projectName);
 	}
 

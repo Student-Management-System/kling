@@ -9,7 +9,7 @@ import { LoginDialog } from "../../../../auth/dialogs/login/login.dialog";
 import { AuthService } from "../../../../auth/services/auth.service";
 import { DialogService } from "../../../../shared/services/dialog.service";
 import { FileSystemAccess } from "../../../services/file-system-access.service";
-import { IndexedDbService, StoredProject } from "../../../services/indexed-db.service";
+import { IndexedDbService, StoredProject } from "@kling/indexed-db";
 import { WorkspaceService } from "../../../services/workspace.service";
 import { FileExplorerDialogs } from "../../../side-bar/file-explorer/services/file-explorer-dialogs.facade";
 

@@ -16,7 +16,7 @@ import JSZip from "jszip";
 import { nanoid } from "nanoid";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { take } from "rxjs/operators";
-import { IndexedDbService } from "./indexed-db.service";
+import { IndexedDbService } from "@kling/indexed-db";
 
 @Injectable({ providedIn: "root" })
 export class FileSystemAccess {

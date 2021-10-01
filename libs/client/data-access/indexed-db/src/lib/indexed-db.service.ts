@@ -13,8 +13,8 @@ export class IndexedDbService {
 	readonly projects: ProjectTable;
 	readonly files: FileTable;
 
-	constructor() {
-		this.db = new WebIdeDatabase();
+	constructor(indexedDB?: any) {
+		this.db = new WebIdeDatabase(indexedDB);
 		this.projects = new ProjectTable(this.db);
 		this.files = new FileTable(this.db);
 	}

@@ -5,17 +5,18 @@ import { createFileId, WebIdeDatabase } from "../web-ide-database";
 export class ProjectTable {
 	constructor(private readonly db: WebIdeDatabase) {}
 
-	createProject(project: StoredProject, files: File[]): Promise<void> {
+	saveProject(project: StoredProject, files: File[]): Promise<void> {
 		return this.db.transaction("readwrite", this.db.projects, this.db.files, async () => {
 			await this.put(project);
+			await this.db.files.where("projectName").equals(project.name).delete();
 
-			for await (const file of files) {
-				await this.db.files.add({
-					id: createFileId(project.name, file.path),
-					projectName: project.name,
-					file
-				});
-			}
+			const mappedFiles = files.map(file => ({
+				id: createFileId(project.name, file.path),
+				projectName: project.name,
+				file
+			}));
+
+			await this.db.files.bulkAdd(mappedFiles);
 		});
 	}
 

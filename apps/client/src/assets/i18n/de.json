@@ -26,7 +26,8 @@
       "ImportFiles": "Dateien importieren",
       "MarkAsEntryPoint": "Als Einstiegspunkt markieren"
     },
-    "Run": "Ausführen"
+    "Run": "Ausführen",
+    "Export": "Exportieren"
   },
   "Common": {
     "All": "Alle",
@@ -228,5 +229,13 @@
     "CreateDirectory": "Ordner erstellen",
     "CreateFile": "Datei erstellen",
     "CreateProblem": "Neues Problem erstellen"
+  },
+  "Text": {
+    "Domain": {
+      "NoRecentProjects": "Keine zuletzt geöffneten Projekte"
+    },
+    "Terminal": {
+      "InnerText": "Die Ausgabe des Programs wird hier erscheinen"
+    }
   }
 }

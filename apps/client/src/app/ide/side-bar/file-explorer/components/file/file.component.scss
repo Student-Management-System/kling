@@ -1,10 +1,15 @@
 .file {
 	display: flex;
+	padding-left: 6px;
 	width: 100%;
 	color: var(--file-inactive);
+	position: relative;
 
 	button {
 		padding-left: 0px;
+		padding-right: 0px;
+		border-radius: 0;
+		border-left: 0px;
 		height: 24px;
 		line-height: 24px;
 		width: 100%;
@@ -12,18 +17,39 @@
 		font-weight: 300;
 		text-align: start;
 	}
-
-	button:hover:not(.selected) {
-		color: var(--text);
-	}
-
-	.selected {
-		color: var(--file-active);
-	}
 }
 
-.inner {
-	display: flex;
-	gap: 8px;
-	align-content: center;
+.selected {
+	color: var(--file-active);
+	background-color: var(--selected-bg);
+}
+
+.selected::before {
+	height: 100%;
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	transform: translateX(-100%);
+	background-color: var(--selected-bg);
+	width: 100%;
+}
+
+:hover:not(.selected) {
+	background-color: var(--file-hover-bg);
+	color: var(--text);
+}
+
+:hover:not(.selected)::before {
+	height: 100%;
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateX(-100%);
+	width: 100%;
+	background-color: var(--file-hover-bg);
+	color: var(--text);
 }

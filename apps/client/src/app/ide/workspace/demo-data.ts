@@ -137,33 +137,6 @@ const javaCountToNumber = `public class Solution {
 
 }`;
 
-export function createPlaygroundFiles(
-	store: Store,
-	route: ActivatedRoute,
-	workspace: WorkspaceService
-): void {
-	store.dispatch(
-		WorkspaceActions.loadProject({
-			projectName: "Playground",
-			directories: [],
-			files: []
-		})
-	);
-
-	const language = route.snapshot.queryParams.lang;
-	const projectName = route.snapshot.queryParams.project;
-
-	if (language && !projectName) {
-		const file = createMainFile(language);
-		store.dispatch(FileActions.addFile({ file }));
-		store.dispatch(FileActions.setSelectedFile({ file }));
-	} else if (projectName && !language) {
-		workspace.restoreProject(projectName);
-	} else if (projectName && language) {
-		console.error("Please only use one of 'lang' or 'project' as query parameter.");
-	}
-}
-
 export function createDemoFiles(store: Store, route: ActivatedRoute): void {
 	const lang = route.snapshot.queryParams.lang;
 	let data = route.snapshot.queryParams.data;
@@ -182,13 +155,13 @@ export function createDemoFiles(store: Store, route: ActivatedRoute): void {
 		];
 
 		const files = [
-			createFile("running-sum.ts", "typescript", "", exampleRunningSum),
-			createFile("person.ts", "typescript", "", example),
-			createFile("abstract-animal.ts", "typescript", "animals", "// abstract-animal.ts"),
-			createFile("dog.ts", "typescript", "animals", "// dog.ts"),
-			createFile("cat.ts", "typescript", "animals", "// cat.ts"),
-			createFile("robot.ts", "typescript", "robots", "// robot.ts"),
-			createFile("bird.ts", "typescript", "animals/birds", "// bird.ts")
+			createFile("running-sum.ts", "", exampleRunningSum),
+			createFile("person.ts", "", example),
+			createFile("abstract-animal.ts", "animals", "// abstract-animal.ts"),
+			createFile("dog.ts", "animals", "// dog.ts"),
+			createFile("cat.ts", "animals", "// cat.ts"),
+			createFile("robot.ts", "robots", "// robot.ts"),
+			createFile("bird.ts", "animals/birds", "// bird.ts")
 		];
 
 		const project = {
@@ -204,8 +177,8 @@ export function createDemoFiles(store: Store, route: ActivatedRoute): void {
 
 	if (lang == "java") {
 		const files = [
-			createFile("Main.java", "java", "", javaExample),
-			createFile("Solution.java", "java", "", javaCountToNumber)
+			createFile("Main.java", "", javaExample),
+			createFile("Solution.java", "", javaCountToNumber)
 		];
 
 		const project = {

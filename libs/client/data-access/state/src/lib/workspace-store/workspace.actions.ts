@@ -1,6 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { Directory } from "../directory-store/directory.model";
-import { File } from "../file-store/file.model";
+import { File, Directory } from "@kling/programming";
 
 export const loadProject = createAction(
 	"[Workspace] Load Project",
@@ -11,8 +10,6 @@ export const loadProject = createAction(
 		projectName?: string;
 	}>()
 );
-
-export const initEmptyProject = createAction("[Workspace] Init empty Project");
 
 export const setEntryPoint = createAction("[File] Mark as entry point", props<{ path: string }>());
 

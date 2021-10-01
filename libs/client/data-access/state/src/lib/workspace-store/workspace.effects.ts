@@ -11,27 +11,19 @@ import * as WorkspaceActions from "./workspace.actions";
 
 @Injectable()
 export class WorkspaceEffects {
-	initEmptyProject$ = createEffect(() => {
-		return this.actions$.pipe(
-			ofType(WorkspaceActions.initEmptyProject),
-			tap(() => this.workspace.initWorkspace()),
-			switchMap(() => [
-				DirectoryActions.clearDirectories(),
-				FileActions.clearFiles(),
-				FileTabActions.clearFileTabs()
-			])
-		);
-	});
-
 	loadProject$ = createEffect(() => {
 		return this.actions$.pipe(
 			ofType(WorkspaceActions.loadProject),
 			tap(action => {
+				this.workspace.initWorkspace();
 				action.files.forEach(file => {
 					this.workspace.emitFileAdded(file);
 				});
 			}),
 			switchMap(action => [
+				DirectoryActions.clearDirectories(),
+				FileActions.clearFiles(),
+				FileTabActions.clearFileTabs(),
 				DirectoryActions.addDirectories({ directories: action.directories }),
 				FileActions.addFiles({ files: action.files })
 			])

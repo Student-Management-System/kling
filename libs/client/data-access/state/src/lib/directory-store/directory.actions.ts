@@ -1,20 +1,9 @@
 import { createAction, props } from "@ngrx/store";
 import { Update } from "@ngrx/entity";
-
-import { Directory } from "./directory.model";
-
-export const loadDirectories = createAction(
-	"[Directory/API] Load Directories",
-	props<{ directories: Directory[] }>()
-);
+import { Directory } from "@kling/programming";
 
 export const addDirectory = createAction(
 	"[Directory/API] Add Directory",
-	props<{ directory: Directory }>()
-);
-
-export const upsertDirectory = createAction(
-	"[Directory/API] Upsert Directory",
 	props<{ directory: Directory }>()
 );
 
@@ -23,29 +12,14 @@ export const addDirectories = createAction(
 	props<{ directories: Directory[] }>()
 );
 
-export const upsertDirectories = createAction(
-	"[Directory/API] Upsert Directories",
-	props<{ directories: Directory[] }>()
-);
-
 export const updateDirectory = createAction(
 	"[Directory/API] Update Directory",
 	props<{ directory: Update<Directory> }>()
 );
 
-export const updateDirectories = createAction(
-	"[Directory/API] Update Directories",
-	props<{ directories: Update<Directory>[] }>()
-);
-
 export const deleteDirectory = createAction(
 	"[Directory/API] Delete Directory",
-	props<{ id: string }>()
-);
-
-export const deleteDirectories = createAction(
-	"[Directory/API] Delete Directories",
-	props<{ ids: string[] }>()
+	props<{ directory: Directory }>()
 );
 
 export const clearDirectories = createAction("[Directory/API] Clear Directories");

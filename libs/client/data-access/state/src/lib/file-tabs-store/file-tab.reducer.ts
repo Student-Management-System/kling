@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { File } from "../file-store";
+import { File } from "@kling/programming";
 import * as FileTabActions from "./file-tab.actions";
 
 export const fileTabFeatureKey = "fileTab";
@@ -18,6 +18,12 @@ export const reducer = createReducer(
 	on(FileTabActions.addFileTab, FileTabActions.addFileTab_FileSelectedEffect, (state, action) =>
 		_addFileTab(state, action.file)
 	),
+	on(FileTabActions.updateFileTab, (state, action) => {
+		const index = state.tabs.findIndex(tab => tab.path === action.file.path);
+		const newTabs = [...state.tabs];
+		newTabs[index] = action.file;
+		return { tabs: newTabs };
+	}),
 	on(FileTabActions.removeFileTab, FileTabActions.removeFileTab_FileRemoved, (state, action) =>
 		_removeFileTab(state, action)
 	),
@@ -46,7 +52,7 @@ function _addFileTab(state: State, file: File): State {
 				name: file.name,
 				path: file.path,
 				directoryPath: file.directoryPath,
-				language: file.language,
+				hasUnsavedChanges: file.hasUnsavedChanges,
 				content: undefined // Not required here
 			}
 		]

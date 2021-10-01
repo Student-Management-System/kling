@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { filter, map, withLatestFrom } from "rxjs/operators";
 import { FileTabActions, FileTabSelectors } from ".";
-import { File, FileActions, FileSelectors } from "../file-store";
+import { FileActions, FileSelectors } from "../file-store";
+import { File } from "@kling/programming";
 
 @Injectable()
 export class FileTabEffects {
@@ -49,8 +50,20 @@ export class FileTabEffects {
 		return this.actions$.pipe(
 			ofType(FileActions.deleteFile),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
-			filter(([action, tabs]) => this.removedFileHasTab(tabs, action.path)),
-			map(([action]) => FileTabActions.removeFileTab_FileRemoved({ filePath: action.path }))
+			filter(([action, tabs]) => this.removedFileHasTab(tabs, action.file.path)),
+			map(([action]) =>
+				FileTabActions.removeFileTab_FileRemoved({ filePath: action.file.path })
+			)
+		);
+	});
+
+	fileUpdate$ = createEffect(() => {
+		return this.actions$.pipe(
+			ofType(FileActions.markAsChanged, FileActions.saveFile),
+			concatLatestFrom(action =>
+				this.store.select(FileSelectors.selectFileByPath(action.path))
+			),
+			map(([_action, file]) => FileTabActions.updateFileTab({ file }))
 		);
 	});
 

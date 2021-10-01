@@ -3,7 +3,9 @@
 		<ng-container headerTitle>Explorer</ng-container>
 		<ng-container headerMenu>
 			<mat-menu #menu>
-				<button mat-menu-item>Save</button>
+				<button mat-menu-item (click)="exportToDisk()">
+					{{ "Action.Export" | translate }}
+				</button>
 			</mat-menu>
 
 			<button class="menu-btn" mat-icon-button [matMenuTriggerFor]="menu" disableRipple>

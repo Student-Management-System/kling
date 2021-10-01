@@ -17,6 +17,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@kling/client/data-access/state": ["libs/client/data-access/state/src/index.ts"],
+			"@kling/indexed-db": ["libs/client/data-access/indexed-db/src/index.ts"],
 			"@kling/programming": ["libs/shared/util/programming/src/index.ts"],
 			"@kling/shared/data-access/api-rest-ng-client": [
 				"libs/shared/data-access/api-rest-ng-client/src/index.ts"

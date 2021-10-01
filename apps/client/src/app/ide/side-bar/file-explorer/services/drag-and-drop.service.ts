@@ -1,12 +1,8 @@
 import { Injectable } from "@angular/core";
+import { DirectoryActions, FileActions } from "@kling/client/data-access/state";
+import { createDirectory, createFile } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import {
-	createDirectory,
-	createFile,
-	DirectoryActions,
-	FileActions
-} from "@kling/client/data-access/state";
-import { extractFileExtension, FileExtension, getLanguageFromExtension } from "@kling/programming";
+import { FileSystemAccess } from "../../../services/file-system-access.service";
 
 interface FileEntry {
 	filesystem: any;
@@ -18,18 +14,29 @@ interface FileEntry {
 
 @Injectable({ providedIn: "root" })
 export class DragAndDropService {
-	constructor(private store: Store) {}
+	constructor(private store: Store, private fileSystem: FileSystemAccess) {}
 
 	async onDrop(event: DragEvent): Promise<void> {
 		const items = event.dataTransfer.items;
-		console.log(items);
 
 		for (let i = 0; i < items.length; i++) {
 			const item = items[i];
-			console.log(item);
 			if (item.kind === "file") {
-				const entry = item.webkitGetAsEntry() as FileEntry;
-				await this.convertEntryToDirectoryOrFile(entry, "");
+				// If File System Access API is supported
+				if (item.getAsFileSystemHandle) {
+					console.log("Using File System Access API.");
+					const entry = await item.getAsFileSystemHandle();
+
+					if (entry.kind === "directory") {
+						await this.fileSystem.synchronizeWithDirectory(entry);
+					}
+				} else {
+					console.log(
+						"File System Access API is not supported. Using in-memory filesystem."
+					);
+					const entry = item.webkitGetAsEntry() as FileEntry;
+					await this.convertEntryToDirectoryOrFile(entry, "");
+				}
 			}
 		}
 	}
@@ -38,9 +45,7 @@ export class DragAndDropService {
 		if (entry.isFile) {
 			const file = await this.getFileFromEntry(entry);
 			const content = await this.readFileContent(file as any);
-			const extension = extractFileExtension(file.name) as FileExtension;
-			const language = getLanguageFromExtension(extension);
-			const fileModel = createFile(entry.name, language, parentDirectoryId, content);
+			const fileModel = createFile(entry.name, parentDirectoryId, content);
 			this.store.dispatch(FileActions.addFile({ file: fileModel }));
 		} else if (entry.isDirectory) {
 			const subdirectory = createDirectory(entry.name, parentDirectoryId);

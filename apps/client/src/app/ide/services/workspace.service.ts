@@ -1,17 +1,18 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
-	DirectorySelectors,
-	File,
 	FileActions,
 	FileSelectors,
 	WorkspaceActions,
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
+import { createDirectory, Directory, File } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import { BehaviorSubject, combineLatest, Subject, take } from "rxjs";
+import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
 import { ToastService } from "../../shared/services/toast.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
+import { FileSystemAccess } from "./file-system-access.service";
+import { IndexedDbService, InMemoryProject } from "@kling/indexed-db";
 
 @Injectable({ providedIn: "root" })
 export class WorkspaceService {
@@ -23,7 +24,7 @@ export class WorkspaceService {
 	/** Emits the added file. */
 	fileAdded$ = this._fileAdded$.asObservable();
 
-	private _fileRemoved$ = new BehaviorSubject<string>(undefined);
+	private _fileRemoved$ = new BehaviorSubject<File>(undefined);
 	/** Emits the `id` of the removed file. */
 	fileRemoved$ = this._fileRemoved$.asObservable();
 
@@ -34,15 +35,22 @@ export class WorkspaceService {
 	readonly entryPoint$ = this.store.select(WorkspaceSelectors.selectEntryPoint);
 
 	private __editorComponent: CodeEditorComponent;
-	private recentProjectKey = "recentProject";
 	private stdin: string;
+
+	private projectName: string;
 
 	constructor(
 		private readonly router: Router,
 		private readonly route: ActivatedRoute,
 		private readonly store: Store,
+		private readonly fileSystem: FileSystemAccess,
+		private readonly indexedDb: IndexedDbService,
 		private readonly toast: ToastService
-	) {}
+	) {
+		this.store.select(WorkspaceSelectors.selectProjectName).subscribe(projectName => {
+			this.projectName = projectName;
+		});
+	}
 
 	initWorkspace(): void {
 		this._init$.next();
@@ -52,8 +60,8 @@ export class WorkspaceService {
 		this._fileAdded$.next(file);
 	}
 
-	emitFileRemoved(path: string): void {
-		this._fileRemoved$.next(path);
+	emitFileRemoved(file: File): void {
+		this._fileRemoved$.next(file);
 	}
 
 	/** Brings browser focus to the editor. */
@@ -61,53 +69,114 @@ export class WorkspaceService {
 		this.__editorComponent.focus();
 	}
 
-	saveProject(): void {
-		combineLatest([
-			this.store.select(FileSelectors.selectAllFiles),
-			this.store.select(DirectorySelectors.selectAllDirectories),
-			this.store.select(WorkspaceSelectors.selectProjectName),
-			this.store.select(WorkspaceSelectors.selectEntryPoint)
-		])
-			.pipe(take(1))
-			.subscribe(([files, directories, projectName, entryPoint]) => {
-				const copiedFiles = files.map(file => ({
-					...file,
-					content: this.__editorComponent.getFileContent(file.path)
-				}));
+	async saveFile(path: string, content: string): Promise<void> {
+		const file = await firstValueFrom(this.store.select(FileSelectors.selectFileByPath(path)));
+		const project = await this.indexedDb.projects.getByName(this.projectName);
 
-				const project = { files: copiedFiles, directories, projectName, entryPoint };
+		if (!project) {
+			console.log(`Project "${this.projectName}" does not exist yet. Creating new project.`);
 
-				localStorage.setItem(this.recentProjectKey, JSON.stringify(project));
-				this.toast.success("Saved to Localstorage");
+			const files = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
 
-				this.router.navigate([], {
-					relativeTo: this.route,
-					queryParams: {
-						project: projectName
-					}
-				});
+			await this.indexedDb.projects.createProject(
+				{
+					lastOpened: new Date(),
+					name: this.projectName,
+					source: "in-memory"
+				},
+				files
+			);
+		} else {
+			await this.indexedDb.files.put(this.projectName, {
+				...file,
+				content,
+				hasUnsavedChanges: false
 			});
-	}
+		}
 
-	restoreProject(projectName: string): void {
+		if (this.fileSystem.hasSynchronizedDirectory) {
+			await this.fileSystem.saveSynchronizedFile(path, content);
+		}
+
+		this.store.dispatch(FileActions.saveFile({ path, content }));
+
 		this.router.navigate([], {
 			relativeTo: this.route,
 			queryParams: {
-				project: projectName
+				project: this.projectName,
+				source: this.fileSystem.hasSynchronizedDirectory ? "fs" : "in-memory"
+			},
+			skipLocationChange: true
+		});
+	}
+
+	async restoreProject(projectName: string, source: "fs" | "in-memory"): Promise<void> {
+		this.router.navigate([], {
+			relativeTo: this.route,
+			queryParams: {
+				project: projectName,
+				source
 			}
 		});
 
-		const storedProject = localStorage.getItem(this.recentProjectKey);
+		this.store.dispatch(
+			WorkspaceActions.loadProject({
+				projectName,
+				files: [],
+				directories: []
+			})
+		);
 
-		const project = storedProject
-			? JSON.parse(storedProject)
-			: { files: [], directories: [], projectName };
+		try {
+			const project = await this.indexedDb.projects.getByName(projectName);
 
-		this.store.dispatch(WorkspaceActions.loadProject(project));
+			if (!project) {
+				throw new Error("Project does not exist.");
+			}
 
-		if (project.files?.length > 0) {
-			this.store.dispatch(FileActions.setSelectedFile({ file: project.files[0] }));
+			switch (project.source) {
+				case "fs":
+					await this.fileSystem.synchronizeWithDirectory(project.directoryHandle);
+					break;
+				case "in-memory":
+					await this.restoreInMemoryProject(project);
+					break;
+				default:
+					console.error(
+						`Unknown or missing source (${source}). URL query parameter should specify either "fs" or "in-memory".`
+					);
+					break;
+			}
+
+			await this.indexedDb.projects.put({ ...project, lastOpened: new Date() });
+		} catch (error) {
+			console.error(`Failed to restore project: ${projectName}`);
+			console.error(error);
 		}
+	}
+
+	private async restoreInMemoryProject(project: InMemoryProject): Promise<void> {
+		const files = await this.indexedDb.files.getFiles(project.name);
+
+		const directories: Directory[] = [];
+		const directorySet = new Set(files.map(f => f.directoryPath));
+
+		for (const directoryPath of directorySet) {
+			const dirHierarchy = directoryPath.split("/");
+			const dirName = dirHierarchy[dirHierarchy.length - 1];
+			const parentDir = dirHierarchy.length == 1 ? "" : dirHierarchy[dirHierarchy.length - 2];
+			directories.push(createDirectory(dirName, parentDir));
+		}
+
+		this.store.dispatch(
+			WorkspaceActions.loadProject({
+				projectName: project.name,
+				files: files ?? [],
+				directories
+			})
+		);
+
+		this.store.dispatch(FileActions.setSelectedFile({ file: files?.[0] ?? null }));
 	}
 
 	/**

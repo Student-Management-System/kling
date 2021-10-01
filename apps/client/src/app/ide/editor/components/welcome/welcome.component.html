@@ -1,4 +1,4 @@
-<div class="h-full">
+<div class="h-full pb-4 overflow-auto">
 	<div class="grid justify-center w-full gap-8 p-6 text-light">
 		<div class="mx-auto">
 			<ng-template [ngTemplateOutlet]="uniLogo"></ng-template>
@@ -8,7 +8,7 @@
 			<div class="grid justify-items-center" *ngIf="user$ | async as user; else loginButton">
 				<div class="text-xl">
 					{{ "Common.Hello" | translate }},
-					<span class="text-selected">{{ user.username }}</span
+					<span class="text-selected">{{ user.displayName }}</span
 					>.
 				</div>
 
@@ -100,6 +100,19 @@
 			<div class="grid content-start">
 				<div class="mb-2">{{ "Common.Actions" | translate }}</div>
 				<div class="grid gap-4">
+					<button mat-flat-button color="primary" (click)="fileSystem.openFile()">
+						Import File
+					</button>
+					<button mat-flat-button color="primary" (click)="fileSystem.openDirectory()">
+						Import Directory
+					</button>
+					<button
+						mat-flat-button
+						color="primary"
+						(click)="fileSystem.openDirectoryAndSynchronize()"
+					>
+						Synchronize with Directory (Chrome)
+					</button>
 					<button
 						mat-flat-button
 						color="primary"
@@ -114,23 +127,42 @@
 					>
 						{{ "Action.Custom.AddDirectory" | translate }}
 					</button>
-					<button mat-flat-button color="primary">
-						{{ "Action.Custom.ImportFiles" | translate }}
-					</button>
 				</div>
 			</div>
 
 			<div class="grid content-start">
 				<div class="mb-2">{{ "Common.Recent" | translate }}</div>
-				<div class="grid">
-					<button
-						mat-button
-						*ngFor="let project of recentProjects"
-						class="recent-project"
-						(click)="openRecentProject(project)"
-					>
-						<span class="text-left text-selected">{{ project }}</span>
-					</button>
+				<div class="grid gap-2 pr-2 overflow-auto max-h-60">
+					<div *ngIf="recentProjects$ | async as recentProjects">
+						<span *ngIf="recentProjects.length == 0"
+							>{{ "Text.Domain.NoRecentProjects" | translate }}.</span
+						>
+
+						<div class="flex gap-4" *ngFor="let project of recentProjects">
+							<button
+								class="grid w-full p-2 text-left rounded hover:bg-gray-800"
+								(click)="openRecentProject(project)"
+							>
+								<div class="flex justify-between">
+									<span class="text-selected">{{ project.name }}</span>
+									<span class="text-xs text-light">({{ project.source }})</span>
+								</div>
+
+								<div class="flex justify-between">
+									<span class="text-xs text-light"
+										>{{ project.lastOpened | date: "dd.MM.YYYY (HH:mm)" }}
+									</span>
+
+									<button
+										class="p-0 text-xs bg-transparent w-min text-light hover:text-white"
+										(click)="removeRecentProject(project.name); $event.stopPropagation()"
+									>
+										{{ "Action.Delete" | translate }}
+									</button>
+								</div>
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -8,5 +8,11 @@
 	"video": true,
 	"videosFolder": "../../dist/cypress/apps/client-e2e/videos",
 	"screenshotsFolder": "../../dist/cypress/apps/client-e2e/screenshots",
-	"chromeWebSecurity": false
+	"chromeWebSecurity": false,
+	"baseUrl": "http://localhost:4200",
+	"watchForFileChanges": true,
+	"defaultCommandTimeout": 2000,
+	"env": {
+		"tsConfig": "tsconfig.json"
+	}
 }

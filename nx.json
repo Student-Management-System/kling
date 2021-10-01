@@ -32,6 +32,9 @@
 		"client": {
 			"tags": ["scope:client"]
 		},
+		"client-data-access-indexed-db": {
+			"tags": ["scope:client", "type:data-access"]
+		},
 		"client-data-access-state": {
 			"tags": ["scope:client", "type:data-access"]
 		},

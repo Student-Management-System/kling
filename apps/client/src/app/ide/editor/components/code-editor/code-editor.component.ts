@@ -7,12 +7,18 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { File, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
-import { extractFileExtension, FileExtension, getLanguageFromExtension } from "@kling/programming";
+import { FileActions, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
+import {
+	extractFileExtension,
+	File,
+	FileExtension,
+	getLanguageFromExtension
+} from "@kling/programming";
+import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
-import { fromEvent, Subscription } from "rxjs";
+import { fromEvent, Subject, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
@@ -35,12 +41,16 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	@Output() onEditorInit = new EventEmitter<void>();
 	selectedFilePath: string;
 
+	onFileChanged$ = new Subject<string>();
+
 	private editor: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByPath = new Map<string, EditorModelState>();
+	private filesWithUnsavedChanges = new Set<string>();
 	private showRulers = true;
 
 	constructor(
 		private readonly store: Store,
+		private readonly actions$: Actions,
 		private readonly workspace: WorkspaceService,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
@@ -71,6 +81,15 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 				this.initEditor();
 			});
+
+		this.subs.sink = this.actions$
+			.pipe(
+				ofType(FileActions.saveFile),
+				tap(action => {
+					this.filesWithUnsavedChanges.delete(action.path);
+				})
+			)
+			.subscribe();
 	}
 
 	private initEditor(): void {
@@ -80,9 +99,12 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
 
-		// this.editor.onDidChangeModelContent(event => {
-		// 	console.log(event);
-		// });
+		this.editor.onDidChangeModelContent(() => {
+			if (!this.filesWithUnsavedChanges.has(this.selectedFilePath)) {
+				this.filesWithUnsavedChanges.add(this.selectedFilePath);
+				this.store.dispatch(FileActions.markAsChanged({ path: this.selectedFilePath }));
+			}
+		});
 
 		this.registerCustomActions();
 
@@ -116,7 +138,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 */
 	private registerCustomActions(): void {
 		this.editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-			this.workspace.saveProject();
+			this.saveCurrentFile();
 		});
 
 		this.editor.addCommand(monaco.KeyCode.F5, () => {
@@ -216,6 +238,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		});
 	}
 
+	private saveCurrentFile() {
+		this.workspace.saveFile(this.selectedFilePath, this.getFileContent(this.selectedFilePath));
+	}
+
 	private createCodeExecutionRequest(): void {
 		this.workspace.entryPoint$.pipe(take(1)).subscribe(_entryPoint => {
 			const entryPoint = _entryPoint || this.selectedFilePath;
@@ -284,13 +310,13 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private subscribeToFileRemoved(): Subscription {
-		return this.workspace.fileRemoved$.subscribe(path => {
-			if (path) {
+		return this.workspace.fileRemoved$.subscribe(file => {
+			if (file) {
 				// Remove from map
-				this.editorModelByPath.delete(path);
+				this.editorModelByPath.delete(file.path);
 
 				// Dispose model
-				const model = monaco?.editor?.getModel(this.createFileUri(path));
+				const model = monaco?.editor?.getModel(this.createFileUri(file.path));
 				model.dispose();
 			}
 		});

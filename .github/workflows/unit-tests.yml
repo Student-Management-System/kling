@@ -1,11 +1,11 @@
-name: CI
+name: Unit Tests
 on:
     push:
         branches: [master]
     workflow_dispatch:
 
 jobs:
-    test:
+    unit-tests:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2

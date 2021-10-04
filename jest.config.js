@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports = {
 	projects: [
 		"<rootDir>/apps/client",
@@ -6,5 +7,6 @@ module.exports = {
 		"<rootDir>/libs/client/data-access/state",
 		"<rootDir>/libs/shared/util/programming",
 		"<rootDir>/libs/client/data-access/indexed-db"
-	]
+	],
+	reporters: process.env.NODE_ENV === "CI" ? ["default", "jest-github-actions-reporter"] : ["default"]
 };

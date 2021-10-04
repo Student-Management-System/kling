@@ -176,7 +176,7 @@ export class WorkspaceService {
 			})
 		);
 
-		this.store.dispatch(FileActions.setSelectedFile({ file: files?.[0] ?? null }));
+		this.store.dispatch(FileActions.setSelectedFile({ path: files?.[0]?.path ?? null }));
 	}
 
 	/**

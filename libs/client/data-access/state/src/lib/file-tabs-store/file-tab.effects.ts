@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
-import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { filter, map, withLatestFrom } from "rxjs/operators";
 import { FileTabActions, FileTabSelectors } from ".";
 import { FileActions, FileSelectors } from "../file-store";
-import { File } from "@kling/programming";
 
 @Injectable()
 export class FileTabEffects {
@@ -19,10 +18,10 @@ export class FileTabEffects {
 				this.store.select(FileSelectors.selectCurrentFile),
 				this.store.select(FileTabSelectors.getFileTabs)
 			),
-			filter(([action, currentFile]) => action.filePath === currentFile?.path),
+			filter(([action, currentFile]) => action.path === currentFile?.path),
 			map(([_action, _currentFile, tabs]) =>
 				FileActions.setSelectedFile_FileTabRemoved({
-					file: tabs?.[0] ?? null
+					path: tabs[0] ?? null
 				})
 			)
 		);
@@ -35,10 +34,10 @@ export class FileTabEffects {
 	addTabForSelectedFile$ = createEffect(() => {
 		return this.actions$.pipe(
 			ofType(FileActions.setSelectedFile, FileActions.setSelectedFile_FileTabRemoved),
-			filter(action => !!action.file),
+			filter(action => !!action.path),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
-			filter(([action, tabs]) => !tabs.find(tab => tab.path === action.file.path)),
-			map(([action]) => FileTabActions.addFileTab_FileSelectedEffect({ file: action.file }))
+			filter(([action, tabs]) => !tabs.find(path => path === action.path)),
+			map(([action]) => FileTabActions.addFileTab_FileSelectedEffect({ path: action.path }))
 		);
 	});
 
@@ -51,28 +50,16 @@ export class FileTabEffects {
 			ofType(FileActions.deleteFile),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
 			filter(([action, tabs]) => this.removedFileHasTab(tabs, action.file.path)),
-			map(([action]) =>
-				FileTabActions.removeFileTab_FileRemoved({ filePath: action.file.path })
-			)
-		);
-	});
-
-	fileUpdate$ = createEffect(() => {
-		return this.actions$.pipe(
-			ofType(FileActions.markAsChanged, FileActions.saveFile),
-			concatLatestFrom(action =>
-				this.store.select(FileSelectors.selectFileByPath(action.path))
-			),
-			map(([_action, file]) => FileTabActions.updateFileTab({ file }))
+			map(([action]) => FileTabActions.removeFileTab_FileRemoved({ path: action.file.path }))
 		);
 	});
 
 	constructor(private actions$: Actions, private store: Store) {}
 
 	/**
-	 * Returns `true`, if `tabs` contain a file with the specified `path`.
+	 * Returns `true`, if `tabs` contain the specified `deletedPath`.
 	 */
-	private removedFileHasTab(tabs: File[], deletedPath: string): boolean {
-		return !!tabs.find(tab => tab.path === deletedPath);
+	private removedFileHasTab(tabs: string[], deletedPath: string): boolean {
+		return !!tabs.find(path => path === deletedPath);
 	}
 }

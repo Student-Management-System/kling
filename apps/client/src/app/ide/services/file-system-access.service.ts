@@ -120,7 +120,7 @@ export class FileSystemAccess {
 	async openFile(): Promise<void> {
 		const fileFromFs = await fileOpen();
 		const file = await this.registerFile(fileFromFs);
-		this.store.dispatch(FileActions.setSelectedFile({ file }));
+		this.store.dispatch(FileActions.setSelectedFile({ path: file.path }));
 	}
 
 	async openDirectory(): Promise<void> {
@@ -215,7 +215,7 @@ export class FileSystemAccess {
 			}
 		});
 
-		this.store.dispatch(FileActions.setSelectedFile({ file: files?.[0] ?? null }));
+		this.store.dispatch(FileActions.setSelectedFile({ path: files?.[0]?.path ?? null }));
 
 		this.directoryHandleByPath.set("", directoryHandle);
 		this.synchronizedDirectory$.next(directoryHandle);

@@ -1,5 +1,6 @@
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
+import { FileTabsModule } from "@kling/file-tabs";
 import { AngularSplitModule } from "angular-split";
 import { environment } from "../../environments/environment";
 import { SharedModule } from "../shared/shared.module";
@@ -20,6 +21,7 @@ import { WorkspaceComponent } from "./workspace/workspace.component";
 		IdeRoutingModule,
 		ActivityBarModule,
 		SideBarModule,
+		FileTabsModule,
 		EditorModule,
 		FeaturePanelModule,
 		AngularSplitModule

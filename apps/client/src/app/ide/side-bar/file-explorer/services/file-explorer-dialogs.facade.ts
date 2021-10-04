@@ -35,7 +35,7 @@ export class FileExplorerDialogs {
 					);
 
 					this.store.dispatch(FileActions.addFile({ file }));
-					this.store.dispatch(FileActions.setSelectedFile({ file }));
+					this.store.dispatch(FileActions.setSelectedFile({ path: file.path }));
 				}
 			});
 	}

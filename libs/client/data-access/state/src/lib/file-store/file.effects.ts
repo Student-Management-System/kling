@@ -42,8 +42,8 @@ export class FileEffects {
 		() => {
 			return this.actions$.pipe(
 				ofType(FileActions.setSelectedFile, FileActions.setSelectedFile_FileTabRemoved),
-				tap(({ file }) => {
-					if (file) {
+				tap(({ path }) => {
+					if (path) {
 						this.workspace.focusEditor();
 					}
 				})

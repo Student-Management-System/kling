@@ -1,12 +1,11 @@
 import { createReducer, on } from "@ngrx/store";
-import { File } from "@kling/programming";
 import * as FileTabActions from "./file-tab.actions";
 
 export const fileTabFeatureKey = "fileTab";
 
 export interface State {
 	/** List of file paths. */
-	tabs: File[];
+	tabs: string[];
 }
 
 export const initialState: State = {
@@ -16,45 +15,26 @@ export const initialState: State = {
 export const reducer = createReducer(
 	initialState,
 	on(FileTabActions.addFileTab, FileTabActions.addFileTab_FileSelectedEffect, (state, action) =>
-		_addFileTab(state, action.file)
+		_addFileTab(state, action)
 	),
-	on(FileTabActions.updateFileTab, (state, action) => {
-		const index = state.tabs.findIndex(tab => tab.path === action.file.path);
-		const newTabs = [...state.tabs];
-		newTabs[index] = action.file;
-		return { tabs: newTabs };
-	}),
 	on(FileTabActions.removeFileTab, FileTabActions.removeFileTab_FileRemoved, (state, action) =>
 		_removeFileTab(state, action)
 	),
 	on(
 		FileTabActions.clearFileTabs,
-		(state): State => ({
-			...state,
+		(): State => ({
 			tabs: []
 		})
 	)
 );
 
-function _removeFileTab(state: State, action: { filePath: string }): State {
+function _removeFileTab(state: State, action: { path: string }): State {
 	return {
 		...state,
-		tabs: state.tabs.filter(tab => tab.path !== action.filePath)
+		tabs: state.tabs.filter(path => path !== action.path)
 	};
 }
 
-function _addFileTab(state: State, file: File): State {
-	return {
-		...state,
-		tabs: [
-			...state.tabs,
-			{
-				name: file.name,
-				path: file.path,
-				directoryPath: file.directoryPath,
-				hasUnsavedChanges: file.hasUnsavedChanges,
-				content: undefined // Not required here
-			}
-		]
-	};
+function _addFileTab(state: State, action: { path: string }): State {
+	return { tabs: [...state.tabs, action.path] };
 }

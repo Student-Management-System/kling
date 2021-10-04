@@ -42,6 +42,9 @@
 			"tags": [],
 			"implicitDependencies": ["client"]
 		},
+		"client-ui-file-tabs": {
+			"tags": ["scope:client", "type:ui"]
+		},
 		"code-runner-service": {
 			"tags": ["scope:code-runner-service"]
 		},

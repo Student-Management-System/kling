@@ -16,9 +16,9 @@ export const deleteFile = createAction("[File] Delete File", props<{ file: File 
 
 export const clearFiles = createAction("[Workspace] Clear Files");
 
-export const setSelectedFile = createAction("[File] Select File", props<{ file: File | null }>());
+export const setSelectedFile = createAction("[File] Select File", props<{ path: string | null }>());
 
 export const setSelectedFile_FileTabRemoved = createAction(
 	"[Effect selectNextTab$] Select File",
-	props<{ file: File | null }>()
+	props<{ path: string | null }>()
 );

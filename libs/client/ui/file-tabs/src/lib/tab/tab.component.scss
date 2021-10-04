@@ -1,14 +1,3 @@
-.file-tabs {
-	display: flex;
-	gap: 2px;
-	height: 36px;
-}
-
-.file-tab {
-	height: 100%;
-	background-color: var(--file-tab-inactive);
-}
-
 .file-tab-btn {
 	display: flex;
 	border-bottom: 1px solid transparent;

@@ -57,7 +57,7 @@ export class WelcomeComponent implements OnInit {
 	createMainFile(language: SupportedLanguage): void {
 		const file = createMainFile(language);
 		this.store.dispatch(FileActions.addFile({ file }));
-		this.store.dispatch(FileActions.setSelectedFile({ file }));
+		this.store.dispatch(FileActions.setSelectedFile({ path: file.path }));
 	}
 
 	openRecentProject(project: StoredProject): void {

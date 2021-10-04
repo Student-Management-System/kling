@@ -29,7 +29,7 @@ export class FileComponent implements OnInit {
 	 */
 	openFile(): void {
 		if (!this.isSelected) {
-			this.store.dispatch(FileActions.setSelectedFile({ file: this.file }));
+			this.store.dispatch(FileActions.setSelectedFile({ path: this.file.path }));
 		}
 	}
 

@@ -268,6 +268,47 @@
 				}
 			}
 		},
+		"client-ui-file-tabs": {
+			"projectType": "library",
+			"root": "libs/client/ui/file-tabs",
+			"sourceRoot": "libs/client/ui/file-tabs/src",
+			"prefix": "kling",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:ng-packagr-lite",
+					"outputs": ["dist/libs/client/ui/file-tabs"],
+					"options": {
+						"project": "libs/client/ui/file-tabs/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/client/ui/file-tabs/tsconfig.lib.prod.json"
+						},
+						"development": {
+							"tsConfig": "libs/client/ui/file-tabs/tsconfig.lib.json"
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/client/ui/file-tabs"],
+					"options": {
+						"jestConfig": "libs/client/ui/file-tabs/jest.config.js",
+						"passWithNoTests": true
+					}
+				},
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": [
+							"libs/client/ui/file-tabs/src/**/*.ts",
+							"libs/client/ui/file-tabs/src/**/*.html"
+						]
+					}
+				}
+			}
+		},
 		"code-runner-service": {
 			"root": "apps/code-runner-service",
 			"sourceRoot": "apps/code-runner-service/src",

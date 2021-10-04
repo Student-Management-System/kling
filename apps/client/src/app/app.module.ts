@@ -8,6 +8,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClientDataAccessStateModule } from "@kling/client/data-access/state";
+import { INDEXED_DB } from "@kling/indexed-db";
 import { ApiModule, Configuration } from "@kling/shared/data-access/api-rest-ng-client";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
@@ -92,7 +93,8 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 	providers: [
 		{ provide: LOCALE_ID, useValue: "de" },
 		{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "outline" } },
-		{ provide: LOCAL_STORAGE, useValue: localStorage }
+		{ provide: LOCAL_STORAGE, useValue: localStorage },
+		{ provide: INDEXED_DB, useValue: indexedDB }
 	],
 	bootstrap: [AppComponent]
 })

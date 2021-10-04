@@ -78,7 +78,7 @@ export class WorkspaceService {
 
 			const files = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
 
-			await this.indexedDb.projects.createProject(
+			await this.indexedDb.projects.saveProject(
 				{
 					lastOpened: new Date(),
 					name: this.projectName,

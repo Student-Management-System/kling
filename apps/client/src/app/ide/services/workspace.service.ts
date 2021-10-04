@@ -105,8 +105,7 @@ export class WorkspaceService {
 			queryParams: {
 				project: this.projectName,
 				source: this.fileSystem.hasSynchronizedDirectory ? "fs" : "in-memory"
-			},
-			skipLocationChange: true
+			}
 		});
 	}
 

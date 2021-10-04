@@ -31,12 +31,7 @@ export class WorkspaceSettingsComponent extends UnsubscribeOnDestroy implements 
 	onThemeChange(event: MatSelectChange): void {
 		const theme = event.value as "dark" | "light";
 		this.store.dispatch(WorkspaceActions.setTheme({ theme }));
-
-		if (theme === "light") {
-			this.themeService.setTheme("default-theme");
-		} else {
-			this.themeService.setTheme("dark-theme");
-		}
+		this.themeService.setTheme(theme);
 
 		this.toast.info(
 			"Please reload your page to update syntax highlighting theme ... TODO recreate editor"

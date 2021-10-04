@@ -13,7 +13,7 @@ function createInitialState(): State {
 	return {
 		entryPoint: null,
 		projectName: "Playground",
-		theme: localStorage.getItem("theme") === "default-theme" ? "light" : "dark"
+		theme: localStorage.getItem("theme") === "dark" ? "dark" : "light"
 	};
 }
 

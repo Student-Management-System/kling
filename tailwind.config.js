@@ -11,7 +11,7 @@ module.exports = {
 			"./libs/**/*.{html,scss}",
 		]
 	},
-	darkMode: false, // or 'media' or 'class'
+	darkMode: "class",
 	theme: {
 		extend: {},
 	},

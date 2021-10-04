@@ -44,22 +44,9 @@
 	--primary: map-get($student-mgmt-client-primary, 600);
 	--accent: map-get($student-mgmt-client-accent, 900);
 	--warn: map-get($student-mgmt-client-warn);
-
-	@media (max-width: 799px) {
-		--margin-content: 8px;
-		--margin-default: 8px;
-	}
-	@media (min-width: 800px) {
-		--margin-content: 64px;
-		--margin-default: 16px;
-	}
-	@media (min-width: 1500px) {
-		--margin-content: 128px;
-		--margin-default: 32px;
-	}
 }
 
-.default-theme {
+.light {
 	height: 100%;
 	--primary: #757575;
 	--accent: #b71c1c;
@@ -104,7 +91,7 @@
 	--status-bar: #007acc;
 }
 
-.dark-theme {
+.dark {
 	height: 100%;
 	--primary: #757575;
 	--accent: #b71c1c;

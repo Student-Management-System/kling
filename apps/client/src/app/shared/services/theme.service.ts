@@ -6,20 +6,12 @@ import { distinctUntilChanged } from "rxjs/operators";
 export class ThemeService {
 	availableThemes = [
 		{
-			cssClass: "default-theme",
-			name: "Default"
+			cssClass: "light",
+			name: "Light"
 		},
 		{
-			cssClass: "dark-theme",
+			cssClass: "dark",
 			name: "Dark"
-		},
-		{
-			cssClass: "blue-theme",
-			name: "Blue"
-		},
-		{
-			cssClass: "green-theme",
-			name: "Green"
 		}
 	] as const;
 
@@ -35,11 +27,11 @@ export class ThemeService {
 			window.matchMedia &&
 			window.matchMedia("(prefers-color-scheme: dark)").matches
 		) {
-			theme = "dark-theme";
+			theme = "dark";
 		} else if (storedTheme && this.availableThemes.find(t => t.cssClass === storedTheme)) {
 			theme = storedTheme;
 		} else {
-			theme = "default-theme";
+			theme = "light";
 		}
 
 		this.themeSubject = new BehaviorSubject(theme);

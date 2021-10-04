@@ -94,12 +94,15 @@ export class NavigationComponent implements OnInit {
 
 	private onThemeChange(theme: string): void {
 		const overlayContainerClasses = this.overlayContainer.getContainerElement().classList;
-		const themeClassesToRemove = Array.from(overlayContainerClasses).filter((item: string) =>
-			item.includes("-theme")
-		);
-		if (themeClassesToRemove.length) {
-			overlayContainerClasses.remove(...themeClassesToRemove);
+
+		if (theme === "dark") {
+			overlayContainerClasses.remove("light");
+		} else if (theme === "light") {
+			overlayContainerClasses.remove("dark");
+		} else {
+			console.error("Unknown theme: " + theme);
 		}
+
 		overlayContainerClasses.add(theme);
 	}
 }

@@ -6,14 +6,12 @@ export const workspaceFeatureKey = "workspace";
 export interface State {
 	entryPoint: string;
 	projectName: string;
-	theme: string;
 }
 
 function createInitialState(): State {
 	return {
 		entryPoint: null,
-		projectName: "Playground",
-		theme: localStorage.getItem("theme") === "dark" ? "dark" : "light"
+		projectName: "Playground"
 	};
 }
 
@@ -27,6 +25,5 @@ export const reducer = createReducer(
 	on(WorkspaceActions.setEntryPoint, (state, action) => ({
 		...state,
 		entryPoint: action.path
-	})),
-	on(WorkspaceActions.setTheme, (state, action) => ({ ...state, theme: action.theme }))
+	}))
 );

@@ -3,8 +3,7 @@ import { Router } from "@angular/router";
 import { IndexedDbService } from "@kling/indexed-db";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { switchMap, tap, withLatestFrom } from "rxjs/operators";
-import { WorkspaceSelectors } from ".";
+import { switchMap, tap } from "rxjs/operators";
 import { WorkspaceService } from "../../../../../../../apps/client/src/app/ide/services/workspace.service";
 import { DirectoryActions } from "../directory-store";
 import { FileActions } from "../file-store";
@@ -45,24 +44,6 @@ export class WorkspaceEffects {
 			])
 		);
 	});
-
-	onSettingsChanged$ = createEffect(
-		() => {
-			return this.actions$.pipe(
-				ofType(WorkspaceActions.setTheme),
-				withLatestFrom(this.store.select(WorkspaceSelectors.selectWorkspaceState)),
-				tap(([_, state]) => {
-					localStorage.setItem(
-						"workspaceSettings",
-						JSON.stringify({
-							theme: state.theme
-						})
-					);
-				})
-			);
-		},
-		{ dispatch: false }
-	);
 
 	constructor(
 		private actions$: Actions,

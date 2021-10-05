@@ -154,7 +154,11 @@
     "Link": "Link",
     "Privacy": "Privacy",
     "Settings": "Settings",
-    "Quickstart": "Quickstart"
+    "Quickstart": "Quickstart",
+    "Theme": {
+      "Light": "Light",
+      "Dark": "Dark"
+    }
   },
   "Prompt": {
     "PleaseChoose": "Please choose",

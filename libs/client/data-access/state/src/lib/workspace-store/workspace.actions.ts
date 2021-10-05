@@ -19,8 +19,3 @@ export const createProject = createAction(
 );
 
 export const setEntryPoint = createAction("[File] Mark as entry point", props<{ path: string }>());
-
-export const setTheme = createAction(
-	"[Workspace Settings] Set Theme",
-	props<{ theme: "dark" | "light" }>()
-);

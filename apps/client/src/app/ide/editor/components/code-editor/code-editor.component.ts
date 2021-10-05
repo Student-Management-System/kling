@@ -7,7 +7,7 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { FileActions, FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
+import { FileActions, FileSelectors } from "@kling/client/data-access/state";
 import {
 	extractFileExtension,
 	File,
@@ -16,9 +16,10 @@ import {
 } from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
+import { ThemeService } from "apps/client/src/app/shared/services/theme.service";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
-import { fromEvent, Subject, Subscription } from "rxjs";
+import { firstValueFrom, fromEvent, Subject, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
 import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
 import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
@@ -52,6 +53,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		private readonly store: Store,
 		private readonly actions$: Actions,
 		private readonly workspace: WorkspaceService,
+		private readonly themeService: ThemeService,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
 		private readonly cdRef: ChangeDetectorRef
@@ -62,26 +64,18 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	async ngOnInit(): Promise<void> {
 		this.workspace.setEditorComponent(this);
 
-		this.store
-			.select(WorkspaceSelectors.selectWorkspaceState)
-			.pipe(take(1))
-			.subscribe(async state => {
-				const theme = state.theme ?? "dark";
+		const theme = await firstValueFrom(this.themeService.theme$);
 
-				this.editor = await main(theme);
+		this.editor = await main(theme);
 
-				this.subs.sink = this.codeExecution.onTriggerExecution$.subscribe(() =>
-					this.createCodeExecutionRequest()
-				);
-				this.subs.sink = this.subscribeToThemeChanged();
-				this.subs.sink = this.subscribeToFileSelected();
-				this.subs.sink = this.subscribeToFileAdded();
-				this.subs.sink = this.subscribeToFileRemoved();
-				this.subs.sink = this.workspace.init$.subscribe(() => this._disposeAllModels());
+		this.subs.sink = this.codeExecution.onTriggerExecution$.subscribe(() =>
+			this.createCodeExecutionRequest()
+		);
 
-				this.initEditor();
-			});
-
+		this.subs.sink = this.subscribeToFileSelected();
+		this.subs.sink = this.subscribeToFileAdded();
+		this.subs.sink = this.subscribeToFileRemoved();
+		this.subs.sink = this.workspace.init$.subscribe(() => this._disposeAllModels());
 		this.subs.sink = this.actions$
 			.pipe(
 				ofType(FileActions.saveFile),
@@ -90,6 +84,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 				})
 			)
 			.subscribe();
+
+		this.initEditor();
 	}
 
 	private initEditor(): void {
@@ -375,21 +371,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 				viewState: this.editor.saveViewState()
 			});
 		}
-	}
-
-	private subscribeToThemeChanged(): Subscription {
-		return this.store.select(WorkspaceSelectors.selectTheme).subscribe(theme => {
-			switch (theme) {
-				case "light":
-					monaco.editor?.setTheme("vs-light");
-					break;
-				case "dark":
-					monaco.editor?.setTheme("vs-dark");
-					break;
-				default:
-					break;
-			}
-		});
 	}
 
 	/**

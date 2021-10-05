@@ -154,7 +154,10 @@
     "Link": "Link",
     "Privacy": "Datenschutz",
     "Settings": "Einstellungen",
-    "Quickstart": "Schnellstart"
+    "Quickstart": "Schnellstart",
+    "Theme": {
+      "Light": "Hell"
+    }
   },
   "Prompt": {
     "PleaseChoose": "Bitte auswählen",

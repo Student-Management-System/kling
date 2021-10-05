@@ -8,7 +8,6 @@ import {
 	Output,
 	ViewChild
 } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { MatSidenav } from "@angular/material/sidenav";
 import { NavigationEnd, Router } from "@angular/router";
 import { combineLatest, Observable } from "rxjs";
@@ -48,7 +47,6 @@ export class NavigationComponent implements OnInit {
 		private titlebar: TitlebarService,
 		public theme: ThemeService,
 		private router: Router,
-		private dialog: MatDialog,
 		private overlayContainer: OverlayContainer,
 		public snackbar: SnackbarService
 	) {}

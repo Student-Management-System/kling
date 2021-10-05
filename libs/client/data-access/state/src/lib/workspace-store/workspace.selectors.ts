@@ -8,5 +8,3 @@ export const selectWorkspaceState = createFeatureSelector<fromWorkspace.State>(
 export const selectEntryPoint = createSelector(selectWorkspaceState, state => state.entryPoint);
 
 export const selectProjectName = createSelector(selectWorkspaceState, state => state.projectName);
-
-export const selectTheme = createSelector(selectWorkspaceState, state => state.theme);

@@ -128,7 +128,8 @@
     "FailedToLoadRequiredData": "Benötigte Daten konnten nicht geladen werden.",
     "SomethingWentWrong": "Ups, da ist etwas schief gelaufen!",
     "ValueMissing": "Fehlender Wert.",
-    "ForbiddenCharacter": "Beeinhaltet ein verbotenes Symmbol ({{forbiddenCharacters}})."
+    "ForbiddenCharacter": "Beeinhaltet ein verbotenes Symmbol ({{forbiddenCharacters}}).",
+    "FailedToLoadProject": "Project \"{{project}}\" konnte nicht geladen werden."
   },
   "Event": {
     "UserJoinedCourseEvent": "ist dem Kurs beigreten.",

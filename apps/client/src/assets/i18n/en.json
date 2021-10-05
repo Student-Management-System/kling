@@ -128,7 +128,8 @@
     "FailedToLoadRequiredData": "Failed to load the required data.",
     "SomethingWentWrong": "Oops, something went wrong!",
     "ValueMissing": "Value is missing.",
-    "ForbiddenCharacter": "Contains a forbidden character ({{forbiddenCharacters}})."
+    "ForbiddenCharacter": "Contains a forbidden character ({{forbiddenCharacters}}).",
+    "FailedToLoadProject": "Failed to load project \"{{projectName}}\"."
   },
   "Event": {
     "UserJoinedCourseEvent": "joined the course.",

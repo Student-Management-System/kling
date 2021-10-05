@@ -6,9 +6,10 @@ import {
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
 import { IndexedDbService, InMemoryProject } from "@kling/indexed-db";
-import { createDirectoriesFromFiles, createDirectory, Directory, File } from "@kling/programming";
+import { createDirectoriesFromFiles, File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
+import { ToastService } from "../../shared/services/toast.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
 import { FileSystemAccess } from "./file-system-access.service";
 
@@ -40,7 +41,8 @@ export class WorkspaceService {
 	constructor(
 		private readonly store: Store,
 		private readonly fileSystem: FileSystemAccess,
-		private readonly indexedDb: IndexedDbService
+		private readonly indexedDb: IndexedDbService,
+		private toast: ToastService
 	) {
 		this.store.select(WorkspaceSelectors.selectProjectName).subscribe(projectName => {
 			this.projectName = projectName;
@@ -124,6 +126,7 @@ export class WorkspaceService {
 				await this.restoreInMemoryProject(project, openFile);
 			}
 		} catch (error) {
+			this.toast.error("Error.FailedToLoadProject", undefined, { projectName });
 			console.error(`Failed to restore project: ${projectName}`);
 			console.error(error);
 		}

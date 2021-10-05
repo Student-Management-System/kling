@@ -19,5 +19,9 @@ export class IndexedDbService {
 		this.db = new WebIdeDatabase(indexedDB);
 		this.projects = new ProjectTable(this.db);
 		this.files = new FileTable(this.db);
+
+		if ((window as any).Cypress) {
+			(window as any)["appIndexedDb"] = this;
+		}
 	}
 }

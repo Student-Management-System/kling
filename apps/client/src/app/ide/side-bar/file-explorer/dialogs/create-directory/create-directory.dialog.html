@@ -1,4 +1,6 @@
-<mat-card-title mat-dialog-title>{{ 'Title.CreateDirectory' | translate }}</mat-card-title>
+<mat-card-title mat-dialog-title data-test="create-directory-dialog"
+	>{{ 'Title.CreateDirectory' | translate }}</mat-card-title
+>
 
 <div mat-dialog-content>
 	<mat-form-field>
@@ -19,8 +21,16 @@
 </div>
 
 <div mat-dialog-actions class="actions">
-	<button mat-raised-button color="accent" (click)="create()" [disabled]="error$ | async">
+	<button
+		mat-raised-button
+		color="accent"
+		(click)="create()"
+		[disabled]="error$ | async"
+		data-test="create-btn"
+	>
 		{{ 'Action.Create' | translate }}
 	</button>
-	<button mat-flat-button (click)="close()">{{ 'Action.Cancel' | translate }}</button>
+	<button mat-flat-button (click)="close()" data-test="cancel-btn">
+		{{ 'Action.Cancel' | translate }}
+	</button>
 </div>

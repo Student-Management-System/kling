@@ -23,6 +23,7 @@
 				[formControl]="projectNameControl"
 				(keydown.enter)="onCreate(projectNameControl.value)"
 				required
+				data-test="project-name-input"
 			/>
 			<mat-error *ngIf="projectNameControl.errors?.['Error.ValueMissing']">
 				{{ 'Error.ValueMissing' | translate }}

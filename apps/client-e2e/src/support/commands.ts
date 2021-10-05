@@ -1,3 +1,5 @@
+import { IndexedDbService } from "@kling/indexed-db";
+
 /* eslint-disable @typescript-eslint/no-namespace */
 declare global {
 	namespace Cypress {
@@ -16,10 +18,25 @@ declare global {
 			 * cy.getBySelector("ok-btn").click();
 			 */
 			getBySelector: (selector: string) => Cypress.Chainable<JQuery<HTMLElement>>;
+
+			useIndexedDbService: (
+				cb: (service: IndexedDbService) => void
+			) => Cypress.Chainable<any>;
 		}
 	}
 }
 
 export function getBySelector(selector: string): Cypress.Chainable<JQuery<HTMLElement>> {
 	return cy.get(`[data-test=${selector}]`);
+}
+
+export function useIndexedDbService(
+	cb: (service: IndexedDbService) => void
+): Cypress.Chainable<any> {
+	return cy
+		.window()
+		.its("appIndexedDb")
+		.then(idbService => {
+			cb(idbService);
+		});
 }

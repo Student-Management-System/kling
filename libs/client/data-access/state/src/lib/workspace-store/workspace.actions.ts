@@ -11,12 +11,14 @@ export const loadProject = createAction(
 	}>()
 );
 
-export const setEntryPoint = createAction("[File] Mark as entry point", props<{ path: string }>());
-
-export const setProjectName = createAction(
-	"[Workspace] Set Project name",
-	props<{ name: string }>()
+export const createProject = createAction(
+	"[Workspace] Save as new project",
+	props<{
+		projectName?: string;
+	}>()
 );
+
+export const setEntryPoint = createAction("[File] Mark as entry point", props<{ path: string }>());
 
 export const setTheme = createAction(
 	"[Workspace Settings] Set Theme",

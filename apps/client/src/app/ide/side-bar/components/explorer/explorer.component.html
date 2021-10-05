@@ -3,12 +3,25 @@
 		<ng-container headerTitle>Explorer</ng-container>
 		<ng-container headerMenu>
 			<mat-menu #menu>
+				<button
+					mat-menu-item
+					(click)="saveAsNewProject()"
+					data-test="save-as-new-project-btn"
+				>
+					{{ "Action.Custom.SaveAsNewProject" | translate }}
+				</button>
 				<button mat-menu-item (click)="exportToDisk()">
 					{{ "Action.Export" | translate }}
 				</button>
 			</mat-menu>
 
-			<button class="menu-btn" mat-icon-button [matMenuTriggerFor]="menu" disableRipple>
+			<button
+				class="menu-btn"
+				mat-icon-button
+				[matMenuTriggerFor]="menu"
+				disableRipple
+				data-test="explorer-menu-btn"
+			>
 				<app-icon name="more_horiz" class="icon-light"></app-icon>
 			</button>
 		</ng-container>
@@ -19,13 +32,13 @@
 		<app-side-bar-section class="h-full">
 			<ng-container sectionTitle>{{ (workspace$ | async)?.projectName }}</ng-container>
 
-			<ng-container sectionActions *ngIf="rootDirectory$ | async as rootDir">
+			<ng-container sectionActions>
 				<button
 					class="mr-2 add-file-btn"
 					mat-icon-button
 					disableRipple
 					matTooltip="New File"
-					(click)="workspaceDialogs.openCreateFileDialog(rootDir)"
+					(click)="fileExplorerDialogs.openCreateFileDialog()"
 				>
 					<div>
 						<app-icon
@@ -40,7 +53,7 @@
 					mat-icon-button
 					disableRipple
 					matTooltip="New Folder"
-					(click)="workspaceDialogs.openCreateDirectoryDialog(rootDir)"
+					(click)="fileExplorerDialogs.openCreateDirectoryDialog()"
 				>
 					<div>
 						<app-icon

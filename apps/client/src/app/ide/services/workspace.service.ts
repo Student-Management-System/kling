@@ -1,18 +1,16 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
 import {
 	FileActions,
 	FileSelectors,
 	WorkspaceActions,
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
-import { createDirectory, Directory, File } from "@kling/programming";
+import { IndexedDbService, InMemoryProject } from "@kling/indexed-db";
+import { createDirectoriesFromFiles, createDirectory, Directory, File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
-import { ToastService } from "../../shared/services/toast.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
 import { FileSystemAccess } from "./file-system-access.service";
-import { IndexedDbService, InMemoryProject } from "@kling/indexed-db";
 
 @Injectable({ providedIn: "root" })
 export class WorkspaceService {
@@ -40,12 +38,9 @@ export class WorkspaceService {
 	private projectName: string;
 
 	constructor(
-		private readonly router: Router,
-		private readonly route: ActivatedRoute,
 		private readonly store: Store,
 		private readonly fileSystem: FileSystemAccess,
-		private readonly indexedDb: IndexedDbService,
-		private readonly toast: ToastService
+		private readonly indexedDb: IndexedDbService
 	) {
 		this.store.select(WorkspaceSelectors.selectProjectName).subscribe(projectName => {
 			this.projectName = projectName;
@@ -99,25 +94,15 @@ export class WorkspaceService {
 		}
 
 		this.store.dispatch(FileActions.saveFile({ path, content }));
-
-		this.router.navigate([], {
-			relativeTo: this.route,
-			queryParams: {
-				project: this.projectName,
-				source: this.fileSystem.hasSynchronizedDirectory ? "fs" : "in-memory"
-			}
-		});
 	}
 
-	async restoreProject(projectName: string, source: "fs" | "in-memory"): Promise<void> {
-		this.router.navigate([], {
-			relativeTo: this.route,
-			queryParams: {
-				project: projectName,
-				source
-			}
-		});
-
+	/**
+	 * Restores a project from the `indexedDB` and loads it into the workspace.
+	 *
+	 * @param projectName Name of the project.
+	 * @param [openFile=true] Determines, whether a file from this project should be opened automatically.
+	 */
+	async restoreProject(projectName: string, openFile = true): Promise<void> {
 		this.store.dispatch(
 			WorkspaceActions.loadProject({
 				projectName,
@@ -133,39 +118,20 @@ export class WorkspaceService {
 				throw new Error("Project does not exist.");
 			}
 
-			switch (project.source) {
-				case "fs":
-					await this.fileSystem.synchronizeWithDirectory(project.directoryHandle);
-					break;
-				case "in-memory":
-					await this.restoreInMemoryProject(project);
-					break;
-				default:
-					console.error(
-						`Unknown or missing source (${source}). URL query parameter should specify either "fs" or "in-memory".`
-					);
-					break;
+			if (project.source === "fs") {
+				await this.fileSystem.synchronizeWithDirectory(project.directoryHandle, openFile);
+			} else {
+				await this.restoreInMemoryProject(project, openFile);
 			}
-
-			await this.indexedDb.projects.put({ ...project, lastOpened: new Date() });
 		} catch (error) {
 			console.error(`Failed to restore project: ${projectName}`);
 			console.error(error);
 		}
 	}
 
-	private async restoreInMemoryProject(project: InMemoryProject): Promise<void> {
+	private async restoreInMemoryProject(project: InMemoryProject, openFile = true): Promise<void> {
 		const files = await this.indexedDb.files.getFiles(project.name);
-
-		const directories: Directory[] = [];
-		const directorySet = new Set(files.map(f => f.directoryPath));
-
-		for (const directoryPath of directorySet) {
-			const dirHierarchy = directoryPath.split("/");
-			const dirName = dirHierarchy[dirHierarchy.length - 1];
-			const parentDir = dirHierarchy.length == 1 ? "" : dirHierarchy[dirHierarchy.length - 2];
-			directories.push(createDirectory(dirName, parentDir));
-		}
+		const directories = createDirectoriesFromFiles(files);
 
 		this.store.dispatch(
 			WorkspaceActions.loadProject({
@@ -175,7 +141,9 @@ export class WorkspaceService {
 			})
 		);
 
-		this.store.dispatch(FileActions.setSelectedFile({ path: files?.[0]?.path ?? null }));
+		if (openFile) {
+			this.store.dispatch(FileActions.setSelectedFile({ path: files?.[0]?.path ?? null }));
+		}
 	}
 
 	/**

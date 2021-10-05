@@ -1,6 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { DirectorySelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import {
+	DirectorySelectors,
+	FileSelectors,
+	WorkspaceSelectors
+} from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
+import { firstValueFrom } from "rxjs";
+import {
+	CreateProjectDialog,
+	CreateProjectDialogData
+} from "../../../dialogs/create-project/create-project.dialog";
 import { FileSystemAccess } from "../../../services/file-system-access.service";
 import { FileExplorerDialogs } from "../../file-explorer/services/file-explorer-dialogs.facade";
 
@@ -10,19 +20,30 @@ import { FileExplorerDialogs } from "../../file-explorer/services/file-explorer-
 	styleUrls: ["./explorer.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExplorerComponent implements OnInit {
+export class ExplorerComponent {
 	rootDirectory$ = this.store.select(DirectorySelectors.selectDirectoryByPath(""));
 	workspace$ = this.store.select(WorkspaceSelectors.selectWorkspaceState);
 
 	constructor(
-		public workspaceDialogs: FileExplorerDialogs,
+		public fileExplorerDialogs: FileExplorerDialogs,
 		private readonly fileSystem: FileSystemAccess,
-		private readonly store: Store
+		private readonly store: Store,
+		private readonly dialog: MatDialog
 	) {}
-
-	ngOnInit(): void {}
 
 	exportToDisk(): void {
 		this.fileSystem.exportAsZip();
+	}
+
+	async saveAsNewProject(): Promise<void> {
+		const currentFiles = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
+
+		this.dialog.open<CreateProjectDialog, CreateProjectDialogData, void>(CreateProjectDialog, {
+			data: {
+				project: {
+					files: currentFiles
+				}
+			}
+		});
 	}
 }

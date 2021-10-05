@@ -12,9 +12,10 @@ import { CodeExecutionService, PISTON_API_URL } from "./services/code-execution.
 import { WorkspaceSettingsService } from "./services/workspace-settings.service";
 import { SideBarModule } from "./side-bar/side-bar.module";
 import { WorkspaceComponent } from "./workspace/workspace.component";
+import { CreateProjectDialog } from "./dialogs/create-project/create-project.dialog";
 
 @NgModule({
-	declarations: [WorkspaceComponent],
+	declarations: [WorkspaceComponent, CreateProjectDialog],
 	imports: [
 		SharedModule,
 		HttpClientModule,

@@ -61,7 +61,7 @@ export class WelcomeComponent implements OnInit {
 	}
 
 	openRecentProject(project: StoredProject): void {
-		this.workspace.restoreProject(project.name, project.source);
+		this.workspace.restoreProject(project.name);
 	}
 
 	removeRecentProject(projectName: string): void {

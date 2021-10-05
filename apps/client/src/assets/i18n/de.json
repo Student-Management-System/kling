@@ -24,7 +24,8 @@
       "AddFile": "Datei hinzufügen",
       "AddDirectory": "Verzeichnis hinzufügen",
       "ImportFiles": "Dateien importieren",
-      "MarkAsEntryPoint": "Als Einstiegspunkt markieren"
+      "MarkAsEntryPoint": "Als Einstiegspunkt markieren",
+      "SaveAsNewProject": "Als neues Project speichern"
     },
     "Run": "Ausführen",
     "Export": "Exportieren"
@@ -126,7 +127,8 @@
     "AssignmentNotInReview": "Erstellung von Bewertungen benötigt den \"In Bewertung\"-Status.",
     "FailedToLoadRequiredData": "Benötigte Daten konnten nicht geladen werden.",
     "SomethingWentWrong": "Ups, da ist etwas schief gelaufen!",
-    "ValueMissing": "Fehlender Wert."
+    "ValueMissing": "Fehlender Wert.",
+    "ForbiddenCharacter": "Beeinhaltet ein verbotenes Symmbol ({{forbiddenCharacters}})."
   },
   "Event": {
     "UserJoinedCourseEvent": "ist dem Kurs beigreten.",

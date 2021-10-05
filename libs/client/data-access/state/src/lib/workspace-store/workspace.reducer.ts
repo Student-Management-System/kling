@@ -28,9 +28,5 @@ export const reducer = createReducer(
 		...state,
 		entryPoint: action.path
 	})),
-	on(WorkspaceActions.setProjectName, (state, action) => ({
-		...state,
-		projectName: action.name
-	})),
 	on(WorkspaceActions.setTheme, (state, action) => ({ ...state, theme: action.theme }))
 );

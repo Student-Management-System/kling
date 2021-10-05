@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { FileSelectors, WorkspaceActions } from "@kling/client/data-access/state";
+import {
+	FileActions,
+	FileSelectors,
+	FileTabActions,
+	WorkspaceActions
+} from "@kling/client/data-access/state";
+import { IndexedDbService } from "@kling/indexed-db";
 import { Store } from "@ngrx/store";
 import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
 import { SidenavService } from "../../shared/services/sidenav.service";
@@ -23,6 +29,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	constructor(
 		public workspaceSettings: WorkspaceSettingsService,
 		private readonly workspaceService: WorkspaceService,
+		private indexedDb: IndexedDbService,
 		private readonly sidenav: SidenavService,
 		private readonly route: ActivatedRoute,
 		private readonly store: Store
@@ -30,32 +37,46 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		super();
 	}
 
-	ngOnInit(): void {
+	async ngOnInit(): Promise<void> {
 		this.sidenav.forceOverlayMode(true);
-		this.store.dispatch(
-			WorkspaceActions.loadProject({
-				projectName: "Playground",
-				files: [],
-				directories: []
-			})
-		);
 
 		this.subs.sink = this.workspaceSettings.layout$.subscribe(layout => {
 			this.layout = layout;
 			setTimeout(() => this.codeEditor.resize(), 0); // Hack: Delay resize to prevent race condition
 		});
-	}
 
-	handleEditorInit(): void {
-		const { project, source } = this.route.snapshot.queryParams;
+		const { project } = this.route.snapshot.queryParams;
 
-		if (project) {
-			this.workspaceService.restoreProject(project, source);
+		if (!project) {
+			await this.restoreMostRecentProject();
 		}
 	}
 
-	onDragEnd(event: any): void {
-		// event: { gutterNum: number; sizes: number[] }
+	private async restoreMostRecentProject() {
+		const mostRecentProject = await this.indexedDb.projects.getMany();
+
+		if (mostRecentProject.length > 0) {
+			await this.workspaceService.restoreProject(mostRecentProject[0].name, false);
+		} else {
+			this.store.dispatch(
+				WorkspaceActions.loadProject({
+					projectName: "Playground",
+					files: [],
+					directories: []
+				})
+			);
+		}
+	}
+
+	handleEditorInit(): void {
+		const { project } = this.route.snapshot.queryParams;
+
+		if (project) {
+			this.workspaceService.restoreProject(project);
+		}
+	}
+
+	onDragEnd(event: { gutterNum: number; sizes: number[] }): void {
 		this.workspaceSettings.setLayout("custom", {
 			explorerWidth: event.sizes[0],
 			editorWidth: event.sizes[1],

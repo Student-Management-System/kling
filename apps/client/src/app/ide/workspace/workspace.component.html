@@ -3,7 +3,12 @@
 		<app-activity-bar></app-activity-bar>
 	</div>
 
-	<as-split unit="percent" direction="horizontal" [gutterSize]="4" (dragEnd)="onDragEnd($event)">
+	<as-split
+		unit="percent"
+		direction="horizontal"
+		[gutterSize]="4"
+		(dragEnd)="onDragEnd($any($event))"
+	>
 		<as-split-area
 			[size]="layout.explorerWidth"
 			[order]="1"
@@ -14,7 +19,7 @@
 			</div>
 		</as-split-area>
 
-		<as-split-area [size]="layout.editorWidth" [order]="2" (dragEnd)="onDragEnd($event)">
+		<as-split-area [size]="layout.editorWidth" [order]="2" (dragEnd)="onDragEnd($any($event))">
 			<div class="code-editor">
 				<div class="tabbar">
 					<kling-file-tabs></kling-file-tabs>
@@ -29,7 +34,11 @@
 			</div>
 		</as-split-area>
 
-		<as-split-area [size]="layout.featurePanelWidth" [order]="3" (dragEnd)="onDragEnd($event)">
+		<as-split-area
+			[size]="layout.featurePanelWidth"
+			[order]="3"
+			(dragEnd)="onDragEnd($any($event))"
+		>
 			<div class="feature-panel">
 				<app-feature-panel></app-feature-panel>
 			</div>

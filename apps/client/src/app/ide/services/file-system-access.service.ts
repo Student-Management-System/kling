@@ -178,7 +178,10 @@ export class FileSystemAccess {
 		return this.synchronizeWithDirectory(directoryHandle);
 	}
 
-	async synchronizeWithDirectory(directoryHandle: FileSystemDirectoryHandle): Promise<void> {
+	async synchronizeWithDirectory(
+		directoryHandle: FileSystemDirectoryHandle,
+		openFile = true
+	): Promise<void> {
 		const hasPermission = await this.verifyPermission(directoryHandle);
 
 		if (!hasPermission) {
@@ -215,7 +218,9 @@ export class FileSystemAccess {
 			}
 		});
 
-		this.store.dispatch(FileActions.setSelectedFile({ path: files?.[0]?.path ?? null }));
+		if (openFile) {
+			this.store.dispatch(FileActions.setSelectedFile({ path: files?.[0]?.path ?? null }));
+		}
 
 		this.directoryHandleByPath.set("", directoryHandle);
 		this.synchronizedDirectory$.next(directoryHandle);

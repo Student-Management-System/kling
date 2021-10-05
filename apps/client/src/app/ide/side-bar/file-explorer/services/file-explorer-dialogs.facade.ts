@@ -22,17 +22,13 @@ export class FileExplorerDialogs {
 	 * Opens the `CreateFileDialog` and adds a new file to the workspace,
 	 * if confirmed by the user.
 	 */
-	openCreateFileDialog(fromDirectory?: Directory): void {
+	openCreateFileDialog(directoryPath = ""): void {
 		this.dialog
 			.open<CreateFileDialog, any, Partial<File>>(CreateFileDialog)
 			.afterClosed()
 			.subscribe(partialFile => {
 				if (partialFile?.name?.length > 0) {
-					const file = createFile(
-						partialFile.name,
-						fromDirectory?.path ?? "",
-						`// ${partialFile.name}`
-					);
+					const file = createFile(partialFile.name, directoryPath);
 
 					this.store.dispatch(FileActions.addFile({ file }));
 					this.store.dispatch(FileActions.setSelectedFile({ path: file.path }));
@@ -43,10 +39,10 @@ export class FileExplorerDialogs {
 	/**
 	 * Opens the `CreateDirectoryDialog` and adds a new directory to the workspace,
 	 * if confirmed by the user.
-	 * If `fromDirectory` was specified, the directory is added as a subdirectory.
+	 * If `directoryPath` was specified, the directory is added as a subdirectory.
 	 */
-	openCreateDirectoryDialog(fromDirectory?: Directory): void {
-		const data: CreateDirectoryDialogData = { directory: fromDirectory };
+	openCreateDirectoryDialog(directoryPath = ""): void {
+		const data: CreateDirectoryDialogData = { directoryPath };
 		this.dialog
 			.open<CreateDirectoryDialog, CreateDirectoryDialogData, string>(CreateDirectoryDialog, {
 				data
@@ -55,10 +51,9 @@ export class FileExplorerDialogs {
 			.subscribe(directoryName => {
 				if (directoryName) {
 					if (directoryName.length > 0) {
-						const parentDirectory = fromDirectory?.path ?? "";
 						this.store.dispatch(
 							DirectoryActions.addDirectory({
-								directory: createDirectory(directoryName, parentDirectory)
+								directory: createDirectory(directoryName, directoryPath)
 							})
 						);
 					} else {

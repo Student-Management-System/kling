@@ -24,7 +24,8 @@
       "AddDirectory": "Add Directory",
       "AddFile": "Add File",
       "ImportFiles": "Import Files",
-      "MarkAsEntryPoint": "Mark as entry point"
+      "MarkAsEntryPoint": "Mark as entry point",
+      "SaveAsNewProject": "Save As New Project"
     },
     "Run": "Run",
     "Export": "Export"
@@ -126,7 +127,8 @@
     "AssignmentNotInReview": "Assignment creation requires the \"In Review\"-state.",
     "FailedToLoadRequiredData": "Failed to load the required data.",
     "SomethingWentWrong": "Oops, something went wrong!",
-    "ValueMissing": "Value is missing."
+    "ValueMissing": "Value is missing.",
+    "ForbiddenCharacter": "Contains a forbidden character ({{forbiddenCharacters}})."
   },
   "Event": {
     "UserJoinedCourseEvent": "joined the course.",
@@ -228,7 +230,8 @@
     "CompareParticipantsList": "Compare participants list",
     "CreateDirectory": "Create Directory",
     "CreateFile": "Create File",
-    "CreateProblem": "Create new problem"
+    "CreateProblem": "Create new problem",
+    "CreateProject": "Create Project"
   },
   "Text": {
     "Domain": {

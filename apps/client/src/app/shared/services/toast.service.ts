@@ -3,6 +3,8 @@ import { ToastrService, IndividualConfig } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
 import { HttpErrorResponse } from "@angular/common/http";
 
+type InterpolatedParams = Record<string, string | number>;
+
 @Injectable({ providedIn: "root" })
 export class ToastService {
 	constructor(private toast: ToastrService, private translate: TranslateService) {}
@@ -11,7 +13,7 @@ export class ToastService {
 	success(
 		message?: string,
 		title = "Message.Success",
-		interpolatedParams?: object,
+		interpolatedParams?: InterpolatedParams,
 		override?: Partial<IndividualConfig>
 	): void {
 		this.toast.success(
@@ -25,13 +27,13 @@ export class ToastService {
 	error(
 		message?: string,
 		title?: string,
-		interpolatedParams?: object,
+		interpolatedParams?: InterpolatedParams,
 		override?: Partial<IndividualConfig>
 	): void {
 		this.toast.error(
 			this.tryGetTranslation(message, interpolatedParams),
 			this.tryGetTranslation(title),
-			{ disableTimeOut: true, ...override }
+			override
 		);
 	}
 
@@ -52,13 +54,13 @@ export class ToastService {
 	warning(
 		message?: string,
 		title?: string,
-		interpolatedParams?: object,
+		interpolatedParams?: InterpolatedParams,
 		override?: Partial<IndividualConfig>
 	): void {
 		this.toast.warning(
 			this.tryGetTranslation(message, interpolatedParams),
 			this.tryGetTranslation(title),
-			{ disableTimeOut: true, ...override }
+			override
 		);
 	}
 
@@ -66,7 +68,7 @@ export class ToastService {
 	info(
 		message?: string,
 		title?: string,
-		interpolatedParams?: object,
+		interpolatedParams?: InterpolatedParams,
 		override?: Partial<IndividualConfig>
 	): void {
 		this.toast.info(
@@ -80,7 +82,7 @@ export class ToastService {
 	 * Tries to find the translation of the given `word`.
 	 * Returns `undefined` if no translation found or word was undefined.
 	 */
-	private tryGetTranslation(word?: string, params?: object): string {
+	private tryGetTranslation(word?: string, params?: InterpolatedParams): string {
 		return word ? this.translate.instant(word, params) : undefined;
 	}
 }

@@ -4,7 +4,7 @@
 		<span class="text-xl">{{ "Domain.Input" | translate }}</span>
 
 		<div class="w-full input-textarea-form-field">
-			<mat-form-field class="w-full" appearance="outline">
+			<mat-form-field class="w-full" appearance="fill">
 				<textarea
 					class="input-textarea"
 					#input
@@ -20,7 +20,9 @@
 	<!-- Output -->
 	<div class="flex flex-col h-full gap-2 overflow-hidden">
 		<span class="text-xl">{{ "Domain.Output" | translate }}</span>
-		<div class="flex-1 h-full p-2 overflow-auto border rounded output-area">
+		<div
+			class="flex-1 h-full p-2 overflow-auto rounded bg-[#EAEAEA] dark:bg-[#3B3B3C] consolas"
+		>
 			<ng-container *ngIf="output$ | async as output; else noOutput">
 				<div class="stdout" *ngIf="output.stdout?.length > 0">
 					<pre>{{ output.stdout }}</pre>

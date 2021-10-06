@@ -45,9 +45,6 @@
 		"client-ui-file-tabs": {
 			"tags": ["scope:client", "type:ui"]
 		},
-		"code-runner-service": {
-			"tags": ["scope:code-runner-service"]
-		},
 		"shared-data-access-api-rest-ng-client": {
 			"tags": ["scope:shared", "type:data-access"]
 		},

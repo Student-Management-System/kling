@@ -1,31 +1,10 @@
 import { HttpModule, Module } from "@nestjs/common";
-import { ClientsModule, Transport } from "@nestjs/microservices";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { RunCodeGateway } from "./gateways/run-code.gateway";
 import { OrmRepositories, Repositories } from "./repositories";
-import { ReviewServiceProxy } from "./services/review-service-proxy.service";
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([...OrmRepositories]),
-		ClientsModule.register([
-			{
-				name: "REVIEW_SERVICE",
-				transport: Transport.NATS,
-				options: {
-					url: process.env.NATS_URL,
-					queue: "review"
-				}
-			}
-		]),
-		HttpModule
-	],
+	imports: [TypeOrmModule.forFeature([...OrmRepositories]), HttpModule],
 	controllers: [],
-	providers: [
-		...Repositories,
-		RunCodeGateway,
-		ReviewServiceProxy
-		//{ provide: "REVIEW_SERVICE", useValue: { } }
-	]
+	providers: [...Repositories]
 })
 export class ProgrammingModule {}

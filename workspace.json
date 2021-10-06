@@ -309,52 +309,6 @@
 				}
 			}
 		},
-		"code-runner-service": {
-			"root": "apps/code-runner-service",
-			"sourceRoot": "apps/code-runner-service/src",
-			"projectType": "application",
-			"prefix": "code-runner-service",
-			"schematics": {},
-			"architect": {
-				"build": {
-					"builder": "@nrwl/node:build",
-					"options": {
-						"outputPath": "dist/apps/code-runner-service",
-						"main": "apps/code-runner-service/src/main.ts",
-						"tsConfig": "apps/code-runner-service/tsconfig.app.json"
-					},
-					"configurations": {
-						"production": {
-							"optimization": true,
-							"extractLicenses": true,
-							"inspect": false,
-							"fileReplacements": []
-						}
-					},
-					"outputs": ["{options.outputPath}"]
-				},
-				"serve": {
-					"builder": "@nrwl/node:execute",
-					"options": {
-						"buildTarget": "code-runner-service:build"
-					}
-				},
-				"lint": {
-					"builder": "@nrwl/linter:eslint",
-					"options": {
-						"lintFilePatterns": ["apps/code-runner-service/**/*.ts"]
-					}
-				},
-				"test": {
-					"builder": "@nrwl/jest:jest",
-					"options": {
-						"jestConfig": "apps/code-runner-service/jest.config.js",
-						"passWithNoTests": true
-					},
-					"outputs": ["coverage/apps/code-runner-service"]
-				}
-			}
-		},
 		"shared-data-access-api-rest-ng-client": {
 			"projectType": "library",
 			"root": "libs/shared/data-access/api-rest-ng-client",

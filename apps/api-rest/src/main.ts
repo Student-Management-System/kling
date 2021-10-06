@@ -1,6 +1,5 @@
 import { Logger, LogLevel, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as config from "config";
@@ -24,13 +23,6 @@ async function bootstrap(): Promise<void> {
 	logger.verbose("Creating application...");
 	const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: logLevels });
 	logger.verbose("Application created!");
-
-	app.connectMicroservice<MicroserviceOptions>({
-		transport: Transport.NATS,
-		options: {
-			url: process.env.NATS_URL
-		}
-	});
 
 	app.useGlobalPipes(new ValidationPipe({ transform: true })); // Automatically transform primitive params to their type
 	app.useGlobalFilters(new EntityNotFoundFilter());

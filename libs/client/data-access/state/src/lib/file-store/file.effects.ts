@@ -15,8 +15,7 @@ export class FileEffects {
 		() => {
 			return this.actions$.pipe(
 				ofType(FileActions.addFile),
-				tap(async action => {
-					await this.workspace.saveFile(action.file.path, action.file.content);
+				tap(action => {
 					this.workspace.emitFileAdded(action.file);
 				})
 			);

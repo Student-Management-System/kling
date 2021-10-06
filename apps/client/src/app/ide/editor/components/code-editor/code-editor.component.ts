@@ -307,14 +307,11 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 	private subscribeToFileRemoved(): Subscription {
 		return this.workspace.fileRemoved$.subscribe(file => {
-			if (file) {
-				// Remove from map
-				this.editorModelByPath.delete(file.path);
+			const { textModel } = this.editorModelByPath.get(file.path);
+			textModel.dispose();
 
-				// Dispose model
-				const model = monaco?.editor?.getModel(this.createFileUri(file.path));
-				model.dispose();
-			}
+			this.editorModelByPath.delete(file.path);
+			this.filesWithUnsavedChanges.delete(file.path);
 		});
 	}
 
@@ -324,9 +321,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 	private subscribeToFileAdded(): Subscription {
 		return this.workspace.fileAdded$.subscribe(file => {
-			if (file) {
-				this.createModel(file);
-			}
+			this.createModel(file);
 		});
 	}
 

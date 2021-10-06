@@ -15,7 +15,8 @@ export class FileEffects {
 		() => {
 			return this.actions$.pipe(
 				ofType(FileActions.addFile),
-				tap(action => {
+				tap(async action => {
+					await this.workspace.saveFile(action.file.path, action.file.content);
 					this.workspace.emitFileAdded(action.file);
 				})
 			);
@@ -32,7 +33,10 @@ export class FileEffects {
 		() => {
 			return this.actions$.pipe(
 				ofType(FileActions.deleteFile),
-				tap(action => this.workspace.emitFileRemoved(action.file))
+				tap(async action => {
+					await this.workspace.deleteFile(action.file.path);
+					this.workspace.emitFileRemoved(action.file);
+				})
 			);
 		},
 		{ dispatch: false }

@@ -8,7 +8,7 @@ import {
 import { IndexedDbService, InMemoryProject } from "@kling/indexed-db";
 import { createDirectoriesFromFiles, File } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
+import { firstValueFrom, Subject } from "rxjs";
 import { ToastService } from "../../shared/services/toast.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
 import { FileSystemAccess } from "./file-system-access.service";
@@ -19,11 +19,11 @@ export class WorkspaceService {
 	/** Emits when the workspace is initialized. */
 	init$ = this._init$.asObservable();
 
-	private _fileAdded$ = new BehaviorSubject<File>(undefined);
+	private _fileAdded$ = new Subject<File>();
 	/** Emits the added file. */
 	fileAdded$ = this._fileAdded$.asObservable();
 
-	private _fileRemoved$ = new BehaviorSubject<File>(undefined);
+	private _fileRemoved$ = new Subject<File>();
 	/** Emits the `id` of the removed file. */
 	fileRemoved$ = this._fileRemoved$.asObservable();
 
@@ -100,6 +100,10 @@ export class WorkspaceService {
 		}
 
 		this.store.dispatch(FileActions.saveFile({ path, content }));
+	}
+
+	async deleteFile(path: string): Promise<void> {
+		return this.indexedDb.files.delete(this.projectName, path);
 	}
 
 	/**

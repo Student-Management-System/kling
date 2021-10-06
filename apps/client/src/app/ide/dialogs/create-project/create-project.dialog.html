@@ -2,20 +2,11 @@
 	<mat-card-title mat-dialog-title>{{ 'Title.CreateProject' | translate }}</mat-card-title>
 
 	<div mat-dialog-content class="flex flex-col">
-		<ul class="text-justify list-disc list-inside text-light">
-			<li>Projects will always be stored in your browser's storage.</li>
-			<li>
-				Once you make changes to a file, an indicator will be displayed next to the file,
-				informing you that this file contains unsaved changes. Press
-				<kbd>Ctrl</kbd> + <kbd>S</kbd> to save these changes.
-			</li>
-			<li>
-				If you want to continue your work on a project at a later point, you can find it in
-				the "Recent" section of the "Welcome" screen.
-			</li>
-		</ul>
+		<div class="mb-4 text-light" *ngIf="fromProject">
+			{{ 'Text.Domain.SaveAsNewProject' | translate:{ projectName: fromProject } }}
+		</div>
 
-		<mat-form-field class="w-full mt-4">
+		<mat-form-field class="w-full">
 			<mat-label>Name</mat-label>
 			<input
 				autofocus
@@ -37,6 +28,19 @@
 			</mat-error>
 		</mat-form-field>
 	</div>
+
+	<ul class="text-justify list-disc list-inside text-light">
+		<li>Projects will always be stored in your browser's storage.</li>
+		<li>
+			Once you make changes to a file, an indicator will be displayed next to the file,
+			informing you that this file contains unsaved changes. Press
+			<kbd>Ctrl</kbd> + <kbd>S</kbd> to save these changes.
+		</li>
+		<li>
+			If you want to continue your work on a project at a later point, you can find it in the
+			"Recent" section of the "Welcome" screen.
+		</li>
+	</ul>
 
 	<div mat-dialog-actions>
 		<button

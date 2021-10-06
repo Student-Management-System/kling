@@ -25,7 +25,8 @@
       "AddDirectory": "Verzeichnis hinzufügen",
       "ImportFiles": "Dateien importieren",
       "MarkAsEntryPoint": "Als Einstiegspunkt markieren",
-      "SaveAsNewProject": "Als neues Project speichern"
+      "SaveAsNewProject": "Als neues Project speichern",
+      "CreateNewProject": "Neues Projekt"
     },
     "Run": "Ausführen",
     "Export": "Exportieren"
@@ -238,7 +239,8 @@
   },
   "Text": {
     "Domain": {
-      "NoRecentProjects": "Keine zuletzt geöffneten Projekte"
+      "NoRecentProjects": "Keine zuletzt geöffneten Projekte",
+      "SaveAsNewProject": "Inhalt von \"{{projectName}}\" wird in das neue Projekt kopiert."
     },
     "Terminal": {
       "InnerText": "Die Ausgabe des Programs wird hier erscheinen"

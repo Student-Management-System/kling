@@ -3,6 +3,9 @@
 		<ng-container headerTitle>Explorer</ng-container>
 		<ng-container headerMenu>
 			<mat-menu #menu>
+				<button mat-menu-item (click)="createNewProject()" data-test="newProjectBtn">
+					{{ "Action.Custom.CreateNewProject" | translate }}
+				</button>
 				<button
 					mat-menu-item
 					(click)="saveAsNewProject()"

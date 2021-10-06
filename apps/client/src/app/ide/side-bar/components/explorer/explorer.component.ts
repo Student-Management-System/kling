@@ -37,13 +37,21 @@ export class ExplorerComponent {
 
 	async saveAsNewProject(): Promise<void> {
 		const currentFiles = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
+		const projectName = await firstValueFrom(
+			this.store.select(WorkspaceSelectors.selectProjectName)
+		);
 
 		this.dialog.open<CreateProjectDialog, CreateProjectDialogData, void>(CreateProjectDialog, {
 			data: {
 				project: {
+					name: projectName,
 					files: currentFiles
 				}
 			}
 		});
+	}
+
+	createNewProject(): void {
+		this.dialog.open(CreateProjectDialog);
 	}
 }

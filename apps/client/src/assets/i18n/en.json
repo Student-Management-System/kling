@@ -25,7 +25,8 @@
       "AddFile": "Add File",
       "ImportFiles": "Import Files",
       "MarkAsEntryPoint": "Mark as entry point",
-      "SaveAsNewProject": "Save As New Project"
+      "SaveAsNewProject": "Save As New Project",
+      "CreateNewProject": "New Project"
     },
     "Run": "Run",
     "Export": "Export"
@@ -240,7 +241,8 @@
   },
   "Text": {
     "Domain": {
-      "NoRecentProjects": "No recent projects"
+      "NoRecentProjects": "No recent projects",
+      "SaveAsNewProject": "Content of \"{{projectName}}\" will be copied into the new project."
     },
     "Terminal": {
       "InnerText": "The output of your program will appear here"

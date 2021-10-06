@@ -13,6 +13,7 @@ import { Store } from "@ngrx/store";
 
 export type CreateProjectDialogData = {
 	project?: {
+		name: string;
 		files: File[];
 	};
 };
@@ -36,6 +37,9 @@ export class CreateProjectDialog implements OnInit {
 		[this.projectNameAvailableValidator()]
 	);
 
+	/** Name of the project that the new project will be based on. */
+	fromProject: string;
+
 	forbiddenCharactersString = forbiddenCharacters.toString();
 
 	constructor(
@@ -45,7 +49,9 @@ export class CreateProjectDialog implements OnInit {
 		private dialogRef: MatDialogRef<CreateProjectDialog, void>
 	) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.fromProject = this.data?.project.name;
+	}
 
 	async onCreate(projectName: string): Promise<void> {
 		if (this.projectNameControl.invalid) {

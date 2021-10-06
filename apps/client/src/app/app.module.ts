@@ -27,7 +27,6 @@ import { AppComponent } from "./app.component";
 import { AuthModule } from "./auth/auth.module";
 import { AuthService } from "./auth/services/auth.service";
 import { EditorModule } from "./ide/editor/editor.module";
-import { MaterialModule } from "./material/material.module";
 import { NavigationComponent } from "./navigation/navigation.component";
 import { SharedModule } from "./shared/shared.module";
 
@@ -60,7 +59,6 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 			progressBar: true
 		}),
 		SharedModule,
-		MaterialModule,
 		LayoutModule,
 		MarkdownModule.forRoot({
 			loader: HttpClient,

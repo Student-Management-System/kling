@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { environment } from "../../environments/environment";
-import { MaterialModule } from "../material/material.module";
+import { MaterialModule } from "../shared/material/material.module";
 import { LoginDialog } from "./dialogs/login/login.dialog";
 import { ErrorInterceptorService } from "./services/error-interceptor.service";
 

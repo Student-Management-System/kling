@@ -1,4 +1,10 @@
-<div class="file" data-cy="file" [class.selected]="isSelected" data-test="file">
+<div
+	class="file"
+	data-cy="file"
+	[class.selected]="isSelected"
+	[class.notselected]="!isSelected"
+	data-test="file"
+>
 	<button
 		mat-button
 		disableRipple="true"

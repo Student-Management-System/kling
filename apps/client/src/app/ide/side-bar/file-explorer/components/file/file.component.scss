@@ -27,7 +27,7 @@
 .selected::before {
 	height: 100%;
 	content: "";
-	display: block;
+	display: inline-block;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -36,15 +36,15 @@
 	width: 100%;
 }
 
-:hover:not(.selected) {
+.notselected:hover {
 	background-color: var(--file-hover-bg);
 	color: var(--text);
 }
 
-:hover:not(.selected)::before {
+.notselected:hover::before {
 	height: 100%;
 	content: "";
-	display: block;
+	display: inline-block;
 	position: absolute;
 	top: 0;
 	left: 0;

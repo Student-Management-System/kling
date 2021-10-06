@@ -44,12 +44,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 			this.layout = layout;
 			setTimeout(() => this.codeEditor.resize(), 0); // Hack: Delay resize to prevent race condition
 		});
-
-		const { project } = this.route.snapshot.queryParams;
-
-		if (!project) {
-			await this.restoreMostRecentProject();
-		}
 	}
 
 	private async restoreMostRecentProject() {
@@ -68,11 +62,13 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		}
 	}
 
-	handleEditorInit(): void {
+	async handleEditorInit(): Promise<void> {
 		const { project } = this.route.snapshot.queryParams;
 
 		if (project) {
 			this.workspaceService.restoreProject(project);
+		} else {
+			await this.restoreMostRecentProject();
 		}
 	}
 

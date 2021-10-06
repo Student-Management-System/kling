@@ -44,7 +44,7 @@ export function createDirectoriesFromPath(directoryPath: string): Directory[] {
 	const hierarchy = directoryPath.split("/");
 
 	for (let i = 0; i < hierarchy.length; i++) {
-		const directory = createDirectory(hierarchy[i], directories[i - 1]?.path);
+		const directory = createDirectory(hierarchy[i], directories[i - 1]?.path ?? "");
 		directories.push(directory);
 	}
 

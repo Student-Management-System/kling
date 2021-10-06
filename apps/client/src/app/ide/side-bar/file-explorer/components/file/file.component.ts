@@ -37,12 +37,6 @@ export class FileComponent implements OnInit {
 		this.store.dispatch(WorkspaceActions.setEntryPoint({ path: this.file.path }));
 	}
 
-	rename(): void {
-		this.workspaceDialogs.openRenameDialog(this.file.name).subscribe(newName => {
-			console.log("Renaming is not implemented.");
-		});
-	}
-
 	removeFileIfConfirmed(): void {
 		this.dialogService
 			.openConfirmDialog({

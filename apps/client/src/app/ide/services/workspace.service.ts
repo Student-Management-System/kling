@@ -44,6 +44,10 @@ export class WorkspaceService {
 		private readonly indexedDb: IndexedDbService,
 		private toast: ToastService
 	) {
+		if ((window as any).Cypress) {
+			(window as any)["appStore"] = store;
+		}
+
 		this.store.select(WorkspaceSelectors.selectProjectName).subscribe(projectName => {
 			this.projectName = projectName;
 		});

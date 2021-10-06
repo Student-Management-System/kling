@@ -24,19 +24,13 @@
 
 	<context-menu #fileContextMenu class="context-menu">
 		<ng-template contextMenuItem (execute)="markAsEntryPoint()">
-			<span class="context-menu-item"
+			<span class="context-menu-item" data-test="markAsEntryPointBtn"
 				><app-icon name="play_arrow" class="icon-light"></app-icon
 				>{{ "Action.Custom.MarkAsEntryPoint" | translate }}</span
 			>
 		</ng-template>
-		<ng-template contextMenuItem (execute)="rename()">
-			<span class="context-menu-item"
-				><app-icon name="edit" class="icon-light"></app-icon
-				>{{ "Action.Rename" | translate }}</span
-			>
-		</ng-template>
 		<ng-template contextMenuItem (execute)="removeFileIfConfirmed()">
-			<span class="context-menu-item"
+			<span class="context-menu-item" data-test="deleteBtn"
 				><app-icon class="icon-light" name="delete"></app-icon
 				>{{ "Action.Delete" | translate }}</span
 			>

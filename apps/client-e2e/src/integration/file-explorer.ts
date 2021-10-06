@@ -1,8 +1,17 @@
+import { createFile, File } from "@kling/programming";
+import { createAction, props } from "@ngrx/store";
 import { Select } from "../support/element-selector";
 
 function openCreateFileDialog() {
 	cy.getBySelector(Select.fileExplorer.button.addFile).click();
 }
+
+function openCreateDirectoryDialog() {
+	cy.getBySelector(Select.fileExplorer.button.addDirectory).click();
+}
+
+const addFile = createAction("[Workspace] Add File", props<{ file: File }>());
+
 describe("File Explorer", () => {
 	beforeEach(() => {
 		cy.visit("/ide");
@@ -24,6 +33,42 @@ describe("File Explorer", () => {
 			cy.getBySelector(Select.fileExplorer.file).contains(filename);
 			cy.getBySelector(Select.fileTabs.tab).contains(filename);
 			cy.get("#editor").contains(`// ${filename}`);
+		});
+	});
+
+	describe("Create Directory Dialog", () => {
+		beforeEach(() => {
+			openCreateDirectoryDialog();
+		});
+
+		it("Add Directory -> Opens Create Directory Dialog", () => {
+			cy.getBySelector(Select.dialog.createDirectory.container).should("exist");
+		});
+
+		it("Directory added -> Adds Directory to File Explorer", () => {
+			const directoryName = "subfolder";
+
+			cy.getBySelector(Select.dialog.createDirectory.directoryNameInput).type(directoryName);
+			cy.getBySelector(Select.button.create).click();
+			cy.getBySelector(Select.fileExplorer.directory).contains(directoryName).should("exist");
+		});
+	});
+
+	describe("File", () => {
+		describe("Delete", () => {
+			it("Removes the file", () => {
+				const filename = "to-be-deleted.ts";
+				cy.useStore(store => store.dispatch(addFile({ file: createFile(filename) })));
+
+				cy.getBySelector(Select.fileExplorer.file).contains(filename).rightclick();
+				cy.getBySelector(Select.fileExplorer.fileContextMenu.delete).click();
+
+				cy.getBySelector(Select.fileExplorer.file).should("not.exist");
+				cy.useIndexedDbService(async idb => {
+					const files = await idb.files.getFiles("Playground");
+					expect(files).empty;
+				});
+			});
 		});
 	});
 });

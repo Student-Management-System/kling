@@ -1,4 +1,4 @@
-<div class="directory">
+<div class="directory" data-test="directory">
 	<button
 		mat-button
 		disableRipple="true"
@@ -17,7 +17,7 @@
 			contextMenuItem
 			(execute)="workspaceDialogs.openCreateFileDialog(directory.path)"
 		>
-			<span class="context-menu-item"
+			<span class="context-menu-item" data-test="addFileBtn"
 				><app-icon name="note_add_filled" class="icon-light"></app-icon
 				>{{ "Action.Custom.AddFile" | translate }}</span
 			>
@@ -26,19 +26,13 @@
 			contextMenuItem
 			(execute)="workspaceDialogs.openCreateDirectoryDialog(directory.path)"
 		>
-			<span class="context-menu-item"
+			<span class="context-menu-item" data-test="AddDirectoryBtn"
 				><app-icon name="create_new_folder_filled" class="icon-light"></app-icon
 				>{{ "Action.Custom.AddDirectory" | translate }}</span
 			>
 		</ng-template>
-		<ng-template contextMenuItem (execute)="rename()">
-			<span class="context-menu-item"
-				><app-icon name="edit" class="icon-light"></app-icon
-				>{{ "Action.Rename" | translate }}</span
-			>
-		</ng-template>
 		<ng-template contextMenuItem (execute)="removeDirectoryIfConfirmed()">
-			<span class="context-menu-item"
+			<span class="context-menu-item" data-test="deleteBtn"
 				><app-icon class="icon-light" name="delete"></app-icon
 				>{{ "Action.Delete" | translate }}</span
 			>

@@ -41,12 +41,6 @@ export class DirectoryComponent implements OnInit {
 		this.files$ = this.store.select(FileSelectors.selectFilesOfDirectory(this.directory.path));
 	}
 
-	rename(): void {
-		this.workspaceDialogs.openRenameDialog(this.directory.name).subscribe(newName => {
-			console.log("Renaming is not implemented.");
-		});
-	}
-
 	removeDirectoryIfConfirmed(): void {
 		this.dialogService
 			.openConfirmDialog({

@@ -27,11 +27,11 @@
 		color="accent"
 		(click)="create()"
 		[disabled]="error$ | async"
-		data-test="create-btn"
+		data-test="createBtn"
 	>
 		{{ 'Action.Create' | translate }}
 	</button>
-	<button mat-flat-button (click)="close()" data-test="cancel-btn">
+	<button mat-flat-button (click)="close()" data-test="cancelBtn">
 		{{ 'Action.Cancel' | translate }}
 	</button>
 </div>

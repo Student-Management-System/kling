@@ -22,7 +22,7 @@ export const initialState: State = adapter.getInitialState({
 
 export const reducer = createReducer(
 	initialState,
-	on(FileActions.addFile, (state, action) => _addFile(action, state)),
+	on(FileActions.addFile, (state, action) => adapter.addOne(action.file, state)),
 	on(FileActions.addFiles, (state, action) => adapter.addMany(action.files, state)),
 	on(FileActions.markAsChanged, (state, action) =>
 		adapter.updateOne(
@@ -57,7 +57,3 @@ export const reducer = createReducer(
 );
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors();
-
-function _addFile(action: { file: File }, state: State): State {
-	return adapter.addOne(action.file, state);
-}

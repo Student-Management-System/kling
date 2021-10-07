@@ -1,4 +1,4 @@
-<div class="dialog-container">
+<div class="dialog-container" data-test="confirm-dialog">
 	<mat-card-title> {{ getTitle() | translate }} </mat-card-title>
 
 	<p>{{ getMessage() | translate }}</p>
@@ -8,9 +8,11 @@
 	</p>
 
 	<div class="button-container">
-		<button mat-raised-button color="accent" (click)="onConfirm()">
+		<button mat-raised-button color="accent" (click)="onConfirm()" data-test="confirmBtn">
 			{{ 'Action.Confirm' | translate }}
 		</button>
-		<button mat-flat-button (click)="onCancel()">{{ 'Action.Cancel' | translate }}</button>
+		<button mat-flat-button (click)="onCancel()" data-test="cancelBtn">
+			{{ 'Action.Cancel' | translate }}
+		</button>
 	</div>
 </div>

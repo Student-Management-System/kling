@@ -15,7 +15,12 @@ export const Select = {
 			markAsEntryPoint: "markAsEntryPointBtn",
 			delete: "deleteBtn"
 		},
-		directory: "directory"
+		directory: "directory",
+		directoryContextMenu: {
+			addFile: "addFileBtn",
+			addDirectory: "addDirectoryBtn",
+			delete: "deleteBtn"
+		}
 	},
 	fileTabs: {
 		tab: "file-tab",
@@ -36,10 +41,14 @@ export const Select = {
 		createDirectory: {
 			container: "create-directory-dialog",
 			directoryNameInput: "directoryNameInput"
+		},
+		confirm: {
+			container: "confirm-dialog"
 		}
 	},
 	button: {
-		create: "create-btn",
-		cancel: "cancel-btn"
+		create: "createBtn",
+		confirm: "confirmBtn",
+		cancel: "cancelBtn"
 	}
 } as const;

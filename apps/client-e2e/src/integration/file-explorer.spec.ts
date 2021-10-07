@@ -1,5 +1,4 @@
 import { createDirectory, createFile } from "@kling/programming";
-import { addFile } from "libs/client/data-access/state/src/lib/file-store/file.actions";
 import { loadProject } from "libs/client/data-access/state/src/lib/workspace-store/workspace.actions";
 import { Select } from "../support/element-selector";
 
@@ -9,6 +8,18 @@ function openCreateFileDialog() {
 
 function openCreateDirectoryDialog() {
 	cy.getBySelector(Select.fileExplorer.button.addDirectory).click();
+}
+
+function createDirectoryFromDialog(directoryName: string) {
+	openCreateDirectoryDialog();
+	cy.getBySelector(Select.dialog.createDirectory.directoryNameInput).type(directoryName);
+	cy.getBySelector(Select.button.create).click();
+}
+
+function createFileFromDialog(filename: string) {
+	openCreateFileDialog();
+	cy.getBySelector(Select.dialog.createFile.fileNameInput).type(filename);
+	cy.getBySelector(Select.button.create).click();
 }
 
 const defaultProject = {
@@ -31,21 +42,22 @@ const defaultProject = {
 describe("File Explorer", () => {
 	beforeEach(() => {
 		cy.visit("/ide");
+		cy.useIndexedDbService(async idb => {
+			await idb.projects.delete("Playground");
+		});
 	});
 
 	describe("Create File Dialog", () => {
-		beforeEach(() => {
-			openCreateFileDialog();
-		});
-
 		it("Add File -> Opens Create File Dialog", () => {
+			openCreateFileDialog();
 			cy.getBySelector(Select.dialog.createFile.container).should("exist");
 		});
 
 		it("File added -> Adds File to File Explorer, File Tabs and opens it", () => {
 			const filename = "a-new-file.ts";
-			cy.getBySelector(Select.dialog.createFile.fileNameInput).type(filename);
-			cy.getBySelector(Select.button.create).click();
+
+			createFileFromDialog(filename);
+
 			cy.getBySelector(Select.fileExplorer.file).contains(filename);
 			cy.getBySelector(Select.fileTabs.tab).contains(filename);
 			cy.get("#editor").contains(`// ${filename}`);
@@ -53,19 +65,14 @@ describe("File Explorer", () => {
 	});
 
 	describe("Create Directory Dialog", () => {
-		beforeEach(() => {
-			openCreateDirectoryDialog();
-		});
-
 		it("Add Directory -> Opens Create Directory Dialog", () => {
+			openCreateDirectoryDialog();
 			cy.getBySelector(Select.dialog.createDirectory.container).should("exist");
 		});
 
 		it("Directory added -> Adds Directory to File Explorer", () => {
 			const directoryName = "subfolder";
-
-			cy.getBySelector(Select.dialog.createDirectory.directoryNameInput).type(directoryName);
-			cy.getBySelector(Select.button.create).click();
+			createDirectoryFromDialog(directoryName);
 			cy.getBySelector(Select.fileExplorer.directory).contains(directoryName).should("exist");
 		});
 	});
@@ -73,21 +80,86 @@ describe("File Explorer", () => {
 	describe("File", () => {
 		describe("Delete", () => {
 			it("Removes the file", () => {
-				cy.useIndexedDbService(async idb => {
-					await idb.projects.delete("Playground");
-				});
-
 				const filename = "to-be-deleted.ts";
-				cy.useStore(store => store.dispatch(addFile({ file: createFile(filename) })));
+
+				createFileFromDialog(filename);
 
 				cy.getBySelector(Select.fileExplorer.file).contains(filename).rightclick();
 				cy.getBySelector(Select.fileExplorer.fileContextMenu.delete).click();
 
-				cy.getBySelector(Select.fileExplorer.file).should("not.exist");
+				cy.getBySelector(Select.button.confirm).click();
+				cy.getBySelector(Select.fileExplorer.file).contains(filename).should("not.exist");
 				cy.useIndexedDbService(async idb => {
 					const files = await idb.files.getFiles("Playground");
 					expect(files).empty;
 				});
+			});
+		});
+	});
+
+	describe("Directory", () => {
+		describe("Add Directory", () => {
+			it("Opens Create Directory Dialog and adds subdirectory", () => {
+				// Create base directory
+				const baseDirectory = "base";
+				createDirectoryFromDialog(baseDirectory);
+
+				// Open Create Directory Dialog via context menu
+				cy.getBySelector(Select.fileExplorer.directory).rightclick();
+				cy.getBySelector(Select.fileExplorer.directoryContextMenu.addDirectory).click();
+
+				// Create new directory in dialog
+				const subdirectory = "subdirectory";
+				cy.getBySelector(Select.dialog.createDirectory.directoryNameInput).type(
+					subdirectory
+				);
+				cy.getBySelector(Select.button.create).click();
+
+				// New directory should be a child of base directory
+				cy.getBySelector(Select.fileExplorer.directory)
+					.contains(baseDirectory)
+					.parent()
+					.contains(subdirectory);
+			});
+		});
+
+		describe("Add File", () => {
+			it("Opens Create File Dialog and adds file to directory", () => {
+				// Create base directory
+				const baseDirectory = "base";
+				createDirectoryFromDialog(baseDirectory);
+
+				// Open Create File Dialog via context menu
+				cy.getBySelector(Select.fileExplorer.directory).rightclick();
+				cy.getBySelector(Select.fileExplorer.directoryContextMenu.addFile).click();
+
+				// Create new file in dialog
+				const filename = "file.ts";
+				cy.getBySelector(Select.dialog.createFile.fileNameInput).type(filename);
+				cy.getBySelector(Select.button.create).click();
+
+				// New file should be a child of base directory
+				cy.getBySelector(Select.fileExplorer.directory)
+					.contains(baseDirectory)
+					.parent()
+					.contains(filename);
+			});
+		});
+
+		describe("Delete", () => {
+			it("Removes directory and its content", () => {
+				const directoryName = "to-be-deleted";
+				createDirectoryFromDialog(directoryName);
+
+				cy.getBySelector(Select.fileExplorer.directory)
+					.contains(directoryName)
+					.rightclick();
+				cy.getBySelector(Select.fileExplorer.directoryContextMenu.delete).click();
+				cy.getBySelector(Select.button.confirm).click();
+
+				cy.getBySelector(Select.fileExplorer.directory)
+					.contains(directoryName)
+					.should("not.exist");
 			});
 		});
 	});

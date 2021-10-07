@@ -22,8 +22,8 @@ import * as fromWorkspace from "./workspace-store/workspace.reducer";
 				runtimeChecks: {
 					strictStateImmutability: true,
 					strictActionImmutability: true,
-					strictStateSerializability: true,
-					strictActionSerializability: true,
+					strictStateSerializability: false,
+					strictActionSerializability: false,
 					strictActionTypeUniqueness: true,
 					strictActionWithinNgZone: false
 				}

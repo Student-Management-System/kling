@@ -380,7 +380,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	focus(): void {
-		this.editor.focus();
+		this.editor?.focus();
 	}
 
 	private createModel(file: File): monaco.editor.ITextModel {

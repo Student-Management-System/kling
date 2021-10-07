@@ -1,5 +1,6 @@
-import { createFile, File } from "@kling/programming";
-import { createAction, props } from "@ngrx/store";
+import { createDirectory, createFile } from "@kling/programming";
+import { addFile } from "libs/client/data-access/state/src/lib/file-store/file.actions";
+import { loadProject } from "libs/client/data-access/state/src/lib/workspace-store/workspace.actions";
 import { Select } from "../support/element-selector";
 
 function openCreateFileDialog() {
@@ -10,7 +11,22 @@ function openCreateDirectoryDialog() {
 	cy.getBySelector(Select.fileExplorer.button.addDirectory).click();
 }
 
-const addFile = createAction("[Workspace] Add File", props<{ file: File }>());
+const defaultProject = {
+	files: [
+		createFile("root-1.ts"),
+		createFile("root-2.ts"),
+		createFile("level-1-a-1.ts", "level-1-a"),
+		createFile("level-1-a-2.ts", "level-1-a"),
+		createFile("level-1-b.ts", "level-1-b"),
+		createFile("level-2.ts", "level-1-a/level-2")
+	],
+	directories: [
+		createDirectory("level-1-a"),
+		createDirectory("level-1-b"),
+		createDirectory("level-2", "level-1-a")
+	],
+	projectName: "test-project"
+};
 
 describe("File Explorer", () => {
 	beforeEach(() => {
@@ -57,6 +73,10 @@ describe("File Explorer", () => {
 	describe("File", () => {
 		describe("Delete", () => {
 			it("Removes the file", () => {
+				cy.useIndexedDbService(async idb => {
+					await idb.projects.delete("Playground");
+				});
+
 				const filename = "to-be-deleted.ts";
 				cy.useStore(store => store.dispatch(addFile({ file: createFile(filename) })));
 
@@ -69,6 +89,35 @@ describe("File Explorer", () => {
 					expect(files).empty;
 				});
 			});
+		});
+	});
+
+	describe("Load Project", () => {
+		it("Displays project correctly", () => {
+			cy.useStore(store => store.dispatch(loadProject(defaultProject)));
+
+			cy.getBySelector(Select.fileExplorer.file).contains("root-1.ts");
+			cy.getBySelector(Select.fileExplorer.file).contains("root-2.ts");
+
+			cy.getBySelector(Select.fileExplorer.directory)
+				.contains("level-1-a")
+				.parent()
+				.contains("level-1-a-1.ts");
+
+			cy.getBySelector(Select.fileExplorer.directory)
+				.contains("level-1-a")
+				.parent()
+				.contains("level-1-a-2.ts");
+
+			cy.getBySelector(Select.fileExplorer.directory)
+				.contains("level-1-b")
+				.parent()
+				.contains("level-1-b.ts");
+
+			cy.getBySelector(Select.fileExplorer.directory)
+				.contains("level-2")
+				.parent()
+				.contains("level-2.ts");
 		});
 	});
 });

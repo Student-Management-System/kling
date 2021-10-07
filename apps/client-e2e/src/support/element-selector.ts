@@ -18,7 +18,11 @@ export const Select = {
 		directory: "directory"
 	},
 	fileTabs: {
-		tab: "file-tab"
+		tab: "file-tab",
+		unsavedChangesIndicator: "fileTab_unsavedChangesIndicator"
+	},
+	file: {
+		unsavedChangesIndicator: "unsavedChangesIndicator"
 	},
 	dialog: {
 		createProject: {

@@ -6,6 +6,7 @@
 	disableRipple="true"
 	(click)="tabSelected.emit(path)"
 	(middleclick)="tabClosed.emit(path)"
+	data-test="file-tab"
 >
 	<div class="flex items-center w-full h-full gap-2 inner-tab">
 		<app-file-icon
@@ -26,6 +27,7 @@
 				*ngIf="file.hasUnsavedChanges"
 				name="lens"
 				size="8"
+				data-test="fileTab_unsavedChangesIndicator"
 			></app-icon>
 		</button>
 	</div>

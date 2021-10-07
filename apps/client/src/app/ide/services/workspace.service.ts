@@ -67,7 +67,7 @@ export class WorkspaceService {
 
 	/** Brings browser focus to the editor. */
 	focusEditor(): void {
-		this.__editorComponent.focus();
+		this.__editorComponent?.focus();
 	}
 
 	async saveFile(path: string, content: string): Promise<void> {

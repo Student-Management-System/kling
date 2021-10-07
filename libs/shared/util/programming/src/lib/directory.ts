@@ -2,11 +2,11 @@ import { File } from "..";
 
 export interface Directory {
 	path: string;
-	parentDirectoryPath?: string;
+	parentDirectoryPath: string | null;
 	name: string;
 }
 
-export function createDirectory(name: string, parentDirectoryPath?: string): Directory {
+export function createDirectory(name: string, parentDirectoryPath = ""): Directory {
 	return {
 		path: parentDirectoryPath ? parentDirectoryPath + "/" + name : name,
 		parentDirectoryPath,
@@ -44,7 +44,7 @@ export function createDirectoriesFromPath(directoryPath: string): Directory[] {
 	const hierarchy = directoryPath.split("/");
 
 	for (let i = 0; i < hierarchy.length; i++) {
-		const directory = createDirectory(hierarchy[i], directories[i - 1]?.path ?? "");
+		const directory = createDirectory(hierarchy[i], directories[i - 1]?.path);
 		directories.push(directory);
 	}
 

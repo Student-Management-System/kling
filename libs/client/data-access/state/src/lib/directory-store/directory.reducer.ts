@@ -28,7 +28,7 @@ export const reducer = createReducer(
 	),
 	on(DirectoryActions.clearDirectories, (state): State => {
 		const emptyState = adapter.removeAll(state);
-		return adapter.addOne(createDirectory(""), emptyState); // Add root directory
+		return adapter.addOne(createDirectory("", null), emptyState); // Add root directory
 	})
 );
 

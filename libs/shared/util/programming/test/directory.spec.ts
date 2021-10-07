@@ -8,12 +8,19 @@ import {
 } from "../src";
 describe("Directory", () => {
 	describe("createDirectory", () => {
+		it("Root directory -> ParentDirectory is null", () => {
+			const directory = createDirectory("", null);
+			expect(directory.name).toEqual("");
+			expect(directory.path).toEqual("");
+			expect(directory.parentDirectoryPath).toEqual(null);
+		});
+
 		it("No parent directory -> Uses name as path", () => {
 			const dirName = "a";
 			const directory = createDirectory(dirName);
 			expect(directory.name).toEqual(dirName);
 			expect(directory.path).toEqual(dirName);
-			expect(directory.parentDirectoryPath).toBeUndefined();
+			expect(directory.parentDirectoryPath).toEqual("");
 		});
 
 		it("With parent directory -> {parentPath}/{dirName}", () => {
@@ -45,7 +52,7 @@ describe("Directory", () => {
 			expect(directories.length).toEqual(1);
 			expect(dir.name).toEqual("subfolder");
 			expect(dir.path).toEqual("subfolder");
-			expect(dir.parentDirectoryPath).toBeUndefined();
+			expect(dir.parentDirectoryPath).toEqual("");
 		});
 
 		it("Multiple files on various levels between [one, two, three] -> Returns [one, two, three]", () => {

@@ -8,10 +8,6 @@ describe("File", () => {
 		cy.visit("/ide");
 		cy.useIndexedDbService(async idb => await idb.projects.delete("Playground"));
 		addFileWithUi(file);
-		// cy.useStore(store => {
-		// 	store.dispatch(addFile({ file }));
-		// 	store.dispatch(setSelectedFile({ path: file.path }));
-		// });
 	});
 
 	describe("Unsaved File Indicator", () => {

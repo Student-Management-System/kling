@@ -1,6 +1,6 @@
-import { createDirectory, createFile } from "@kling/programming";
 import { loadProject } from "libs/client/data-access/state/src/lib/workspace-store/workspace.actions";
 import { Select } from "../support/element-selector";
+import { defaultProject } from "../support/mock-data";
 
 function openCreateFileDialog() {
 	cy.getBySelector(Select.fileExplorer.button.addFile).click();
@@ -21,23 +21,6 @@ function createFileFromDialog(filename: string) {
 	cy.getBySelector(Select.dialog.createFile.fileNameInput).type(filename);
 	cy.getBySelector(Select.button.create).click();
 }
-
-const defaultProject = {
-	files: [
-		createFile("root-1.ts"),
-		createFile("root-2.ts"),
-		createFile("level-1-a-1.ts", "level-1-a"),
-		createFile("level-1-a-2.ts", "level-1-a"),
-		createFile("level-1-b.ts", "level-1-b"),
-		createFile("level-2.ts", "level-1-a/level-2")
-	],
-	directories: [
-		createDirectory("level-1-a"),
-		createDirectory("level-1-b"),
-		createDirectory("level-2", "level-1-a")
-	],
-	projectName: "test-project"
-};
 
 describe("File Explorer", () => {
 	beforeEach(() => {

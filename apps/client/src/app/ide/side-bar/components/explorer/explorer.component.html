@@ -33,7 +33,11 @@
 	<div class="sections">
 		<!-- Project (File Explorer) -->
 		<app-side-bar-section class="h-full">
-			<ng-container sectionTitle>{{ (workspace$ | async)?.projectName }}</ng-container>
+			<ng-container sectionTitle
+				><span data-test="projectName">{{
+					(workspace$ | async)?.projectName
+				}}</span></ng-container
+			>
 
 			<ng-container sectionActions>
 				<button

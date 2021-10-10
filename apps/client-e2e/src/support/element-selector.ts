@@ -1,5 +1,8 @@
 export const Select = {
 	sidebar: {
+		explorer: {
+			projectName: "projectName"
+		},
 		explorerMenu: {
 			button: "explorer-menu-btn",
 			saveAsNewProject: "save-as-new-project-btn"

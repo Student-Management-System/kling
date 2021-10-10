@@ -43,7 +43,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		const { project, file } = this.route.snapshot.queryParams;
 
 		if (project) {
-			await this.workspaceService.restoreProject(project, !file);
+			await this.workspaceService.restoreProject(project, false);
 
 			if (file) {
 				this.store.dispatch(FileActions.setSelectedFile({ path: file }));

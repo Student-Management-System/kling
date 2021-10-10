@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { tap } from "rxjs/operators";
 import { WorkspaceService } from "../../../../../../../apps/client/src/app/ide/services/workspace.service";
@@ -47,7 +48,10 @@ export class FileEffects {
 				ofType(FileActions.setSelectedFile, FileActions.setSelectedFile_FileTabRemoved),
 				tap(({ path }) => {
 					if (path) {
+						this.setFileUrlQueryParameter(path);
 						this.workspace.focusEditor();
+					} else {
+						this.setFileUrlQueryParameter(undefined);
 					}
 				})
 			);
@@ -55,5 +59,18 @@ export class FileEffects {
 		{ dispatch: false }
 	);
 
-	constructor(private actions$: Actions, private workspace: WorkspaceService) {}
+	constructor(
+		private actions$: Actions,
+		private workspace: WorkspaceService,
+		private router: Router
+	) {}
+
+	private setFileUrlQueryParameter(path: string | undefined) {
+		this.router.navigate([], {
+			queryParams: {
+				file: path
+			},
+			queryParamsHandling: "merge"
+		});
+	}
 }

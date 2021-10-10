@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import {
-	FileActions,
-	FileSelectors,
-	FileTabActions,
-	WorkspaceActions
-} from "@kling/client/data-access/state";
-import { IndexedDbService } from "@kling/indexed-db";
+import { FileActions, FileSelectors, WorkspaceActions } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
 import { SidenavService } from "../../shared/services/sidenav.service";
@@ -29,7 +23,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	constructor(
 		public workspaceSettings: WorkspaceSettingsService,
 		private readonly workspaceService: WorkspaceService,
-		private indexedDb: IndexedDbService,
 		private readonly sidenav: SidenavService,
 		private readonly route: ActivatedRoute,
 		private readonly store: Store
@@ -46,11 +39,15 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		});
 	}
 
-	private async restoreMostRecentProject() {
-		const mostRecentProject = await this.indexedDb.projects.getMany();
+	async handleEditorInit(): Promise<void> {
+		const { project, file } = this.route.snapshot.queryParams;
 
-		if (mostRecentProject.length > 0) {
-			await this.workspaceService.restoreProject(mostRecentProject[0].name, false);
+		if (project) {
+			await this.workspaceService.restoreProject(project, !file);
+
+			if (file) {
+				this.store.dispatch(FileActions.setSelectedFile({ path: file }));
+			}
 		} else {
 			this.store.dispatch(
 				WorkspaceActions.loadProject({
@@ -59,16 +56,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 					directories: []
 				})
 			);
-		}
-	}
-
-	async handleEditorInit(): Promise<void> {
-		const { project } = this.route.snapshot.queryParams;
-
-		if (project) {
-			this.workspaceService.restoreProject(project);
-		} else {
-			await this.restoreMostRecentProject();
 		}
 	}
 

@@ -26,10 +26,11 @@ export class WorkspaceEffects {
 				if (project) {
 					await this.indexedDb.projects.put({ ...project, lastOpened: new Date() });
 
-					this.router.navigate(["/ide"], {
+					this.router.navigate([], {
 						queryParams: {
 							project: action.projectName
-						}
+						},
+						queryParamsHandling: "merge"
 					});
 				} else {
 					console.error(`Project "${action.projectName}" does not exist.`);

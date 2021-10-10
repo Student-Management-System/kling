@@ -1,13 +1,13 @@
 /// <reference types="wicg-file-system-access" />
 import { Injectable } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
 import {
 	DirectoryActions,
 	FileActions,
 	FileSelectors,
 	WorkspaceActions
 } from "@kling/client/data-access/state";
-import { Directory, File, createDirectory, createFile } from "@kling/programming";
+import { IndexedDbService } from "@kling/indexed-db";
+import { createDirectory, createFile, Directory, File } from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { directoryOpen, fileOpen, fileSave, FileWithHandle } from "browser-fs-access";
@@ -16,7 +16,6 @@ import JSZip from "jszip";
 import { nanoid } from "nanoid";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { take } from "rxjs/operators";
-import { IndexedDbService } from "@kling/indexed-db";
 
 @Injectable({ providedIn: "root" })
 export class FileSystemAccess {
@@ -31,8 +30,6 @@ export class FileSystemAccess {
 
 	constructor(
 		private readonly indexedDb: IndexedDbService,
-		private readonly route: ActivatedRoute,
-		private readonly router: Router,
 		private readonly store: Store,
 		private readonly actions$: Actions
 	) {
@@ -208,14 +205,6 @@ export class FileSystemAccess {
 			source: "fs",
 			lastOpened: new Date(),
 			directoryHandle
-		});
-
-		this.router.navigate([], {
-			relativeTo: this.route,
-			queryParams: {
-				project: projectName,
-				source: "fs"
-			}
 		});
 
 		if (openFile) {

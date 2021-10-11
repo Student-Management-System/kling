@@ -18,12 +18,12 @@
 			</div>
 
 			<ng-template #loginButton>
-				<div class="grid w-full gap-2">
+				<div class="relative grid w-full gap-2">
 					<button mat-flat-button color="accent" (click)="openLoginDialog()">
 						Login
 					</button>
 
-					<div class="grid gap-2" *ngIf="_isDevelopment">
+					<div class="absolute right-0 grid gap-2 -mt-32" *ngIf="_isDevelopment">
 						<button
 							mat-flat-button
 							color="primary"

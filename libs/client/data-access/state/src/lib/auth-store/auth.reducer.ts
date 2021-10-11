@@ -71,9 +71,5 @@ export const reducer = createReducer(
 			hasLoaded: false,
 			error: undefined
 		})
-	),
-	on(AuthActions.setCourses, (state, action) => ({
-		...state,
-		user: { ...state.user, courses: action.courses }
-	}))
+	)
 );

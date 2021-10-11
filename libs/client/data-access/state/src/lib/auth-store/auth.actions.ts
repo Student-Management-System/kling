@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { CourseDto, UserDto } from "@student-mgmt/api";
+import { UserDto } from "@student-mgmt/api";
 
 export const login = createAction(
 	"[Login Dialog] Login",
@@ -17,5 +17,3 @@ export const loginFailure = createAction(
 );
 
 export const logout = createAction("[Logout] Logout");
-
-export const setCourses = createAction("[User] Set Courses", props<{ courses: CourseDto[] }>());

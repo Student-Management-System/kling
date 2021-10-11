@@ -9,9 +9,9 @@ type StoredAuthState = { user: UserDto; accessToken: string };
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-	user$ = this.store.select(AuthSelectors.selectUser);
-
 	static readonly studentMgmtTokenKey = "studentMgmtToken";
+
+	user$ = this.store.select(AuthSelectors.selectUser);
 
 	constructor(private authenticationService: AuthenticationService, private store: Store) {}
 
@@ -20,17 +20,12 @@ export class AuthService {
 	 * to authenticate the user for requests to the server.
 	 */
 	static getAccessToken(): string {
-		const authState = JSON.parse(
-			localStorage.getItem(AuthService.studentMgmtTokenKey)
-		) as StoredAuthState;
-		return authState?.accessToken;
-	}
+		const token = localStorage.getItem(AuthService.studentMgmtTokenKey);
 
-	static getUser(): UserDto {
-		const authState = JSON.parse(
-			localStorage.getItem(AuthService.studentMgmtTokenKey)
-		) as StoredAuthState;
-		return authState?.user;
+		if (!token) return "";
+
+		const authState = JSON.parse(token) as StoredAuthState;
+		return authState?.accessToken;
 	}
 
 	static setAuthState(state: StoredAuthState): void {
@@ -45,7 +40,7 @@ export class AuthService {
 	 * specified user.
 	 */
 	devLogin(username: string): Observable<UserDto> {
-		AuthService.setAuthState({ accessToken: username, user: null });
+		AuthService.setAuthState({ accessToken: username, user: null as unknown as UserDto });
 
 		return this.authenticationService.whoAmI().pipe(
 			tap(user => {

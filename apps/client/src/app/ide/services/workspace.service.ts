@@ -70,7 +70,32 @@ export class WorkspaceService {
 		this.__editorComponent?.focus();
 	}
 
+	/**
+	 * Saves a file. If the project is synchronized with a directory from the user's file system,
+	 * the `content` will be written to the actual file on the user's system. Otherwise, it will be
+	 * stored in-memory (inside `indexed-db`).
+	 *
+	 * @param path
+	 * @param content
+	 */
 	async saveFile(path: string, content: string): Promise<void> {
+		if (this.fileSystem.hasSynchronizedDirectory) {
+			await this.fileSystem.saveSynchronizedFile(path, content);
+		} else {
+			await this.saveFileInMemory(path, content);
+		}
+
+		this.store.dispatch(FileActions.saveFile({ path, content }));
+	}
+
+	/**
+	 * Saves a file in the `indexed-db`.
+	 * Creates a new project in `indexed-db`, if it does not exist.
+	 *
+	 * @param path
+	 * @param content
+	 */
+	private async saveFileInMemory(path: string, content: string) {
 		const file = await firstValueFrom(this.store.select(FileSelectors.selectFileByPath(path)));
 		const project = await this.indexedDb.projects.getByName(this.projectName);
 
@@ -94,12 +119,6 @@ export class WorkspaceService {
 				hasUnsavedChanges: false
 			});
 		}
-
-		if (this.fileSystem.hasSynchronizedDirectory) {
-			await this.fileSystem.saveSynchronizedFile(path, content);
-		}
-
-		this.store.dispatch(FileActions.saveFile({ path, content }));
 	}
 
 	async deleteFile(path: string): Promise<void> {
@@ -113,14 +132,6 @@ export class WorkspaceService {
 	 * @param [openFile=true] Determines, whether a file from this project should be opened automatically.
 	 */
 	async restoreProject(projectName: string, openFile = true): Promise<void> {
-		this.store.dispatch(
-			WorkspaceActions.loadProject({
-				projectName,
-				files: [],
-				directories: []
-			})
-		);
-
 		try {
 			const project = await this.indexedDb.projects.getByName(projectName);
 

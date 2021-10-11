@@ -9,4 +9,4 @@ import { RunCodeComponent } from "./components/run-code/run-code.component";
 	imports: [SharedModule],
 	exports: [CodeEditorComponent, RunCodeComponent]
 })
-export class EditorModule {}
+export class CodeEditorModule {}

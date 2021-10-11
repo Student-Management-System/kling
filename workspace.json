@@ -91,17 +91,17 @@
 							"apps/client/src/env.js",
 							{
 								"glob": "**/*",
-								"input": "./apps/client/src/app/ide/editor/components/code-editor/grammars",
+								"input": "./libs/client/feature/code-editor/src/lib/components/code-editor/grammars",
 								"output": "./grammars/"
 							},
 							{
 								"glob": "**/*",
-								"input": "./apps/client/src/app/ide/editor/components/code-editor/configurations",
+								"input": "./libs/client/feature/code-editor/src/lib/components/code-editor/configurations",
 								"output": "./configurations/"
 							},
 							{
 								"glob": "**/*",
-								"input": "./apps/client/src/app/ide/editor/components/code-editor/vscode-oniguruma",
+								"input": "./libs/client/feature/code-editor/src/lib/components/code-editor/vscode-oniguruma",
 								"output": "./node_modules/vscode-oniguruma/"
 							},
 							{
@@ -304,6 +304,47 @@
 						"lintFilePatterns": [
 							"libs/client/feature/auth/src/**/*.ts",
 							"libs/client/feature/auth/src/**/*.html"
+						]
+					}
+				}
+			}
+		},
+		"client-feature-code-editor": {
+			"projectType": "library",
+			"root": "libs/client/feature/code-editor",
+			"sourceRoot": "libs/client/feature/code-editor/src",
+			"prefix": "kling",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:ng-packagr-lite",
+					"outputs": ["dist/libs/client/feature/code-editor"],
+					"options": {
+						"project": "libs/client/feature/code-editor/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/client/feature/code-editor/tsconfig.lib.prod.json"
+						},
+						"development": {
+							"tsConfig": "libs/client/feature/code-editor/tsconfig.lib.json"
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/client/feature/code-editor"],
+					"options": {
+						"jestConfig": "libs/client/feature/code-editor/jest.config.js",
+						"passWithNoTests": true
+					}
+				},
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": [
+							"libs/client/feature/code-editor/src/**/*.ts",
+							"libs/client/feature/code-editor/src/**/*.html"
 						]
 					}
 				}

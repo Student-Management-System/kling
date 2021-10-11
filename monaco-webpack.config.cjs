@@ -4,7 +4,7 @@ const path = require("path");
 module.exports = {
 	target: "web",
 	entry: {
-		app: "./apps/client/src/app/ide/editor/components/code-editor/src/app.ts",
+		app: "./libs/client/feature/code-editor/src/lib/components/code-editor/src/app.ts",
 		// Package each language's worker and give these filenames in `getWorkerUrl`
 		"editor.worker": "monaco-editor/esm/vs/editor/editor.worker.js",
 		"json.worker": "monaco-editor/esm/vs/language/json/json.worker",

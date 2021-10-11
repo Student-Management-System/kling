@@ -6,11 +6,11 @@ import { GetStartedModule } from "@kling/get-started";
 import { AngularSplitModule } from "angular-split";
 import { ActivityBarModule } from "./activity-bar/activity-bar.module";
 import { CreateProjectDialog } from "./dialogs/create-project/create-project.dialog";
-import { EditorModule } from "./editor/editor.module";
 import { FeaturePanelModule } from "./feature-panel/feature-panel.module";
 import { IdeRoutingModule } from "./ide-routing.module";
 import { SideBarModule } from "./side-bar/side-bar.module";
 import { WorkspaceComponent } from "./workspace/workspace.component";
+import { CodeEditorModule } from "@kling/code-editor";
 
 @NgModule({
 	declarations: [WorkspaceComponent, CreateProjectDialog],
@@ -22,7 +22,7 @@ import { WorkspaceComponent } from "./workspace/workspace.component";
 		ActivityBarModule,
 		SideBarModule,
 		FileTabsModule,
-		EditorModule,
+		CodeEditorModule,
 		FeaturePanelModule,
 		AngularSplitModule
 	]

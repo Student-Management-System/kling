@@ -20,9 +20,9 @@ export type DiffEditorDialogData = {
 	styleUrls: ["./diff-editor.dialog.scss"]
 })
 export class DiffEditorDialog implements OnInit, OnDestroy {
-	filename: string;
-	diffEditor: monaco.editor.IStandaloneDiffEditor = null;
-	previousVersionName: string;
+	filename!: string;
+	diffEditor: monaco.editor.IStandaloneDiffEditor | null = null;
+	previousVersionName!: string;
 
 	constructor(
 		private dialogRef: MatDialogRef<DiffEditorDialog>,
@@ -32,7 +32,7 @@ export class DiffEditorDialog implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.filename = this.data.filename;
 		this.previousVersionName = this.data.previousVersionName;
-		this.diffEditor = monaco.editor.createDiffEditor(document.getElementById("diff-editor"));
+		this.diffEditor = monaco.editor.createDiffEditor(document.getElementById("diff-editor")!);
 		this.diffEditor.setModel({
 			original: this.data.model.original,
 			modified: this.data.model.modified
@@ -41,6 +41,6 @@ export class DiffEditorDialog implements OnInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.data.model.original.dispose();
-		this.diffEditor.dispose();
+		this.diffEditor?.dispose();
 	}
 }

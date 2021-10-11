@@ -5,7 +5,6 @@ import { FileActions, FileSelectors } from "@kling/client/data-access/state";
 import { WorkspaceLayout, WorkspaceService, WorkspaceSettingsService } from "@kling/ide-services";
 import { IndexedDbService } from "@kling/indexed-db";
 import { Store } from "@ngrx/store";
-import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
 
 @Component({
 	selector: "app-workspace",
@@ -14,7 +13,6 @@ import { CodeEditorComponent } from "../editor/components/code-editor/code-edito
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, OnDestroy {
-	@ViewChild("editor", { static: true }) private codeEditor: CodeEditorComponent;
 	selectedFile$ = this.store.select(FileSelectors.selectCurrentFile);
 	selectedSideBarTab: string;
 	layout: WorkspaceLayout;
@@ -35,7 +33,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 
 		this.subs.sink = this.workspaceSettings.layout$.subscribe(layout => {
 			this.layout = layout;
-			setTimeout(() => this.codeEditor.resize(), 0); // Hack: Delay resize to prevent race condition
 		});
 	}
 

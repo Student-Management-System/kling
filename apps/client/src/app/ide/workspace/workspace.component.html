@@ -24,12 +24,12 @@
 				<div class="tabbar">
 					<kling-file-tabs></kling-file-tabs>
 					<span class="actions">
-						<app-run-code></app-run-code>
+						<kling-run-code></kling-run-code>
 					</span>
 				</div>
 				<div class="w-full h-full">
 					<kling-get-started *ngIf="!(selectedFile$ | async)"></kling-get-started>
-					<app-code-editor #editor (onEditorInit)="handleEditorInit()"></app-code-editor>
+					<kling-code-editor (codeEditorInit)="handleEditorInit()"></kling-code-editor>
 				</div>
 			</div>
 		</as-split-area>

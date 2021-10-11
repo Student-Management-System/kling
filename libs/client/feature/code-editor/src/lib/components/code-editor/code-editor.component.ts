@@ -1,48 +1,56 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
 	EventEmitter,
+	OnDestroy,
 	OnInit,
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ThemeService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
-import { CodeExecutionService, ExecuteRequest, WorkspaceService } from "@kling/ide-services";
+import {
+	CodeExecutionService,
+	ExecuteRequest,
+	WorkspaceService,
+	WorkspaceSettingsService
+} from "@kling/ide-services";
 import {
 	extractFileExtension,
 	File,
 	FileExtension,
-	getLanguageFromExtension
+	getLanguageFromExtension,
+	SupportedLanguage
 } from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
-import { firstValueFrom, fromEvent, Subject, Subscription } from "rxjs";
+import { firstValueFrom, fromEvent, merge, Subject, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
 
-class EditorModelState {
+interface EditorModelState {
 	textModel: monaco.editor.ITextModel;
 	viewState: monaco.editor.ICodeEditorViewState;
 }
 
 @Component({
-	selector: "app-code-editor",
+	selector: "kling-code-editor",
 	templateUrl: "./code-editor.component.html",
 	styleUrls: ["./code-editor.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit {
-	@Output() onEditorInit = new EventEmitter<void>();
-	selectedFilePath: string;
+export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit, OnDestroy {
+	@Output() codeEditorInit = new EventEmitter<void>();
+	selectedFilePath: string | null | undefined;
 
 	onFileChanged$ = new Subject<string>();
 
-	private editor: monaco.editor.IStandaloneCodeEditor;
+	private editor!: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByPath = new Map<string, EditorModelState>();
 	private filesWithUnsavedChanges = new Set<string>();
 	private showRulers = true;
@@ -51,6 +59,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		private readonly store: Store,
 		private readonly actions$: Actions,
 		private readonly workspace: WorkspaceService,
+		private readonly workspaceSettings: WorkspaceSettingsService,
 		private readonly themeService: ThemeService,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
@@ -60,8 +69,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	async ngOnInit(): Promise<void> {
-		this.workspace.setEditorComponent(this);
-
 		const theme = await firstValueFrom(this.themeService.theme$);
 
 		this.editor = await main(theme);
@@ -87,16 +94,19 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private initEditor(): void {
-		this.subs.sink = fromEvent(window, "resize").subscribe(() => {
-			this.resize();
+		this.subs.sink = merge(
+			fromEvent(window, "resize"),
+			this.workspaceSettings.layout$
+		).subscribe(() => {
+			setTimeout(() => this.resize(), 0); // Hack: Delay resize to prevent race condition
 		});
 
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
 
 		this.editor.onDidChangeModelContent(() => {
-			if (!this.filesWithUnsavedChanges.has(this.selectedFilePath)) {
-				this.filesWithUnsavedChanges.add(this.selectedFilePath);
-				this.store.dispatch(FileActions.markAsChanged({ path: this.selectedFilePath }));
+			if (!this.filesWithUnsavedChanges.has(this.selectedFilePath!)) {
+				this.filesWithUnsavedChanges.add(this.selectedFilePath!);
+				this.store.dispatch(FileActions.markAsChanged({ path: this.selectedFilePath! }));
 			}
 		});
 
@@ -124,7 +134,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 		// 		console.error("Could not open model ", error);
 		// 	});
 
-		this.onEditorInit.emit();
+		this.codeEditorInit.emit();
 	}
 
 	/**
@@ -187,13 +197,13 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			run: () => {
 				const modified = this.getCurrentModel();
 				const original = monaco.editor.createModel(
-					modified.getValue(),
-					this.getLanguageOfFile(this.selectedFilePath)
+					modified!.getValue(),
+					this.getLanguageOfFile(this.selectedFilePath!)!
 				);
 
 				this.openDiffEditorDialog({
-					model: { original, modified },
-					filename: this.selectedFilePath,
+					model: { original, modified: modified! },
+					filename: this.selectedFilePath!,
 					previousVersionName: new Date().toLocaleString("de")
 				});
 			}
@@ -205,7 +215,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			contextMenuOrder: 3,
 			contextMenuGroupId: "Custom",
 			run: () => {
-				this.setDiagnostics(this.getCurrentModel(), [
+				this.setDiagnostics(this.getCurrentModel()!, [
 					{
 						message: "Custom message",
 						startLineNumber: 1,
@@ -233,23 +243,26 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	}
 
 	private saveCurrentFile() {
-		this.workspace.saveFile(this.selectedFilePath, this.getFileContent(this.selectedFilePath));
+		this.workspace.saveFile(
+			this.selectedFilePath!,
+			this.getFileContent(this.selectedFilePath!)!
+		);
 	}
 
 	private createCodeExecutionRequest(): void {
 		this.workspace.entryPoint$.pipe(take(1)).subscribe(_entryPoint => {
-			const entryPoint = _entryPoint || this.selectedFilePath;
+			const entryPoint = (_entryPoint || this.selectedFilePath) as string;
 
 			if (this.editorModelByPath.has(entryPoint)) {
 				const language = this.getLanguageOfFile(entryPoint);
-				const version = this.getLanguageVersion(language);
+				const version = this.getLanguageVersion(language!);
 				const stdin = this.workspace.getStdin();
 				const files: { name: string; content: string }[] = [];
 
 				// Main file must be the first file
 				files.push({
 					name: entryPoint,
-					content: this.editorModelByPath.get(entryPoint).textModel.getValue()
+					content: this.editorModelByPath.get(entryPoint)!.textModel.getValue()
 				});
 
 				this.editorModelByPath.forEach((model, path) => {
@@ -258,7 +271,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 					}
 				});
 
-				const request: ExecuteRequest = { language, version, stdin, files };
+				const request: ExecuteRequest = { language: language!, version, stdin, files };
 
 				console.log(
 					`Running ${language} (${version}) code with "${entryPoint}" as entry point.`
@@ -283,14 +296,14 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 * - `.py` -> `python`
 	 * - `.ts` -> `typescript`
 	 */
-	private getLanguageOfFile(path: string) {
+	private getLanguageOfFile(path: string): SupportedLanguage | null {
 		const extension = extractFileExtension(path) as FileExtension;
 		return getLanguageFromExtension(extension);
 	}
 
 	/** Returns the model that is currently opened. */
-	private getCurrentModel(): monaco.editor.ITextModel {
-		return this.editorModelByPath.get(this.selectedFilePath).textModel;
+	private getCurrentModel(): monaco.editor.ITextModel | null {
+		return this.editorModelByPath.get(this.selectedFilePath!)?.textModel ?? null;
 	}
 
 	private setDiagnostics(model: monaco.editor.ITextModel, markers: monaco.editor.IMarkerData[]) {
@@ -305,7 +318,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 	private subscribeToFileRemoved(): Subscription {
 		return this.workspace.fileRemoved$.subscribe(file => {
-			const { textModel } = this.editorModelByPath.get(file.path);
+			const { textModel } = this.editorModelByPath.get(file.path) as EditorModelState;
 			textModel.dispose();
 
 			this.editorModelByPath.delete(file.path);
@@ -343,7 +356,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	 * Sets the editor's model to the model associated with the given `file`.
 	 * Also restores the view state (i.e scroll position, selections), if it has been saved before.
 	 */
-	private switchToSelectedFile(file: File) {
+	private switchToSelectedFile(file: File | null | undefined) {
 		const editorModelState = file ? this.editorModelByPath.get(file.path) : null;
 		if (editorModelState) {
 			this.editor?.setModel(editorModelState.textModel);
@@ -351,6 +364,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 			if (editorModelState.viewState) {
 				this.editor?.restoreViewState(editorModelState.viewState);
 			}
+
+			this.editor.focus();
 		}
 	}
 
@@ -360,8 +375,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	private saveCurrentViewState() {
 		if (this.selectedFilePath) {
 			this.editorModelByPath.set(this.selectedFilePath, {
-				textModel: this.editor.getModel(),
-				viewState: this.editor.saveViewState()
+				textModel: this.editor.getModel()!,
+				viewState: this.editor.saveViewState()!
 			});
 		}
 	}
@@ -369,8 +384,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	/**
 	 * Returns the current content of a file.
 	 */
-	getFileContent(path: string): string {
-		return this.editorModelByPath.get(path).textModel?.getValue();
+	getFileContent(path: string): string | undefined {
+		return this.editorModelByPath.get(path)?.textModel?.getValue();
 	}
 
 	format(): void {
@@ -390,7 +405,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 
 		this.editorModelByPath.set(file.path, {
 			textModel: model,
-			viewState: null
+			viewState: null!
 		});
 
 		return model;
@@ -403,7 +418,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit 
 	ngOnDestroy(): void {
 		super.ngOnDestroy();
 		this._disposeAllModels();
-		this.workspace.setEditorComponent(null);
 	}
 
 	private _disposeAllModels() {

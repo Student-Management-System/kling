@@ -29,7 +29,7 @@
 		"workspace-generator": "nx workspace-generator",
 		"apigen:stdmgmt": "openapi-generator-cli generate && nx format:write --projects=shared-data-access-student-mgmt-ng-client",
 		"svg-sprite": "gulp svg-sprite",
-		"build:monaco": "rimraf ./apps/client/generated/* && webpack build --mode production --output-path ./apps/client/generated --config ./apps/client/src/app/ide/editor/components/code-editor/webpack.config.cjs"
+		"build:monaco": "rimraf ./apps/client/generated/* && webpack build --mode production --output-path ./apps/client/generated --config ./monaco-webpack.config.cjs"
 	},
 	"private": true,
 	"dependencies": {

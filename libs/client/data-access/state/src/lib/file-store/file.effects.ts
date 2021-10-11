@@ -49,7 +49,6 @@ export class FileEffects {
 				tap(({ path }) => {
 					if (path) {
 						this.setFileUrlQueryParameter(path);
-						this.workspace.focusEditor();
 					} else {
 						this.setFileUrlQueryParameter(undefined);
 					}

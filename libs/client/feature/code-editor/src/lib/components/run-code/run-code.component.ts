@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { CodeExecutionService, WorkspaceService } from "@kling/ide-services";
 
 @Component({
-	selector: "app-run-code",
+	selector: "kling-run-code",
 	templateUrl: "./run-code.component.html",
 	styleUrls: ["./run-code.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

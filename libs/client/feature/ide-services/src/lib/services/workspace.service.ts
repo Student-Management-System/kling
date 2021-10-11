@@ -10,7 +10,6 @@ import { IndexedDbService, InMemoryProject } from "@kling/indexed-db";
 import { createDirectoriesFromFiles, File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { firstValueFrom, Subject } from "rxjs";
-import { CodeEditorComponent } from "../../../../../../../apps/client/src/app/ide/editor/components/code-editor/code-editor.component";
 import { FileSystemAccess } from "./file-system-access.service";
 
 @Injectable({ providedIn: "root" })
@@ -33,7 +32,6 @@ export class WorkspaceService {
 	/** Determines the application's entry point. */
 	readonly entryPoint$ = this.store.select(WorkspaceSelectors.selectEntryPoint);
 
-	private __editorComponent?: CodeEditorComponent;
 	private stdin!: string;
 	private projectName!: string;
 
@@ -62,11 +60,6 @@ export class WorkspaceService {
 
 	emitFileRemoved(file: File): void {
 		this._fileRemoved$.next(file);
-	}
-
-	/** Brings browser focus to the editor. */
-	focusEditor(): void {
-		this.__editorComponent?.focus();
 	}
 
 	/**
@@ -226,9 +219,5 @@ export class WorkspaceService {
 
 	getStdin(): string {
 		return this.stdin;
-	}
-
-	setEditorComponent(component: CodeEditorComponent): void {
-		this.__editorComponent = component;
 	}
 }

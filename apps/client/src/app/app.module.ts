@@ -27,7 +27,6 @@ import { ToastrModule } from "ngx-toastr";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { EditorModule } from "./ide/editor/editor.module";
 import { NavigationComponent } from "./navigation/navigation.component";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
@@ -83,7 +82,6 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 		NgxMatSelectSearchModule,
 		IdeServicesModule,
 		ClientStateModule,
-		EditorModule,
 		StoreDevtoolsModule.instrument({
 			name: "Instruments DevTools",
 			maxAge: 25

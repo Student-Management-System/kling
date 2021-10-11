@@ -45,6 +45,9 @@
 		"client-feature-auth": {
 			"tags": []
 		},
+		"client-feature-code-editor": {
+			"tags": []
+		},
 		"client-feature-get-started": {
 			"tags": ["scope:client", "type:feature"]
 		},

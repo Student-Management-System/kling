@@ -4,7 +4,8 @@ import {
 	DirectoryActions,
 	FileActions,
 	FileSelectors,
-	WorkspaceActions
+	WorkspaceActions,
+	WorkspaceSelectors
 } from "@kling/client/data-access/state";
 import { IndexedDbService } from "@kling/indexed-db";
 import { createDirectory, createFile, Directory, File } from "@kling/programming";
@@ -14,8 +15,7 @@ import { directoryOpen, fileOpen, fileSave, FileWithHandle } from "browser-fs-ac
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { nanoid } from "nanoid";
-import { BehaviorSubject, Subscription } from "rxjs";
-import { take } from "rxjs/operators";
+import { BehaviorSubject, firstValueFrom, Subscription } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class FileSystemAccess {
@@ -339,21 +339,21 @@ export class FileSystemAccess {
 	 * download it.
 	 */
 	async exportAsZip(): Promise<void> {
-		this.store
-			.select(FileSelectors.selectAllFiles)
-			.pipe(take(1))
-			.subscribe(async files => {
-				const zip = new JSZip();
+		const files = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
+		const projectName = await firstValueFrom(
+			this.store.select(WorkspaceSelectors.selectProjectName)
+		);
 
-				files.forEach(file => {
-					// Add file to zip (automatically creates folders where necessary)
-					zip.file(file.path, file.content);
-				});
+		const zip = new JSZip();
 
-				const zipBlob = await zip.generateAsync({ type: "blob" });
+		files.forEach(file => {
+			// Add file to zip (automatically creates folders where necessary)
+			zip.file(file.path, file.content);
+		});
 
-				saveAs(zipBlob, "project.zip");
-			});
+		const zipBlob = await zip.generateAsync({ type: "blob" });
+
+		saveAs(zipBlob, `${projectName}.zip`);
 	}
 
 	private async verifyPermission(handle: FileSystemDirectoryHandle): Promise<boolean> {

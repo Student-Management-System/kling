@@ -176,21 +176,5 @@ describe("File Explorer", () => {
 			cy.useStore(store => store.dispatch(loadProject(defaultProject)));
 			assertDefaultProjectHasCorrectStructure();
 		});
-
-		it.only("Restores project when navigating to URL with 'project' query parameter", () => {
-			cy.useIndexedDbService(async idb => {
-				await idb.projects.saveProject(
-					{
-						lastOpened: new Date(),
-						source: "in-memory",
-						name: "test-project"
-					},
-					defaultProject.files
-				);
-
-				cy.visit("/ide?project=test-project");
-				assertDefaultProjectHasCorrectStructure();
-			});
-		});
 	});
 });

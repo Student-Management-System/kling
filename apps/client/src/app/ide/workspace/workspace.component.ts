@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { FileActions, FileSelectors, WorkspaceActions } from "@kling/client/data-access/state";
+import { FileActions, FileSelectors } from "@kling/client/data-access/state";
+import { IndexedDbService } from "@kling/indexed-db";
 import { Store } from "@ngrx/store";
 import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
 import { SidenavService } from "../../shared/services/sidenav.service";
@@ -23,6 +24,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	constructor(
 		public workspaceSettings: WorkspaceSettingsService,
 		private readonly workspaceService: WorkspaceService,
+		private readonly indexedDb: IndexedDbService,
 		private readonly sidenav: SidenavService,
 		private readonly route: ActivatedRoute,
 		private readonly store: Store
@@ -49,13 +51,13 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 				this.store.dispatch(FileActions.setSelectedFile({ path: file }));
 			}
 		} else {
-			this.store.dispatch(
-				WorkspaceActions.loadProject({
-					projectName: "Playground",
-					files: [],
-					directories: []
-				})
-			);
+			const [mostRecentProject] = await this.indexedDb.projects.getMany();
+
+			if (mostRecentProject) {
+				await this.workspaceService.restoreProject(mostRecentProject.name, false);
+			} else {
+				await this.workspaceService.createOrRestoreInMemoryProject("Playground");
+			}
 		}
 	}
 

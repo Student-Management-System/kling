@@ -126,6 +126,36 @@ export class WorkspaceService {
 	}
 
 	/**
+	 * Restores the project, if it exists. Otherwise, an empty project will be created.
+	 *
+	 * @param projectName
+	 */
+	async createOrRestoreInMemoryProject(projectName: string): Promise<void> {
+		const project = await this.indexedDb.projects.getByName(projectName);
+
+		if (project) {
+			await this.restoreInMemoryProject(project as InMemoryProject, false);
+		} else {
+			await this.indexedDb.projects.saveProject(
+				{
+					name: projectName,
+					lastOpened: new Date(),
+					source: "in-memory"
+				},
+				[]
+			);
+
+			this.store.dispatch(
+				WorkspaceActions.loadProject({
+					projectName: projectName,
+					files: [],
+					directories: []
+				})
+			);
+		}
+	}
+
+	/**
 	 * Restores a project from the `indexedDB` and loads it into the workspace.
 	 *
 	 * @param projectName Name of the project.

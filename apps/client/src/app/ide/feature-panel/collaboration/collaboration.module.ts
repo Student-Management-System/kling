@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "../../../shared/shared.module";
+import { SharedModule } from "@kling/client-shared";
 import { ChatComponent } from "./components/chat/chat.component";
 import { CollaborationComponent } from "./components/collaboration/collaboration.component";
 import { CollaboratorsComponent } from "./components/collaborators/collaborators.component";

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { ToastService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import {
 	CategoryService,
 	CodeTemplateDto,
@@ -9,8 +10,6 @@ import {
 } from "@kling/shared/data-access/api-rest-ng-client";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
-import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
-import { ToastService } from "../../shared/services/toast.service";
 
 @Component({
 	selector: "app-create-problem",
@@ -64,7 +63,7 @@ export class CreateProblemComponent extends UnsubscribeOnDestroy implements OnIn
 				if (value?.length > 0) {
 					this.idAvailability$.next("PENDING");
 					this.subs.sink = this.problemService.getProblem(value).subscribe(
-						exists => this.idAvailability$.next("FALSE"),
+						_exists => this.idAvailability$.next("FALSE"),
 						error => {
 							if (error.status === 404) {
 								this.idAvailability$.next("TRUE");

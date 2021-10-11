@@ -10,13 +10,10 @@ import {
 } from "@angular/core";
 import { MatSidenav } from "@angular/material/sidenav";
 import { NavigationEnd, Router } from "@angular/router";
+import { SidenavService, ThemeService, TitlebarService } from "@kling/client-shared";
 import { combineLatest, Observable } from "rxjs";
 import { filter, map, shareReplay, withLatestFrom } from "rxjs/operators";
 import { environment } from "../../environments/environment";
-import { SidenavService } from "../shared/services/sidenav.service";
-import { SnackbarService } from "../shared/services/snackbar.service";
-import { ThemeService } from "../shared/services/theme.service";
-import { TitlebarService } from "../shared/services/titlebar.service";
 
 @Component({
 	selector: "app-navigation",
@@ -47,8 +44,7 @@ export class NavigationComponent implements OnInit {
 		private titlebar: TitlebarService,
 		public theme: ThemeService,
 		private router: Router,
-		private overlayContainer: OverlayContainer,
-		public snackbar: SnackbarService
+		private overlayContainer: OverlayContainer
 	) {}
 
 	ngOnInit(): void {

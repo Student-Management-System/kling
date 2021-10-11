@@ -1,4 +1,4 @@
-export * from "./lib/client-data-access-state.module";
+export * from "./lib/client-state.module";
 export * from "./lib/auth-store";
 export * from "./lib/directory-store";
 export * from "./lib/file-store";

@@ -1,14 +1,12 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "../../shared/shared.module";
+import { SharedModule } from "@kling/client-shared";
 import { CodeEditorComponent } from "./components/code-editor/code-editor.component";
 import { DiffEditorDialog } from "./components/code-editor/diff-editor.dialog";
 import { RunCodeComponent } from "./components/run-code/run-code.component";
-import { WelcomeComponent } from "./components/welcome/welcome.component";
 
 @NgModule({
-	declarations: [CodeEditorComponent, DiffEditorDialog, RunCodeComponent, WelcomeComponent],
+	declarations: [CodeEditorComponent, DiffEditorDialog, RunCodeComponent],
 	imports: [SharedModule],
-	providers: [],
-	exports: [CodeEditorComponent, CodeEditorComponent, RunCodeComponent, WelcomeComponent]
+	exports: [CodeEditorComponent, RunCodeComponent]
 })
 export class EditorModule {}

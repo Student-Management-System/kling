@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { DirectoryActions, FileActions } from "@kling/client/data-access/state";
+import { FileSystemAccess } from "@kling/ide-services";
 import { createDirectory, createFile } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import { FileSystemAccess } from "../../../services/file-system-access.service";
 
 interface FileEntry {
 	filesystem: any;

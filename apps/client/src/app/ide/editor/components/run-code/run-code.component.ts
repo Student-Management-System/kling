@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { CodeExecutionService } from "../../../services/code-execution.service";
-import { WorkspaceService } from "../../../services/workspace.service";
+import { CodeExecutionService, WorkspaceService } from "@kling/ide-services";
 
 @Component({
 	selector: "app-run-code",

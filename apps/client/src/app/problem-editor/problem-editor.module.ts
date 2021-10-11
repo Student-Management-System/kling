@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
-import { ProblemEditorRoutingModule } from "./problem-editor-routing.module";
-import { SharedModule } from "../shared/shared.module";
+import { SharedModule } from "@kling/client-shared";
 import { CreateProblemComponent } from "./create-problem/create-problem.component";
+import { ProblemEditorRoutingModule } from "./problem-editor-routing.module";
 
 @NgModule({
 	declarations: [CreateProblemComponent],

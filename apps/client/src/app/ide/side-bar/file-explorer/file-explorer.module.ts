@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
+import { SharedModule } from "@kling/client-shared";
 import { ContextMenuModule } from "ngx-contextmenu";
-import { SharedModule } from "../../../shared/shared.module";
 import { DirectoryComponent } from "./components/directory/directory.component";
 import { FileExplorerComponent } from "./components/file-explorer/file-explorer.component";
 import { FileComponent } from "./components/file/file.component";
@@ -18,7 +18,6 @@ import { RenameDialog } from "./dialogs/rename/rename.dialog";
 		RenameDialog
 	],
 	imports: [SharedModule, ContextMenuModule],
-	exports: [FileExplorerComponent],
-	providers: []
+	exports: [FileExplorerComponent]
 })
 export class FileExplorerModule {}

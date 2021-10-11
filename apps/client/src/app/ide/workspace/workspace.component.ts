@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { SidenavService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
+import { WorkspaceLayout, WorkspaceService, WorkspaceSettingsService } from "@kling/ide-services";
 import { IndexedDbService } from "@kling/indexed-db";
 import { Store } from "@ngrx/store";
-import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
-import { SidenavService } from "../../shared/services/sidenav.service";
 import { CodeEditorComponent } from "../editor/components/code-editor/code-editor.component";
-import { WorkspaceLayout, WorkspaceSettingsService } from "../services/workspace-settings.service";
-import { WorkspaceService } from "../services/workspace.service";
 
 @Component({
 	selector: "app-workspace",

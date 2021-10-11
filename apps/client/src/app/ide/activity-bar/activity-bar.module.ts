@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "../../shared/shared.module";
+import { SharedModule } from "@kling/client-shared";
 import { ActivityBarComponent } from "./components/activity-bar/activity-bar.component";
 
 @NgModule({

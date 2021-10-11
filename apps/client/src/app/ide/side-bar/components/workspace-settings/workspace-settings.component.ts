@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
+import { UnsubscribeOnDestroy, ThemeService, ToastService } from "@kling/client-shared";
 import { TranslateService } from "@ngx-translate/core";
-import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
-import { ThemeService } from "../../../../shared/services/theme.service";
-import { ToastService } from "../../../../shared/services/toast.service";
 
 @Component({
 	selector: "app-workspace-settings",

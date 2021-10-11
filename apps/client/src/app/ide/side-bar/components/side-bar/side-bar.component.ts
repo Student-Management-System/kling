@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { WorkspaceSettingsService } from "../../../services/workspace-settings.service";
+import { WorkspaceSettingsService } from "@kling/ide-services";
 
 @Component({
 	selector: "app-side-bar",

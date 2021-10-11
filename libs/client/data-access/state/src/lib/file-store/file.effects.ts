@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { tap } from "rxjs/operators";
-import { WorkspaceService } from "../../../../../../../apps/client/src/app/ide/services/workspace.service";
+import { WorkspaceService } from "@kling/ide-services";
 import * as FileActions from "./file.actions";
 
 @Injectable()

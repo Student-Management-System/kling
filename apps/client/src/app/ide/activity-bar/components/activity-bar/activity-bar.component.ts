@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { SidenavService } from "../../../../shared/services/sidenav.service";
-import { WorkspaceSettingsService } from "../../../services/workspace-settings.service";
+import { WorkspaceSettingsService } from "@kling/ide-services";
+import { SidenavService } from "@kling/client-shared";
 
 type Tab = "EXPLORER" | "HISTORY";
 

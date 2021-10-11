@@ -28,7 +28,7 @@
 					</span>
 				</div>
 				<div class="w-full h-full">
-					<app-welcome *ngIf="!(selectedFile$ | async)"></app-welcome>
+					<kling-get-started *ngIf="!(selectedFile$ | async)"></kling-get-started>
 					<app-code-editor #editor (onEditorInit)="handleEditorInit()"></app-code-editor>
 				</div>
 			</div>

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { DirectorySelectors, FileSelectors } from "@kling/client/data-access/state";
+import { FileExplorerDialogs } from "@kling/ide-services";
 import { Store } from "@ngrx/store";
 import { DragAndDropService } from "../../services/drag-and-drop.service";
-import { FileExplorerDialogs } from "../../services/file-explorer-dialogs.facade";
 
 @Component({
 	selector: "app-file-explorer",

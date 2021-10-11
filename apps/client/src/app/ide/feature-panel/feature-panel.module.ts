@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
+import { SharedModule } from "@kling/client-shared";
 import { MarkdownModule } from "ngx-markdown";
-import { SharedModule } from "../../shared/shared.module";
 import { CollaborationModule } from "./collaboration/collaboration.module";
 import { FeaturePanelComponent } from "./components/feature-panel/feature-panel.component";
 import { ProblemViewComponent } from "./components/problem-view/problem-view.component";

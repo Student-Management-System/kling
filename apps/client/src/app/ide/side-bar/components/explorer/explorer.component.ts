@@ -5,14 +5,13 @@ import {
 	FileSelectors,
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
+import { FileExplorerDialogs, FileSystemAccess } from "@kling/ide-services";
 import { Store } from "@ngrx/store";
 import { firstValueFrom } from "rxjs";
 import {
 	CreateProjectDialog,
 	CreateProjectDialogData
 } from "../../../dialogs/create-project/create-project.dialog";
-import { FileSystemAccess } from "../../../services/file-system-access.service";
-import { FileExplorerDialogs } from "../../file-explorer/services/file-explorer-dialogs.facade";
 
 @Component({
 	selector: "app-explorer",

@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from "@angular/core";
 import { MatFormField } from "@angular/material/form-field";
-import { WorkspaceService } from "apps/client/src/app/ide/services/workspace.service";
+import { WorkspaceService } from "@kling/ide-services";
 import { BehaviorSubject } from "rxjs";
 
 @Component({

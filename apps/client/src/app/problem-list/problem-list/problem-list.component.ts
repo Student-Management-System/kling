@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
+import { Paginator, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { ProblemDto, ProblemService } from "@kling/shared/data-access/api-rest-ng-client";
 import { Subject, BehaviorSubject } from "rxjs";
 import { debounceTime, skip } from "rxjs/operators";
-import { UnsubscribeOnDestroy } from "../../shared/components/unsubscribe-on-destroy.component";
-import { Paginator } from "../../shared/paginator/paginator.component";
 
 class ProblemFilter {
 	title?: string;

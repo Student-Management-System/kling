@@ -5,10 +5,10 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthenticationService } from "@student-mgmt/api";
 import { of } from "rxjs";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
-import { AuthService } from "../../../../../../../apps/client/src/app/auth/services/auth.service";
-import { ToastService } from "../../../../../../../apps/client/src/app/shared/services/toast.service";
 import { AuthenticationInfoDto } from "./auth-info.dto";
 import * as AuthActions from "./auth.actions";
+import { AuthService } from "@kling/client-auth";
+import { ToastService } from "@kling/client-shared";
 
 @Injectable()
 export class AuthEffects {

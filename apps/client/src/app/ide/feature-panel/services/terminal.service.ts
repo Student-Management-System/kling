@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
+import { CodeExecutionService } from "@kling/ide-services";
 import { BehaviorSubject } from "rxjs";
-import { CodeExecutionService } from "../../services/code-execution.service";
 
 type StdStreams = { stdout: string; stderr: string };
 

@@ -7,7 +7,9 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { ThemeService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
+import { CodeExecutionService, ExecuteRequest, WorkspaceService } from "@kling/ide-services";
 import {
 	extractFileExtension,
 	File,
@@ -16,14 +18,10 @@ import {
 } from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { ThemeService } from "apps/client/src/app/shared/services/theme.service";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 import { firstValueFrom, fromEvent, Subject, Subscription } from "rxjs";
 import { take, tap } from "rxjs/operators";
-import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
-import { CodeExecutionService, ExecuteRequest } from "../../../services/code-execution.service";
-import { WorkspaceService } from "../../../services/workspace.service";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
 

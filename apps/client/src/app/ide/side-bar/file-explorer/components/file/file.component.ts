@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
+import { DialogService } from "@kling/client-shared";
 import { FileActions, WorkspaceActions } from "@kling/client/data-access/state";
+import { FileExplorerDialogs } from "@kling/ide-services";
 import { File } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import { DialogService } from "../../../../../shared/services/dialog.service";
-import { FileExplorerDialogs } from "../../services/file-explorer-dialogs.facade";
 
 @Component({
 	selector: "app-file",

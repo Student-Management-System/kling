@@ -7,7 +7,10 @@ import { InjectionToken, LOCALE_ID, NgModule, SecurityContext } from "@angular/c
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ClientDataAccessStateModule } from "@kling/client/data-access/state";
+import { AuthModule, AuthService } from "@kling/client-auth";
+import { SharedModule } from "@kling/client-shared";
+import { ClientStateModule } from "@kling/client/data-access/state";
+import { IdeServicesModule } from "@kling/ide-services";
 import { INDEXED_DB } from "@kling/indexed-db";
 import { ApiModule, Configuration } from "@kling/shared/data-access/api-rest-ng-client";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
@@ -24,11 +27,8 @@ import { ToastrModule } from "ngx-toastr";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AuthModule } from "./auth/auth.module";
-import { AuthService } from "./auth/services/auth.service";
 import { EditorModule } from "./ide/editor/editor.module";
 import { NavigationComponent } from "./navigation/navigation.component";
-import { SharedModule } from "./shared/shared.module";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
 
@@ -81,7 +81,8 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 				})
 		),
 		NgxMatSelectSearchModule,
-		ClientDataAccessStateModule,
+		IdeServicesModule,
+		ClientStateModule,
 		EditorModule,
 		StoreDevtoolsModule.instrument({
 			name: "Instruments DevTools",

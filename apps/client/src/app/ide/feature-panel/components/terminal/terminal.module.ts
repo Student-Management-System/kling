@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "apps/client/src/app/shared/shared.module";
-import { TerminalComponent } from "./components/terminal/terminal.component";
+import { SharedModule } from "@kling/client-shared";
 import { TerminalInput } from "./components/input/input.component";
+import { TerminalComponent } from "./components/terminal/terminal.component";
 
 @NgModule({
 	declarations: [TerminalComponent, TerminalInput],

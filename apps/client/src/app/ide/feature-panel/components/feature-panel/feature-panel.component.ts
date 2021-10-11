@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { UnsubscribeOnDestroy } from "../../../../shared/components/unsubscribe-on-destroy.component";
+import { UnsubscribeOnDestroy } from "@kling/client-shared";
 
 @Component({
 	selector: "app-feature-panel",

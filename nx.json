@@ -43,19 +43,19 @@
 			"implicitDependencies": ["client"]
 		},
 		"client-feature-auth": {
-			"tags": []
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-code-editor": {
-			"tags": []
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-get-started": {
 			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-ide-services": {
-			"tags": []
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-shared": {
-			"tags": []
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-ui-file-tabs": {
 			"tags": ["scope:client", "type:feature"]

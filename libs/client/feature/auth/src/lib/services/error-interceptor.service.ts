@@ -22,20 +22,19 @@ export class ErrorInterceptorService implements HttpInterceptor {
 	/**
 	 * Invoked when user is not logged in or user's authentication token has expired.
 	 */
-	private handleHttpError(err: HttpErrorResponse): Observable<any> {
-		const authService = this.injector.get(AuthService);
-
-		if (err.status == 0) {
+	private handleHttpError(error: HttpErrorResponse): Observable<any> {
+		if (error.status == 0) {
 			const toast = this.injector.get(ToastService);
 			toast.error("Error.ConnectionRefused");
 		}
 
-		if (err.status === 401) {
+		if (error.status === 401) {
+			const authService = this.injector.get(AuthService);
 			const toast = this.injector.get(ToastService);
 			toast.error("Error.Unauthorized");
 			authService.logout();
 		}
 
-		return throwError(err);
+		return throwError(() => error);
 	}
 }

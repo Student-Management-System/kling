@@ -9,45 +9,9 @@
 	--titlebar-height: 56px;
 	--margin-default: 8px;
 	--margin-content: 128px;
-
-	--color-bg: #f1f1f1;
-	--color-titlebar: white;
-	--color-sidenav: white;
-	--color-header: #f9f9f9;
-
-	--card-bg: white;
-	--table-bg: transparent;
-
-	--grey-light: rgb(230, 230, 230);
-	--grey-normal: rgb(255, 255, 255);
-	--grey-dark: rgb(41, 41, 41);
-
-	--text: black;
-	--text-inverse: white;
-	--text-light: rgba(0, 0, 0, 0.6);
-
-	--link-active: red;
-	--link-active-bg: rgba(0, 0, 0, 0.1);
-
-	// Editor
-	--workspace-text: white;
-	--workspace-text-light: rgba(255, 255, 255, 0.5);
-	--activity-bar-bg: #333333;
-	--activity-inactive: #848484;
-	--file-explorer-bg: #252526;
-	--editor-background: #1e1e1e;
-	--file-tab-inactive: #2d2d2d;
-	--file-tab-active: #1e1e1e;
-	--selected: #90e5ff;
-	--status-bar: #007acc;
-
-	--primary: map-get($student-mgmt-client-primary, 600);
-	--accent: map-get($student-mgmt-client-accent, 900);
-	--warn: map-get($student-mgmt-client-warn);
 }
 
 .light {
-	height: 100%;
 	--primary: #757575;
 	--accent: #b71c1c;
 	--warn: red;
@@ -89,10 +53,12 @@
 	--selected-bg: #e4e6f1;
 	--file-hover-bg: #e8e8e8;
 	--status-bar: #007acc;
+
+	// VSCode
+	--vs-blue: #006ab1;
 }
 
 .dark {
-	height: 100%;
 	--primary: #757575;
 	--accent: #b71c1c;
 	--warn: red;
@@ -129,6 +95,9 @@
 	--selected-bg: #37373d;
 	--file-hover-bg: #2e2e31;
 	--status-bar: #007acc;
+
+	// VSCode
+	--vs-blue: #3794ff;
 }
 
 // Roboto
@@ -349,26 +318,8 @@ mat-paginator {
 	color: var(--selected);
 }
 
-.snackbar-success {
-	background-color: rgb(211, 255, 200);
-
-	.mat-simple-snackbar {
-		color: rgb(0, 71, 24);
-	}
-	.mat-button-wrapper {
-		color: rgb(0, 71, 24);
-	}
-}
-
-.snackbar-error {
-	background-color: rgb(255, 0, 0);
-
-	.mat-simple-snackbar {
-		color: rgb(255, 255, 255);
-	}
-	.mat-button-wrapper {
-		color: rgb(255, 255, 255);
-	}
+.vs-blue {
+	color: var(--vs-blue);
 }
 
 mat-form-field.mat-form-field-should-float label {

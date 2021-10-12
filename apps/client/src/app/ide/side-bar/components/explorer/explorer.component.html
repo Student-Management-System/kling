@@ -40,38 +40,40 @@
 			>
 
 			<ng-container sectionActions>
-				<button
-					class="mr-2 add-file-btn"
-					mat-icon-button
-					disableRipple
-					matTooltip="New File"
-					(click)="fileExplorerDialogs.openCreateFileDialog()"
-					data-test="add-file-btn"
-				>
-					<div>
-						<app-icon
-							name="note_add"
-							size="18"
-							class="mt-[-16px] icon-light"
-						></app-icon>
-					</div>
-				</button>
-				<button
-					class="add-directory-btn"
-					mat-icon-button
-					disableRipple
-					matTooltip="New Folder"
-					(click)="fileExplorerDialogs.openCreateDirectoryDialog()"
-					data-test="add-directory-btn"
-				>
-					<div>
-						<app-icon
-							name="create_new_folder"
-							size="18"
-							class="mt-[-4px] icon-light"
-						></app-icon>
-					</div>
-				</button>
+				<div class="flex gap-1">
+					<button
+						class="add-file-btn"
+						mat-icon-button
+						disableRipple
+						matTooltip="New File"
+						(click)="fileExplorerDialogs.openCreateFileDialog()"
+						data-test="add-file-btn"
+					>
+						<div>
+							<app-icon
+								name="new-file"
+								size="16"
+								class="mt-[-16px] icon-light"
+							></app-icon>
+						</div>
+					</button>
+					<button
+						class="add-directory-btn"
+						mat-icon-button
+						disableRipple
+						matTooltip="New Folder"
+						(click)="fileExplorerDialogs.openCreateDirectoryDialog()"
+						data-test="add-directory-btn"
+					>
+						<div>
+							<app-icon
+								name="new-folder"
+								size="16"
+								class="mt-[-4px] icon-light"
+							></app-icon>
+						</div>
+					</button>
+				</div>
 			</ng-container>
 
 			<ng-container sectionContent>

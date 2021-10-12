@@ -13,7 +13,12 @@ module.exports = {
 	},
 	darkMode: "class",
 	theme: {
-		extend: {},
+		extend: {
+			text: {
+				selected: "var(--text-selected)",
+				light: "var(--text-light)"
+			}
+		},
 	},
 	variants: {
 		extend: {},

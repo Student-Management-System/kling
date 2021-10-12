@@ -1,0 +1,8 @@
+<button
+	class="flex gap-[6px] disabled:text-gray-500"
+	[disabled]="disabled"
+	(click)="actionClicked.emit()"
+>
+	<app-icon class="fill-current" [name]="icon" size="16"></app-icon>
+	<span>{{ title }}...</span>
+</button>

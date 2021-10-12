@@ -12,6 +12,7 @@
 }
 
 .light {
+	height: 100%;
 	--primary: #757575;
 	--accent: #b71c1c;
 	--warn: red;
@@ -60,6 +61,7 @@
 }
 
 .dark {
+	height: 100%;
 	--primary: #757575;
 	--accent: #b71c1c;
 	--warn: red;
@@ -195,7 +197,6 @@ input[type="number"] {
 	width: 100%;
 	min-height: 100%;
 	max-height: max-content;
-	transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
 
 .dialog-container {

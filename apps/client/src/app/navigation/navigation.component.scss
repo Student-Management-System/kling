@@ -10,7 +10,6 @@
 	left: 0;
 	border: transparent;
 	background-color: var(--color-sidenav);
-	transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
 
 .sidenav .mat-toolbar {
@@ -56,7 +55,6 @@
 	top: 0;
 	position: fixed;
 	z-index: 2;
-	transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
 
 .titlebar-padding {

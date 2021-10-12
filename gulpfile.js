@@ -6,7 +6,7 @@ const rename = require("gulp-rename");
 // Combines all .svg-icons to a single file
 gulp.task("svg-sprite", () => {
 	return gulp
-		.src("apps/client/src/assets/icons/svg/*.svg")
+		.src("apps/client/icons/*.svg")
 		.pipe(
 			svgmin(() => {
 				return {

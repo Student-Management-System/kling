@@ -7,11 +7,6 @@
 			icon="new-folder"
 			(actionClicked)="addFolder()"
 		></kling-action>
-		<kling-action
-			title="New Project"
-			icon="bookmark"
-			(actionClicked)="newProject()"
-		></kling-action>
 
 		<mat-divider></mat-divider>
 
@@ -25,6 +20,12 @@
 		<mat-divider></mat-divider>
 
 		<div class="grid gap-1">
+			<kling-action
+				title="New Project"
+				icon="bookmark"
+				(actionClicked)="newProject()"
+			></kling-action>
+
 			<kling-action
 				title="Synchronize Folder"
 				icon="file-symlink-directory"

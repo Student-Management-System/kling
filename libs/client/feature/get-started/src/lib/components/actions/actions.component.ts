@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { WorkspaceDialogs } from "@kling/ide-dialogs";
 import { FileSystemAccess } from "@kling/ide-services";
 
@@ -13,8 +12,7 @@ export class ActionsComponent {
 
 	constructor(
 		private readonly dialogs: WorkspaceDialogs,
-		private readonly fileSystem: FileSystemAccess,
-		private readonly matDialog: MatDialog
+		private readonly fileSystem: FileSystemAccess
 	) {}
 
 	addFile(): void {
@@ -26,7 +24,7 @@ export class ActionsComponent {
 	}
 
 	newProject(): void {
-		//this.matDialog.open(CreateProjectDialog);
+		this.dialogs.openCreateProjectDialog();
 	}
 
 	importFile(): void {

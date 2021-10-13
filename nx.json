@@ -51,6 +51,9 @@
 		"client-feature-get-started": {
 			"tags": ["scope:client", "type:feature"]
 		},
+		"client-feature-ide": {
+			"tags": ["scope:client", "type:feature"]
+		},
 		"client-feature-ide-dialogs": {
 			"tags": ["scope:client", "type:feature"]
 		},

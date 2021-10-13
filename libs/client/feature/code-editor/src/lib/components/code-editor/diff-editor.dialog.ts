@@ -9,7 +9,6 @@ export type DiffEditorDialogData = {
 };
 
 @Component({
-	selector: "app-diff-editor-dialog",
 	template: `<div class="diff-dialog">
 		<h1>Changes: {{ filename }}</h1>
 		<div class="content">

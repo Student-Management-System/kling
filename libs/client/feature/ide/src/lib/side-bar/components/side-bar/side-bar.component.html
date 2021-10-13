@@ -1,0 +1,6 @@
+<div class="side-bar-container">
+	<div class="side-bar-component" *ngIf="settings.sideBarComponent$ | async as selectedTab">
+		<kling-explorer *ngIf="selectedTab === 'EXPLORER'"></kling-explorer>
+		<kling-history *ngIf="selectedTab === 'HISTORY'"></kling-history>
+	</div>
+</div>

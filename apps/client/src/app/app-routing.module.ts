@@ -4,7 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 const routes: Routes = [
 	{
 		path: "problems/:problemId",
-		loadChildren: () => import("./ide/ide.module").then(m => m.IdeModule)
+		loadChildren: () => import("@kling/ide").then(m => m.IdeModule)
 	},
 	{
 		path: "problem-editor",
@@ -16,7 +16,7 @@ const routes: Routes = [
 		loadChildren: () =>
 			import("./problem-list/problem-list.module").then(m => m.ProblemListModule)
 	},
-	{ path: "ide", loadChildren: () => import("./ide/ide.module").then(m => m.IdeModule) }
+	{ path: "ide", loadChildren: () => import("@kling/ide").then(m => m.IdeModule) }
 ];
 
 @NgModule({

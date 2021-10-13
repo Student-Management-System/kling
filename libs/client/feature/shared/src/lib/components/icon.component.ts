@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 
 @Component({
-	selector: "app-icon",
+	selector: "kling-icon",
 	template: `<svg
 		[ngStyle]="{ height: size + 'px', width: size + 'px' }"
 		style="display: inline-block; margin-top: -2px; vertical-align: middle; position: relative;"

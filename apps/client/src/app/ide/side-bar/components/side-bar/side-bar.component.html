@@ -1,6 +1,0 @@
-<div class="side-bar-container">
-	<div class="side-bar-component" *ngIf="settings.sideBarComponent$ | async as selectedTab">
-		<app-explorer *ngIf="selectedTab === 'EXPLORER'"></app-explorer>
-		<app-history *ngIf="selectedTab === 'HISTORY'"></app-history>
-	</div>
-</div>

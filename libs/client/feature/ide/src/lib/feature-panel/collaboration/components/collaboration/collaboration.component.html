@@ -1,0 +1,11 @@
+<div class="collaboration-container">
+	<div class="collaborators" *ngIf="collaborationService.collaborators$ | async as collaborators">
+		<h2>{{ "Domain.Participants" | translate }} ({{ collaborators.length }})</h2>
+		<kling-collaborators [participants]="collaborators"></kling-collaborators>
+	</div>
+
+	<div class="chat">
+		<h2>Chat</h2>
+		<kling-chat></kling-chat>
+	</div>
+</div>

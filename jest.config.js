@@ -12,7 +12,8 @@ module.exports = {
 		"<rootDir>/libs/client/feature/auth",
 		"<rootDir>/libs/client/feature/shared",
 		"<rootDir>/libs/client/feature/code-editor",
-		"<rootDir>/libs/client/feature/ide-dialogs"
+		"<rootDir>/libs/client/feature/ide-dialogs",
+		"<rootDir>/libs/client/feature/ide"
 	],
 	reporters:
 		process.env.NODE_ENV === "CI" ? ["default", "jest-github-actions-reporter"] : ["default"]

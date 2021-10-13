@@ -9,26 +9,26 @@
 	data-test="file-tab"
 >
 	<div class="flex items-center w-full h-full gap-2 inner-tab">
-		<app-file-icon
+		<kling-file-icon
 			class="mt-[-4px]"
 			[language]="file.name | programmingLanguage"
-		></app-file-icon>
+		></kling-file-icon>
 		<span class="tab-name">{{ file.name }}</span>
 		<button mat-mini-fab class="clear-btn mat-elevation-z0" (click)="tabClosed.emit(path)">
-			<app-icon
+			<kling-icon
 				*ngIf="!file.hasUnsavedChanges"
 				class="absolute mt-[-18px] -ml-2 icon-light"
 				size="16"
 				name="clear"
-			></app-icon>
+			></kling-icon>
 
-			<app-icon
+			<kling-icon
 				class="absolute mt-[-18px] -ml-1 text"
 				*ngIf="file.hasUnsavedChanges"
 				name="lens"
 				size="8"
 				data-test="fileTab_unsavedChangesIndicator"
-			></app-icon>
+			></kling-icon>
 		</button>
 	</div>
 </button>

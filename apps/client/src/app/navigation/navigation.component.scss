@@ -16,7 +16,7 @@
 	background: inherit;
 }
 
-.sidenav app-icon {
+.sidenav kling-icon {
 	margin-right: 24px;
 	padding-left: 8px;
 	fill: var(--text-light);
@@ -42,7 +42,7 @@
 	background-color: var(--link-active-bg);
 	font-weight: 500 !important;
 
-	app-icon {
+	kling-icon {
 		fill: var(--link-active);
 	}
 }

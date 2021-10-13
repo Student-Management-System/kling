@@ -23,6 +23,7 @@
 			"@kling/code-editor": ["libs/client/feature/code-editor/src/index.ts"],
 			"@kling/file-tabs": ["libs/client/feature/file-tabs/src/index.ts"],
 			"@kling/get-started": ["libs/client/feature/get-started/src/index.ts"],
+			"@kling/ide": ["libs/client/feature/ide/src/index.ts"],
 			"@kling/ide-dialogs": ["libs/client/feature/ide-dialogs/src/index.ts"],
 			"@kling/ide-services": ["libs/client/feature/ide-services/src/index.ts"],
 			"@kling/indexed-db": ["libs/client/data-access/indexed-db/src/index.ts"],

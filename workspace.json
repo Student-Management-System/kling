@@ -13,7 +13,8 @@
 		},
 		"@nrwl/angular:library": {
 			"linter": "eslint",
-			"unitTestRunner": "jest"
+			"unitTestRunner": "jest",
+			"strict": false
 		},
 		"@nrwl/angular:component": {}
 	},
@@ -386,6 +387,47 @@
 						"lintFilePatterns": [
 							"libs/client/feature/get-started/src/**/*.ts",
 							"libs/client/feature/get-started/src/**/*.html"
+						]
+					}
+				}
+			}
+		},
+		"client-feature-ide": {
+			"projectType": "library",
+			"root": "libs/client/feature/ide",
+			"sourceRoot": "libs/client/feature/ide/src",
+			"prefix": "kling",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:ng-packagr-lite",
+					"outputs": ["dist/libs/client/feature/ide"],
+					"options": {
+						"project": "libs/client/feature/ide/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/client/feature/ide/tsconfig.lib.prod.json"
+						},
+						"development": {
+							"tsConfig": "libs/client/feature/ide/tsconfig.lib.json"
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/client/feature/ide"],
+					"options": {
+						"jestConfig": "libs/client/feature/ide/jest.config.js",
+						"passWithNoTests": true
+					}
+				},
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": [
+							"libs/client/feature/ide/src/**/*.ts",
+							"libs/client/feature/ide/src/**/*.html"
 						]
 					}
 				}

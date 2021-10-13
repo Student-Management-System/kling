@@ -1,0 +1,22 @@
+<div class="section">
+	<div class="section-header">
+		<button class="section-header-left" disableRipple (click)="toggleIsExpanded()">
+			<kling-icon name="chevron_down" size="16" class="px-1" *ngIf="isExpanded"></kling-icon>
+			<kling-icon
+				name="chevron_right"
+				size="16"
+				class="px-1"
+				*ngIf="!isExpanded"
+			></kling-icon>
+			<ng-content select="[sectionTitle]"></ng-content>
+		</button>
+
+		<div class="section-actions">
+			<ng-content select="[sectionActions]"></ng-content>
+		</div>
+	</div>
+
+	<div class="section-content" *ngIf="isExpanded">
+		<ng-content select="[sectionContent]"></ng-content>
+	</div>
+</div>

@@ -4,7 +4,7 @@
 		<mat-toolbar class="titlebar mat-elevation-z0">
 			<div id="nav-left">
 				<button mat-icon-button type="button" (click)="drawer.toggle()">
-					<app-icon name="menu"></app-icon>
+					<kling-icon name="menu"></kling-icon>
 				</button>
 				<ng-template *ngTemplateOutlet="uniLogo"></ng-template>
 				{{ "Title.AppName" | translate }}
@@ -41,7 +41,7 @@
 				</mat-menu>
 
 				<button mat-icon-button [matMenuTriggerFor]="appMenu">
-					<app-icon name="more_vert"></app-icon>
+					<kling-icon name="more_vert"></kling-icon>
 				</button>
 			</div>
 		</mat-toolbar>
@@ -62,7 +62,7 @@
 				<mat-toolbar class="sidenav-titlebar">
 					<div id="nav-left">
 						<button mat-icon-button type="button" (click)="drawer.toggle()">
-							<app-icon name="menu"></app-icon>
+							<kling-icon name="menu"></kling-icon>
 						</button>
 						<ng-template *ngTemplateOutlet="uniLogo"></ng-template>
 						{{ "Title.AppName" | translate }}
@@ -82,7 +82,7 @@
 						routerLinkActive="router-link-active"
 						[routerLinkActiveOptions]="{ exact: true }"
 					>
-						<app-icon name="home"></app-icon>{{ "Misc.Home" | translate }}
+						<kling-icon name="home"></kling-icon>{{ "Misc.Home" | translate }}
 					</a>
 
 					<a
@@ -91,11 +91,11 @@
 						routerLinkActive="router-link-active"
 						[routerLinkActiveOptions]="{ exact: true }"
 					>
-						<app-icon name="assignment"></app-icon>Problems
+						<kling-icon name="assignment"></kling-icon>Problems
 					</a>
 
 					<a mat-list-item [routerLink]="['/ide']" routerLinkActive="router-link-active">
-						<app-icon name="code"></app-icon>Programming
+						<kling-icon name="code"></kling-icon>Programming
 					</a>
 				</div>
 
@@ -107,7 +107,7 @@
 						[routerLink]="['/login']"
 						routerLinkActive="router-link-active"
 					>
-						<app-icon name="code"></app-icon>Developer-Login
+						<kling-icon name="code"></kling-icon>Developer-Login
 					</a>
 
 					<a
@@ -115,7 +115,7 @@
 						[routerLink]="['/privacy']"
 						routerLinkActive="router-link-active"
 					>
-						<app-icon name="security"></app-icon>{{ "Misc.Privacy" | translate }}
+						<kling-icon name="security"></kling-icon>{{ "Misc.Privacy" | translate }}
 					</a>
 
 					<a
@@ -123,7 +123,7 @@
 						[routerLink]="['/imprint']"
 						routerLinkActive="router-link-active"
 					>
-						<app-icon name="info"></app-icon>{{ "Misc.Imprint" | translate }}
+						<kling-icon name="info"></kling-icon>{{ "Misc.Imprint" | translate }}
 					</a>
 				</div>
 			</mat-nav-list>

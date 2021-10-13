@@ -13,7 +13,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { SidenavService, ThemeService, TitlebarService } from "@kling/client-shared";
 import { combineLatest, Observable } from "rxjs";
 import { filter, map, shareReplay, withLatestFrom } from "rxjs/operators";
-import { environment } from "../../environments/environment";
+import { environment } from "@kling/client-environments";
 
 @Component({
 	selector: "app-navigation",

@@ -4,7 +4,7 @@ import { AuthService } from "@kling/client-auth";
 import { AuthSelectors, FileActions } from "@kling/client/data-access/state";
 import { createMainFile, SupportedLanguage } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import { environment } from "apps/client/src/environments/environment";
+import { environment } from "@kling/client-environments";
 import { LoginDialogComponent } from "libs/client/feature/auth/src/lib/dialogs/login/login.dialog";
 
 @Component({

@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
-import { environment } from "apps/client/src/environments/environment";
+import { getEnvVariableOrThrow } from "@kling/client-environments";
 import { CodeExecutionService, PISTON_API_URL } from "./services/code-execution.service";
-import { WorkspaceDialogs } from "./services/workspace-dialogs.service";
 import { FileSystemAccess } from "./services/file-system-access.service";
+import { WorkspaceDialogs } from "./services/workspace-dialogs.service";
 import { WorkspaceSettingsService } from "./services/workspace-settings.service";
 import { WorkspaceService } from "./services/workspace.service";
 
@@ -15,9 +15,7 @@ import { WorkspaceService } from "./services/workspace.service";
 		WorkspaceService,
 		{
 			provide: PISTON_API_URL,
-			useValue:
-				window["__env"]["PISTON_CODE_EXECUTION_BASE_PATH"] ??
-				environment.PISTON_CODE_EXECUTION_BASE_PATH
+			useValue: getEnvVariableOrThrow("PISTON_CODE_EXECUTION_BASE_PATH")
 		}
 	]
 })

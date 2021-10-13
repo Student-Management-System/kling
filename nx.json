@@ -57,6 +57,9 @@
 		"client-feature-shared": {
 			"tags": ["scope:client", "type:feature"]
 		},
+		"client-shared-environments": {
+			"tags": []
+		},
 		"client-ui-file-tabs": {
 			"tags": ["scope:client", "type:feature"]
 		},

@@ -19,7 +19,7 @@ import { registerLanguages } from "./register";
 import { rehydrateRegexps } from "./configuration";
 import VsCodeDarkTheme from "./vs-dark-plus-theme";
 import VsCodeLightTheme from "./vs-light-plus-theme";
-import { environment } from "apps/client/src/environments/environment";
+import { environment } from "@kling/client-environments";
 
 interface DemoScopeNameInfo extends ScopeNameInfo {
 	path: string;

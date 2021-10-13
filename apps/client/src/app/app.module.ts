@@ -24,7 +24,7 @@ import { ContextMenuModule } from "ngx-contextmenu";
 import { MarkdownModule } from "ngx-markdown";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { ToastrModule } from "ngx-toastr";
-import { environment } from "../environments/environment";
+import { environment, getEnv, getEnvVariableOrThrow } from "@kling/client-environments";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NavigationComponent } from "./navigation/navigation.component";
@@ -67,16 +67,14 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 		ApiModule.forRoot(
 			() =>
 				new Configuration({
-					basePath: window["__env"]["API_BASE_PATH"] ?? environment.API_BASE_PATH
+					basePath: getEnvVariableOrThrow("API_BASE_PATH")
 				})
 		),
 		StudentMgmtApiModule.forRoot(
 			() =>
 				new StudentMgmtConfiguration({
 					accessToken: (): string => AuthService.getAccessToken(),
-					basePath:
-						window["__env"]["STUDENT_MGMT_BASE_PATH"] ??
-						environment.STUDENT_MGMT_BASE_PATH
+					basePath: getEnvVariableOrThrow("STUDENT_MGMT_BASE_PATH")
 				})
 		),
 		NgxMatSelectSearchModule,

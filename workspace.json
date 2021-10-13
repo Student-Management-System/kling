@@ -129,8 +129,8 @@
 						"production": {
 							"fileReplacements": [
 								{
-									"replace": "apps/client/src/environments/environment.ts",
-									"with": "apps/client/src/environments/environment.prod.ts"
+									"replace": "libs/client/shared/environments/src/lib/environment.ts",
+									"with": "libs/client/shared/environments/src/lib/environment.prod.ts"
 								}
 							],
 							"optimization": true,
@@ -469,6 +469,20 @@
 							"libs/client/feature/shared/src/**/*.ts",
 							"libs/client/feature/shared/src/**/*.html"
 						]
+					}
+				}
+			}
+		},
+		"client-shared-environments": {
+			"root": "libs/client/shared/environments",
+			"sourceRoot": "libs/client/shared/environments/src",
+			"projectType": "library",
+			"architect": {
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"outputs": ["{options.outputFile}"],
+					"options": {
+						"lintFilePatterns": ["libs/client/shared/environments/**/*.ts"]
 					}
 				}
 			}

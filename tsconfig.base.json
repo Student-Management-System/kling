@@ -17,6 +17,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@kling/client-auth": ["libs/client/feature/auth/src/index.ts"],
+			"@kling/client-environments": ["libs/client/shared/environments/src/index.ts"],
 			"@kling/client-shared": ["libs/client/feature/shared/src/index.ts"],
 			"@kling/client/data-access/state": ["libs/client/data-access/state/src/index.ts"],
 			"@kling/code-editor": ["libs/client/feature/code-editor/src/index.ts"],

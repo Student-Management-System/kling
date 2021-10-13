@@ -35,7 +35,7 @@ export const reducer = createReducer(
 			state
 		)
 	),
-	on(FileActions.saveFile, (state, action) =>
+	on(FileActions.fileSaved, (state, action) =>
 		adapter.updateOne(
 			{ id: action.path, changes: { content: action.content, hasUnsavedChanges: false } },
 			state

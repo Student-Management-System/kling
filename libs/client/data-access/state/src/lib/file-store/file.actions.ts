@@ -8,7 +8,12 @@ export const addFiles = createAction("[Workspace] Add Files", props<{ files: Fil
 export const markAsChanged = createAction("[Editor] Mark as changed", props<{ path: string }>());
 
 export const saveFile = createAction(
-	"[Editor] Save file",
+	"[Editor] Save File",
+	props<{ path: string; content: string }>()
+);
+
+export const fileSaved = createAction(
+	"[Editor] File saved",
 	props<{ path: string; content: string }>()
 );
 

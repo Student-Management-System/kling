@@ -77,7 +77,7 @@ export class WorkspaceService {
 			await this.saveFileInMemory(path, content);
 		}
 
-		this.store.dispatch(FileActions.saveFile({ path, content }));
+		this.store.dispatch(FileActions.fileSaved({ path, content }));
 	}
 
 	/**

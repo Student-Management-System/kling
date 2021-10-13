@@ -83,7 +83,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		this.subs.sink = this.workspace.init$.subscribe(() => this._disposeAllModels());
 		this.subs.sink = this.actions$
 			.pipe(
-				ofType(FileActions.saveFile),
+				ofType(FileActions.fileSaved),
 				tap(action => {
 					this.filesWithUnsavedChanges.delete(action.path);
 				})
@@ -243,9 +243,11 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 	}
 
 	private saveCurrentFile() {
-		this.workspace.saveFile(
-			this.selectedFilePath!,
-			this.getFileContent(this.selectedFilePath!)!
+		this.store.dispatch(
+			FileActions.saveFile({
+				path: this.selectedFilePath!,
+				content: this.getFileContent(this.selectedFilePath!)!
+			})
 		);
 	}
 

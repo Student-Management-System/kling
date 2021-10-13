@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { tap } from "rxjs/operators";
 import { WorkspaceService } from "@kling/ide-services";
 import * as FileActions from "./file.actions";
+import { Store } from "@ngrx/store";
 
 @Injectable()
 export class FileEffects {
@@ -18,6 +19,12 @@ export class FileEffects {
 				ofType(FileActions.addFile),
 				tap(action => {
 					this.workspace.emitFileAdded(action.file);
+					this.store.dispatch(
+						FileActions.saveFile({
+							path: action.file.path,
+							content: action.file.content
+						})
+					);
 				})
 			);
 		},
@@ -34,8 +41,8 @@ export class FileEffects {
 			return this.actions$.pipe(
 				ofType(FileActions.deleteFile),
 				tap(async action => {
-					await this.workspace.deleteFile(action.file.path);
 					this.workspace.emitFileRemoved(action.file);
+					await this.workspace.deleteFile(action.file.path);
 				})
 			);
 		},
@@ -58,7 +65,20 @@ export class FileEffects {
 		{ dispatch: false }
 	);
 
+	saveFile$ = createEffect(
+		() => {
+			return this.actions$.pipe(
+				ofType(FileActions.saveFile),
+				tap(async ({ path, content }) => {
+					await this.workspace.saveFile(path, content);
+				})
+			);
+		},
+		{ dispatch: false }
+	);
+
 	constructor(
+		private store: Store,
 		private actions$: Actions,
 		private workspace: WorkspaceService,
 		private router: Router

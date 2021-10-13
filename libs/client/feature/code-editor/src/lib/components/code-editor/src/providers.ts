@@ -106,7 +106,7 @@ export class SimpleLanguageInfoProvider {
 	 * Be sure this is done after Monaco injects its default styles so that the
 	 * injected CSS overrides the defaults.
 	 */
-	injectCSS() {
+	injectCSS(): void {
 		const cssColors = this.registry.getColorMap();
 		const colorMap = cssColors.map(Color.Format.CSS.parseHex);
 		// This is needed to ensure the minimap gets the right colors.

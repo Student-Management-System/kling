@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /// <reference types="wicg-file-system-access" />
 import { Injectable } from "@angular/core";
 import {
@@ -53,17 +54,17 @@ export class FileSystemAccess {
 			this.actions$.pipe(ofType(FileActions.deleteFile)).subscribe(async ({ file }) => {
 				const directoryHandle = this.directoryHandleByPath.get(file.directoryPath);
 				this.fileSystemHandleByPath.delete(file.path);
-				await directoryHandle.removeEntry(file.name);
+				await directoryHandle!.removeEntry(file.name);
 			}),
 
 			this.actions$
 				.pipe(ofType(DirectoryActions.addDirectory))
 				.subscribe(async ({ directory }) => {
 					const parentDirectoryHandle = this.directoryHandleByPath.get(
-						directory.parentDirectoryPath
+						directory.parentDirectoryPath!
 					);
 
-					const directoryHandle = await parentDirectoryHandle.getDirectoryHandle(
+					const directoryHandle = await parentDirectoryHandle!.getDirectoryHandle(
 						directory.name,
 						{ create: true }
 					);
@@ -75,7 +76,7 @@ export class FileSystemAccess {
 				.pipe(ofType(DirectoryActions.deleteDirectory))
 				.subscribe(async ({ directory }) => {
 					const parentDirectoryHandle = this.directoryHandleByPath.get(
-						directory.parentDirectoryPath
+						directory.parentDirectoryPath!
 					);
 
 					if (!parentDirectoryHandle) {
@@ -111,13 +112,36 @@ export class FileSystemAccess {
 
 	/**
 	 * Opens a file picker that lets the user select a file.
-	 * Once the user has selected a file, it will be added to the project and the application will
-	 * maintain its `fileHandle`, which allows writing changes back to the file via {@link saveFile}.
+	 * Once the user has selected a file, it will be added to the project.
 	 */
-	async openFile(): Promise<void> {
-		const fileFromFs = await fileOpen();
-		const file = await this.registerFile(fileFromFs);
+	async importFile(directoryPath = ""): Promise<void> {
+		const fileFromFs = await this.openFilePicker();
+
+		if (!fileFromFs) {
+			return;
+		}
+
+		const file = createFile(fileFromFs.name, directoryPath, await fileFromFs.text());
+		const files = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
+
+		if (files.find(f => f.path === file.path)) {
+			// Replace file, if it already exists
+			console.log(`Replacing file: ${file.path}`);
+			this.store.dispatch(FileActions.deleteFile({ file }));
+		}
+
+		this.store.dispatch(FileActions.addFile({ file }));
 		this.store.dispatch(FileActions.setSelectedFile({ path: file.path }));
+	}
+
+	/** Opens a file picker and returns the selected file or `null`, if user cancelled the operation. */
+	private async openFilePicker(): Promise<FileWithHandle | null> {
+		try {
+			return await fileOpen();
+		} catch (error) {
+			// User probably closed the dialog without selecting a file
+			return null;
+		}
 	}
 
 	async openDirectory(): Promise<void> {
@@ -288,7 +312,7 @@ export class FileSystemAccess {
 
 	/**
 	 * Writes the given `content` back to the file associated with the specified `path`.
-	 * Can only be used for files that were opened via {@link openFile} or {@link openDirectory}
+	 * Can only be used for files that were opened via {@link importFile} or {@link openDirectory}
 	 * (meaning files that actually exist in the user's file system).
 	 *
 	 * @param path Absolute path of a file in the project (not in the file system!). See {@link File.path}.
@@ -316,22 +340,6 @@ export class FileSystemAccess {
 			console.error("Failed to save file: " + path);
 			console.error(error);
 		}
-	}
-
-	/**
-	 * Adds the given file to the project and keeps track of its `fileHandle` to enable
-	 * writing changes back to it via the {@link saveFile} method.
-	 *
-	 * @param {FileWithHandle} fileFromFs File that has been opened via {@link fileOpen} or {@link directoryOpen}.
-	 * @return {File} The created file model.
-	 */
-	private async registerFile(fileFromFs: FileWithHandle): Promise<File> {
-		const file = createFile(fileFromFs.name, "", await fileFromFs.text());
-
-		this.fileWithHandleByPath.set(file.path, fileFromFs);
-		this.store.dispatch(FileActions.addFile({ file }));
-
-		return file;
 	}
 
 	/**

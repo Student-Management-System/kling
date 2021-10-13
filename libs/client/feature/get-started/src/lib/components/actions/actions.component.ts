@@ -28,7 +28,7 @@ export class ActionsComponent {
 	}
 
 	importFile(): void {
-		this.fileSystem.openFile();
+		this.fileSystem.importFile();
 	}
 
 	importFolder(): void {

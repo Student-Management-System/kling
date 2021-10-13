@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
 import { File } from "@kling/programming";
-import { Store } from "@ngrx/store";
 
 /**
  * Dialog that allows the user to enter a filename and possibly some options.
@@ -9,17 +8,17 @@ import { Store } from "@ngrx/store";
  * @returns `File` - The file that should be created by the opening component/service.
  */
 @Component({
-	selector: "app-create-file",
+	selector: "kling-create-file",
 	templateUrl: "./create-file.dialog.html",
 	styleUrls: ["./create-file.dialog.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateFileDialog implements OnInit {
+export class CreateFileDialogComponent implements OnInit {
 	/** Name of the file that should be created. Must include extension (i.e. `MyFile.java`) */
-	filename: string;
-	errors: string;
+	filename!: string;
+	errors?: string;
 
-	constructor(private dialogRef: MatDialogRef<CreateFileDialog>, private store: Store) {}
+	constructor(private dialogRef: MatDialogRef<CreateFileDialogComponent>) {}
 
 	ngOnInit(): void {}
 

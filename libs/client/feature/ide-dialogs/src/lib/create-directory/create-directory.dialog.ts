@@ -2,26 +2,26 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from "@angular/cor
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Subject } from "rxjs";
 
-export class CreateDirectoryDialogData {
+export type CreateDirectoryDialogData = {
 	directoryPath: string;
-}
+};
 
 /**
  * Dialog that allows the user to insert the name of a new directory.
  * @returns `string` - name of the new directory.
  */
 @Component({
-	selector: "app-create-directory",
+	selector: "kling-create-directory",
 	templateUrl: "./create-directory.dialog.html",
 	styleUrls: ["./create-directory.dialog.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateDirectoryDialog implements OnInit {
+export class CreateDirectoryDialogComponent implements OnInit {
 	name = "";
 	error$ = new Subject<string | undefined>();
 
 	constructor(
-		private dialogRef: MatDialogRef<CreateDirectoryDialog, string>,
+		private dialogRef: MatDialogRef<CreateDirectoryDialogComponent, string>,
 		@Inject(MAT_DIALOG_DATA) private data: CreateDirectoryDialogData
 	) {}
 

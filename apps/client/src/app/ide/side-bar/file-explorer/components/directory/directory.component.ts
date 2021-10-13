@@ -5,7 +5,7 @@ import {
 	DirectorySelectors,
 	FileSelectors
 } from "@kling/client/data-access/state";
-import { WorkspaceDialogs } from "@kling/ide-services";
+import { WorkspaceDialogs } from "@kling/ide-dialogs";
 import { Directory, File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";

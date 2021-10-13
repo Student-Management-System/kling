@@ -7,16 +7,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
  * @returns `string` - new name
  */
 @Component({
-	selector: "app-rename",
+	selector: "kling-rename",
 	templateUrl: "./rename.dialog.html",
 	styleUrls: ["./rename.dialog.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RenameDialog implements OnInit {
-	newName: string;
+export class RenameDialogComponent implements OnInit {
+	newName!: string;
 
 	constructor(
-		private dialogRef: MatDialogRef<RenameDialog, string>,
+		private dialogRef: MatDialogRef<RenameDialogComponent, string>,
 		@Inject(MAT_DIALOG_DATA) private oldName: string
 	) {}
 

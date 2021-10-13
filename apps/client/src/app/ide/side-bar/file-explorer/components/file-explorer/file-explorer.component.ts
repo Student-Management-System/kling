@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { DirectorySelectors, FileSelectors } from "@kling/client/data-access/state";
-import { WorkspaceDialogs } from "@kling/ide-services";
+import { WorkspaceDialogs } from "@kling/ide-dialogs";
 import { Store } from "@ngrx/store";
 import { DragAndDropService } from "../../services/drag-and-drop.service";
 

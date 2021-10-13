@@ -51,6 +51,9 @@
 		"client-feature-get-started": {
 			"tags": ["scope:client", "type:feature"]
 		},
+		"client-feature-ide-dialogs": {
+			"tags": ["scope:client", "type:feature"]
+		},
 		"client-feature-ide-services": {
 			"tags": ["scope:client", "type:feature"]
 		},
@@ -58,7 +61,7 @@
 			"tags": ["scope:client", "type:feature"]
 		},
 		"client-shared-environments": {
-			"tags": []
+			"tags": ["scope:client"]
 		},
 		"client-ui-file-tabs": {
 			"tags": ["scope:client", "type:feature"]

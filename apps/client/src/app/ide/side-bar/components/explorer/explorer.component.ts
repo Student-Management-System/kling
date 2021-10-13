@@ -1,17 +1,13 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import {
 	DirectorySelectors,
 	FileSelectors,
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
-import { WorkspaceDialogs, FileSystemAccess } from "@kling/ide-services";
+import { WorkspaceDialogs } from "@kling/ide-dialogs";
+import { FileSystemAccess } from "@kling/ide-services";
 import { Store } from "@ngrx/store";
 import { firstValueFrom } from "rxjs";
-import {
-	CreateProjectDialog,
-	CreateProjectDialogData
-} from "../../../dialogs/create-project/create-project.dialog";
 
 @Component({
 	selector: "app-explorer",
@@ -26,8 +22,7 @@ export class ExplorerComponent {
 	constructor(
 		public workspaceDialogs: WorkspaceDialogs,
 		private readonly fileSystem: FileSystemAccess,
-		private readonly store: Store,
-		private readonly dialog: MatDialog
+		private readonly store: Store
 	) {}
 
 	exportToDisk(): void {
@@ -40,17 +35,15 @@ export class ExplorerComponent {
 			this.store.select(WorkspaceSelectors.selectProjectName)
 		);
 
-		this.dialog.open<CreateProjectDialog, CreateProjectDialogData, void>(CreateProjectDialog, {
-			data: {
-				project: {
-					name: projectName,
-					files: currentFiles
-				}
+		this.workspaceDialogs.openCreateProjectDialog({
+			project: {
+				name: projectName,
+				files: currentFiles
 			}
 		});
 	}
 
 	createNewProject(): void {
-		this.dialog.open(CreateProjectDialog);
+		this.workspaceDialogs.openCreateProjectDialog();
 	}
 }

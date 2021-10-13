@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { WorkspaceDialogs, FileSystemAccess } from "@kling/ide-services";
+import { WorkspaceDialogs } from "@kling/ide-dialogs";
+import { FileSystemAccess } from "@kling/ide-services";
 
 @Component({
 	selector: "kling-actions",

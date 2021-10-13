@@ -5,11 +5,13 @@ import { createDirectory, createFile } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import {
-	CreateDirectoryDialog,
-	CreateDirectoryDialogData
-} from "../../../../../../../apps/client/src/app/ide/side-bar/file-explorer/dialogs/create-directory/create-directory.dialog";
-import { CreateFileDialog } from "../../../../../../../apps/client/src/app/ide/side-bar/file-explorer/dialogs/create-file/create-file.dialog";
-import { RenameDialog } from "../../../../../../../apps/client/src/app/ide/side-bar/file-explorer/dialogs/rename/rename.dialog";
+	CreateDirectoryDialogComponent,
+	CreateDirectoryDialogData,
+	CreateFileDialogComponent,
+	CreateProjectDialogComponent,
+	CreateProjectDialogData,
+	RenameDialogComponent
+} from "@kling/ide-dialogs";
 
 /**
  * Facade for dialogs that are used in the workspace.
@@ -18,13 +20,22 @@ import { RenameDialog } from "../../../../../../../apps/client/src/app/ide/side-
 export class WorkspaceDialogs {
 	constructor(private dialog: MatDialog, private store: Store<DirectoryState>) {}
 
+	openCreateProjectDialog(data?: CreateProjectDialogData): void {
+		this.dialog.open<CreateProjectDialogComponent, CreateProjectDialogData, void>(
+			CreateProjectDialogComponent,
+			{
+				data
+			}
+		);
+	}
+
 	/**
 	 * Opens the `CreateFileDialog` and adds a new file to the workspace,
 	 * if confirmed by the user.
 	 */
 	openCreateFileDialog(directoryPath = ""): void {
 		this.dialog
-			.open<CreateFileDialog, any, Partial<File>>(CreateFileDialog)
+			.open<CreateFileDialogComponent, void, Partial<File>>(CreateFileDialogComponent)
 			.afterClosed()
 			.subscribe(partialFile => {
 				if (partialFile?.name && partialFile?.name?.length > 0) {
@@ -44,9 +55,12 @@ export class WorkspaceDialogs {
 	openCreateDirectoryDialog(directoryPath = ""): void {
 		const data: CreateDirectoryDialogData = { directoryPath };
 		this.dialog
-			.open<CreateDirectoryDialog, CreateDirectoryDialogData, string>(CreateDirectoryDialog, {
-				data
-			})
+			.open<CreateDirectoryDialogComponent, CreateDirectoryDialogData, string>(
+				CreateDirectoryDialogComponent,
+				{
+					data
+				}
+			)
 			.afterClosed()
 			.subscribe(directoryName => {
 				if (directoryName) {
@@ -69,6 +83,6 @@ export class WorkspaceDialogs {
 	 * @returns `string` - new name
 	 */
 	openRenameDialog(currentName: string): Observable<string> {
-		return this.dialog.open(RenameDialog, { data: currentName }).afterClosed();
+		return this.dialog.open(RenameDialogComponent, { data: currentName }).afterClosed();
 	}
 }

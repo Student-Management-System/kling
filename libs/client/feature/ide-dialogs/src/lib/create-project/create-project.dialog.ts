@@ -30,7 +30,7 @@ export function ProjectNameValidator(): ValidatorFn {
 	templateUrl: "./create-project.dialog.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateProjectDialog implements OnInit {
+export class CreateProjectDialogComponent implements OnInit {
 	projectNameControl = new FormControl(
 		"",
 		[Validators.required, ProjectNameValidator()],
@@ -38,7 +38,7 @@ export class CreateProjectDialog implements OnInit {
 	);
 
 	/** Name of the project that the new project will be based on. */
-	fromProject: string;
+	fromProject?: string;
 
 	forbiddenCharactersString = forbiddenCharacters.toString();
 
@@ -46,11 +46,11 @@ export class CreateProjectDialog implements OnInit {
 		private store: Store,
 		private indexedDb: IndexedDbService,
 		@Inject(MAT_DIALOG_DATA) private data: CreateProjectDialogData,
-		private dialogRef: MatDialogRef<CreateProjectDialog, void>
+		private dialogRef: MatDialogRef<CreateProjectDialogComponent, void>
 	) {}
 
 	ngOnInit(): void {
-		this.fromProject = this.data?.project.name;
+		this.fromProject = this.data?.project?.name;
 	}
 
 	async onCreate(projectName: string): Promise<void> {

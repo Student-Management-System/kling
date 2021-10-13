@@ -165,7 +165,8 @@ export class WorkspaceService {
 				if (project.directoryHandle) {
 					await this.fileSystem.synchronizeWithDirectory(
 						project.directoryHandle,
-						openFile
+						openFile,
+						project
 					);
 				} else {
 					throw new Error("Project has no directoryHandle.");

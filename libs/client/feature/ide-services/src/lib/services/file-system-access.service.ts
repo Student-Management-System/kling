@@ -9,7 +9,7 @@ import {
 	WorkspaceActions,
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
-import { IndexedDbService } from "@kling/indexed-db";
+import { FsProject, IndexedDbService } from "@kling/indexed-db";
 import {
 	createDirectoriesFromFiles,
 	createDirectory,
@@ -226,7 +226,8 @@ export class FileSystemAccess {
 
 	async synchronizeWithDirectory(
 		directoryHandle: FileSystemDirectoryHandle,
-		openFile = true
+		openFile = true,
+		project?: FsProject
 	): Promise<void> {
 		const hasPermission = await this.verifyPermission(directoryHandle);
 
@@ -239,7 +240,14 @@ export class FileSystemAccess {
 
 		const { files, directories } = await this.traverseDirectory(directoryHandle);
 
-		const projectName = directoryHandle.name + "-" + nanoid(6);
+		const projectName = project ? project.name : directoryHandle.name + "-" + nanoid(6);
+
+		await this.indexedDb.projects.put({
+			name: projectName,
+			source: "fs",
+			lastOpened: new Date(),
+			directoryHandle
+		});
 
 		this.store.dispatch(
 			WorkspaceActions.loadProject({
@@ -248,13 +256,6 @@ export class FileSystemAccess {
 				projectName
 			})
 		);
-
-		await this.indexedDb.projects.put({
-			name: projectName,
-			source: "fs",
-			lastOpened: new Date(),
-			directoryHandle
-		});
 
 		if (openFile) {
 			this.store.dispatch(FileActions.setSelectedFile({ path: files?.[0]?.path ?? null }));

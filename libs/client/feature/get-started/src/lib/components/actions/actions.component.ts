@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { FileExplorerDialogs, FileSystemAccess } from "@kling/ide-services";
+import { WorkspaceDialogs, FileSystemAccess } from "@kling/ide-services";
 
 @Component({
 	selector: "kling-actions",
@@ -11,7 +11,7 @@ export class ActionsComponent {
 	hasFileSystemAccessSupport = !!window.showDirectoryPicker;
 
 	constructor(
-		private readonly dialogs: FileExplorerDialogs,
+		private readonly dialogs: WorkspaceDialogs,
 		private readonly fileSystem: FileSystemAccess,
 		private readonly matDialog: MatDialog
 	) {}

@@ -5,7 +5,7 @@ import {
 	FileSelectors,
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
-import { FileExplorerDialogs, FileSystemAccess } from "@kling/ide-services";
+import { WorkspaceDialogs, FileSystemAccess } from "@kling/ide-services";
 import { Store } from "@ngrx/store";
 import { firstValueFrom } from "rxjs";
 import {
@@ -24,7 +24,7 @@ export class ExplorerComponent {
 	workspace$ = this.store.select(WorkspaceSelectors.selectWorkspaceState);
 
 	constructor(
-		public fileExplorerDialogs: FileExplorerDialogs,
+		public workspaceDialogs: WorkspaceDialogs,
 		private readonly fileSystem: FileSystemAccess,
 		private readonly store: Store,
 		private readonly dialog: MatDialog

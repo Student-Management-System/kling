@@ -15,7 +15,7 @@ import { RenameDialog } from "../../../../../../../apps/client/src/app/ide/side-
  * Facade for dialogs that are used in the workspace.
  */
 @Injectable({ providedIn: "root" })
-export class FileExplorerDialogs {
+export class WorkspaceDialogs {
 	constructor(private dialog: MatDialog, private store: Store<DirectoryState>) {}
 
 	/**

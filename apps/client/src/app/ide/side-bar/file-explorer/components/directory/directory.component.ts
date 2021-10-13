@@ -5,7 +5,7 @@ import {
 	DirectorySelectors,
 	FileSelectors
 } from "@kling/client/data-access/state";
-import { FileExplorerDialogs } from "@kling/ide-services";
+import { WorkspaceDialogs } from "@kling/ide-services";
 import { Directory, File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -29,7 +29,7 @@ export class DirectoryComponent implements OnInit {
 	isExpanded = true;
 
 	constructor(
-		public workspaceDialogs: FileExplorerDialogs,
+		public workspaceDialogs: WorkspaceDialogs,
 		private store: Store,
 		private dialogService: DialogService
 	) {}

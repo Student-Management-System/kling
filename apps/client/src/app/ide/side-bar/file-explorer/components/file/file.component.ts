@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import { DialogService } from "@kling/client-shared";
 import { FileActions, WorkspaceActions } from "@kling/client/data-access/state";
-import { FileExplorerDialogs } from "@kling/ide-services";
+import { WorkspaceDialogs } from "@kling/ide-services";
 import { File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 
@@ -18,7 +18,7 @@ export class FileComponent implements OnInit {
 
 	constructor(
 		private store: Store,
-		private workspaceDialogs: FileExplorerDialogs,
+		private workspaceDialogs: WorkspaceDialogs,
 		private dialogService: DialogService
 	) {}
 

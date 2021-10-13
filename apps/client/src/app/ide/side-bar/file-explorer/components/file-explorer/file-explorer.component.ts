@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { DirectorySelectors, FileSelectors } from "@kling/client/data-access/state";
-import { FileExplorerDialogs } from "@kling/ide-services";
+import { WorkspaceDialogs } from "@kling/ide-services";
 import { Store } from "@ngrx/store";
 import { DragAndDropService } from "../../services/drag-and-drop.service";
 
@@ -21,7 +21,7 @@ export class FileExplorerComponent implements OnInit {
 	isHovering = false;
 
 	constructor(
-		readonly workspaceDialogs: FileExplorerDialogs,
+		readonly workspaceDialogs: WorkspaceDialogs,
 		readonly dragAndDrop: DragAndDropService,
 		private store: Store
 	) {}

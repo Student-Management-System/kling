@@ -22,21 +22,8 @@ export class DragAndDropService {
 		for (let i = 0; i < items.length; i++) {
 			const item = items[i];
 			if (item.kind === "file") {
-				// If File System Access API is supported
-				if (item.getAsFileSystemHandle) {
-					console.log("Using File System Access API.");
-					const entry = await item.getAsFileSystemHandle();
-
-					if (entry.kind === "directory") {
-						await this.fileSystem.synchronizeWithDirectory(entry);
-					}
-				} else {
-					console.log(
-						"File System Access API is not supported. Using in-memory filesystem."
-					);
-					const entry = item.webkitGetAsEntry() as FileEntry;
-					await this.convertEntryToDirectoryOrFile(entry, "");
-				}
+				const entry = item.webkitGetAsEntry() as FileEntry;
+				await this.convertEntryToDirectoryOrFile(entry, "");
 			}
 		}
 	}

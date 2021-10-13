@@ -3,16 +3,29 @@
 import { Injectable } from "@angular/core";
 import {
 	DirectoryActions,
+	DirectorySelectors,
 	FileActions,
 	FileSelectors,
 	WorkspaceActions,
 	WorkspaceSelectors
 } from "@kling/client/data-access/state";
 import { IndexedDbService } from "@kling/indexed-db";
-import { createDirectory, createFile, Directory, File } from "@kling/programming";
+import {
+	createDirectoriesFromFiles,
+	createDirectory,
+	createFile,
+	Directory,
+	File
+} from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { directoryOpen, fileOpen, fileSave, FileWithHandle } from "browser-fs-access";
+import {
+	directoryOpen,
+	fileOpen,
+	fileSave,
+	FileWithDirectoryHandle,
+	FileWithHandle
+} from "browser-fs-access";
 import { saveAs } from "file-saver";
 import * as JSZip from "jszip";
 import { nanoid } from "nanoid";
@@ -111,83 +124,95 @@ export class FileSystemAccess {
 	}
 
 	/**
-	 * Opens a file picker that lets the user select a file.
-	 * Once the user has selected a file, it will be added to the project.
+	 * Opens a file picker that lets the user select one or multiple files.
+	 * Once the user has selected one or more files, the files will be added to the project.
 	 */
 	async importFile(directoryPath = ""): Promise<void> {
-		const fileFromFs = await this.openFilePicker();
+		const filesFromFs = await this.openFilePicker();
+		console.log(filesFromFs);
 
-		if (!fileFromFs) {
+		if (!filesFromFs) {
 			return;
 		}
 
-		const file = createFile(fileFromFs.name, directoryPath, await fileFromFs.text());
 		const files = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
 
-		if (files.find(f => f.path === file.path)) {
-			// Replace file, if it already exists
-			console.log(`Replacing file: ${file.path}`);
-			this.store.dispatch(FileActions.deleteFile({ file }));
-		}
+		for await (const fileFromFs of filesFromFs) {
+			const file = createFile(fileFromFs.name, directoryPath, await fileFromFs.text());
 
-		this.store.dispatch(FileActions.addFile({ file }));
-		this.store.dispatch(FileActions.setSelectedFile({ path: file.path }));
+			if (files.find(f => f.path === file.path)) {
+				// Replace file, if it already exists
+				console.log(`Replacing file: ${file.path}`);
+				this.store.dispatch(FileActions.deleteFile({ file }));
+			}
+
+			this.store.dispatch(FileActions.addFile({ file }));
+		}
 	}
 
 	/** Opens a file picker and returns the selected file or `null`, if user cancelled the operation. */
-	private async openFilePicker(): Promise<FileWithHandle | null> {
+	private async openFilePicker(): Promise<FileWithHandle[] | null> {
 		try {
-			return await fileOpen();
+			return await fileOpen({ multiple: true });
 		} catch (error) {
 			// User probably closed the dialog without selecting a file
 			return null;
 		}
 	}
 
-	async openDirectory(): Promise<void> {
-		const directoryFromFs = await directoryOpen({ recursive: true });
+	async importFolder(parentDirectory = ""): Promise<void> {
+		const directoryFromFs = await this.openFolderPicker();
 
-		const files: File[] = [];
-		const directories: Directory[] = [];
-
-		for await (const file of directoryFromFs) {
-			const directoryPath: string = ((file as any).webkitRelativePath as string).replace(
-				"/" + file.name,
-				""
-			);
-
-			const dirHierarchy = directoryPath.split("/");
-			const dirName = dirHierarchy[dirHierarchy.length - 1];
-			const parentDir = dirHierarchy.length == 1 ? "" : dirHierarchy[dirHierarchy.length - 2];
-
-			const f: File = {
-				path: (file as any).webkitRelativePath,
-				name: file.name,
-				directoryPath,
-				content: await file.text(),
-				hasUnsavedChanges: false
-			};
-
-			files.push(f);
-			directories.push(createDirectory(dirName, parentDir));
-
-			// TODO
+		if (!directoryFromFs) {
+			return;
 		}
 
-		const dirMap = new Map<string, Directory>();
-		directories.forEach(dir => dirMap.set(dir.path, dir));
-		const dirs = [...dirMap.values()];
-
-		console.log(files);
-		console.log(dirs);
-
-		this.store.dispatch(
-			WorkspaceActions.loadProject({
-				directories: dirs,
-				files,
-				projectName: files[0].path.split("/")[0]
-			})
+		const files: File[] = [];
+		const directoriesOfParent = await firstValueFrom(
+			this.store.select(DirectorySelectors.selectSubdirectories(parentDirectory))
 		);
+
+		const selectedFolderName = (
+			(directoryFromFs[0] as any)?.webkitRelativePath as string
+		).split("/")[0];
+		const directoryWithSameName = directoriesOfParent.find(d => d.name === selectedFolderName);
+
+		if (directoryWithSameName) {
+			console.log(`Replacing folder: ${selectedFolderName}`);
+			this.store.dispatch(
+				DirectoryActions.deleteDirectory({ directory: directoryWithSameName })
+			);
+		}
+
+		for await (const fileFromFs of directoryFromFs) {
+			const relativePath = (fileFromFs as any).webkitRelativePath as string;
+			const directoryHierarchy = relativePath.split("/");
+
+			// Remove filename part of directoryHierarchy
+			const name = directoryHierarchy.splice(-1)[0];
+			const directoryPath = directoryHierarchy.length > 0 ? directoryHierarchy.join("/") : "";
+			const path =
+				parentDirectory === "" ? relativePath : `${parentDirectory}/${relativePath}`;
+			const content = await fileFromFs.text();
+
+			const file: File = { path, name, directoryPath, content, hasUnsavedChanges: false };
+			files.push(file);
+		}
+
+		const directories = createDirectoriesFromFiles(files);
+
+		this.store.dispatch(DirectoryActions.addDirectories({ directories }));
+		files.forEach(file => this.store.dispatch(FileActions.addFile({ file })));
+	}
+
+	/** Opens a folder picker and returns the selected folder or `null`, if user cancelled the operation. */
+	private async openFolderPicker(): Promise<FileWithDirectoryHandle[] | null> {
+		try {
+			return await directoryOpen({ recursive: true });
+		} catch (error) {
+			// User probably closed the dialog without selecting a folder
+			return null;
+		}
 	}
 
 	async openDirectoryAndSynchronize(): Promise<void> {
@@ -312,7 +337,7 @@ export class FileSystemAccess {
 
 	/**
 	 * Writes the given `content` back to the file associated with the specified `path`.
-	 * Can only be used for files that were opened via {@link importFile} or {@link openDirectory}
+	 * Can only be used for files that were opened via {@link importFile} or {@link importFolder}
 	 * (meaning files that actually exist in the user's file system).
 	 *
 	 * @param path Absolute path of a file in the project (not in the file system!). See {@link File.path}.

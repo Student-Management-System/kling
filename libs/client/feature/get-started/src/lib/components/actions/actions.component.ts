@@ -32,7 +32,7 @@ export class ActionsComponent {
 	}
 
 	importFolder(): void {
-		this.fileSystem.openDirectory();
+		this.fileSystem.importFolder();
 	}
 
 	synchronizeFolder(): void {

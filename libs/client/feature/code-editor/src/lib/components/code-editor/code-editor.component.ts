@@ -13,7 +13,6 @@ import { ThemeService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
 import {
 	CodeExecutionService,
-	ExecuteRequest,
 	WorkspaceService,
 	WorkspaceSettingsService
 } from "@kling/ide-services";
@@ -29,7 +28,7 @@ import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 import { firstValueFrom, fromEvent, merge, Subject, Subscription } from "rxjs";
-import { take, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
 
@@ -74,7 +73,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		this.editor = await main(theme);
 
 		this.subs.sink = this.codeExecution.onTriggerExecution$.subscribe(() =>
-			this.createCodeExecutionRequest()
+			this.triggerCodeExecutionRequest()
 		);
 
 		this.subs.sink = this.subscribeToFileSelected();
@@ -146,7 +145,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		});
 
 		this.editor.addCommand(monaco.KeyCode.F5, () => {
-			this.createCodeExecutionRequest();
+			this.triggerCodeExecutionRequest();
 		});
 
 		this.editor.addAction({
@@ -168,24 +167,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 			contextMenuOrder: 1,
 			contextMenuGroupId: "Custom",
 			run: () => {
-				this.createCodeExecutionRequest();
-			}
-		});
-
-		this.editor.addAction({
-			id: "GET_RUNTIMES",
-			label: "Get Runtimes",
-			contextMenuOrder: 5,
-			contextMenuGroupId: "Custom",
-			run: () => {
-				this.codeExecution.getRuntimes().subscribe({
-					next: result => {
-						console.log(result);
-					},
-					error: error => {
-						console.log(error);
-					}
-				});
+				this.triggerCodeExecutionRequest();
 			}
 		});
 
@@ -251,46 +233,28 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		);
 	}
 
-	private createCodeExecutionRequest(): void {
-		this.workspace.entryPoint$.pipe(take(1)).subscribe(_entryPoint => {
-			const entryPoint = (_entryPoint || this.selectedFilePath) as string;
+	private async triggerCodeExecutionRequest(): Promise<void> {
+		const _entryPoint = await firstValueFrom(this.workspace.entryPoint$);
+		const entryPoint = (_entryPoint || this.selectedFilePath) as string;
 
-			if (this.editorModelByPath.has(entryPoint)) {
-				const language = this.getLanguageOfFile(entryPoint);
-				const version = this.getLanguageVersion(language!);
-				const stdin = this.workspace.getStdin();
-				const files: { name: string; content: string }[] = [];
+		if (this.editorModelByPath.has(entryPoint)) {
+			const stdin = this.workspace.getStdin();
+			const files: { name: string; content: string }[] = [];
 
-				// Main file must be the first file
-				files.push({
-					name: entryPoint,
-					content: this.editorModelByPath.get(entryPoint)!.textModel.getValue()
-				});
+			// Main file must be the first file
+			files.push({
+				name: entryPoint,
+				content: this.editorModelByPath.get(entryPoint)!.textModel.getValue()
+			});
 
-				this.editorModelByPath.forEach((model, path) => {
-					if (path !== entryPoint) {
-						files.push({ name: path, content: model.textModel.getValue() });
-					}
-				});
+			this.editorModelByPath.forEach((model, path) => {
+				if (path !== entryPoint) {
+					files.push({ name: path, content: model.textModel.getValue() });
+				}
+			});
 
-				const request: ExecuteRequest = { language: language!, version, stdin, files };
-
-				console.log(
-					`Running ${language} (${version}) code with "${entryPoint}" as entry point.`
-				);
-
-				this.codeExecution.execute(request).subscribe({
-					next: result => {
-						console.log(result);
-					},
-					error: error => {
-						console.log(error);
-					}
-				});
-			} else {
-				console.error(`Entry point "${entryPoint}" does not exist.`);
-			}
-		});
+			await this.codeExecution.execute({ files, stdin });
+		}
 	}
 
 	/**
@@ -425,18 +389,5 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 	private _disposeAllModels() {
 		monaco?.editor?.getModels().forEach(model => model.dispose());
 		this.editorModelByPath.clear();
-	}
-
-	private getLanguageVersion(language: string): string {
-		switch (language) {
-			case "java":
-				return "15.0.2";
-			case "python":
-				return "3.9.4";
-			case "typescript":
-				return "4.2.3";
-			default:
-				throw new Error("Unknown language");
-		}
 	}
 }

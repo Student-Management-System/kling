@@ -1,17 +1,7 @@
-.input-textarea-form-field {
-	::ng-deep .mat-form-field-outline {
-		background-color: var(--sidebar-header-bg) !important;
-	}
-
-	::ng-deep .mat-form-field-wrapper {
-		margin: 0px !important;
-	}
-
-	::ng-deep .mat-form-field-infix {
-		padding-top: 0px !important;
-	}
-}
-
-.selected {
-	background-color: var(--accent);
+textarea {
+	padding: 8px !important;
+	box-sizing: border-box !important;
+	white-space: pre;
+	overflow-wrap: normal;
+	overflow-x: scroll;
 }

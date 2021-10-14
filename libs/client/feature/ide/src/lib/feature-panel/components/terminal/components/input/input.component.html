@@ -2,15 +2,13 @@
 <div class="flex flex-col gap-2">
 	<span class="text-xl">{{ "Domain.Input" | translate }}</span>
 
-	<div class="w-full input-textarea-form-field">
-		<mat-form-field #formField class="w-full" appearance="fill">
-			<textarea
-				class="font-mono input-textarea"
-				#input
-				matInput
-				rows="10"
-				(change)="setInput(input.value)"
-			></textarea>
-		</mat-form-field>
+	<div class="font-mono">
+		<textarea
+			class="box-border p-2 rounded bg-[#EAEAEA] dark:bg-[#3B3B3C]"
+			#input
+			matInput
+			rows="10"
+			(change)="setInput(input.value)"
+		></textarea>
 	</div>
 </div>

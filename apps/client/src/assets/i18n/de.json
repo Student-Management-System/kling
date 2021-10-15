@@ -236,7 +236,8 @@
     "CompareParticipantsList": "Teilnehmerliste vergleichen",
     "CreateDirectory": "Ordner erstellen",
     "CreateFile": "Datei erstellen",
-    "CreateProblem": "Neues Problem erstellen"
+    "CreateProblem": "Neues Problem erstellen",
+    "CreateProject": "Neues Project erstellen"
   },
   "Text": {
     "Domain": {

@@ -24,4 +24,12 @@ export class IndexedDbService {
 			(window as any)["appIndexedDb"] = this;
 		}
 	}
+
+	/**
+	 * Deletes the entire `WebIdeDatabase`.
+	 * Mainly used to clear the db in e2e tests.
+	 */
+	async delete(): Promise<void> {
+		await this.db.delete();
+	}
 }

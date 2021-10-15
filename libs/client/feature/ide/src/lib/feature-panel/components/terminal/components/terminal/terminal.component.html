@@ -9,11 +9,14 @@
 		>
 			<ng-container *ngIf="output$ | async as output; else noOutput">
 				<div class="stdout" *ngIf="output.stdout?.length > 0">
-					<pre class="whitespace-pre-wrap">{{ output.stdout }}</pre>
+					<pre data-test="stdout" class="whitespace-pre-wrap">{{ output.stdout }}</pre>
 				</div>
 
-				<div class="text-red-700 stderr" *ngIf="output.stderr?.length > 0">
-					<pre>{{ output.stderr }}</pre>
+				<div
+					class="text-red-700 whitespace-pre-wrap stderr"
+					*ngIf="output.stderr?.length > 0"
+				>
+					<pre data-test="stderr">{{ output.stderr }}</pre>
 				</div>
 			</ng-container>
 		</div>

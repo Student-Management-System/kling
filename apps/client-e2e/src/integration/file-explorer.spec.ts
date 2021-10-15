@@ -24,10 +24,8 @@ function createFileFromDialog(filename: string) {
 
 describe("File Explorer", () => {
 	beforeEach(() => {
+		cy.clearIndexedDb();
 		cy.visit("/ide");
-		cy.useIndexedDbService(async idb => {
-			await idb.projects.delete("Playground");
-		});
 	});
 
 	describe("Create File Dialog", () => {

@@ -5,8 +5,8 @@ describe("File", () => {
 	const file = createFile("test.ts", undefined, "// test");
 
 	beforeEach(() => {
+		cy.clearIndexedDb();
 		cy.visit("/ide");
-		cy.useIndexedDbService(async idb => await idb.projects.delete("Playground"));
 		addFileWithUi(file);
 	});
 

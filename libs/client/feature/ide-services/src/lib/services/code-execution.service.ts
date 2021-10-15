@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Inject, Injectable, InjectionToken } from "@angular/core";
 import { getLanguageFromFilename } from "@kling/programming";
 import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
@@ -61,7 +61,7 @@ export const PISTON_API_URL = new InjectionToken<string>("URL of the piston code
 
 @Injectable({ providedIn: "root" })
 export class CodeExecutionService {
-	readonly executeResult$ = new BehaviorSubject<ExecuteResponse | null>(null);
+	readonly executeResult$ = new BehaviorSubject<ExecuteResponse | HttpErrorResponse | null>(null);
 
 	/** Map of installed programming languages mapped to their version. */
 	runtimes: { [language: string]: string } = {};
@@ -105,12 +105,11 @@ export class CodeExecutionService {
 	 * The result will be published via {@link executeResult$}.
 	 */
 	async execute(incompleteRequest: IncompleteExecuteRequest): Promise<void> {
-		const request = await this._createExecuteRequestObject(incompleteRequest);
-
 		this.isRunning$.next(true);
 		this.executeResult$.next(null);
 
 		try {
+			const request = await this._createExecuteRequestObject(incompleteRequest);
 			const result = await firstValueFrom(
 				this.http.post<ExecuteResponse>(this.executeUrl, request)
 			);
@@ -119,6 +118,10 @@ export class CodeExecutionService {
 		} catch (error) {
 			console.error(error);
 			this.isRunning$.next(false);
+
+			if (error instanceof HttpErrorResponse) {
+				this.executeResult$.next(error);
+			}
 		}
 	}
 

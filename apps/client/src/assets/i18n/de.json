@@ -130,7 +130,8 @@
     "SomethingWentWrong": "Ups, da ist etwas schief gelaufen!",
     "ValueMissing": "Fehlender Wert.",
     "ForbiddenCharacter": "Beeinhaltet ein verbotenes Symmbol ({{forbiddenCharacters}}).",
-    "FailedToLoadProject": "Project \"{{project}}\" konnte nicht geladen werden."
+    "FailedToLoadProject": "Project \"{{project}}\" konnte nicht geladen werden.",
+    "Piston": "Bei der Kommunikation mit der Piston API ist ein Fehler aufgetreten.\nDein Program ist nicht für dieses Problem verantwortlich."
   },
   "Event": {
     "UserJoinedCourseEvent": "ist dem Kurs beigreten.",

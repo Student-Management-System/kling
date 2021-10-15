@@ -130,7 +130,8 @@
     "SomethingWentWrong": "Oops, something went wrong!",
     "ValueMissing": "Value is missing.",
     "ForbiddenCharacter": "Contains a forbidden character ({{forbiddenCharacters}}).",
-    "FailedToLoadProject": "Failed to load project \"{{projectName}}\"."
+    "FailedToLoadProject": "Failed to load project \"{{projectName}}\".",
+    "Piston": "An error occurred while communicating with the Piston API.\nThis issue was not caused by your program."
   },
   "Event": {
     "UserJoinedCourseEvent": "joined the course.",

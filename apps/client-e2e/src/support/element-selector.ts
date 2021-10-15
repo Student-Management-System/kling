@@ -32,6 +32,12 @@ export const Select = {
 	file: {
 		unsavedChangesIndicator: "unsavedChangesIndicator"
 	},
+	terminal: {
+		stdout: "stdout",
+		stderr: "stderr",
+		stdin: "stdin"
+	},
+	runCode: "runCodeBtn",
 	dialog: {
 		createProject: {
 			container: "create-project-dialog",

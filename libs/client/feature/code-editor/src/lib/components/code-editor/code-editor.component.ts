@@ -101,6 +101,9 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		});
 
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+		monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+			strict: true
+		});
 
 		this.editor.onDidChangeModelContent(() => {
 			if (!this.filesWithUnsavedChanges.has(this.selectedFilePath!)) {

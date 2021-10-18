@@ -89,7 +89,8 @@ export class FileEffects {
 			queryParams: {
 				file: path
 			},
-			queryParamsHandling: "merge"
+			queryParamsHandling: "merge",
+			preserveFragment: true
 		});
 	}
 }

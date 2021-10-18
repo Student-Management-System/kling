@@ -2,9 +2,10 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 const routes: Routes = [
+	{ path: "ide", loadChildren: () => import("@kling/ide").then(m => m.IdeModule) },
 	{
-		path: "problems/:problemId",
-		loadChildren: () => import("@kling/ide").then(m => m.IdeModule)
+		path: "collaboration",
+		loadChildren: () => import("@kling/collaboration").then(m => m.CollaborationModule)
 	},
 	{
 		path: "problem-editor",
@@ -15,8 +16,7 @@ const routes: Routes = [
 		path: "problems",
 		loadChildren: () =>
 			import("./problem-list/problem-list.module").then(m => m.ProblemListModule)
-	},
-	{ path: "ide", loadChildren: () => import("@kling/ide").then(m => m.IdeModule) }
+	}
 ];
 
 @NgModule({

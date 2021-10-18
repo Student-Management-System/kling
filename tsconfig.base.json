@@ -21,6 +21,7 @@
 			"@kling/client-shared": ["libs/client/feature/shared/src/index.ts"],
 			"@kling/client/data-access/state": ["libs/client/data-access/state/src/index.ts"],
 			"@kling/code-editor": ["libs/client/feature/code-editor/src/index.ts"],
+			"@kling/collaboration": ["libs/client/feature/collaboration/src/index.ts"],
 			"@kling/file-tabs": ["libs/client/feature/file-tabs/src/index.ts"],
 			"@kling/get-started": ["libs/client/feature/get-started/src/index.ts"],
 			"@kling/ide": ["libs/client/feature/ide/src/index.ts"],

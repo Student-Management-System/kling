@@ -31,6 +31,8 @@ import { firstValueFrom, fromEvent, merge, Subject, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
+import { CollaborationService } from "@kling/collaboration";
+import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 
 interface EditorModelState {
 	textModel: monaco.editor.ITextModel;
@@ -62,6 +64,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		private readonly themeService: ThemeService,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
+		private readonly collaboration: CollaborationService,
 		private readonly cdRef: ChangeDetectorRef
 	) {
 		super();
@@ -114,27 +117,24 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 		this.registerCustomActions();
 
-		// connectAnonymously(
-		// 	"http://localhost:8000/api/realtime/convergence/default",
-		// 	"User-" + Math.floor(Math.random() * 1000)
-		// )
-		// 	.then(d => {
-		// 		// Now open the model, creating it using the initial data if it does not exist.
-		// 		return d.models().openAutoCreate({
-		// 			collection: "example-monaco",
-		// 			id: "convergenceExampleId",
-		// 			data: {
-		// 				text: this.getFileContent(this.selectedFilePath)
-		// 			}
-		// 		});
-		// 	})
-		// 	.then(model => {
-		// 		const adapter = new MonacoConvergenceAdapter(this.editor, model.elementAt("text"));
-		// 		adapter.bind();
-		// 	})
-		// 	.catch(error => {
-		// 		console.error("Could not open model ", error);
-		// 	});
+		this.subs.sink = this.collaboration.activeSessionId$.subscribe(session => {
+			if (session) {
+				this.subs.sink = this.store
+					.select(FileSelectors.selectSelectedFilePath)
+					.subscribe(path => {
+						if (path) {
+							console.log("Creating MonacoConvergenceAdapter for " + path);
+							const realTimeModel = this.collaboration.getRealTimeFile(path);
+							console.log(realTimeModel);
+							const adapter = new MonacoConvergenceAdapter(
+								this.editor,
+								realTimeModel
+							);
+							adapter.bind();
+						}
+					});
+			}
+		});
 
 		this.codeEditorInit.emit();
 	}

@@ -85,7 +85,6 @@
 						"main": "apps/client/src/main.ts",
 						"polyfills": "apps/client/src/polyfills.ts",
 						"tsConfig": "apps/client/tsconfig.app.json",
-						"aot": true,
 						"assets": [
 							"apps/client/src/favicon.ico",
 							"apps/client/src/assets",
@@ -115,8 +114,7 @@
 							"apps/client/src/styles.scss",
 							"apps/client/src/custom-theme.scss",
 							"node_modules/ngx-toastr/toastr.css"
-						],
-						"scripts": ["node_modules/marked/lib/marked.js"]
+						]
 					},
 					"configurations": {
 						"development": {
@@ -125,7 +123,8 @@
 							"vendorChunk": true,
 							"extractLicenses": false,
 							"sourceMap": true,
-							"namedChunks": true
+							"namedChunks": true,
+							"showCircularDependencies": false
 						},
 						"production": {
 							"fileReplacements": [
@@ -134,13 +133,6 @@
 									"with": "libs/client/shared/environments/src/lib/environment.prod.ts"
 								}
 							],
-							"optimization": true,
-							"outputHashing": "all",
-							"sourceMap": false,
-							"namedChunks": false,
-							"extractLicenses": true,
-							"vendorChunk": false,
-							"buildOptimizer": true,
 							"budgets": [
 								{
 									"type": "initial",
@@ -346,6 +338,47 @@
 						"lintFilePatterns": [
 							"libs/client/feature/code-editor/src/**/*.ts",
 							"libs/client/feature/code-editor/src/**/*.html"
+						]
+					}
+				}
+			}
+		},
+		"client-feature-collaboration": {
+			"projectType": "library",
+			"root": "libs/client/feature/collaboration",
+			"sourceRoot": "libs/client/feature/collaboration/src",
+			"prefix": "kling",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:ng-packagr-lite",
+					"outputs": ["dist/libs/client/feature/collaboration"],
+					"options": {
+						"project": "libs/client/feature/collaboration/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/client/feature/collaboration/tsconfig.lib.prod.json"
+						},
+						"development": {
+							"tsConfig": "libs/client/feature/collaboration/tsconfig.lib.json"
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/client/feature/collaboration"],
+					"options": {
+						"jestConfig": "libs/client/feature/collaboration/jest.config.js",
+						"passWithNoTests": true
+					}
+				},
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": [
+							"libs/client/feature/collaboration/src/**/*.ts",
+							"libs/client/feature/collaboration/src/**/*.html"
 						]
 					}
 				}

@@ -48,6 +48,9 @@
 		"client-feature-code-editor": {
 			"tags": ["scope:client", "type:feature"]
 		},
+		"client-feature-collaboration": {
+			"tags": ["scope:client", "type:feature"]
+		},
 		"client-feature-get-started": {
 			"tags": ["scope:client", "type:feature"]
 		},

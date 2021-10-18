@@ -13,7 +13,8 @@ module.exports = {
 		"<rootDir>/libs/client/feature/shared",
 		"<rootDir>/libs/client/feature/code-editor",
 		"<rootDir>/libs/client/feature/ide-dialogs",
-		"<rootDir>/libs/client/feature/ide"
+		"<rootDir>/libs/client/feature/ide",
+		"<rootDir>/libs/client/feature/collaboration"
 	],
 	reporters:
 		process.env.NODE_ENV === "CI" ? ["default", "jest-github-actions-reporter"] : ["default"]

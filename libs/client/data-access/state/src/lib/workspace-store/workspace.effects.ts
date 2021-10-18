@@ -29,7 +29,8 @@ export class WorkspaceEffects {
 						queryParams: {
 							project: action.projectName
 						},
-						queryParamsHandling: "merge"
+						queryParamsHandling: "merge",
+						preserveFragment: true
 					});
 				} else {
 					console.error(`Project "${action.projectName}" does not exist.`);

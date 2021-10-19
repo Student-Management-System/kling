@@ -53,8 +53,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 	private editor!: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByPath = new Map<string, EditorModelState>();
+	private adapterByPath = new Map<string, MonacoConvergenceAdapter>();
 	private filesWithUnsavedChanges = new Set<string>();
 	private showRulers = true;
+	private hasCollaborationSession = false;
 
 	constructor(
 		private readonly store: Store,
@@ -82,7 +84,13 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		this.subs.sink = this.subscribeToFileSelected();
 		this.subs.sink = this.subscribeToFileAdded();
 		this.subs.sink = this.subscribeToFileRemoved();
-		this.subs.sink = this.workspace.init$.subscribe(() => this._disposeAllModels());
+
+		this.subs.sink = this.workspace.init$.subscribe(() => {
+			this.editorModelByPath.clear();
+			this.adapterByPath.clear();
+			this._disposeAllModels();
+		});
+
 		this.subs.sink = this.actions$
 			.pipe(
 				ofType(FileActions.fileSaved),
@@ -118,22 +126,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		this.registerCustomActions();
 
 		this.subs.sink = this.collaboration.activeSessionId$.subscribe(session => {
-			if (session) {
-				this.subs.sink = this.store
-					.select(FileSelectors.selectSelectedFilePath)
-					.subscribe(path => {
-						if (path) {
-							console.log("Creating MonacoConvergenceAdapter for " + path);
-							const realTimeModel = this.collaboration.getRealTimeFile(path);
-							console.log(realTimeModel);
-							const adapter = new MonacoConvergenceAdapter(
-								this.editor,
-								realTimeModel
-							);
-							adapter.bind();
-						}
-					});
-			}
+			this.hasCollaborationSession = !!session;
 		});
 
 		this.codeEditorInit.emit();
@@ -291,6 +284,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 			textModel.dispose();
 
 			this.editorModelByPath.delete(file.path);
+			this.adapterByPath.delete(file.path);
 			this.filesWithUnsavedChanges.delete(file.path);
 		});
 	}
@@ -312,6 +306,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 				tap(path => {
 					if (path) {
 						this.saveCurrentViewState();
+
+						if (this.hasCollaborationSession && !this.adapterByPath.has(path)) {
+							this.createConvergenceAdapter(path);
+						}
 					}
 					this.switchToSelectedFile(path);
 					this.selectedFilePath = path;
@@ -319,6 +317,22 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 				})
 			)
 			.subscribe();
+	}
+
+	private createConvergenceAdapter(path: string) {
+		console.log("Creating MonacoConvergenceAdapter for " + path);
+		const textModel = this.editorModelByPath.get(path)?.textModel;
+		const realTimeString = this.collaboration.getRealTimeFile(path);
+		if (!textModel) {
+			throw new Error("No model: " + path);
+		}
+		if (!realTimeString) {
+			throw new Error("No RealTimeString: " + path);
+		}
+		this.adapterByPath.set(
+			path,
+			new MonacoConvergenceAdapter(this.editor, textModel, realTimeString)
+		);
 	}
 
 	/**

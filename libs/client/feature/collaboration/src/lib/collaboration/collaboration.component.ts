@@ -2,7 +2,7 @@ import { Location } from "@angular/common";
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastService } from "@kling/client-shared";
-import { DirectorySelectors, FileSelectors } from "@kling/client/data-access/state";
+import { DirectorySelectors, FileActions, FileSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { firstValueFrom } from "rxjs";
 import { CollaborationService } from "../collaboration.service";
@@ -14,7 +14,7 @@ import { CollaborationService } from "../collaboration.service";
 })
 export class CollaborationComponent implements OnInit {
 	chatMessageInput = "";
-	shareUrl = window.location.href;
+	shareUrl!: string | null;
 
 	readonly activeSessionId$ = this.collaborationService.activeSessionId$;
 	readonly collaborators$ = this.collaborationService.collaborators$;
@@ -32,10 +32,12 @@ export class CollaborationComponent implements OnInit {
 	) {}
 
 	async ngOnInit(): Promise<void> {
-		const { username, share } = this.route.snapshot.queryParams;
+		const { username, share, file } = this.route.snapshot.queryParams;
 		this.username = username;
+
 		if (share) {
-			await this.collaborationService.joinSession(username, share);
+			await this.joinSession(share);
+			this.store.dispatch(FileActions.setSelectedFile({ path: file }));
 		}
 	}
 
@@ -60,17 +62,32 @@ export class CollaborationComponent implements OnInit {
 			preserveFragment: true
 		});
 
-		this.shareUrl = window.location.href;
-
+		this.shareUrl = this.generateShareUrl(sessionId);
 		this.toast.success("Connected to session: " + sessionId, "Collaboration");
+	}
+
+	async joinSession(id: string): Promise<void> {
+		this.shareUrl = this.generateShareUrl(id);
+		await this.collaborationService.joinSession(this.username, id);
+	}
+
+	private generateShareUrl(id: string): string {
+		return `${window.location.origin}/ide?share=${id}`;
 	}
 
 	sendChatMessage(text: string): Promise<void> {
 		return this.collaborationService.sendChatMessage(text);
 	}
 
-	disconnect(): Promise<void> {
-		return this.collaborationService.disconnect();
+	async disconnect(): Promise<void> {
+		await this.collaborationService.disconnect();
+		this.router.navigate([], {
+			queryParams: {
+				share: undefined
+			},
+			queryParamsHandling: "merge",
+			preserveFragment: true
+		});
 	}
 
 	copyToClipboard(text: string): void {

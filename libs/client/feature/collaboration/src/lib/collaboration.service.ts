@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import {
 	Chat,
 	ChatMessageEvent,
@@ -7,11 +6,29 @@ import {
 	ConvergenceDomain,
 	ModelCollaborator,
 	RealTimeElement,
-	RealTimeModel
+	RealTimeModel,
+	RealTimeString
 } from "@convergence/convergence";
+import { WorkspaceActions } from "@kling/client/data-access/state";
+import { ExecuteResponse } from "@kling/ide-services";
 import { Directory, File } from "@kling/programming";
+import { Store } from "@ngrx/store";
 import { nanoid } from "nanoid";
 import { BehaviorSubject, Subscription } from "rxjs";
+
+type DataModel = {
+	files: {
+		[path: string]: File;
+	};
+	directories: Directory[];
+	selectedByUser: {
+		[username: string]: string | null;
+	};
+	terminal: {
+		input: string;
+		output: ExecuteResponse | null;
+	};
+};
 
 @Injectable({ providedIn: "root" })
 export class CollaborationService {
@@ -52,16 +69,14 @@ export class CollaborationService {
 		})()
 	);
 
-	private chat!: Chat;
-	private domain!: ConvergenceDomain;
-
 	public model!: RealTimeModel;
 
-	private convergenceUrl = "http://localhost:8000/api/realtime/convergence/default";
-
+	private chat!: Chat;
+	private domain!: ConvergenceDomain;
+	private convergenceUrl = "http://localhost:8000/api/realtime/convergence/default" as const;
 	private subscriptions: Subscription[] = [];
 
-	constructor() {}
+	constructor(private readonly store: Store) {}
 
 	async createSession(
 		username: string,
@@ -75,46 +90,37 @@ export class CollaborationService {
 
 		const sessionId = nanoid(6);
 
-		const files: { [path: string]: string } = {};
+		const files: { [path: string]: File } = {};
 		project.files.forEach(file => {
-			files[file.path] = file.content;
+			files[file.path] = file;
 		});
 
-		this.model = await this.createModel(sessionId, files, project, username);
+		const data: DataModel = {
+			files,
+			directories: project.directories,
+			selectedByUser: {
+				[username]: project.selectedFile
+			},
+			terminal: {
+				input: "",
+				output: null
+			}
+		};
 
-		this.model.collaboratorsAsObservable().subscribe(collaborators => {
-			this.collaborators$.next(collaborators);
-		});
-
-		//await this.joinChat(sessionId);
-
-		this.activeSessionId$.next(sessionId);
+		await this.createModel(sessionId, data);
+		await this.joinSession(username, sessionId);
 
 		return sessionId;
 	}
 
-	private async createModel(
-		sessionId: string,
-		files: { [path: string]: string },
-		project: { files: File[]; directories: Directory[]; selectedFile: string | null },
-		username: string
-	): Promise<RealTimeModel> {
+	private async createModel(sessionId: string, data: DataModel): Promise<RealTimeModel> {
 		try {
+			console.log("Convergence: Creating model for session " + sessionId);
 			return await this.domain.models().openAutoCreate({
 				collection: "collaboration",
 				id: sessionId,
 				ephemeral: false,
-				data: {
-					files,
-					directories: project.directories,
-					selectedByUser: {
-						[username]: project.selectedFile
-					},
-					terminal: {
-						input: "",
-						output: null
-					}
-				}
+				data
 			});
 		} catch (error) {
 			console.error("Convergence: Failed to create model");
@@ -136,28 +142,33 @@ export class CollaborationService {
 	}
 
 	async joinSession(username: string, id: string): Promise<void> {
-		await this.connectToConvergence(username);
+		if (!this.domain?.isConnected()) {
+			await this.connectToConvergence(username);
+		}
 
+		console.log("Convergence: Joining session " + id);
 		this.model = await this.domain.models().open(id);
 
-		//await this.joinChat(id);
+		const data = this.model.root().value() as DataModel;
 
-		this.activeSessionId$.next(id);
-
-		this.model
-			.root()
-			.events()
-			.subscribe(event => {
-				console.log(event);
-			});
+		this.store.dispatch(
+			WorkspaceActions.loadProject({
+				projectName: `share-${id}`,
+				files: Object.values(data.files),
+				directories: data.directories
+			})
+		);
 
 		this.model.collaboratorsAsObservable().subscribe(collaborators => {
 			this.collaborators$.next(collaborators);
 		});
+
+		console.log("Convergence: Joined session " + id);
+		this.activeSessionId$.next(id);
 	}
 
-	getRealTimeFile(path: string): RealTimeElement<string> {
-		return this.model.root().elementAt(["files", path]);
+	getRealTimeFile(path: string): RealTimeString {
+		return this.model.root().elementAt(["files", path, "content"]) as RealTimeString;
 	}
 
 	async sendChatMessage(text: string): Promise<void> {

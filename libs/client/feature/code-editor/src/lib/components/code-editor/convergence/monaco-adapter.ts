@@ -15,6 +15,7 @@ import {
 
 export class MonacoConvergenceAdapter {
 	private monacoEditor: monaco.editor.IStandaloneCodeEditor;
+	private textModel: monaco.editor.ITextModel;
 	private content: RealTimeString;
 	private colorAssigner!: ColorAssigner;
 	private contentManager!: EditorContentManager;
@@ -23,13 +24,16 @@ export class MonacoConvergenceAdapter {
 	private selectionReference!: LocalRangeReference;
 	private cursorReference!: LocalIndexReference;
 
-	constructor(monacoEditor: monaco.editor.IStandaloneCodeEditor, realtimeString: RealTimeString) {
+	constructor(
+		monacoEditor: monaco.editor.IStandaloneCodeEditor,
+		textModel: monaco.editor.ITextModel,
+		realtimeString: RealTimeString
+	) {
 		this.monacoEditor = monacoEditor;
+		this.textModel = textModel;
 		this.content = realtimeString;
 		this.colorAssigner = new ColorAssigner();
-	}
 
-	bind(): void {
 		this.initSharedData();
 		this.initSharedCursors();
 		this.initSharedSelection();
@@ -97,8 +101,13 @@ export class MonacoConvergenceAdapter {
 
 	private setLocalCursor(): void {
 		const position = this.monacoEditor.getPosition();
-		const offset = this.monacoEditor.getModel()!.getOffsetAt(position!);
-		this.cursorReference.set(offset);
+
+		if (position) {
+			const offset = this.textModel.getOffsetAt(position);
+			this.cursorReference.set(offset);
+		} else {
+			this.cursorReference.set(-1);
+		}
 	}
 
 	private addRemoteCursor(reference: ModelReference): void {
@@ -146,9 +155,9 @@ export class MonacoConvergenceAdapter {
 
 	private setLocalSelection(): void {
 		const selection = this.monacoEditor.getSelection();
-		if (!selection!.isEmpty()) {
-			const start = this.monacoEditor.getModel()!.getOffsetAt(selection!.getStartPosition());
-			const end = this.monacoEditor.getModel()!.getOffsetAt(selection!.getEndPosition());
+		if (selection && !selection!.isEmpty()) {
+			const start = this.textModel.getOffsetAt(selection!.getStartPosition());
+			const end = this.textModel.getOffsetAt(selection!.getEndPosition());
 			this.selectionReference.set({ start, end });
 		} else if (this.selectionReference.isSet()) {
 			this.selectionReference.clear();

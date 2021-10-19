@@ -37,7 +37,7 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	async handleEditorInit(): Promise<void> {
-		const { project, file } = this.route.snapshot.queryParams;
+		const { project, file, share } = this.route.snapshot.queryParams;
 
 		if (project) {
 			await this.workspaceService.restoreProject(project, false);
@@ -46,12 +46,13 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 				this.store.dispatch(FileActions.setSelectedFile({ path: file }));
 			}
 		} else {
-			const [mostRecentProject] = await this.indexedDb.projects.getMany();
-
-			if (mostRecentProject) {
-				await this.workspaceService.restoreProject(mostRecentProject.name, false);
-			} else {
-				await this.workspaceService.createOrRestoreInMemoryProject("Playground");
+			if (!share) {
+				const [mostRecentProject] = await this.indexedDb.projects.getMany();
+				if (mostRecentProject) {
+					await this.workspaceService.restoreProject(mostRecentProject.name, false);
+				} else {
+					await this.workspaceService.createOrRestoreInMemoryProject("Playground");
+				}
 			}
 		}
 	}

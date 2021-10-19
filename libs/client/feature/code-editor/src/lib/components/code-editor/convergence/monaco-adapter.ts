@@ -1,101 +1,109 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ColorAssigner } from "@convergence/color-assigner";
+import * as monaco from "monaco-editor";
 import {
 	EditorContentManager,
 	RemoteCursorManager,
 	RemoteSelectionManager
 } from "@convergencelabs/monaco-collab-ext";
+import {
+	LocalIndexReference,
+	LocalRangeReference,
+	ModelReference,
+	RealTimeString
+} from "@convergence/convergence";
 
 export class MonacoConvergenceAdapter {
-	private _monacoEditor: any;
-	private _model: any;
-	private _colorAssigner: any;
-	private _contentManager: any;
-	private _remoteCursorManager: any;
-	private _remoteSelectionManager: any;
-	private _selectionReference: any;
-	private _cursorReference: any;
+	private monacoEditor: monaco.editor.IStandaloneCodeEditor;
+	private content: RealTimeString;
+	private colorAssigner!: ColorAssigner;
+	private contentManager!: EditorContentManager;
+	private remoteCursorManager!: RemoteCursorManager;
+	private remoteSelectionManager!: RemoteSelectionManager;
+	private selectionReference!: LocalRangeReference;
+	private cursorReference!: LocalIndexReference;
 
-	constructor(monacoEditor: any, realtimeString: any) {
-		this._monacoEditor = monacoEditor;
-		this._model = realtimeString;
-		this._colorAssigner = new ColorAssigner();
+	constructor(monacoEditor: monaco.editor.IStandaloneCodeEditor, realtimeString: RealTimeString) {
+		this.monacoEditor = monacoEditor;
+		this.content = realtimeString;
+		this.colorAssigner = new ColorAssigner();
 	}
 
 	bind(): void {
-		this._initSharedData();
-		this._initSharedCursors();
-		this._initSharedSelection();
+		this.initSharedData();
+		this.initSharedCursors();
+		this.initSharedSelection();
 	}
 
-	_initSharedData(): void {
-		this._contentManager = new EditorContentManager({
-			editor: this._monacoEditor,
+	private initSharedData(): void {
+		this.contentManager = new EditorContentManager({
+			editor: this.monacoEditor,
 			onInsert: (index, text) => {
-				this._model.insert(index, text);
+				this.content.insert(index, text);
 			},
 			onReplace: (index, length, text) => {
-				this._model.model().startBatch();
-				this._model.remove(index, length);
-				this._model.insert(index, text);
-				this._model.model().completeBatch();
+				this.content.model().startBatch();
+				this.content.remove(index, length);
+				this.content.insert(index, text);
+				this.content.model().completeBatch();
 			},
 			onDelete: (index, length) => {
-				this._model.remove(index, length);
+				this.content.remove(index, length);
 			},
 			remoteSourceId: "convergence"
 		});
 
-		this._model.events().subscribe(e => {
+		this.content.events().subscribe(e => {
 			switch (e.name) {
 				case "insert":
-					this._contentManager.insert(e.index, e.value);
+					this.contentManager.insert((e as any).index, (e as any).value);
 					break;
 				case "remove":
-					this._contentManager.delete(e.index, e.value.length);
+					this.contentManager.delete((e as any).index, (e as any).value.length);
 					break;
 				default:
 			}
 		});
 	}
 
-	_initSharedCursors(): void {
-		this._remoteCursorManager = new RemoteCursorManager({
-			editor: this._monacoEditor,
+	private initSharedCursors(): void {
+		this.remoteCursorManager = new RemoteCursorManager({
+			editor: this.monacoEditor,
 			tooltips: true,
 			tooltipDuration: 2
 		});
-		this._cursorReference = this._model.indexReference("cursor");
+		this.cursorReference = this.content.indexReference("cursor");
 
-		const references = this._model.references({ key: "cursor" });
+		const references = this.content.references({ key: "cursor" });
 		references.forEach(reference => {
 			if (!reference.isLocal()) {
-				this._addRemoteCursor(reference);
+				this.addRemoteCursor(reference);
 			}
 		});
 
-		this._setLocalCursor();
-		this._cursorReference.share();
+		this.setLocalCursor();
+		this.cursorReference.share();
 
-		this._monacoEditor.onDidChangeCursorPosition(e => {
-			this._setLocalCursor();
+		this.monacoEditor.onDidChangeCursorPosition(e => {
+			this.setLocalCursor();
 		});
 
-		this._model.on("reference", e => {
-			if (e.reference.key() === "cursor") {
-				this._addRemoteCursor(e.reference);
+		this.content.on("reference", e => {
+			if ((e as any).reference.key() === "cursor") {
+				this.addRemoteCursor((e as any).reference);
 			}
 		});
 	}
 
-	_setLocalCursor(): void {
-		const position = this._monacoEditor.getPosition();
-		const offset = this._monacoEditor.getModel().getOffsetAt(position);
-		this._cursorReference.set(offset);
+	private setLocalCursor(): void {
+		const position = this.monacoEditor.getPosition();
+		const offset = this.monacoEditor.getModel()!.getOffsetAt(position!);
+		this.cursorReference.set(offset);
 	}
 
-	_addRemoteCursor(reference: any): void {
-		const color = this._colorAssigner.getColorAsHex(reference.sessionId());
-		const remoteCursor = this._remoteCursorManager.addCursor(
+	private addRemoteCursor(reference: ModelReference): void {
+		const color = this.colorAssigner.getColorAsHex(reference.sessionId());
+		const remoteCursor = this.remoteCursorManager.addCursor(
 			reference.sessionId(),
 			color,
 			reference.user().displayName
@@ -109,47 +117,47 @@ export class MonacoConvergenceAdapter {
 		});
 	}
 
-	_initSharedSelection(): void {
-		this._remoteSelectionManager = new RemoteSelectionManager({
-			editor: this._monacoEditor
+	private initSharedSelection(): void {
+		this.remoteSelectionManager = new RemoteSelectionManager({
+			editor: this.monacoEditor
 		});
 
-		this._selectionReference = this._model.rangeReference("selection");
-		this._setLocalSelection();
-		this._selectionReference.share();
+		this.selectionReference = this.content.rangeReference("selection");
+		this.setLocalSelection();
+		this.selectionReference.share();
 
-		this._monacoEditor.onDidChangeCursorSelection(e => {
-			this._setLocalSelection();
+		this.monacoEditor.onDidChangeCursorSelection(e => {
+			this.setLocalSelection();
 		});
 
-		const references = this._model.references({ key: "selection" });
+		const references = this.content.references({ key: "selection" });
 		references.forEach(reference => {
 			if (!reference.isLocal()) {
-				this._addRemoteSelection(reference);
+				this.addRemoteSelection(reference);
 			}
 		});
 
-		this._model.on("reference", e => {
-			if (e.reference.key() === "selection") {
-				this._addRemoteSelection(e.reference);
+		this.content.on("reference", e => {
+			if ((e as any).reference.key() === "selection") {
+				this.addRemoteSelection((e as any).reference);
 			}
 		});
 	}
 
-	_setLocalSelection(): void {
-		const selection = this._monacoEditor.getSelection();
-		if (!selection.isEmpty()) {
-			const start = this._monacoEditor.getModel().getOffsetAt(selection.getStartPosition());
-			const end = this._monacoEditor.getModel().getOffsetAt(selection.getEndPosition());
-			this._selectionReference.set({ start, end });
-		} else if (this._selectionReference.isSet()) {
-			this._selectionReference.clear();
+	private setLocalSelection(): void {
+		const selection = this.monacoEditor.getSelection();
+		if (!selection!.isEmpty()) {
+			const start = this.monacoEditor.getModel()!.getOffsetAt(selection!.getStartPosition());
+			const end = this.monacoEditor.getModel()!.getOffsetAt(selection!.getEndPosition());
+			this.selectionReference.set({ start, end });
+		} else if (this.selectionReference.isSet()) {
+			this.selectionReference.clear();
 		}
 	}
 
-	_addRemoteSelection(reference: any): void {
-		const color = this._colorAssigner.getColorAsHex(reference.sessionId());
-		const remoteSelection = this._remoteSelectionManager.addSelection(
+	private addRemoteSelection(reference: ModelReference): void {
+		const color = this.colorAssigner.getColorAsHex(reference.sessionId());
+		const remoteSelection = this.remoteSelectionManager.addSelection(
 			reference.sessionId(),
 			color
 		);

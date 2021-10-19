@@ -15,10 +15,10 @@ export class FileTabEffects {
 		return this.actions$.pipe(
 			ofType(FileTabActions.removeFileTab, FileTabActions.removeFileTab_FileRemoved),
 			withLatestFrom(
-				this.store.select(FileSelectors.selectCurrentFile),
+				this.store.select(FileSelectors.selectSelectedFilePath),
 				this.store.select(FileTabSelectors.getFileTabs)
 			),
-			filter(([action, currentFile]) => action.path === currentFile?.path),
+			filter(([action, selectedFilePath]) => action.path === selectedFilePath),
 			map(([_action, _currentFile, tabs]) =>
 				FileActions.setSelectedFile_FileTabRemoved({
 					path: tabs[0] ?? null

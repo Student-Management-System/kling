@@ -19,7 +19,7 @@ import { Observable } from "rxjs";
 export class DirectoryComponent implements OnInit {
 	@Input() directory: Directory;
 	/** The file that is currently selected by the user (displayed in the editor). */
-	@Input() selectedFile: File | null;
+	@Input() selectedFilePath: string | null;
 
 	/** Subdirectories of this directory. */
 	directories$: Observable<Directory[]>;

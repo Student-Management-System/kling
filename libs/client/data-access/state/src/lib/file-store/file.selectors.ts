@@ -7,11 +7,6 @@ export const selectAllFiles = createSelector(selectFileState, fromFile.selectAll
 
 export const selectFileEntities = createSelector(selectFileState, fromFile.selectEntities);
 
-export const selectCurrentFile = createSelector(
-	selectFileState,
-	state => state.entities[state.selectedFilePath]
-);
-
 export const selectSelectedFilePath = createSelector(
 	selectFileState,
 	state => state.selectedFilePath

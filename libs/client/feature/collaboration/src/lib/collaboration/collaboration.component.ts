@@ -43,13 +43,13 @@ export class CollaborationComponent implements OnInit {
 		const [files, directories, selectedFile] = await Promise.all([
 			firstValueFrom(this.store.select(FileSelectors.selectAllFiles)),
 			firstValueFrom(this.store.select(DirectorySelectors.selectAllDirectories)),
-			firstValueFrom(this.store.select(FileSelectors.selectCurrentFile))
+			firstValueFrom(this.store.select(FileSelectors.selectSelectedFilePath))
 		]);
 
 		const sessionId = await this.collaborationService.createSession(this.username, {
 			files,
 			directories,
-			selectedFile: selectedFile?.path ?? null
+			selectedFile
 		});
 
 		await this.router.navigate([], {

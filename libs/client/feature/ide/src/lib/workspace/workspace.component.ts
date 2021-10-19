@@ -13,7 +13,7 @@ import { Store } from "@ngrx/store";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, OnDestroy {
-	selectedFile$ = this.store.select(FileSelectors.selectCurrentFile);
+	selectedFile$ = this.store.select(FileSelectors.selectSelectedFilePath);
 	selectedSideBarTab: string;
 	layout: WorkspaceLayout;
 

@@ -307,14 +307,14 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 	private subscribeToFileSelected(): Subscription {
 		return this.store
-			.select(FileSelectors.selectCurrentFile)
+			.select(FileSelectors.selectSelectedFilePath)
 			.pipe(
-				tap(file => {
-					if (file) {
+				tap(path => {
+					if (path) {
 						this.saveCurrentViewState();
 					}
-					this.switchToSelectedFile(file);
-					this.selectedFilePath = file?.path;
+					this.switchToSelectedFile(path);
+					this.selectedFilePath = path;
 					this.cdRef.detectChanges();
 				})
 			)
@@ -325,13 +325,13 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 	 * Sets the editor's model to the model associated with the given `file`.
 	 * Also restores the view state (i.e scroll position, selections), if it has been saved before.
 	 */
-	private switchToSelectedFile(file: File | null | undefined) {
-		const editorModelState = file ? this.editorModelByPath.get(file.path) : null;
+	private switchToSelectedFile(path: string | null | undefined) {
+		const editorModelState = path ? this.editorModelByPath.get(path) : null;
 		if (editorModelState) {
-			this.editor?.setModel(editorModelState.textModel);
+			this.editor.setModel(editorModelState.textModel);
 
 			if (editorModelState.viewState) {
-				this.editor?.restoreViewState(editorModelState.viewState);
+				this.editor.restoreViewState(editorModelState.viewState);
 			}
 
 			this.editor.focus();

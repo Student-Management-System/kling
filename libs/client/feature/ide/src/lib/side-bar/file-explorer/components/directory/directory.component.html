@@ -49,14 +49,17 @@
 			<ng-container *ngFor="let file of files$ | async">
 				<kling-file
 					[file]="file"
-					[isSelected]="selectedFile?.path === file.path"
+					[isSelected]="selectedFilePath === file.path"
 				></kling-file>
 			</ng-container>
 		</div>
 
 		<div class="directories">
 			<ng-container *ngFor="let dir of directories$ | async">
-				<kling-directory [directory]="dir" [selectedFile]="selectedFile"></kling-directory>
+				<kling-directory
+					[directory]="dir"
+					[selectedFilePath]="selectedFilePath"
+				></kling-directory>
 			</ng-container>
 		</div>
 	</div>

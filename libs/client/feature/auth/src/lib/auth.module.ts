@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatCardModule } from "@angular/material/card";
 import { CommonModule } from "@angular/common";
 import { IconModule } from "@kling/client/shared/components";
+import { MatButtonModule } from "@angular/material/button";
 
 @NgModule({
 	declarations: [LoginDialogComponent],
@@ -16,6 +17,7 @@ import { IconModule } from "@kling/client/shared/components";
 		IconModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatButtonModule,
 		TranslateModule,
 		MatCardModule,
 		TranslateModule,

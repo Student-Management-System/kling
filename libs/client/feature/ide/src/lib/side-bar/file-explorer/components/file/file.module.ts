@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MiddleClickModule, ProgrammingLanguageModule } from "@kling/client-shared";
 import { FileIconModule, IconModule } from "@kling/client/shared/components";
@@ -8,6 +9,7 @@ import { FileComponent } from "./file.component";
 @NgModule({
 	declarations: [FileComponent],
 	imports: [
+		CommonModule,
 		ContextMenuModule,
 		IconModule,
 		FileIconModule,

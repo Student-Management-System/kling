@@ -4,10 +4,11 @@ import { TerminalComponent } from "./components/terminal/terminal.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { TranslateModule } from "@ngx-translate/core";
 import { CommonModule } from "@angular/common";
+import { MatInputModule } from "@angular/material/input";
 
 @NgModule({
 	declarations: [TerminalComponent, TerminalInput],
-	imports: [CommonModule, MatProgressSpinnerModule, TranslateModule],
+	imports: [CommonModule, MatProgressSpinnerModule, MatInputModule, TranslateModule],
 	exports: [TerminalComponent]
 })
 export class TerminalModule {}

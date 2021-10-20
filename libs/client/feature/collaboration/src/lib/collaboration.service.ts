@@ -4,14 +4,23 @@ import {
 	ChatMessageEvent,
 	connectAnonymously,
 	ConvergenceDomain,
+	ModelChangedEvent,
 	ModelCollaborator,
-	RealTimeElement,
+	ObjectRemoveEvent,
+	ObjectSetEvent,
 	RealTimeModel,
+	RealTimeObject,
 	RealTimeString
 } from "@convergence/convergence";
-import { WorkspaceActions } from "@kling/client/data-access/state";
+import {
+	DirectoryActions,
+	FileActions,
+	FileSelectors,
+	WorkspaceActions
+} from "@kling/client/data-access/state";
 import { ExecuteResponse } from "@kling/ide-services";
 import { Directory, File } from "@kling/programming";
+import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { nanoid } from "nanoid";
 import { BehaviorSubject, Subscription } from "rxjs";
@@ -20,10 +29,10 @@ type DataModel = {
 	files: {
 		[path: string]: File;
 	};
-	directories: Directory[];
-	selectedByUser: {
-		[username: string]: string | null;
+	directories: {
+		[path: string]: Directory;
 	};
+	selectedFile: string | null;
 	terminal: {
 		input: string;
 		output: ExecuteResponse | null;
@@ -33,54 +42,21 @@ type DataModel = {
 @Injectable({ providedIn: "root" })
 export class CollaborationService {
 	readonly activeSessionId$ = new BehaviorSubject<string | null>(null);
-	readonly collaborators$ = new BehaviorSubject<ModelCollaborator[]>([
-		{
-			sessionId: "abc",
-			user: {
-				displayName: "Mustermann1"
-			} as any
-		},
-		{
-			sessionId: "abc",
-			user: {
-				displayName: "Mustermann2"
-			} as any
-		},
-		{
-			sessionId: "abc",
-			user: {
-				displayName: "Mustermann3"
-			} as any
-		}
-	]);
+	readonly collaborators$ = new BehaviorSubject<ModelCollaborator[]>([]);
+	readonly messages$ = new BehaviorSubject<ChatMessageEvent[]>([]);
 
-	readonly messages$ = new BehaviorSubject<ChatMessageEvent[]>(
-		(() => {
-			const messages = [];
-			for (let i = 0; i < 5; i++) {
-				messages.push({
-					message: "Hello world",
-					user: {
-						displayName: "Mustermann1"
-					} as any
-				} as any);
-			}
-			return messages;
-		})()
-	);
-
-	public model!: RealTimeModel;
-
+	private model!: RealTimeModel;
 	private chat!: Chat;
 	private domain!: ConvergenceDomain;
 	private convergenceUrl = "http://localhost:8000/api/realtime/convergence/default" as const;
 	private subscriptions: Subscription[] = [];
 
-	constructor(private readonly store: Store) {}
+	constructor(private readonly store: Store, private readonly actions$: Actions) {}
 
 	async createSession(
 		username: string,
 		project: {
+			name?: string;
 			files: File[];
 			directories: Directory[];
 			selectedFile: string | null;
@@ -95,12 +71,15 @@ export class CollaborationService {
 			files[file.path] = file;
 		});
 
+		const directories: { [path: string]: Directory } = {};
+		project.directories.forEach(dir => {
+			directories[dir.path] = dir;
+		});
+
 		const data: DataModel = {
 			files,
-			directories: project.directories,
-			selectedByUser: {
-				[username]: project.selectedFile
-			},
+			directories,
+			selectedFile: project.selectedFile ?? "", // Fallback to empty string to prevent Convergence errors
 			terminal: {
 				input: "",
 				output: null
@@ -108,7 +87,7 @@ export class CollaborationService {
 		};
 
 		await this.createModel(sessionId, data);
-		await this.joinSession(username, sessionId);
+		await this.joinSession(username, sessionId, project.name);
 
 		return sessionId;
 	}
@@ -129,42 +108,113 @@ export class CollaborationService {
 		}
 	}
 
-	private async connectToConvergence(username: string): Promise<void> {
-		try {
-			console.log("Convergence: Connecting...");
-			this.domain = await connectAnonymously(this.convergenceUrl, username);
-			console.log("Convergence: Connected");
-		} catch (error) {
-			console.error("Convergence: Failed to connect");
-			console.error(error);
-			throw error;
-		}
-	}
-
-	async joinSession(username: string, id: string): Promise<void> {
+	async joinSession(username: string, sessionId: string, projectName?: string): Promise<void> {
 		if (!this.domain?.isConnected()) {
 			await this.connectToConvergence(username);
 		}
 
-		console.log("Convergence: Joining session " + id);
-		this.model = await this.domain.models().open(id);
+		console.log("Convergence: Joining session " + sessionId);
+		this.model = await this.domain.models().open(sessionId);
+
+		console.log("Convergence: Joined session " + sessionId);
+		this.activeSessionId$.next(sessionId);
 
 		const data = this.model.root().value() as DataModel;
 
 		this.store.dispatch(
 			WorkspaceActions.loadProject({
-				projectName: `share-${id}`,
+				projectName: projectName ?? `share-${sessionId}`,
 				files: Object.values(data.files),
-				directories: data.directories
+				directories: Object.values(data.directories)
 			})
 		);
 
-		this.model.collaboratorsAsObservable().subscribe(collaborators => {
-			this.collaborators$.next(collaborators);
-		});
+		this.store.dispatch(FileActions.setSelectedFile({ path: data.selectedFile }));
 
-		console.log("Convergence: Joined session " + id);
-		this.activeSessionId$.next(id);
+		this.subscribeToEvents();
+	}
+
+	private subscribeToEvents() {
+		this.subscriptions.push(
+			this.actions$.pipe(ofType(FileActions.addFile)).subscribe(async ({ file }) => {
+				const files = this.model.root().elementAt("files") as RealTimeObject;
+				files.set(file.path, file);
+			}),
+
+			this.actions$.pipe(ofType(FileActions.deleteFile)).subscribe(async ({ file }) => {
+				const files = this.model.root().elementAt("files") as RealTimeObject;
+				files.remove(file.path);
+			}),
+
+			this.store.select(FileSelectors.selectSelectedFilePath).subscribe(path => {
+				this.model
+					.root()
+					.elementAt("selectedFile")
+					.value(path ?? "");
+			}),
+
+			this.actions$
+				.pipe(ofType(DirectoryActions.addDirectory))
+				.subscribe(async ({ directory }) => {
+					const directories = this.model
+						.root()
+						.elementAt("directories") as RealTimeObject;
+					directories.set(directory.path, directory);
+				}),
+
+			this.actions$
+				.pipe(ofType(DirectoryActions.deleteDirectory))
+				.subscribe(async ({ directory }) => {
+					const directories = this.model
+						.root()
+						.elementAt("directories") as RealTimeObject;
+					directories.remove(directory.path);
+				}),
+
+			this.model
+				.root()
+				.get("selectedFile")
+				.events()
+				.subscribe(e => {
+					if (e instanceof ModelChangedEvent && !e.local) {
+						const selectedFilePath = this.model.root().get("selectedFile").value();
+						const path = selectedFilePath?.length > 1 ? selectedFilePath : null;
+						this.store.dispatch(FileActions.setSelectedFile({ path }));
+					}
+				}) as any,
+
+			this.model
+				.root()
+				.get("files")
+				.events()
+				.subscribe(e => {
+					if (e instanceof ObjectSetEvent && !e.local) {
+						this.store.dispatch(FileActions.addFile({ file: e.value.value() }));
+					} else if (e instanceof ObjectRemoveEvent && !e.local) {
+						this.store.dispatch(FileActions.deleteFile({ file: e.oldValue.value() }));
+					}
+				}) as any,
+
+			this.model
+				.root()
+				.get("directories")
+				.events()
+				.subscribe(e => {
+					if (e instanceof ObjectSetEvent && !e.local) {
+						this.store.dispatch(
+							DirectoryActions.addDirectory({ directory: e.value.value() })
+						);
+					} else if (e instanceof ObjectRemoveEvent && !e.local) {
+						this.store.dispatch(
+							DirectoryActions.deleteDirectory({ directory: e.oldValue.value() })
+						);
+					}
+				}) as any,
+
+			this.model.collaboratorsAsObservable().subscribe(collaborators => {
+				this.collaborators$.next(collaborators);
+			}) as any
+		);
 	}
 
 	getRealTimeFile(path: string): RealTimeString {
@@ -193,9 +243,23 @@ export class CollaborationService {
 		}
 	}
 
+	private async connectToConvergence(username: string): Promise<void> {
+		try {
+			console.log("Convergence: Connecting...");
+			this.domain = await connectAnonymously(this.convergenceUrl, username);
+			console.log("Convergence: Connected");
+		} catch (error) {
+			console.error("Convergence: Failed to connect");
+			console.error(error);
+			throw error;
+		}
+	}
+
 	async disconnect(): Promise<void> {
 		this.subscriptions.forEach(s => s.unsubscribe());
 		await this.domain?.disconnect();
 		this.activeSessionId$.next(null);
+		this.collaborators$.next([]);
+		this.messages$.next([]);
 	}
 }

@@ -14,7 +14,6 @@ import { ClientStateModule } from "@kling/client/data-access/state";
 import { ConfirmDialogModule } from "@kling/client/shared/components";
 import { IdeServicesModule } from "@kling/ide-services";
 import { INDEXED_DB } from "@kling/indexed-db";
-import { ApiModule, Configuration } from "@kling/shared/data-access/api-rest-ng-client";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
@@ -61,12 +60,6 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 		}),
 		LayoutModule,
 		ContextMenuModule.forRoot(),
-		ApiModule.forRoot(
-			() =>
-				new Configuration({
-					basePath: getEnvVariableOrThrow("API_BASE_PATH")
-				})
-		),
 		StudentMgmtApiModule.forRoot(
 			() =>
 				new StudentMgmtConfiguration({

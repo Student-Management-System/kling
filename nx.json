@@ -26,9 +26,6 @@
 		}
 	},
 	"projects": {
-		"api-rest": {
-			"tags": ["scope:api-rest"]
-		},
 		"client": {
 			"tags": ["scope:client"]
 		},
@@ -77,9 +74,6 @@
 		},
 		"client-ui-file-tabs": {
 			"tags": ["scope:client", "type:feature"]
-		},
-		"shared-data-access-api-rest-ng-client": {
-			"tags": ["scope:shared", "type:data-access"]
 		},
 		"shared-data-access-student-mgmt-ng-client": {
 			"tags": ["scope:shared", "type:data-access"]

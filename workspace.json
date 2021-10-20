@@ -19,53 +19,6 @@
 		"@nrwl/angular:component": {}
 	},
 	"projects": {
-		"api-rest": {
-			"root": "apps/api-rest",
-			"sourceRoot": "apps/api-rest/src",
-			"projectType": "application",
-			"prefix": "api-rest",
-			"schematics": {},
-			"architect": {
-				"build": {
-					"builder": "@nrwl/node:build",
-					"options": {
-						"outputPath": "dist/apps/api-rest",
-						"main": "apps/api-rest/src/main.ts",
-						"tsConfig": "apps/api-rest/tsconfig.app.json",
-						"webpackConfig": "apps/api-rest/webpack.config.js"
-					},
-					"configurations": {
-						"production": {
-							"optimization": true,
-							"extractLicenses": true,
-							"inspect": false,
-							"fileReplacements": []
-						}
-					},
-					"outputs": ["{options.outputPath}"]
-				},
-				"serve": {
-					"builder": "@nrwl/node:execute",
-					"options": {
-						"buildTarget": "api-rest:build"
-					}
-				},
-				"lint": {
-					"builder": "@nrwl/linter:eslint",
-					"options": {
-						"lintFilePatterns": ["apps/api-rest/**/*.ts"]
-					}
-				},
-				"test": {
-					"builder": "@nrwl/jest:jest",
-					"options": {
-						"jestConfig": "apps/api-rest/jest.config.js",
-						"passWithNoTests": true
-					},
-					"outputs": ["coverage/apps/api-rest"]
-				}
-			}
-		},
 		"client": {
 			"projectType": "application",
 			"schematics": {
@@ -725,23 +678,6 @@
 					}
 				}
 			}
-		},
-		"shared-data-access-api-rest-ng-client": {
-			"projectType": "library",
-			"root": "libs/shared/data-access/api-rest-ng-client",
-			"sourceRoot": "libs/shared/data-access/api-rest-ng-client/src",
-			"prefix": "kling",
-			"architect": {
-				"lint": {
-					"builder": "@nrwl/linter:eslint",
-					"options": {
-						"lintFilePatterns": [
-							"libs/shared/data-access/api-rest-ng-client/src/**/*.ts"
-						]
-					}
-				}
-			},
-			"schematics": {}
 		},
 		"shared-data-access-student-mgmt-ng-client": {
 			"projectType": "library",

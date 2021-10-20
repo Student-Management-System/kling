@@ -31,9 +31,6 @@
 			"@kling/ide-services": ["libs/client/feature/ide-services/src/index.ts"],
 			"@kling/indexed-db": ["libs/client/data-access/indexed-db/src/index.ts"],
 			"@kling/programming": ["libs/shared/util/programming/src/index.ts"],
-			"@kling/shared/data-access/api-rest-ng-client": [
-				"libs/shared/data-access/api-rest-ng-client/src/index.ts"
-			],
 			"@student-mgmt/api": ["libs/shared/data-access/student-mgmt-ng-client/src/index.ts"]
 		}
 	},

@@ -48,7 +48,7 @@ export const reducer = createReducer(
 				action.file.path !== state.selectedFilePath ? state.selectedFilePath : null
 		})
 	),
-	on(FileActions.clearFiles, state => adapter.removeAll(state)),
+	on(FileActions.clearFiles, () => initialState),
 	on(
 		FileActions.setSelectedFile,
 		FileActions.setSelectedFile_FileTabRemoved,

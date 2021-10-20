@@ -10,8 +10,8 @@
 		>
 			<kling-icon name="play_arrow" class="mr-1 text-white"></kling-icon>
 			<span class="font-bold text-white"
-				>{{ "Action.Run" | translate }}:
-				<span>{{ (entryPoint$ | async) || "Current File" }}</span></span
+				>{{ "Action.Run" | translate
+				}}<span *ngIf="entryPoint$ | async as entryPoint">: {{ entryPoint }}</span></span
 			>
 		</button>
 	</div>

@@ -11,6 +11,8 @@ import { TranslateModule } from "@ngx-translate/core";
 import { ProblemListRoutingModule } from "./problem-list-routing.module";
 import { ProblemListComponent } from "./problem-list/problem-list.component";
 import { CommonModule } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { MatInputModule } from "@angular/material/input";
 
 @NgModule({
 	declarations: [ProblemListComponent],
@@ -22,6 +24,9 @@ import { CommonModule } from "@angular/common";
 		MatOptionModule,
 		MatSelectModule,
 		MatFormFieldModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatButtonModule,
 		FormsModule,
 		MatTableModule,
 		IconModule,

@@ -54,7 +54,7 @@
 			class="sidenav mat-elevation-z0"
 			[ngClass]="showTitlebar ? '.show-titlebar' : 'hide-titlebar'"
 			fixedInViewport
-			[opened]="(isHandset$ | async) === false"
+			opened="false"
 			[mode]="(isHandset$ | async) ? 'over' : 'side'"
 		>
 			<!-- TOP BAR -->

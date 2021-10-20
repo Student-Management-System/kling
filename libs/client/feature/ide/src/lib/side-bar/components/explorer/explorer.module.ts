@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
 import { MatMenuModule } from "@angular/material/menu";
 import { IconModule } from "@kling/client/shared/components";
 import { TranslateModule } from "@ngx-translate/core";
@@ -15,6 +16,7 @@ import { ExplorerComponent } from "./explorer.component";
 		IconModule,
 		TranslateModule,
 		MatMenuModule,
+		MatButtonModule,
 		FileExplorerModule,
 		WorkspaceSettingsModule,
 		SideBarElementModule

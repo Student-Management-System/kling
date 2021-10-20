@@ -5,19 +5,19 @@ import { filter } from "rxjs/operators";
 
 @Injectable({ providedIn: "root" })
 export class TitlebarService {
-	private toggleSubject = new BehaviorSubject<boolean>(true);
+	private toggleSubject = new BehaviorSubject<boolean>(false);
 
 	/** Emits true, if titlebar should be opened. */
 	toggle$ = this.toggleSubject.asObservable();
 
 	constructor(private router: Router) {
-		router.events
+		this.router.events
 			.pipe(filter(event => event instanceof NavigationEnd))
 			.subscribe((event: NavigationEnd) => {
-				if (event.url.match("/ide")) {
-					this.hide();
-				} else {
+				if (!event.url.match("/ide")) {
 					this.show();
+				} else {
+					this.hide();
 				}
 			});
 	}

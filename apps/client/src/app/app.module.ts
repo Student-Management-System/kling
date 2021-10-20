@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AuthModule, AuthService } from "@kling/client-auth";
 import { getEnvVariableOrThrow } from "@kling/client-environments";
 import { ClientStateModule } from "@kling/client/data-access/state";
-import { ConfirmDialogModule } from "@kling/client/shared/components";
 import { IdeServicesModule } from "@kling/ide-services";
 import { INDEXED_DB } from "@kling/indexed-db";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
@@ -39,7 +38,6 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 	declarations: [AppComponent],
 	imports: [
 		NavigationModule,
-		ConfirmDialogModule,
 		MatDialogModule,
 		BrowserModule,
 		HttpClientModule,

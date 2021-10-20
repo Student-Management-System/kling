@@ -18,13 +18,7 @@ import {
 	WorkspaceService,
 	WorkspaceSettingsService
 } from "@kling/ide-services";
-import {
-	extractFileExtension,
-	File,
-	FileExtension,
-	getLanguageFromExtension,
-	SupportedLanguage
-} from "@kling/programming";
+import { File } from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
@@ -54,10 +48,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 	private editor!: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByPath = new Map<string, EditorModelState>();
-	private adapterByPath = new Map<string, MonacoConvergenceAdapter>();
 	private filesWithUnsavedChanges = new Set<string>();
 	private showRulers = true;
 	private hasCollaborationSession = false;
+	private adapter: MonacoConvergenceAdapter | null = null;
 
 	constructor(
 		private readonly store: Store,
@@ -88,7 +82,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 		this.subs.sink = this.workspace.init$.subscribe(() => {
 			this.editorModelByPath.clear();
-			this.adapterByPath.clear();
+			this.adapter = null;
 			this._disposeAllModels();
 		});
 
@@ -177,7 +171,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 				const modified = this.getCurrentModel();
 				const original = monaco.editor.createModel(
 					modified!.getValue(),
-					this.getLanguageOfFile(this.selectedFilePath!)!
+					undefined,
+					this.createFileUri(this.selectedFilePath!)
 				);
 
 				this.openDiffEditorDialog({
@@ -254,16 +249,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		}
 	}
 
-	/**
-	 * Looks up the file extension of the given path and returns the corresponding language.
-	 * - `.py` -> `python`
-	 * - `.ts` -> `typescript`
-	 */
-	private getLanguageOfFile(path: string): SupportedLanguage | null {
-		const extension = extractFileExtension(path) as FileExtension;
-		return getLanguageFromExtension(extension);
-	}
-
 	/** Returns the model that is currently opened. */
 	private getCurrentModel(): monaco.editor.ITextModel | null {
 		return this.editorModelByPath.get(this.selectedFilePath!)?.textModel ?? null;
@@ -285,13 +270,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 			textModel.dispose();
 
 			this.editorModelByPath.delete(file.path);
-			this.adapterByPath.delete(file.path);
 			this.filesWithUnsavedChanges.delete(file.path);
 		});
-	}
-
-	private createFileUri(path: string): monaco.Uri {
-		return monaco.Uri.parse("file:///" + path);
 	}
 
 	private subscribeToFileAdded(): Subscription {
@@ -305,13 +285,16 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 			.select(FileSelectors.selectSelectedFilePath)
 			.pipe(
 				tap(path => {
+					this.adapter?.dispose();
+
 					if (path) {
 						this.saveCurrentViewState();
 
-						if (this.hasCollaborationSession && !this.adapterByPath.has(path)) {
-							this.createConvergenceAdapter(path);
+						if (this.hasCollaborationSession) {
+							this.adapter = this.createConvergenceAdapter(path);
 						}
 					}
+
 					this.switchToSelectedFile(path);
 					this.selectedFilePath = path;
 					this.cdRef.detectChanges();
@@ -320,20 +303,19 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 			.subscribe();
 	}
 
-	private createConvergenceAdapter(path: string) {
+	private createConvergenceAdapter(path: string): MonacoConvergenceAdapter {
 		console.log("Creating MonacoConvergenceAdapter for " + path);
 		const textModel = this.editorModelByPath.get(path)?.textModel;
 		const realTimeString = this.collaboration.getRealTimeFile(path);
+
 		if (!textModel) {
 			throw new Error("No model: " + path);
 		}
 		if (!realTimeString) {
 			throw new Error("No RealTimeString: " + path);
 		}
-		this.adapterByPath.set(
-			path,
-			new MonacoConvergenceAdapter(this.editor, textModel, realTimeString)
-		);
+
+		return new MonacoConvergenceAdapter(this.editor, realTimeString);
 	}
 
 	/**
@@ -393,6 +375,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		});
 
 		return model;
+	}
+
+	private createFileUri(path: string): monaco.Uri {
+		return monaco.Uri.parse("file:///" + path);
 	}
 
 	resize(): void {

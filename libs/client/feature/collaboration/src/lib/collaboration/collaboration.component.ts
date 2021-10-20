@@ -1,7 +1,7 @@
 import { Location } from "@angular/common";
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ToastService } from "@kling/client-shared";
+import { ToastService } from "@kling/client/shared/services";
 import { DirectorySelectors, FileActions, FileSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { firstValueFrom } from "rxjs";

@@ -1,7 +1,7 @@
 <div
 	class="file-explorer"
 	dropzone
-	(hovered)="toggleHover($event)"
+	(hovered)="toggleHover($any($event))"
 	(drop)="onDrop($event)"
 	[class.hovering]="isHovering"
 	*ngIf="{ selectedFilePath: selectedFilePath$ | async } as obs"

@@ -8,7 +8,7 @@ import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { AuthenticationInfoDto } from "./auth-info.dto";
 import * as AuthActions from "./auth.actions";
 import { AuthService } from "@kling/client-auth";
-import { ToastService } from "@kling/client-shared";
+import { ToastService } from "@kling/client/shared/services";
 
 @Injectable()
 export class AuthEffects {

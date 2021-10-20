@@ -1,11 +1,26 @@
 import { NgModule } from "@angular/core";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { getEnvVariableOrThrow } from "@kling/client-environments";
-import { SharedModule } from "@kling/client-shared";
+import { TranslateModule } from "@ngx-translate/core";
 import { LoginDialogComponent } from "./dialogs/login/login.dialog";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatCardModule } from "@angular/material/card";
+import { CommonModule } from "@angular/common";
+import { IconModule } from "@kling/client/shared/components";
 
 @NgModule({
 	declarations: [LoginDialogComponent],
-	imports: [SharedModule],
+	imports: [
+		CommonModule,
+		IconModule,
+		MatFormFieldModule,
+		MatInputModule,
+		TranslateModule,
+		MatCardModule,
+		TranslateModule,
+		MatProgressSpinnerModule
+	],
 	providers: [
 		{
 			provide: "SPARKY_AUTHENTICATE_URL",

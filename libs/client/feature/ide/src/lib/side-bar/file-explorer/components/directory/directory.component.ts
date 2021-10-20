@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
-import { DialogService } from "@kling/client-shared";
+import { DialogService } from "@kling/client/shared/services";
 import {
 	DirectoryActions,
 	DirectorySelectors,

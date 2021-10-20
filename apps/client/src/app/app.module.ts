@@ -3,13 +3,15 @@ import { registerLocaleData } from "@angular/common";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import localeDe from "@angular/common/locales/de";
 import localeDeExtra from "@angular/common/locales/extra/de";
-import { InjectionToken, LOCALE_ID, NgModule, SecurityContext } from "@angular/core";
+import { InjectionToken, LOCALE_ID, NgModule } from "@angular/core";
+import { MatDialogModule } from "@angular/material/dialog";
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AuthModule, AuthService } from "@kling/client-auth";
-import { SharedModule } from "@kling/client-shared";
+import { getEnvVariableOrThrow } from "@kling/client-environments";
 import { ClientStateModule } from "@kling/client/data-access/state";
+import { ConfirmDialogModule } from "@kling/client/shared/components";
 import { IdeServicesModule } from "@kling/ide-services";
 import { INDEXED_DB } from "@kling/indexed-db";
 import { ApiModule, Configuration } from "@kling/shared/data-access/api-rest-ng-client";
@@ -21,13 +23,10 @@ import {
 	Configuration as StudentMgmtConfiguration
 } from "@student-mgmt/api";
 import { ContextMenuModule } from "ngx-contextmenu";
-import { MarkdownModule } from "ngx-markdown";
-import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { ToastrModule } from "ngx-toastr";
-import { environment, getEnv, getEnvVariableOrThrow } from "@kling/client-environments";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { NavigationComponent } from "./navigation/navigation.component";
+import { NavigationModule } from "./navigation/navigation.module";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
 
@@ -38,8 +37,11 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 }
 
 @NgModule({
-	declarations: [AppComponent, NavigationComponent],
+	declarations: [AppComponent],
 	imports: [
+		NavigationModule,
+		ConfirmDialogModule,
+		MatDialogModule,
 		BrowserModule,
 		HttpClientModule,
 		AppRoutingModule,
@@ -57,12 +59,7 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 			positionClass: "toast-bottom-right",
 			progressBar: true
 		}),
-		SharedModule,
 		LayoutModule,
-		MarkdownModule.forRoot({
-			loader: HttpClient,
-			sanitize: SecurityContext.NONE
-		}),
 		ContextMenuModule.forRoot(),
 		ApiModule.forRoot(
 			() =>
@@ -77,7 +74,6 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 					basePath: getEnvVariableOrThrow("STUDENT_MGMT_BASE_PATH")
 				})
 		),
-		NgxMatSelectSearchModule,
 		IdeServicesModule,
 		ClientStateModule,
 		StoreDevtoolsModule.instrument({

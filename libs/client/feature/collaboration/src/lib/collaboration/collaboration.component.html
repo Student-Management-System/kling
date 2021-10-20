@@ -19,7 +19,7 @@
 
 			<div class="flex gap-2" *ngIf="obs.activeSessionId; else noSession">
 				<input [value]="shareUrl" class="w-full p-1 bg-gray-600 rounded" />
-				<button (click)="copyToClipboard(shareUrl)">
+				<button (click)="copyToClipboard(shareUrl!)">
 					<kling-icon name="file_copy" size="18"></kling-icon>
 				</button>
 			</div>

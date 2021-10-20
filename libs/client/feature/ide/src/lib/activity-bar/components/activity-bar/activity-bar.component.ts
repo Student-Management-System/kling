@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { SidenavService } from "@kling/client/shared/services";
 import { WorkspaceSettingsService } from "@kling/ide-services";
-import { SidenavService } from "@kling/client-shared";
 
 type Tab = "EXPLORER" | "HISTORY";
 
@@ -10,10 +10,8 @@ type Tab = "EXPLORER" | "HISTORY";
 	styleUrls: ["./activity-bar.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityBarComponent implements OnInit {
+export class ActivityBarComponent {
 	constructor(public sidenav: SidenavService, public settings: WorkspaceSettingsService) {}
-
-	ngOnInit(): void {}
 
 	onTabClick(clickedTab: Tab): void {
 		this.settings.switchSideBarTabOrClose(clickedTab);

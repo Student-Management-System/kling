@@ -51,8 +51,6 @@
 					}}</mat-option>
 				</mat-select>
 			</mat-form-field>
-
-			<app-category-selector></app-category-selector>
 		</div>
 
 		<div>
@@ -118,7 +116,7 @@
 				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 			</table>
 
-			<app-paginator (onPageChanged)="loadProblems(true)"></app-paginator>
+			<kling-paginator (onPageChanged)="loadProblems(true)"></kling-paginator>
 		</div>
 	</div>
 </div>

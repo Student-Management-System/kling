@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
-import { UnsubscribeOnDestroy, ThemeService, ToastService } from "@kling/client-shared";
+import { ThemeService, ToastService } from "@kling/client/shared/services";
+import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({

@@ -1,11 +1,13 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "@kling/client-shared";
 import { TerminalInput } from "./components/input/input.component";
 import { TerminalComponent } from "./components/terminal/terminal.component";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { TranslateModule } from "@ngx-translate/core";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
 	declarations: [TerminalComponent, TerminalInput],
-	imports: [SharedModule],
+	imports: [CommonModule, MatProgressSpinnerModule, TranslateModule],
 	exports: [TerminalComponent]
 })
 export class TerminalModule {}

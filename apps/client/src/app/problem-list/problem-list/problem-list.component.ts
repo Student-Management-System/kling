@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { Paginator, UnsubscribeOnDestroy } from "@kling/client-shared";
+import { Paginator, UnsubscribeOnDestroy } from "@kling/client/shared/components";
 import { ProblemDto, ProblemService } from "@kling/shared/data-access/api-rest-ng-client";
 import { Subject, BehaviorSubject } from "rxjs";
 import { debounceTime, skip } from "rxjs/operators";

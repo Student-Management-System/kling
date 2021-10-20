@@ -9,8 +9,10 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { ThemeService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { ThemeService } from "@kling/client/shared/services";
+import { CollaborationService } from "@kling/collaboration";
 import {
 	CodeExecutionService,
 	WorkspaceService,
@@ -29,10 +31,9 @@ import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 import { firstValueFrom, fromEvent, merge, Subject, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
+import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
-import { CollaborationService } from "@kling/collaboration";
-import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 
 interface EditorModelState {
 	textModel: monaco.editor.ITextModel;

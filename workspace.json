@@ -589,6 +589,47 @@
 				}
 			}
 		},
+		"client-shared-components": {
+			"projectType": "library",
+			"root": "libs/client/shared/components",
+			"sourceRoot": "libs/client/shared/components/src",
+			"prefix": "kling",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:ng-packagr-lite",
+					"outputs": ["dist/libs/client/shared/components"],
+					"options": {
+						"project": "libs/client/shared/components/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/client/shared/components/tsconfig.lib.prod.json"
+						},
+						"development": {
+							"tsConfig": "libs/client/shared/components/tsconfig.lib.json"
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/client/shared/components"],
+					"options": {
+						"jestConfig": "libs/client/shared/components/jest.config.js",
+						"passWithNoTests": true
+					}
+				},
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": [
+							"libs/client/shared/components/src/**/*.ts",
+							"libs/client/shared/components/src/**/*.html"
+						]
+					}
+				}
+			}
+		},
 		"client-shared-environments": {
 			"root": "libs/client/shared/environments",
 			"sourceRoot": "libs/client/shared/environments/src",
@@ -599,6 +640,47 @@
 					"outputs": ["{options.outputFile}"],
 					"options": {
 						"lintFilePatterns": ["libs/client/shared/environments/**/*.ts"]
+					}
+				}
+			}
+		},
+		"client-shared-services": {
+			"projectType": "library",
+			"root": "libs/client/shared/services",
+			"sourceRoot": "libs/client/shared/services/src",
+			"prefix": "kling",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/angular:ng-packagr-lite",
+					"outputs": ["dist/libs/client/shared/services"],
+					"options": {
+						"project": "libs/client/shared/services/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "libs/client/shared/services/tsconfig.lib.prod.json"
+						},
+						"development": {
+							"tsConfig": "libs/client/shared/services/tsconfig.lib.json"
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"test": {
+					"builder": "@nrwl/jest:jest",
+					"outputs": ["coverage/libs/client/shared/services"],
+					"options": {
+						"jestConfig": "libs/client/shared/services/jest.config.js",
+						"passWithNoTests": true
+					}
+				},
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"options": {
+						"lintFilePatterns": [
+							"libs/client/shared/services/src/**/*.ts",
+							"libs/client/shared/services/src/**/*.html"
+						]
 					}
 				}
 			}

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { ToastService, UnsubscribeOnDestroy } from "@kling/client-shared";
+import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { ToastService } from "@kling/client/shared/services";
 import {
 	CategoryService,
 	CodeTemplateDto,

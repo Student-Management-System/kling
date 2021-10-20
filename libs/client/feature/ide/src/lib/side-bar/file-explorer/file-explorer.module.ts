@@ -1,13 +1,13 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { SharedModule } from "@kling/client-shared";
 import { ContextMenuModule } from "ngx-contextmenu";
-import { DirectoryComponent } from "./components/directory/directory.component";
+import { DirectoryModule } from "./components/directory/directory.module";
 import { FileExplorerComponent } from "./components/file-explorer/file-explorer.component";
-import { FileComponent } from "./components/file/file.component";
+import { FileModule } from "./components/file/file.module";
 
 @NgModule({
-	declarations: [FileExplorerComponent, FileComponent, DirectoryComponent],
-	imports: [SharedModule, ContextMenuModule],
+	declarations: [FileExplorerComponent],
+	imports: [CommonModule, FileModule, DirectoryModule, ContextMenuModule],
 	exports: [FileExplorerComponent]
 })
 export class FileExplorerModule {}

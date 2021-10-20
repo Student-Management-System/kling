@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { SidenavService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { SidenavService } from "@kling/client/shared/services";
 import { WorkspaceLayout, WorkspaceService, WorkspaceSettingsService } from "@kling/ide-services";
 import { IndexedDbService } from "@kling/indexed-db";
 import { Store } from "@ngrx/store";

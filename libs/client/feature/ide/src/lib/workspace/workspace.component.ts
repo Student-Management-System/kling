@@ -40,20 +40,20 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	async handleEditorInit(): Promise<void> {
 		const { project, file, share } = this.route.snapshot.queryParams;
 
-		if (project) {
+		if (share) {
+			// Do nothing, CollaborationService will handle loading of project
+		} else if (project) {
 			await this.workspaceService.restoreProject(project, false);
 
 			if (file) {
 				this.store.dispatch(FileActions.setSelectedFile({ path: file }));
 			}
 		} else {
-			if (!share) {
-				const [mostRecentProject] = await this.indexedDb.projects.getMany();
-				if (mostRecentProject) {
-					await this.workspaceService.restoreProject(mostRecentProject.name, false);
-				} else {
-					await this.workspaceService.createOrRestoreInMemoryProject("Playground");
-				}
+			const [mostRecentProject] = await this.indexedDb.projects.getMany();
+			if (mostRecentProject) {
+				await this.workspaceService.restoreProject(mostRecentProject.name, false);
+			} else {
+				await this.workspaceService.createOrRestoreInMemoryProject("Playground");
 			}
 		}
 	}

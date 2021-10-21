@@ -247,6 +247,10 @@ export class CollaborationService {
 		return this.model.root().elementAt(["files", path, "content"]) as RealTimeString;
 	}
 
+	getStdin(): RealTimeString {
+		return this.model.root().elementAt(["terminal", "input"]) as RealTimeString;
+	}
+
 	async sendChatMessage(text: string): Promise<void> {
 		if (text.length > 0) {
 			await this.chat.send(text);

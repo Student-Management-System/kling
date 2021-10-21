@@ -39,8 +39,13 @@
 		"@nrwl/angular:library": {
 			"linter": "eslint",
 			"unitTestRunner": "jest",
-			"strict": false
+			"enableIvy": true,
+			"buildable": true,
+			"simpleModuleName": true,
+			"strict": true
 		},
-		"@nrwl/angular:component": {}
+		"@schematics/angular:component": {
+			"style": "scss"
+		}
 	}
 }

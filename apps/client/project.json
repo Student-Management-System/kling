@@ -1,10 +1,5 @@
 {
 	"projectType": "application",
-	"generators": {
-		"@schematics/angular:component": {
-			"style": "scss"
-		}
-	},
 	"root": "apps/client",
 	"sourceRoot": "apps/client/src",
 	"prefix": "kling",

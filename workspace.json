@@ -1,9 +1,9 @@
 {
-	"version": 1,
+	"version": 2,
 	"projects": {
 		"client": {
 			"projectType": "application",
-			"schematics": {
+			"generators": {
 				"@schematics/angular:component": {
 					"style": "scss"
 				}
@@ -11,9 +11,9 @@
 			"root": "apps/client",
 			"sourceRoot": "apps/client/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:browser",
+					"executor": "@angular-devkit/build-angular:browser",
 					"options": {
 						"outputPath": "dist/apps/client",
 						"index": "apps/client/src/index.html",
@@ -85,7 +85,7 @@
 					"defaultConfiguration": "production"
 				},
 				"serve": {
-					"builder": "@angular-devkit/build-angular:dev-server",
+					"executor": "@angular-devkit/build-angular:dev-server",
 					"options": {
 						"browserTarget": "client:build"
 					},
@@ -100,19 +100,19 @@
 					"defaultConfiguration": "development"
 				},
 				"extract-i18n": {
-					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"executor": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
 						"browserTarget": "client:build"
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": ["apps/client/src/**/*.ts"]
 					}
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"options": {
 						"jestConfig": "apps/client/jest.config.js",
 						"passWithNoTests": true
@@ -126,16 +126,16 @@
 			"root": "libs/client/data-access/indexed-db",
 			"sourceRoot": "libs/client/data-access/indexed-db/src",
 			"projectType": "library",
-			"architect": {
+			"targets": {
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"outputs": ["{options.outputFile}"],
 					"options": {
 						"lintFilePatterns": ["libs/client/data-access/indexed-db/**/*.ts"]
 					}
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/data-access/indexed-db"],
 					"options": {
 						"jestConfig": "libs/client/data-access/indexed-db/jest.config.js",
@@ -150,15 +150,15 @@
 			"root": "libs/client/data-access/state",
 			"sourceRoot": "libs/client/data-access/state/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": ["libs/client/data-access/state/src/**/*.ts"]
 					}
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"options": {
 						"jestConfig": "libs/client/data-access/state/jest.config.js",
 						"passWithNoTests": true
@@ -166,7 +166,7 @@
 					"outputs": ["coverage/libs/client/data-access/state"]
 				}
 			},
-			"schematics": {
+			"generators": {
 				"@schematics/angular:component": {
 					"style": "scss"
 				}
@@ -177,9 +177,9 @@
 			"root": "apps/client-e2e",
 			"sourceRoot": "apps/client-e2e/src",
 			"projectType": "application",
-			"architect": {
+			"targets": {
 				"e2e": {
-					"builder": "@nrwl/cypress:cypress",
+					"executor": "@nrwl/cypress:cypress",
 					"options": {
 						"cypressConfig": "apps/client-e2e/cypress.json",
 						"tsConfig": "apps/client-e2e/tsconfig.e2e.json",
@@ -192,7 +192,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": ["apps/client-e2e/**/*.{js,ts}"]
 					}
@@ -206,9 +206,9 @@
 			"root": "libs/client/feature/auth",
 			"sourceRoot": "libs/client/feature/auth/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/auth"],
 					"options": {
 						"project": "libs/client/feature/auth/ng-package.json"
@@ -224,7 +224,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/auth"],
 					"options": {
 						"jestConfig": "libs/client/feature/auth/jest.config.js",
@@ -232,7 +232,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/auth/src/**/*.ts",
@@ -248,9 +248,9 @@
 			"root": "libs/client/feature/code-editor",
 			"sourceRoot": "libs/client/feature/code-editor/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/code-editor"],
 					"options": {
 						"project": "libs/client/feature/code-editor/ng-package.json"
@@ -266,7 +266,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/code-editor"],
 					"options": {
 						"jestConfig": "libs/client/feature/code-editor/jest.config.js",
@@ -274,7 +274,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/code-editor/src/**/*.ts",
@@ -290,9 +290,9 @@
 			"root": "libs/client/feature/collaboration",
 			"sourceRoot": "libs/client/feature/collaboration/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/collaboration"],
 					"options": {
 						"project": "libs/client/feature/collaboration/ng-package.json"
@@ -308,7 +308,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/collaboration"],
 					"options": {
 						"jestConfig": "libs/client/feature/collaboration/jest.config.js",
@@ -316,7 +316,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/collaboration/src/**/*.ts",
@@ -332,9 +332,9 @@
 			"root": "libs/client/feature/get-started",
 			"sourceRoot": "libs/client/feature/get-started/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/get-started"],
 					"options": {
 						"project": "libs/client/feature/get-started/ng-package.json"
@@ -350,7 +350,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/get-started"],
 					"options": {
 						"jestConfig": "libs/client/feature/get-started/jest.config.js",
@@ -358,7 +358,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/get-started/src/**/*.ts",
@@ -374,9 +374,9 @@
 			"root": "libs/client/feature/ide",
 			"sourceRoot": "libs/client/feature/ide/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/ide"],
 					"options": {
 						"project": "libs/client/feature/ide/ng-package.json"
@@ -392,7 +392,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/ide"],
 					"options": {
 						"jestConfig": "libs/client/feature/ide/jest.config.js",
@@ -400,7 +400,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/ide/src/**/*.ts",
@@ -416,9 +416,9 @@
 			"root": "libs/client/feature/ide-dialogs",
 			"sourceRoot": "libs/client/feature/ide-dialogs/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/ide-dialogs"],
 					"options": {
 						"project": "libs/client/feature/ide-dialogs/ng-package.json"
@@ -434,7 +434,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/ide-dialogs"],
 					"options": {
 						"jestConfig": "libs/client/feature/ide-dialogs/jest.config.js",
@@ -442,7 +442,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/ide-dialogs/src/**/*.ts",
@@ -458,9 +458,9 @@
 			"root": "libs/client/feature/ide-services",
 			"sourceRoot": "libs/client/feature/ide-services/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/ide-services"],
 					"options": {
 						"project": "libs/client/feature/ide-services/ng-package.json"
@@ -476,7 +476,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/ide-services"],
 					"options": {
 						"jestConfig": "libs/client/feature/ide-services/jest.config.js",
@@ -484,7 +484,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/ide-services/src/**/*.ts",
@@ -500,9 +500,9 @@
 			"root": "libs/client/feature/shared",
 			"sourceRoot": "libs/client/feature/shared/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/shared"],
 					"options": {
 						"project": "libs/client/feature/shared/ng-package.json"
@@ -518,7 +518,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/shared"],
 					"options": {
 						"jestConfig": "libs/client/feature/shared/jest.config.js",
@@ -526,7 +526,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/shared/src/**/*.ts",
@@ -542,9 +542,9 @@
 			"root": "libs/client/shared/components",
 			"sourceRoot": "libs/client/shared/components/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/shared/components"],
 					"options": {
 						"project": "libs/client/shared/components/ng-package.json"
@@ -560,7 +560,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/shared/components"],
 					"options": {
 						"jestConfig": "libs/client/shared/components/jest.config.js",
@@ -568,7 +568,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/shared/components/src/**/*.ts",
@@ -583,9 +583,9 @@
 			"root": "libs/client/shared/environments",
 			"sourceRoot": "libs/client/shared/environments/src",
 			"projectType": "library",
-			"architect": {
+			"targets": {
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"outputs": ["{options.outputFile}"],
 					"options": {
 						"lintFilePatterns": ["libs/client/shared/environments/**/*.ts"]
@@ -599,9 +599,9 @@
 			"root": "libs/client/shared/services",
 			"sourceRoot": "libs/client/shared/services/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/shared/services"],
 					"options": {
 						"project": "libs/client/shared/services/ng-package.json"
@@ -617,7 +617,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/shared/services"],
 					"options": {
 						"jestConfig": "libs/client/shared/services/jest.config.js",
@@ -625,7 +625,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/shared/services/src/**/*.ts",
@@ -641,9 +641,9 @@
 			"root": "libs/client/feature/file-tabs",
 			"sourceRoot": "libs/client/feature/file-tabs/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/client/feature/file-tabs"],
 					"options": {
 						"project": "libs/client/feature/file-tabs/ng-package.json"
@@ -659,7 +659,7 @@
 					"defaultConfiguration": "production"
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/client/feature/file-tabs"],
 					"options": {
 						"jestConfig": "libs/client/feature/file-tabs/jest.config.js",
@@ -667,7 +667,7 @@
 					}
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/client/feature/file-tabs/src/**/*.ts",
@@ -683,9 +683,9 @@
 			"root": "libs/shared/data-access/student-mgmt-ng-client",
 			"sourceRoot": "libs/shared/data-access/student-mgmt-ng-client/src",
 			"prefix": "kling",
-			"architect": {
+			"targets": {
 				"build": {
-					"builder": "@nrwl/angular:ng-packagr-lite",
+					"executor": "@nrwl/angular:ng-packagr-lite",
 					"outputs": ["dist/libs/shared/data-access/student-mgmt-ng-client"],
 					"options": {
 						"project": "libs/shared/data-access/student-mgmt-ng-client/ng-package.json"
@@ -701,7 +701,7 @@
 					"defaultConfiguration": "production"
 				},
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": [
 							"libs/shared/data-access/student-mgmt-ng-client/src/**/*.ts",
@@ -716,15 +716,15 @@
 			"root": "libs/shared/util/programming",
 			"sourceRoot": "libs/shared/util/programming/src",
 			"projectType": "library",
-			"architect": {
+			"targets": {
 				"lint": {
-					"builder": "@nrwl/linter:eslint",
+					"executor": "@nrwl/linter:eslint",
 					"options": {
 						"lintFilePatterns": ["libs/shared/util/programming/**/*.ts"]
 					}
 				},
 				"test": {
-					"builder": "@nrwl/jest:jest",
+					"executor": "@nrwl/jest:jest",
 					"outputs": ["coverage/libs/shared/util/programming"],
 					"options": {
 						"jestConfig": "libs/shared/util/programming/jest.config.js",

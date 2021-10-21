@@ -49,11 +49,10 @@ export const reducer = createReducer(
 		})
 	),
 	on(FileActions.clearFiles, () => initialState),
-	on(
-		FileActions.setSelectedFile,
-		FileActions.setSelectedFile_FileTabRemoved,
-		(state, action) => ({ ...state, selectedFilePath: action.path })
-	)
+	on(FileActions.setSelectedFile, (state, action) => ({
+		...state,
+		selectedFilePath: action.path
+	}))
 );
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors();

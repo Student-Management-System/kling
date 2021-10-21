@@ -20,9 +20,6 @@ export const reducer = createReducer(
 	on(DirectoryActions.addDirectories, (state, action) =>
 		adapter.addMany(action.directories, state)
 	),
-	on(DirectoryActions.updateDirectory, (state, action) =>
-		adapter.updateOne(action.directory, state)
-	),
 	on(DirectoryActions.deleteDirectory, (state, action) =>
 		adapter.removeOne(action.directory.path, state)
 	),

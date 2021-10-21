@@ -13,14 +13,14 @@ export class FileTabEffects {
 	 */
 	selectNextTab$ = createEffect(() => {
 		return this.actions$.pipe(
-			ofType(FileTabActions.removeFileTab, FileTabActions.removeFileTab_FileRemoved),
+			ofType(FileTabActions.removeFileTab),
 			withLatestFrom(
 				this.store.select(FileSelectors.selectSelectedFilePath),
 				this.store.select(FileTabSelectors.getFileTabs)
 			),
 			filter(([action, selectedFilePath]) => action.path === selectedFilePath),
 			map(([_action, _currentFile, tabs]) =>
-				FileActions.setSelectedFile_FileTabRemoved({
+				FileActions.setSelectedFile({
 					path: tabs[0] ?? null
 				})
 			)
@@ -33,11 +33,11 @@ export class FileTabEffects {
 	 */
 	addTabForSelectedFile$ = createEffect(() => {
 		return this.actions$.pipe(
-			ofType(FileActions.setSelectedFile, FileActions.setSelectedFile_FileTabRemoved),
+			ofType(FileActions.setSelectedFile),
 			filter(action => !!action.path),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
 			filter(([action, tabs]) => !tabs.find(path => path === action.path)),
-			map(([action]) => FileTabActions.addFileTab_FileSelectedEffect({ path: action.path }))
+			map(([action]) => FileTabActions.addFileTab({ path: action.path }))
 		);
 	});
 
@@ -50,7 +50,7 @@ export class FileTabEffects {
 			ofType(FileActions.deleteFile),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
 			filter(([action, tabs]) => this.removedFileHasTab(tabs, action.file.path)),
-			map(([action]) => FileTabActions.removeFileTab_FileRemoved({ path: action.file.path }))
+			map(([action]) => FileTabActions.removeFileTab({ path: action.file.path }))
 		);
 	});
 

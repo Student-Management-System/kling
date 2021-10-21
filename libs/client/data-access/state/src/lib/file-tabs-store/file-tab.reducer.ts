@@ -14,12 +14,8 @@ export const initialState: State = {
 
 export const reducer = createReducer(
 	initialState,
-	on(FileTabActions.addFileTab, FileTabActions.addFileTab_FileSelectedEffect, (state, action) =>
-		_addFileTab(state, action)
-	),
-	on(FileTabActions.removeFileTab, FileTabActions.removeFileTab_FileRemoved, (state, action) =>
-		_removeFileTab(state, action)
-	),
+	on(FileTabActions.addFileTab, (state, action) => _addFileTab(state, action)),
+	on(FileTabActions.removeFileTab, (state, action) => _removeFileTab(state, action)),
 	on(
 		FileTabActions.clearFileTabs,
 		(): State => ({

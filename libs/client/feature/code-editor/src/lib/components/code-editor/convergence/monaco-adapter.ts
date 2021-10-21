@@ -65,20 +65,17 @@ export class MonacoConvergenceAdapter {
 		});
 
 		this.subscriptions.push(
-			this.content
-				.events()
-				.pipe()
-				.subscribe(e => {
-					switch (e.name) {
-						case "insert":
-							this.contentManager.insert((e as any).index, (e as any).value);
-							break;
-						case "remove":
-							this.contentManager.delete((e as any).index, (e as any).value.length);
-							break;
-						default:
-					}
-				}) as unknown as Subscription
+			this.content.events().subscribe(e => {
+				switch (e.name) {
+					case "insert":
+						this.contentManager.insert((e as any).index, (e as any).value);
+						break;
+					case "remove":
+						this.contentManager.delete((e as any).index, (e as any).value.length);
+						break;
+					default:
+				}
+			}) as unknown as Subscription
 		);
 	}
 

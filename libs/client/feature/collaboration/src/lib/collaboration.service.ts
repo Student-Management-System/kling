@@ -136,39 +136,51 @@ export class CollaborationService {
 
 	private subscribeToEvents() {
 		this.subscriptions.push(
-			this.actions$.pipe(ofType(FileActions.addFile)).subscribe(async ({ file }) => {
-				const files = this.model.root().elementAt("files") as RealTimeObject;
-				files.set(file.path, file);
+			this.actions$.pipe(ofType(FileActions.addFile)).subscribe(({ file, remote }) => {
+				if (!remote) {
+					const files = this.model.root().elementAt("files") as RealTimeObject;
+					files.set(file.path, file);
+				}
 			}),
 
-			this.actions$.pipe(ofType(FileActions.deleteFile)).subscribe(async ({ file }) => {
-				const files = this.model.root().elementAt("files") as RealTimeObject;
-				files.remove(file.path);
-			}),
-
-			this.store.select(FileSelectors.selectSelectedFilePath).subscribe(path => {
-				this.model
-					.root()
-					.elementAt("selectedFile")
-					.value(path ?? "");
+			this.actions$.pipe(ofType(FileActions.deleteFile)).subscribe(({ file, remote }) => {
+				if (!remote) {
+					const files = this.model.root().elementAt("files") as RealTimeObject;
+					files.remove(file.path);
+				}
 			}),
 
 			this.actions$
+				.pipe(ofType(FileActions.setSelectedFile))
+				.subscribe(({ path, remote }) => {
+					if (!remote) {
+						this.model
+							.root()
+							.elementAt("selectedFile")
+							.value(path ?? "");
+					}
+				}),
+
+			this.actions$
 				.pipe(ofType(DirectoryActions.addDirectory))
-				.subscribe(async ({ directory }) => {
-					const directories = this.model
-						.root()
-						.elementAt("directories") as RealTimeObject;
-					directories.set(directory.path, directory);
+				.subscribe(({ directory, remote }) => {
+					if (!remote) {
+						const directories = this.model
+							.root()
+							.elementAt("directories") as RealTimeObject;
+						directories.set(directory.path, directory);
+					}
 				}),
 
 			this.actions$
 				.pipe(ofType(DirectoryActions.deleteDirectory))
-				.subscribe(async ({ directory }) => {
-					const directories = this.model
-						.root()
-						.elementAt("directories") as RealTimeObject;
-					directories.remove(directory.path);
+				.subscribe(({ directory, remote }) => {
+					if (!remote) {
+						const directories = this.model
+							.root()
+							.elementAt("directories") as RealTimeObject;
+						directories.remove(directory.path);
+					}
 				}),
 
 			this.model
@@ -179,7 +191,7 @@ export class CollaborationService {
 					if (e instanceof ModelChangedEvent && !e.local) {
 						const selectedFilePath = this.model.root().get("selectedFile").value();
 						const path = selectedFilePath?.length > 1 ? selectedFilePath : null;
-						this.store.dispatch(FileActions.setSelectedFile({ path }));
+						this.store.dispatch(FileActions.setSelectedFile({ path, remote: true }));
 					}
 				}) as any,
 
@@ -189,9 +201,13 @@ export class CollaborationService {
 				.events()
 				.subscribe(e => {
 					if (e instanceof ObjectSetEvent && !e.local) {
-						this.store.dispatch(FileActions.addFile({ file: e.value.value() }));
+						this.store.dispatch(
+							FileActions.addFile({ file: e.value.value(), remote: true })
+						);
 					} else if (e instanceof ObjectRemoveEvent && !e.local) {
-						this.store.dispatch(FileActions.deleteFile({ file: e.oldValue.value() }));
+						this.store.dispatch(
+							FileActions.deleteFile({ file: e.oldValue.value(), remote: true })
+						);
 					}
 				}) as any,
 
@@ -202,11 +218,17 @@ export class CollaborationService {
 				.subscribe(e => {
 					if (e instanceof ObjectSetEvent && !e.local) {
 						this.store.dispatch(
-							DirectoryActions.addDirectory({ directory: e.value.value() })
+							DirectoryActions.addDirectory({
+								directory: e.value.value(),
+								remote: true
+							})
 						);
 					} else if (e instanceof ObjectRemoveEvent && !e.local) {
 						this.store.dispatch(
-							DirectoryActions.deleteDirectory({ directory: e.oldValue.value() })
+							DirectoryActions.deleteDirectory({
+								directory: e.oldValue.value(),
+								remote: true
+							})
 						);
 					}
 				}) as any,
@@ -257,6 +279,7 @@ export class CollaborationService {
 
 	async disconnect(): Promise<void> {
 		this.subscriptions.forEach(s => s.unsubscribe());
+		this.subscriptions = [];
 		await this.domain?.disconnect();
 		this.activeSessionId$.next(null);
 		this.collaborators$.next([]);

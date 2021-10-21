@@ -7,27 +7,37 @@
 		<div
 			class="flex-1 h-full p-2 overflow-auto rounded font-mono bg-[#EAEAEA] dark:bg-[#3B3B3C]"
 		>
-			<ng-container *ngIf="output$ | async as output; else noOutput">
-				<div class="stdout" *ngIf="output.stdout?.length > 0">
-					<pre data-test="stdout" class="whitespace-pre-line">{{ output.stdout }}</pre>
-				</div>
+			<ng-container *ngIf="{ loading: displayLoadingIndicator$ | async } as obs">
+				<ng-container *ngIf="obs.loading">
+					<div class="flex justify-center p-8" *ngIf="obs.loading">
+						<mat-spinner mode="indeterminate"></mat-spinner>
+					</div>
+				</ng-container>
 
-				<div class="text-red-700 stderr" *ngIf="output.stderr?.length > 0">
-					<pre data-test="stderr" class="whitespace-pre-line">{{ output.stderr }}</pre>
-				</div>
+				<ng-container *ngIf="!obs.loading">
+					<ng-container *ngIf="output$ | async as output; else noOutput">
+						<div class="stdout" *ngIf="output.stdout?.length > 0">
+							<pre data-test="stdout" class="whitespace-pre-line">{{
+								output.stdout
+							}}</pre>
+						</div>
+
+						<div class="text-red-700 stderr" *ngIf="output.stderr?.length > 0">
+							<pre data-test="stderr" class="whitespace-pre-line">{{
+								output.stderr
+							}}</pre>
+						</div>
+					</ng-container>
+
+					<ng-template #noOutput>
+						<div>
+							<span class="text-light"
+								>{{ "Text.Terminal.InnerText" | translate }} ...</span
+							>
+						</div>
+					</ng-template>
+				</ng-container>
 			</ng-container>
 		</div>
 	</div>
-
-	<ng-template #noOutput>
-		<div *ngIf="{ loading: displayLoadingIndicator$ | async } as obs">
-			<span *ngIf="!obs.loading" class="text-light"
-				>{{ "Text.Terminal.InnerText" | translate }} ...</span
-			>
-
-			<div class="flex justify-center p-8" *ngIf="obs.loading">
-				<mat-spinner mode="indeterminate"></mat-spinner>
-			</div>
-		</div>
-	</ng-template>
 </div>

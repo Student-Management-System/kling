@@ -34,11 +34,14 @@ type DataModel = {
 	selectedFile: string | null;
 	terminal: {
 		input: string;
-		output: ExecuteResponse | null;
+		output: {
+			isRunning: boolean;
+			result: ExecuteResponse | null;
+		};
 	};
 };
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class CollaborationService {
 	readonly activeSessionId$ = new BehaviorSubject<string | null>(null);
 	readonly collaborators$ = new BehaviorSubject<ModelCollaborator[]>([]);
@@ -86,7 +89,19 @@ export class CollaborationService {
 			selectedFile: project.selectedFile ?? "", // Fallback to empty string to prevent Convergence errors
 			terminal: {
 				input: "",
-				output: null
+				output: {
+					isRunning: false,
+					result: {
+						run: {
+							stdout: null,
+							stderr: null
+						} as any,
+						compile: {
+							stdout: null,
+							stderr: null
+						} as any
+					} as any
+				}
 			}
 		};
 
@@ -247,29 +262,37 @@ export class CollaborationService {
 		return this.model.root().elementAt(["files", path, "content"]) as RealTimeString;
 	}
 
-	getStdin(): RealTimeString {
+	getRealTimeTerminalInput(): RealTimeString {
 		return this.model.root().elementAt(["terminal", "input"]) as RealTimeString;
+	}
+
+	getRealTimeTerminalOutput(): RealTimeObject {
+		return this.model.root().elementAt(["terminal", "output"]) as RealTimeObject;
+	}
+
+	setTerminalOutput(data: Partial<DataModel["terminal"]["output"]>): void {
+		const initial = {
+			isRunning: false,
+			result: {
+				run: {
+					stdout: null,
+					stderr: null
+				},
+				compile: {
+					stdout: null,
+					stderr: null
+				}
+			}
+		};
+
+		const output = { ...initial, ...data };
+
+		this.getRealTimeTerminalOutput().value(output);
 	}
 
 	async sendChatMessage(text: string): Promise<void> {
 		if (text.length > 0) {
 			await this.chat.send(text);
-		}
-	}
-
-	private async joinChat(id: string): Promise<void> {
-		try {
-			this.chat = await this.domain.chat().join(id);
-
-			await this.sendChatMessage("[Joined]");
-
-			this.chat.on("message", event => {
-				this.messages$.next([...this.messages$.getValue(), event as ChatMessageEvent]);
-			});
-		} catch (error) {
-			console.error("Convergence: Failed to connect to chat");
-			console.error(error);
-			throw error;
 		}
 	}
 
@@ -288,6 +311,7 @@ export class CollaborationService {
 	async disconnect(): Promise<void> {
 		this.subscriptions.forEach(s => s.unsubscribe());
 		this.subscriptions = [];
+		this.model.removeAllListeners();
 		await this.domain?.disconnect();
 		this.activeSessionId$.next(null);
 		this.collaborators$.next([]);

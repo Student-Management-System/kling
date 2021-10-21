@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Inject, Injectable, InjectionToken } from "@angular/core";
 import { getLanguageFromFilename } from "@kling/programming";
 import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
+import { CollaborationService } from "@kling/collaboration";
 
 export type PistonFile = {
 	name: string;
@@ -81,12 +82,29 @@ export class CodeExecutionService {
 	private executeUrl: string;
 	private runtimesUrl: string;
 
+	private hasCollaborationSession = false;
+
 	constructor(
 		private readonly http: HttpClient,
+		private readonly collaboration: CollaborationService,
 		@Inject(PISTON_API_URL) private readonly pistonApiUrl: string
 	) {
 		this.executeUrl = `${this.pistonApiUrl}/api/v2/execute`;
 		this.runtimesUrl = `${this.pistonApiUrl}/api/v2/runtimes`;
+
+		this.collaboration.activeSessionId$.subscribe(session => {
+			this.hasCollaborationSession = !!session;
+
+			if (this.hasCollaborationSession) {
+				this.collaboration.getRealTimeTerminalOutput().addListener("value", () => {
+					const { isRunning, result } = this.collaboration
+						.getRealTimeTerminalOutput()
+						.value();
+					this.isRunning$.next(isRunning);
+					this.executeResult$.next(result);
+				});
+			}
+		});
 	}
 
 	/**
@@ -108,20 +126,40 @@ export class CodeExecutionService {
 		this.isRunning$.next(true);
 		this.executeResult$.next(null);
 
+		if (this.hasCollaborationSession) {
+			this.collaboration.setTerminalOutput({ isRunning: true });
+		}
+
 		try {
 			const request = await this._createExecuteRequestObject(incompleteRequest);
 			const result = await firstValueFrom(
 				this.http.post<ExecuteResponse>(this.executeUrl, request)
 			);
-			this.isRunning$.next(false);
+
 			this.executeResult$.next(result);
+
+			if (this.hasCollaborationSession) {
+				this.collaboration.setTerminalOutput({ isRunning: false, result });
+			}
 		} catch (error) {
 			console.error(error);
-			this.isRunning$.next(false);
+
+			if (this.hasCollaborationSession) {
+				this.collaboration.setTerminalOutput({
+					isRunning: false,
+					result: {
+						run: {
+							stderr: "Something went wrong..."
+						} as any
+					} as any
+				});
+			}
 
 			if (error instanceof HttpErrorResponse) {
 				this.executeResult$.next(error);
 			}
+		} finally {
+			this.isRunning$.next(false);
 		}
 	}
 

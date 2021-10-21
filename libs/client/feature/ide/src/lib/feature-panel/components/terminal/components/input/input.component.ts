@@ -23,16 +23,12 @@ export class TerminalInputComponent extends UnsubscribeOnDestroy implements OnIn
 
 	ngOnInit(): void {
 		this.subs.sink = this.collaboration.activeSessionId$.subscribe(sessionId => {
-			if (this.hasActiveSession && !sessionId) {
-				this.collaboration.getStdin().removeAllListeners();
-			}
-
 			this.hasActiveSession = !!sessionId;
 
 			if (this.hasActiveSession) {
 				this.setTextAreaValue();
 
-				this.collaboration.getStdin().on("value", () => {
+				this.collaboration.getRealTimeTerminalInput().on("value", () => {
 					this.setTextAreaValue();
 				});
 			}
@@ -40,7 +36,7 @@ export class TerminalInputComponent extends UnsubscribeOnDestroy implements OnIn
 	}
 
 	private setTextAreaValue() {
-		this.textAreaValue = this.collaboration.getStdin().value();
+		this.textAreaValue = this.collaboration.getRealTimeTerminalInput().value();
 		this.workspace.setStdin(this.textAreaValue);
 		this.cdRef.detectChanges();
 	}
@@ -49,7 +45,7 @@ export class TerminalInputComponent extends UnsubscribeOnDestroy implements OnIn
 		this.workspace.setStdin(content);
 
 		if (this.hasActiveSession) {
-			this.collaboration.getStdin().value(content);
+			this.collaboration.getRealTimeTerminalInput().value(content);
 		}
 	}
 }

@@ -304,7 +304,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 	}
 
 	private createConvergenceAdapter(path: string): MonacoConvergenceAdapter {
-		console.log("Creating MonacoConvergenceAdapter for " + path);
 		const textModel = this.editorModelByPath.get(path)?.textModel;
 		const realTimeString = this.collaboration.getRealTimeFile(path);
 

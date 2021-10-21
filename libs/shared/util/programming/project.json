@@ -1,0 +1,22 @@
+{
+	"root": "libs/shared/util/programming",
+	"sourceRoot": "libs/shared/util/programming/src",
+	"projectType": "library",
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"options": {
+				"lintFilePatterns": ["libs/shared/util/programming/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/shared/util/programming"],
+			"options": {
+				"jestConfig": "libs/shared/util/programming/jest.config.js",
+				"passWithNoTests": true
+			}
+		}
+	},
+	"tags": ["scope:shared", "type:util"]
+}

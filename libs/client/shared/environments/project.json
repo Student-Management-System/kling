@@ -1,0 +1,15 @@
+{
+	"root": "libs/client/shared/environments",
+	"sourceRoot": "libs/client/shared/environments/src",
+	"projectType": "library",
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["libs/client/shared/environments/**/*.ts"]
+			}
+		}
+	},
+	"tags": ["scope:client"]
+}

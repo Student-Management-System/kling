@@ -1,0 +1,23 @@
+{
+	"root": "libs/client/data-access/indexed-db",
+	"sourceRoot": "libs/client/data-access/indexed-db/src",
+	"projectType": "library",
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["libs/client/data-access/indexed-db/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/client/data-access/indexed-db"],
+			"options": {
+				"jestConfig": "libs/client/data-access/indexed-db/jest.config.js",
+				"passWithNoTests": true
+			}
+		}
+	},
+	"tags": ["scope:client", "type:data-access"]
+}

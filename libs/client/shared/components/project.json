@@ -1,0 +1,42 @@
+{
+	"projectType": "library",
+	"root": "libs/client/shared/components",
+	"sourceRoot": "libs/client/shared/components/src",
+	"prefix": "kling",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/angular:ng-packagr-lite",
+			"outputs": ["dist/libs/client/shared/components"],
+			"options": {
+				"project": "libs/client/shared/components/ng-package.json"
+			},
+			"configurations": {
+				"production": {
+					"tsConfig": "libs/client/shared/components/tsconfig.lib.prod.json"
+				},
+				"development": {
+					"tsConfig": "libs/client/shared/components/tsconfig.lib.json"
+				}
+			},
+			"defaultConfiguration": "production"
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/client/shared/components"],
+			"options": {
+				"jestConfig": "libs/client/shared/components/jest.config.js",
+				"passWithNoTests": true
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"options": {
+				"lintFilePatterns": [
+					"libs/client/shared/components/src/**/*.ts",
+					"libs/client/shared/components/src/**/*.html"
+				]
+			}
+		}
+	},
+	"tags": ["scope:client"]
+}

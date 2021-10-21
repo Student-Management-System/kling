@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable, InjectionToken } from "@angular/core";
 import {
 	Chat,
 	ChatMessageEvent,
@@ -12,18 +12,17 @@ import {
 	RealTimeObject,
 	RealTimeString
 } from "@convergence/convergence";
-import {
-	DirectoryActions,
-	FileActions,
-	FileSelectors,
-	WorkspaceActions
-} from "@kling/client/data-access/state";
+import { DirectoryActions, FileActions, WorkspaceActions } from "@kling/client/data-access/state";
 import { ExecuteResponse } from "@kling/ide-services";
 import { Directory, File } from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { nanoid } from "nanoid";
 import { BehaviorSubject, Subscription } from "rxjs";
+
+export const CONVERGENCE_REALTIME_API_URL = new InjectionToken<string>(
+	"URL of the Convergence Realtime API"
+);
 
 type DataModel = {
 	files: {
@@ -39,7 +38,7 @@ type DataModel = {
 	};
 };
 
-@Injectable({ providedIn: "root" })
+@Injectable()
 export class CollaborationService {
 	readonly activeSessionId$ = new BehaviorSubject<string | null>(null);
 	readonly collaborators$ = new BehaviorSubject<ModelCollaborator[]>([]);
@@ -48,10 +47,15 @@ export class CollaborationService {
 	private model!: RealTimeModel;
 	private chat!: Chat;
 	private domain!: ConvergenceDomain;
-	private convergenceUrl = "http://localhost:8000/api/realtime/convergence/default" as const;
 	private subscriptions: Subscription[] = [];
 
-	constructor(private readonly store: Store, private readonly actions$: Actions) {}
+	constructor(
+		private readonly store: Store,
+		private readonly actions$: Actions,
+		@Inject(CONVERGENCE_REALTIME_API_URL) private readonly convergenceUrl: string
+	) {
+		console.log(convergenceUrl);
+	}
 
 	async createSession(
 		username: string,

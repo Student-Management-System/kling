@@ -12,6 +12,11 @@ export const selectSelectedFilePath = createSelector(
 	state => state.selectedFilePath
 );
 
+export const selectPreviouslySelectedFilePath = createSelector(
+	selectFileState,
+	state => state.previouslySelectedFilePath
+);
+
 export const selectFileByPath = (path: string) =>
 	createSelector(selectFileEntities, entities => entities[path]);
 

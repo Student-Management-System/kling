@@ -81,10 +81,25 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		this.subs.sink = this.subscribeToFileRemoved();
 
 		this.subs.sink = this.workspace.init$.subscribe(() => {
-			this.editorModelByPath.clear();
 			this.adapter = null;
+			this.selectedFilePath = null;
+			this.editorModelByPath.clear();
+			this.filesWithUnsavedChanges.clear();
 			this._disposeAllModels();
 		});
+
+		this.subs.sink = this.store
+			.select(FileSelectors.selectPreviouslySelectedFilePath)
+			.subscribe(path => {
+				if (path && this.filesWithUnsavedChanges.has(path)) {
+					this.store.dispatch(
+						FileActions.saveFile({
+							path,
+							content: this.getFileContent(path)!
+						})
+					);
+				}
+			});
 
 		this.subs.sink = this.actions$
 			.pipe(
@@ -217,12 +232,14 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 	}
 
 	private saveCurrentFile() {
-		this.store.dispatch(
-			FileActions.saveFile({
-				path: this.selectedFilePath!,
-				content: this.getFileContent(this.selectedFilePath!)!
-			})
-		);
+		if (this.selectedFilePath) {
+			this.store.dispatch(
+				FileActions.saveFile({
+					path: this.selectedFilePath,
+					content: this.getFileContent(this.selectedFilePath)!
+				})
+			);
+		}
 	}
 
 	private async triggerCodeExecutionRequest(): Promise<void> {

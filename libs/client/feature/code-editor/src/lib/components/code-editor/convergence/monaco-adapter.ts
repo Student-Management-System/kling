@@ -35,15 +35,25 @@ export class MonacoConvergenceAdapter {
 		this.initSharedData();
 		this.initSharedCursors();
 		this.initSharedSelection();
+
+		this.disposables.push(this.contentManager, this.cursorReference, this.selectionReference);
 	}
 
 	dispose(): void {
 		this.content.removeAllListeners();
-		this.cursorReference.dispose();
-		this.selectionReference.dispose();
-		this.contentManager.dispose();
+		this.cursorReference.removeAllListeners();
+		this.selectionReference.removeAllListeners();
 		this.subscriptions.forEach(s => s.unsubscribe());
-		this.disposables.forEach(d => d.dispose());
+
+		this.disposables.forEach(d => {
+			try {
+				d.dispose();
+			} catch (error) {
+				// Caused by deleting the currently selected file
+				// Might not be problematic
+				console.error("Failed to dispose something...", error);
+			}
+		});
 	}
 
 	private initSharedData(): void {

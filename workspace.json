@@ -1,23 +1,5 @@
 {
 	"version": 1,
-	"cli": {
-		"defaultCollection": "@nrwl/angular"
-	},
-	"defaultProject": "client",
-	"schematics": {
-		"@nrwl/angular:application": {
-			"linter": "eslint",
-			"unitTestRunner": "jest",
-			"e2eTestRunner": "cypress",
-			"strict": true
-		},
-		"@nrwl/angular:library": {
-			"linter": "eslint",
-			"unitTestRunner": "jest",
-			"strict": false
-		},
-		"@nrwl/angular:component": {}
-	},
 	"projects": {
 		"client": {
 			"projectType": "application",
@@ -137,7 +119,8 @@
 					},
 					"outputs": ["coverage/apps/client"]
 				}
-			}
+			},
+			"tags": ["scope:client"]
 		},
 		"client-data-access-indexed-db": {
 			"root": "libs/client/data-access/indexed-db",
@@ -159,7 +142,8 @@
 						"passWithNoTests": true
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:data-access"]
 		},
 		"client-data-access-state": {
 			"projectType": "library",
@@ -186,7 +170,8 @@
 				"@schematics/angular:component": {
 					"style": "scss"
 				}
-			}
+			},
+			"tags": ["scope:client", "type:data-access"]
 		},
 		"client-e2e": {
 			"root": "apps/client-e2e",
@@ -212,7 +197,9 @@
 						"lintFilePatterns": ["apps/client-e2e/**/*.{js,ts}"]
 					}
 				}
-			}
+			},
+			"tags": [],
+			"implicitDependencies": ["client"]
 		},
 		"client-feature-auth": {
 			"projectType": "library",
@@ -253,7 +240,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-code-editor": {
 			"projectType": "library",
@@ -294,7 +282,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-collaboration": {
 			"projectType": "library",
@@ -335,7 +324,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-get-started": {
 			"projectType": "library",
@@ -376,7 +366,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-ide": {
 			"projectType": "library",
@@ -417,7 +408,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-ide-dialogs": {
 			"projectType": "library",
@@ -458,7 +450,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-ide-services": {
 			"projectType": "library",
@@ -499,7 +492,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-feature-shared": {
 			"projectType": "library",
@@ -540,7 +534,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"client-shared-components": {
 			"projectType": "library",
@@ -581,7 +576,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client"]
 		},
 		"client-shared-environments": {
 			"root": "libs/client/shared/environments",
@@ -595,7 +591,8 @@
 						"lintFilePatterns": ["libs/client/shared/environments/**/*.ts"]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client"]
 		},
 		"client-shared-services": {
 			"projectType": "library",
@@ -636,7 +633,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client"]
 		},
 		"client-ui-file-tabs": {
 			"projectType": "library",
@@ -677,7 +675,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:client", "type:feature"]
 		},
 		"shared-data-access-student-mgmt-ng-client": {
 			"projectType": "library",
@@ -710,7 +709,8 @@
 						]
 					}
 				}
-			}
+			},
+			"tags": ["scope:shared", "type:data-access"]
 		},
 		"shared-util-programming": {
 			"root": "libs/shared/util/programming",
@@ -731,7 +731,8 @@
 						"passWithNoTests": true
 					}
 				}
-			}
+			},
+			"tags": ["scope:shared", "type:util"]
 		}
 	}
 }

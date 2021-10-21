@@ -25,61 +25,22 @@
 			}
 		}
 	},
-	"projects": {
-		"client": {
-			"tags": ["scope:client"]
+	"cli": {
+		"defaultCollection": "@nrwl/angular"
+	},
+	"defaultProject": "client",
+	"generators": {
+		"@nrwl/angular:application": {
+			"linter": "eslint",
+			"unitTestRunner": "jest",
+			"e2eTestRunner": "cypress",
+			"strict": true
 		},
-		"client-data-access-indexed-db": {
-			"tags": ["scope:client", "type:data-access"]
+		"@nrwl/angular:library": {
+			"linter": "eslint",
+			"unitTestRunner": "jest",
+			"strict": false
 		},
-		"client-data-access-state": {
-			"tags": ["scope:client", "type:data-access"]
-		},
-		"client-e2e": {
-			"tags": [],
-			"implicitDependencies": ["client"]
-		},
-		"client-feature-auth": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"client-feature-code-editor": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"client-feature-collaboration": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"client-feature-get-started": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"client-feature-ide": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"client-feature-ide-dialogs": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"client-feature-ide-services": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"client-feature-shared": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"client-shared-components": {
-			"tags": ["scope:client"]
-		},
-		"client-shared-environments": {
-			"tags": ["scope:client"]
-		},
-		"client-shared-services": {
-			"tags": ["scope:client"]
-		},
-		"client-ui-file-tabs": {
-			"tags": ["scope:client", "type:feature"]
-		},
-		"shared-data-access-student-mgmt-ng-client": {
-			"tags": ["scope:shared", "type:data-access"]
-		},
-		"shared-util-programming": {
-			"tags": ["scope:shared", "type:util"]
-		}
+		"@nrwl/angular:component": {}
 	}
 }

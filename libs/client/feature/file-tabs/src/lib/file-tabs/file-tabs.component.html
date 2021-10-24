@@ -1,10 +1,9 @@
-<div class="file-tabs" *ngIf="selectedFilePath$ | async as selectedFilePath">
-	<div class="file-tab" *ngFor="let tab of tabs$ | async">
-		<kling-tab
-			[path]="tab"
-			[selected]="tab === selectedFilePath"
-			(tabSelected)="selectTab($event, selectedFilePath)"
-			(tabClosed)="closeTab($event)"
-		></kling-tab>
-	</div>
+<div class="flex gap-[2px] h-full" *ngIf="selectedFilePath$ | async as selectedFilePath">
+	<kling-tab
+		*ngFor="let tab of tabs$ | async"
+		[path]="tab"
+		[selected]="tab === selectedFilePath"
+		(tabSelected)="selectTab($event, selectedFilePath)"
+		(tabClosed)="closeTab($event)"
+	></kling-tab>
 </div>

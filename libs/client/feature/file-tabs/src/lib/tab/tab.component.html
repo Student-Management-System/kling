@@ -2,28 +2,27 @@
 	*ngIf="file$ | async as file"
 	class="file-tab-btn"
 	[class.selected]="selected"
-	mat-flat-button
 	disableRipple="true"
 	(click)="tabSelected.emit(path)"
 	(middleclick)="tabClosed.emit(path)"
 	data-test="file-tab"
 >
-	<div class="flex items-center w-full h-full gap-2 inner-tab">
+	<div class="flex items-center w-full h-full gap-2 text-light">
 		<kling-file-icon
-			class="mt-[-4px]"
+			class="mt-[-5px]"
 			[language]="file.name | programmingLanguage"
 		></kling-file-icon>
-		<span class="tab-name">{{ file.name }}</span>
-		<button mat-mini-fab class="clear-btn mat-elevation-z0" (click)="tabClosed.emit(path)">
+		<span class="tab-name mt-[-2px]">{{ file.name }}</span>
+		<button class="w-4 h-4 hover:bg-[#a1a1a141] rounded" (click)="tabClosed.emit(path)">
 			<kling-icon
 				*ngIf="!file.hasUnsavedChanges"
-				class="absolute mt-[-18px] -ml-2 icon-light"
-				size="16"
+				class="icon-light absolute mt-[-10px] ml-[-7px]"
+				size="14"
 				name="clear"
 			></kling-icon>
 
 			<kling-icon
-				class="absolute mt-[-18px] -ml-1 text"
+				class="absolute mt-[-10px] ml-[-5px] text"
 				*ngIf="file.hasUnsavedChanges"
 				name="lens"
 				size="8"

@@ -10,7 +10,7 @@ import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
 })
 export class FeaturePanelComponent extends UnsubscribeOnDestroy implements OnInit {
 	selectedTabIndex = 0;
-	private tabs = ["terminal", "testing", "collaboration", "description"];
+	private tabs = ["terminal", "collaboration"];
 
 	constructor(private route: ActivatedRoute, private router: Router) {
 		super();

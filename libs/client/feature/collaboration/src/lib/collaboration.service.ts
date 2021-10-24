@@ -12,13 +12,18 @@ import {
 	RealTimeObject,
 	RealTimeString
 } from "@convergence/convergence";
-import { DirectoryActions, FileActions, WorkspaceActions } from "@kling/client/data-access/state";
+import {
+	AuthSelectors,
+	DirectoryActions,
+	FileActions,
+	WorkspaceActions
+} from "@kling/client/data-access/state";
 import { ExecuteResponse } from "@kling/ide-services";
 import { Directory, File } from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { nanoid } from "nanoid";
-import { BehaviorSubject, Subscription } from "rxjs";
+import { BehaviorSubject, firstValueFrom, Subscription } from "rxjs";
 
 export const CONVERGENCE_REALTIME_API_URL = new InjectionToken<string>(
 	"URL of the Convergence Realtime API"
@@ -56,20 +61,15 @@ export class CollaborationService {
 		private readonly store: Store,
 		private readonly actions$: Actions,
 		@Inject(CONVERGENCE_REALTIME_API_URL) private readonly convergenceUrl: string
-	) {
-		console.log(convergenceUrl);
-	}
+	) {}
 
-	async createSession(
-		username: string,
-		project: {
-			name?: string;
-			files: File[];
-			directories: Directory[];
-			selectedFile: string | null;
-		}
-	): Promise<string> {
-		await this.connectToConvergence(username);
+	async createSession(project: {
+		name?: string;
+		files: File[];
+		directories: Directory[];
+		selectedFile: string | null;
+	}): Promise<string> {
+		await this.connectToConvergence();
 
 		const sessionId = nanoid(6);
 
@@ -106,7 +106,7 @@ export class CollaborationService {
 		};
 
 		await this.createModel(sessionId, data);
-		await this.joinSession(username, sessionId, project.name);
+		await this.joinSession(sessionId, project.name);
 
 		return sessionId;
 	}
@@ -117,7 +117,7 @@ export class CollaborationService {
 			return await this.domain.models().openAutoCreate({
 				collection: "collaboration",
 				id: sessionId,
-				ephemeral: false,
+				ephemeral: true,
 				data
 			});
 		} catch (error) {
@@ -127,9 +127,9 @@ export class CollaborationService {
 		}
 	}
 
-	async joinSession(username: string, sessionId: string, projectName?: string): Promise<void> {
+	async joinSession(sessionId: string, projectName?: string): Promise<void> {
 		if (!this.domain?.isConnected()) {
-			await this.connectToConvergence(username);
+			await this.connectToConvergence();
 		}
 
 		console.log("Convergence: Joining session " + sessionId);
@@ -296,7 +296,10 @@ export class CollaborationService {
 		}
 	}
 
-	private async connectToConvergence(username: string): Promise<void> {
+	private async connectToConvergence(): Promise<void> {
+		const user = await firstValueFrom(this.store.select(AuthSelectors.selectUser));
+		const username = user?.displayName || `User-${nanoid(6)}`;
+
 		try {
 			console.log("Convergence: Connecting...");
 			this.domain = await connectAnonymously(this.convergenceUrl, username);

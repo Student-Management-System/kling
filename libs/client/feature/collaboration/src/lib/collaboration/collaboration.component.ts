@@ -24,8 +24,6 @@ export class CollaborationComponent implements OnInit {
 	readonly collaborators$ = this.collaborationService.collaborators$;
 	readonly messages$ = this.collaborationService.messages$;
 
-	private username!: string;
-
 	constructor(
 		readonly location: Location,
 		private readonly collaborationService: CollaborationService,
@@ -36,8 +34,7 @@ export class CollaborationComponent implements OnInit {
 	) {}
 
 	async ngOnInit(): Promise<void> {
-		const { username, share, project } = this.route.snapshot.queryParams;
-		this.username = username;
+		const { share, project } = this.route.snapshot.queryParams;
 
 		if (share) {
 			await this.joinSession(share, project);
@@ -52,7 +49,7 @@ export class CollaborationComponent implements OnInit {
 			firstValueFrom(this.store.select(WorkspaceSelectors.selectProjectName))
 		]);
 
-		const sessionId = await this.collaborationService.createSession(this.username, {
+		const sessionId = await this.collaborationService.createSession({
 			files,
 			directories,
 			selectedFile,
@@ -69,11 +66,12 @@ export class CollaborationComponent implements OnInit {
 
 		this.shareUrl = this.generateShareUrl(sessionId);
 		this.toast.success("Connected to session: " + sessionId, "Collaboration");
+		this.copyToClipboard(this.shareUrl);
 	}
 
 	async joinSession(sessionId: string, projectName?: string): Promise<void> {
 		this.shareUrl = this.generateShareUrl(sessionId);
-		await this.collaborationService.joinSession(this.username, sessionId, projectName);
+		await this.collaborationService.joinSession(sessionId, projectName);
 		this.toast.success("Connected to session: " + sessionId, "Collaboration");
 	}
 

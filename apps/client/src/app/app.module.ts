@@ -3,7 +3,7 @@ import { registerLocaleData } from "@angular/common";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import localeDe from "@angular/common/locales/de";
 import localeDeExtra from "@angular/common/locales/extra/de";
-import { InjectionToken, LOCALE_ID, NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { BrowserModule } from "@angular/platform-browser";
@@ -27,8 +27,6 @@ import { AppComponent } from "./app.component";
 import { NavigationModule } from "./navigation/navigation.module";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
-
-export const LOCAL_STORAGE = new InjectionToken<Storage>("LOCALSTORAGE");
 
 export function createTranslateLoader(http: HttpClient): TranslateLoader {
 	return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -75,7 +73,6 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 	providers: [
 		{ provide: LOCALE_ID, useValue: "de" },
 		{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "outline" } },
-		{ provide: LOCAL_STORAGE, useValue: localStorage },
 		{ provide: INDEXED_DB, useValue: indexedDB }
 	],
 	bootstrap: [AppComponent]

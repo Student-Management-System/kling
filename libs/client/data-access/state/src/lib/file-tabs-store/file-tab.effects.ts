@@ -37,7 +37,7 @@ export class FileTabEffects {
 			filter(action => !!action.path),
 			withLatestFrom(this.store.select(FileTabSelectors.getFileTabs)),
 			filter(([action, tabs]) => !tabs.find(path => path === action.path)),
-			map(([action]) => FileTabActions.addFileTab({ path: action.path }))
+			map(([action]) => FileTabActions.addFileTab({ path: action.path! }))
 		);
 	});
 

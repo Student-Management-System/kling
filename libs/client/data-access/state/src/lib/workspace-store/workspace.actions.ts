@@ -6,8 +6,8 @@ export const loadProject = createAction(
 	props<{
 		files: File[];
 		directories: Directory[];
-		entryPoint?: string;
-		projectName?: string;
+		projectName: string;
+		entryPoint?: string | null;
 	}>()
 );
 

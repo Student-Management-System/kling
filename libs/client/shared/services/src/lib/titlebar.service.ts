@@ -13,8 +13,8 @@ export class TitlebarService {
 	constructor(private router: Router) {
 		this.router.events
 			.pipe(filter(event => event instanceof NavigationEnd))
-			.subscribe((event: NavigationEnd) => {
-				if (!event.url.match("/ide")) {
+			.subscribe(event => {
+				if (!(event as NavigationEnd).url.match("/ide")) {
 					this.show();
 				} else {
 					this.hide();

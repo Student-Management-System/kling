@@ -26,7 +26,13 @@
       "ImportFiles": "Dateien importieren",
       "MarkAsEntryPoint": "Als Einstiegspunkt markieren",
       "SaveAsNewProject": "Als neues Project speichern",
-      "CreateNewProject": "Neues Projekt"
+      "CreateNewProject": "Neues Projekt",
+      "NewFile": "Neue Datei",
+      "NewFolder": "Neuer Ordner",
+      "ImportFile": "Datei(en) importieren",
+      "ImportFolder": "Ordner importieren",
+      "NewProject": "Neues Project",
+      "SynchronizeFolder": "Ordner öffnen"
     },
     "Run": "Ausführen",
     "Export": "Exportieren"
@@ -246,6 +252,10 @@
     },
     "Terminal": {
       "InnerText": "Die Ausgabe des Programs wird hier erscheinen"
+    },
+    "SynchronizeFolder": {
+      "Description": "Erlaubt die Auswahl von einem lokalen gespeicherten Ordner. Der Inhalt des Ordners wird mit dem Editor synchronisiert, d. h. vorhandene Dateien werden geladen und Änderungen auf dem System des Nutzers gespeichert.",
+      "Link": "Dieses Feature ist nur in sicheren Umgebungen (HTTPS) und in unterstützenden Browsern (z. B. Chrome) verfügbar."
     }
   }
 }

@@ -1,41 +1,27 @@
 <div class="activity-bar-container">
 	<div class="menu-btn-container">
-		<button class="menu-btn" mat-icon-button disableRipple (click)="sidenav.open()">
-			<kling-icon name="menu"></kling-icon>
+		<button class="menu-btn" (click)="sidenav.open()">
+			<kling-icon name="menu" size="16"></kling-icon>
 		</button>
 	</div>
 
-	<div class="tabs">
-		<div class="top" *ngIf="settings.sideBarComponent$ | async as selectedTab">
-			<div class="tab" [class.selected]="selectedTab === 'EXPLORER'">
-				<button
-					mat-icon-button
-					disableRipple
-					(click)="onTabClick('EXPLORER')"
-					[matTooltip]="'Explorer'"
-				>
-					<kling-icon name="file_copy"></kling-icon>
-				</button>
-			</div>
-
-			<div class="tab" [class.selected]="selectedTab === 'HISTORY'">
-				<button
-					mat-icon-button
-					disableRipple
-					(click)="onTabClick('HISTORY')"
-					[matTooltip]="'History'"
-				>
-					<kling-icon name="history"></kling-icon>
-				</button>
-			</div>
+	<div class="grid w-full" *ngIf="settings.sideBarComponent$ | async as selectedTab">
+		<div class="tab" [class.selected]="selectedTab === 'EXPLORER'">
+			<button (click)="onTabClick('EXPLORER')" [matTooltip]="'Explorer'">
+				<kling-icon name="files"></kling-icon>
+			</button>
 		</div>
 
-		<div class="bottom">
-			<div class="tab">
-				<button mat-icon-button disableRipple [matTooltip]="'Help'">
-					<kling-icon name="help"></kling-icon>
-				</button>
-			</div>
+		<div class="tab" [class.selected]="selectedTab === 'HISTORY'">
+			<button (click)="onTabClick('HISTORY')" [matTooltip]="'History'">
+				<kling-icon name="history"></kling-icon>
+			</button>
+		</div>
+
+		<div class="tab">
+			<button [matTooltip]="'Help'">
+				<kling-icon name="help"></kling-icon>
+			</button>
 		</div>
 	</div>
 </div>

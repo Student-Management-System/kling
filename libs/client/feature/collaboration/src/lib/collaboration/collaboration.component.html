@@ -25,9 +25,7 @@
 			</div>
 
 			<ng-template #noSession>
-				<button class="p-1 text-white bg-purple-600 rounded" (click)="createSession()">
-					Create Session
-				</button>
+				<button class="vs-button" (click)="createSession()">Create Session</button>
 			</ng-template>
 		</div>
 
@@ -43,7 +41,7 @@
 
 		<div class="flex flex-col flex-initial flex-grow-0 h-full gap-2">
 			<span class="text-lg">Chat</span>
-			<div class="flex flex-col flex-initial flex-grow-0 gap-2 overflow-scroll">
+			<div class="flex flex-col flex-initial flex-grow-0 gap-2 overflow-auto">
 				<div class="flex bg-gray-700 rounded" *ngFor="let message of messages$ | async">
 					<div class="h-full p-2 bg-gray-800 rounded-l">
 						{{ message.user.displayName }}
@@ -56,6 +54,6 @@
 
 	<div class="flex flex-col gap-2">
 		<textarea rows="3" class="bg-transparent rounded ring ring-gray-500"></textarea>
-		<button class="p-1 text-white bg-purple-600 rounded">Send</button>
+		<button class="vs-button">Send</button>
 	</div>
 </div>

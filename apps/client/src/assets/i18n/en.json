@@ -26,7 +26,13 @@
       "ImportFiles": "Import Files",
       "MarkAsEntryPoint": "Mark as entry point",
       "SaveAsNewProject": "Save As New Project",
-      "CreateNewProject": "New Project"
+      "CreateNewProject": "New Project",
+      "NewFile": "New File",
+      "NewFolder": "New Folder",
+      "ImportFile": "Import File(s)",
+      "ImportFolder": "Import Folder",
+      "NewProject": "New Project",
+      "SynchronizeFolder": "Open Folder"
     },
     "Run": "Run",
     "Export": "Export"
@@ -247,6 +253,10 @@
     },
     "Terminal": {
       "InnerText": "The output of your program will appear here"
+    },
+    "SynchronizeFolder": {
+      "Description": "Enables you to choose a directory from your system. The content of this directory\nwill be synchronized with the editor, meaning existing files will be loaded and changes written back to it.",
+      "Link": "This feature is available only in secure contexts (HTTPS), in some or all supporting browsers (i.e. Chrome)."
     }
   }
 }

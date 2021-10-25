@@ -58,6 +58,8 @@
 
 	// VSCode
 	--vs-blue: #006ab1;
+	--vs-button-bg: #007acc;
+	--vs-button-bg-hover: #0062a3;
 	--text-very-light: rgb(111, 111, 111);
 }
 
@@ -102,6 +104,8 @@
 
 	// VSCode
 	--vs-blue: #3794ff;
+	--vs-button-bg: rgb(14, 99, 156);
+	--vs-button-bg-hover: rgb(17, 119, 187);
 	--text-very-light: rgb(187, 187, 187);
 }
 
@@ -167,56 +171,6 @@ input[type="number"] {
 	max-height: max-content;
 }
 
-.dialog-container {
-	display: flexbox;
-	min-width: 300px;
-}
-
-.form-container {
-	display: flex;
-	flex-direction: column;
-}
-
-.button-container {
-	display: flex;
-	justify-content: space-evenly;
-}
-
-.radio-group-container {
-	display: flex;
-	flex-direction: column;
-}
-
-.radio-group {
-	display: flex;
-	flex-direction: column;
-	mat-radio-button {
-		padding-top: 2px;
-		padding-bottom: 2px;
-	}
-}
-
-.grid-left-right {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	column-gap: 16px;
-}
-
-.radio-group-label {
-	font-weight: 500;
-}
-
-.tab {
-	padding-top: 8px;
-	padding-bottom: 8px;
-}
-
-.card-title {
-	align-items: center !important;
-	display: flex !important;
-	justify-content: space-between !important;
-}
-
 mat-card {
 	background-color: var(--card-bg) !important;
 }
@@ -224,6 +178,16 @@ mat-card {
 table,
 mat-paginator {
 	background-color: var(--table-bg) !important;
+}
+
+.vs-button {
+	background-color: var(--vs-button-bg);
+	color: white;
+	padding: 4px;
+}
+
+.vs-button:hover {
+	background-color: var(--vs-button-bg-hover);
 }
 
 .mat-menu-panel,
@@ -238,19 +202,6 @@ mat-paginator {
 
 .mat-tab-label-active {
 	opacity: 1 !important;
-}
-
-.center {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.full-width {
-	width: 100%;
-}
-
-.full-height {
-	height: 100%;
 }
 
 .link-none {
@@ -274,14 +225,6 @@ mat-paginator {
 .text-white {
 	color: white;
 	fill: white;
-}
-
-.text-red {
-	color: red;
-}
-
-.text-green {
-	color: green;
 }
 
 .text-selected {
@@ -329,44 +272,4 @@ mat-form-field .mat-hint {
 }
 .ngx-contextmenu a:hover {
 	color: var(--selected);
-}
-
-.INFORMATIONAL {
-	font-weight: 500;
-	color: rgb(0, 130, 173);
-}
-.WARNING {
-	font-weight: 500;
-	color: rgb(233, 185, 55);
-}
-.ERROR {
-	font-weight: 500;
-	color: rgb(206, 134, 0);
-}
-.CRITICAL {
-	font-weight: 500;
-	color: red;
-}
-
-.EASY {
-	font-weight: 500;
-	color: green;
-}
-.MEDIUM {
-	font-weight: 500;
-	color: rgb(212, 168, 45);
-}
-.HARD {
-	font-weight: 500;
-	color: red;
-}
-
-.chip-EASY {
-	background-color: green !important;
-}
-.chip-MEDIUM {
-	background-color: orange !important;
-}
-.chip-HARD {
-	background-color: red !important;
 }

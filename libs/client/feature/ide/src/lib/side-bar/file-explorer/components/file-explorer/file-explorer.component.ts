@@ -16,7 +16,7 @@ export class FileExplorerComponent implements OnInit {
 	/** Top-level files of this project. */
 	files$ = this.store.select(FileSelectors.selectFilesOfDirectory(""));
 	/** The file that is currently selected by the user (displayed in the editor). */
-	selectedFile$ = this.store.select(FileSelectors.selectCurrentFile);
+	selectedFilePath$ = this.store.select(FileSelectors.selectSelectedFilePath);
 
 	isHovering = false;
 

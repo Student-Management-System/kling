@@ -4,7 +4,7 @@ import * as WorkspaceActions from "./workspace.actions";
 export const workspaceFeatureKey = "workspace";
 
 export interface State {
-	entryPoint: string;
+	entryPoint?: string | null;
 	projectName: string;
 }
 

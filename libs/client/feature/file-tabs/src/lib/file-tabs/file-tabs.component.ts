@@ -10,11 +10,10 @@ import { Store } from "@ngrx/store";
 @Component({
 	selector: "kling-file-tabs",
 	templateUrl: "./file-tabs.component.html",
-	styleUrls: ["./file-tabs.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileTabsComponent {
-	selectedFile$ = this.store.select(FileSelectors.selectCurrentFile);
+	selectedFilePath$ = this.store.select(FileSelectors.selectSelectedFilePath);
 	tabs$ = this.store.select(FileTabSelectors.getFileTabs);
 
 	constructor(private store: Store) {}

@@ -6,8 +6,8 @@ import * as AuthActions from "./auth.actions";
 export const authFeatureKey = "auth";
 
 export interface State extends MetaState {
-	accessToken: string;
-	user: UserDto;
+	accessToken: string | null;
+	user: UserDto | null;
 }
 
 export const initialState: State = {
@@ -19,7 +19,7 @@ export const initialState: State = {
 
 function createInitialState(): State {
 	const initial = initialState;
-	const authState = JSON.parse(localStorage.getItem("studentMgmtToken")) as {
+	const authState = JSON.parse(localStorage.getItem("studentMgmtToken")!) as {
 		user: UserDto;
 		accessToken: string;
 	};
@@ -46,7 +46,7 @@ export const reducer = createReducer(
 	),
 	on(
 		AuthActions.loginSuccess,
-		(state, action): State => ({
+		(_state, action): State => ({
 			accessToken: action.accessToken,
 			user: action.user,
 			isLoading: false,
@@ -64,7 +64,7 @@ export const reducer = createReducer(
 	),
 	on(
 		AuthActions.logout,
-		(state): State => ({
+		(_state): State => ({
 			accessToken: null,
 			user: null,
 			isLoading: false,

@@ -9,26 +9,23 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { ThemeService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { ThemeService } from "@kling/client/shared/services";
+import { CollaborationService } from "@kling/collaboration";
 import {
 	CodeExecutionService,
 	WorkspaceService,
 	WorkspaceSettingsService
 } from "@kling/ide-services";
-import {
-	extractFileExtension,
-	File,
-	FileExtension,
-	getLanguageFromExtension,
-	SupportedLanguage
-} from "@kling/programming";
+import { File } from "@kling/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 import { firstValueFrom, fromEvent, merge, Subject, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
+import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
 
@@ -53,6 +50,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 	private editorModelByPath = new Map<string, EditorModelState>();
 	private filesWithUnsavedChanges = new Set<string>();
 	private showRulers = true;
+	private hasCollaborationSession = false;
+	private adapter: MonacoConvergenceAdapter | null = null;
 
 	constructor(
 		private readonly store: Store,
@@ -62,6 +61,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		private readonly themeService: ThemeService,
 		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
+		private readonly collaboration: CollaborationService,
 		private readonly cdRef: ChangeDetectorRef
 	) {
 		super();
@@ -79,7 +79,28 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		this.subs.sink = this.subscribeToFileSelected();
 		this.subs.sink = this.subscribeToFileAdded();
 		this.subs.sink = this.subscribeToFileRemoved();
-		this.subs.sink = this.workspace.init$.subscribe(() => this._disposeAllModels());
+
+		this.subs.sink = this.workspace.init$.subscribe(() => {
+			this.adapter = null;
+			this.selectedFilePath = null;
+			this.editorModelByPath.clear();
+			this.filesWithUnsavedChanges.clear();
+			this._disposeAllModels();
+		});
+
+		this.subs.sink = this.store
+			.select(FileSelectors.selectPreviouslySelectedFilePath)
+			.subscribe(path => {
+				if (path && this.filesWithUnsavedChanges.has(path)) {
+					this.store.dispatch(
+						FileActions.saveFile({
+							path,
+							content: this.getFileContent(path)!
+						})
+					);
+				}
+			});
+
 		this.subs.sink = this.actions$
 			.pipe(
 				ofType(FileActions.fileSaved),
@@ -114,27 +135,9 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 		this.registerCustomActions();
 
-		// connectAnonymously(
-		// 	"http://localhost:8000/api/realtime/convergence/default",
-		// 	"User-" + Math.floor(Math.random() * 1000)
-		// )
-		// 	.then(d => {
-		// 		// Now open the model, creating it using the initial data if it does not exist.
-		// 		return d.models().openAutoCreate({
-		// 			collection: "example-monaco",
-		// 			id: "convergenceExampleId",
-		// 			data: {
-		// 				text: this.getFileContent(this.selectedFilePath)
-		// 			}
-		// 		});
-		// 	})
-		// 	.then(model => {
-		// 		const adapter = new MonacoConvergenceAdapter(this.editor, model.elementAt("text"));
-		// 		adapter.bind();
-		// 	})
-		// 	.catch(error => {
-		// 		console.error("Could not open model ", error);
-		// 	});
+		this.subs.sink = this.collaboration.activeSessionId$.subscribe(session => {
+			this.hasCollaborationSession = !!session;
+		});
 
 		this.codeEditorInit.emit();
 	}
@@ -183,7 +186,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 				const modified = this.getCurrentModel();
 				const original = monaco.editor.createModel(
 					modified!.getValue(),
-					this.getLanguageOfFile(this.selectedFilePath!)!
+					undefined,
+					this.createFileUri(this.selectedFilePath!)
 				);
 
 				this.openDiffEditorDialog({
@@ -228,12 +232,14 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 	}
 
 	private saveCurrentFile() {
-		this.store.dispatch(
-			FileActions.saveFile({
-				path: this.selectedFilePath!,
-				content: this.getFileContent(this.selectedFilePath!)!
-			})
-		);
+		if (this.selectedFilePath) {
+			this.store.dispatch(
+				FileActions.saveFile({
+					path: this.selectedFilePath,
+					content: this.getFileContent(this.selectedFilePath)!
+				})
+			);
+		}
 	}
 
 	private async triggerCodeExecutionRequest(): Promise<void> {
@@ -258,16 +264,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 			await this.codeExecution.execute({ files, stdin });
 		}
-	}
-
-	/**
-	 * Looks up the file extension of the given path and returns the corresponding language.
-	 * - `.py` -> `python`
-	 * - `.ts` -> `typescript`
-	 */
-	private getLanguageOfFile(path: string): SupportedLanguage | null {
-		const extension = extractFileExtension(path) as FileExtension;
-		return getLanguageFromExtension(extension);
 	}
 
 	/** Returns the model that is currently opened. */
@@ -295,10 +291,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		});
 	}
 
-	private createFileUri(path: string): monaco.Uri {
-		return monaco.Uri.parse("file:///" + path);
-	}
-
 	private subscribeToFileAdded(): Subscription {
 		return this.workspace.fileAdded$.subscribe(file => {
 			this.createModel(file);
@@ -307,31 +299,52 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 	private subscribeToFileSelected(): Subscription {
 		return this.store
-			.select(FileSelectors.selectCurrentFile)
+			.select(FileSelectors.selectSelectedFilePath)
 			.pipe(
-				tap(file => {
-					if (file) {
+				tap(path => {
+					this.adapter?.dispose();
+
+					if (path) {
 						this.saveCurrentViewState();
+
+						if (this.hasCollaborationSession) {
+							this.adapter = this.createConvergenceAdapter(path);
+						}
 					}
-					this.switchToSelectedFile(file);
-					this.selectedFilePath = file?.path;
+
+					this.switchToSelectedFile(path);
+					this.selectedFilePath = path;
 					this.cdRef.detectChanges();
 				})
 			)
 			.subscribe();
 	}
 
+	private createConvergenceAdapter(path: string): MonacoConvergenceAdapter {
+		const textModel = this.editorModelByPath.get(path)?.textModel;
+		const realTimeString = this.collaboration.getRealTimeFile(path);
+
+		if (!textModel) {
+			throw new Error("No model: " + path);
+		}
+		if (!realTimeString) {
+			throw new Error("No RealTimeString: " + path);
+		}
+
+		return new MonacoConvergenceAdapter(this.editor, realTimeString);
+	}
+
 	/**
 	 * Sets the editor's model to the model associated with the given `file`.
 	 * Also restores the view state (i.e scroll position, selections), if it has been saved before.
 	 */
-	private switchToSelectedFile(file: File | null | undefined) {
-		const editorModelState = file ? this.editorModelByPath.get(file.path) : null;
+	private switchToSelectedFile(path: string | null | undefined) {
+		const editorModelState = path ? this.editorModelByPath.get(path) : null;
 		if (editorModelState) {
-			this.editor?.setModel(editorModelState.textModel);
+			this.editor.setModel(editorModelState.textModel);
 
 			if (editorModelState.viewState) {
-				this.editor?.restoreViewState(editorModelState.viewState);
+				this.editor.restoreViewState(editorModelState.viewState);
 			}
 
 			this.editor.focus();
@@ -378,6 +391,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		});
 
 		return model;
+	}
+
+	private createFileUri(path: string): monaco.Uri {
+		return monaco.Uri.parse("file:///" + path);
 	}
 
 	resize(): void {

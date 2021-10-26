@@ -5,7 +5,7 @@ import { tap } from "rxjs/operators";
 import { AuthenticationService, UserDto } from "@student-mgmt/api";
 import { AuthActions, AuthSelectors } from "@kling/client/data-access/state";
 
-type StoredAuthState = { user: UserDto; accessToken: string };
+type StoredAuthState = { user: UserDto | null; accessToken: string | null };
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -19,7 +19,7 @@ export class AuthService {
 	 * Returns the stored AccessToken (JWT), which can be assigned to the Authorization-header
 	 * to authenticate the user for requests to the server.
 	 */
-	static getAccessToken(): string {
+	static getAccessToken(): string | null {
 		const token = localStorage.getItem(AuthService.studentMgmtTokenKey);
 
 		if (!token) return "";
@@ -40,7 +40,7 @@ export class AuthService {
 	 * specified user.
 	 */
 	devLogin(username: string): Observable<UserDto> {
-		AuthService.setAuthState({ accessToken: username, user: null as unknown as UserDto });
+		AuthService.setAuthState({ accessToken: username, user: null });
 
 		return this.authenticationService.whoAmI().pipe(
 			tap(user => {

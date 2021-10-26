@@ -5,13 +5,7 @@
 	[class.notselected]="!isSelected"
 	data-test="file"
 >
-	<button
-		mat-button
-		disableRipple="true"
-		(click)="openFile()"
-		(middleclick)="openFile()"
-		[contextMenu]="fileContextMenu"
-	>
+	<button (click)="openFile()" (middleclick)="openFile()" [contextMenu]="fileContextMenu">
 		<span class="flex content-center justify-between w-full">
 			<span class="flex gap-2">
 				<kling-file-icon [language]="file.name | programmingLanguage"></kling-file-icon>

@@ -7,7 +7,7 @@
 					<kling-icon name="menu"></kling-icon>
 				</button>
 				<ng-template *ngTemplateOutlet="uniLogo"></ng-template>
-				{{ "Title.AppName" | translate }}
+				Web-IDE
 			</div>
 			<div id="nav-right">
 				<!-- <ng-container [ngSwitch]="isLoggedIn()">
@@ -54,7 +54,7 @@
 			class="sidenav mat-elevation-z0"
 			[ngClass]="showTitlebar ? '.show-titlebar' : 'hide-titlebar'"
 			fixedInViewport
-			[opened]="(isHandset$ | async) === false"
+			opened="false"
 			[mode]="(isHandset$ | async) ? 'over' : 'side'"
 		>
 			<!-- TOP BAR -->
@@ -65,7 +65,7 @@
 							<kling-icon name="menu"></kling-icon>
 						</button>
 						<ng-template *ngTemplateOutlet="uniLogo"></ng-template>
-						{{ "Title.AppName" | translate }}
+						Web-IDE
 					</div>
 					<div id="nav-right"></div>
 				</mat-toolbar>
@@ -83,15 +83,6 @@
 						[routerLinkActiveOptions]="{ exact: true }"
 					>
 						<kling-icon name="home"></kling-icon>{{ "Misc.Home" | translate }}
-					</a>
-
-					<a
-						mat-list-item
-						[routerLink]="['/problems']"
-						routerLinkActive="router-link-active"
-						[routerLinkActiveOptions]="{ exact: true }"
-					>
-						<kling-icon name="assignment"></kling-icon>Problems
 					</a>
 
 					<a mat-list-item [routerLink]="['/ide']" routerLinkActive="router-link-active">

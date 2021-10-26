@@ -1,0 +1,42 @@
+{
+	"projectType": "library",
+	"root": "libs/client/feature/ide",
+	"sourceRoot": "libs/client/feature/ide/src",
+	"prefix": "kling",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/angular:ng-packagr-lite",
+			"outputs": ["dist/libs/client/feature/ide"],
+			"options": {
+				"project": "libs/client/feature/ide/ng-package.json"
+			},
+			"configurations": {
+				"production": {
+					"tsConfig": "libs/client/feature/ide/tsconfig.lib.prod.json"
+				},
+				"development": {
+					"tsConfig": "libs/client/feature/ide/tsconfig.lib.json"
+				}
+			},
+			"defaultConfiguration": "production"
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/client/feature/ide"],
+			"options": {
+				"jestConfig": "libs/client/feature/ide/jest.config.js",
+				"passWithNoTests": true
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"options": {
+				"lintFilePatterns": [
+					"libs/client/feature/ide/src/**/*.ts",
+					"libs/client/feature/ide/src/**/*.html"
+				]
+			}
+		}
+	},
+	"tags": ["scope:client", "type:feature"]
+}

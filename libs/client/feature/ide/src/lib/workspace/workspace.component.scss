@@ -1,13 +1,5 @@
-.full-height {
-	display: flex;
-	height: 100vh;
-	background-color: var(--editor-background);
-	//flex-direction: column;
-}
-
 .activity-bar {
-	width: 50px;
-	border-right: 1px solid var(--card-bg);
+	width: 48px;
 }
 
 .side-bar {
@@ -37,11 +29,13 @@
 	display: flex;
 	justify-content: space-between;
 	background: var(--file-tab-bg);
+	height: 35px;
 }
 
 .actions {
 	display: flex;
 	gap: 4px;
+	height: 35px;
 }
 
 .btn-run-tests {

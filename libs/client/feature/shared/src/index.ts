@@ -1,14 +1,3 @@
-export * from "./lib/shared.module";
-
-// components
-export * from "./lib/components/dialogs/confirm-dialog/confirm-dialog.dialog";
-export * from "./lib/components/unsubscribe-on-destroy.component";
-export * from "./lib/paginator/paginator.component";
-
-// services
-export * from "./lib/services/dialog.service";
-export * from "./lib/services/sidenav.service";
-export * from "./lib/services/theme.service";
-export * from "./lib/services/titlebar.service";
-export * from "./lib/services/toast.service";
-export * from "./lib/services/web-socket.service";
+export * from "./lib/directives/dropzone/dropzone.module";
+export * from "./lib/directives/middle-click/middle-click.module";
+export * from "./lib/pipes/programming-language/programming-language.module";

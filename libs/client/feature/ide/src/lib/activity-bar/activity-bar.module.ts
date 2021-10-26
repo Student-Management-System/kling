@@ -1,10 +1,13 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { SharedModule } from "@kling/client-shared";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { IconModule } from "@kling/client/shared/components";
 import { ActivityBarComponent } from "./components/activity-bar/activity-bar.component";
 
 @NgModule({
 	declarations: [ActivityBarComponent],
-	imports: [SharedModule],
+	imports: [CommonModule, IconModule, MatTooltipModule, MatButtonModule],
 	exports: [ActivityBarComponent]
 })
 export class ActivityBarModule {}

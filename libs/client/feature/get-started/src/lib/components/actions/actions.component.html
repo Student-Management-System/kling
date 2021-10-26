@@ -1,9 +1,13 @@
 <div class="grid content-start">
 	<div class="mb-2 text-lg font-light">{{ "Common.Actions" | translate }}</div>
 	<div class="grid gap-2 vs-blue">
-		<kling-action title="New file" icon="new-file" (actionClicked)="addFile()"></kling-action>
 		<kling-action
-			title="New Folder"
+			[title]="'Action.Custom.NewFile' | translate"
+			icon="new-file"
+			(actionClicked)="addFile()"
+		></kling-action>
+		<kling-action
+			[title]="'Action.Custom.NewFolder' | translate"
 			icon="new-folder"
 			(actionClicked)="addFolder()"
 		></kling-action>
@@ -11,12 +15,12 @@
 		<mat-divider></mat-divider>
 
 		<kling-action
-			title="Import File(s)"
+			[title]="'Action.Custom.ImportFile' | translate"
 			icon="file"
 			(actionClicked)="importFile()"
 		></kling-action>
 		<kling-action
-			title="Import Folder"
+			[title]="'Action.Custom.ImportFolder' | translate"
 			icon="folder-opened"
 			(actionClicked)="importFolder()"
 		></kling-action>
@@ -25,29 +29,25 @@
 
 		<div class="grid gap-1">
 			<kling-action
-				title="New Project"
+				[title]="'Action.Custom.NewProject' | translate"
 				icon="bookmark"
 				(actionClicked)="newProject()"
 			></kling-action>
 
 			<kling-action
-				title="Synchronize Folder"
+				[title]="'Action.Custom.SynchronizeFolder' | translate"
 				icon="file-symlink-directory"
 				(actionClicked)="synchronizeFolder()"
 				[disabled]="!hasFileSystemAccessSupport"
 			></kling-action>
 
-			<span class="max-w-xs min-w-min text-light"
-				>Enables you to choose a directory from your system. The content of this directory
-				will be synchronized with the editor, meaning existing files will be loaded and
-				changes written back to it.
+			<span class="max-w-xs min-w-min text-light">
+				{{ "Text.SynchronizeFolder.Description" | translate }}
 				<a
 					class="underline"
 					href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API"
-					>This feature is available only in secure contexts (HTTPS), in some or all
-					supporting browsers</a
+					>{{ "Text.SynchronizeFolder.Link" | translate }}</a
 				>
-				(i.e. Chrome).
 			</span>
 		</div>
 	</div>

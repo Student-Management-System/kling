@@ -1,0 +1,42 @@
+{
+	"projectType": "library",
+	"root": "libs/client/feature/ide-dialogs",
+	"sourceRoot": "libs/client/feature/ide-dialogs/src",
+	"prefix": "kling",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/angular:ng-packagr-lite",
+			"outputs": ["dist/libs/client/feature/ide-dialogs"],
+			"options": {
+				"project": "libs/client/feature/ide-dialogs/ng-package.json"
+			},
+			"configurations": {
+				"production": {
+					"tsConfig": "libs/client/feature/ide-dialogs/tsconfig.lib.prod.json"
+				},
+				"development": {
+					"tsConfig": "libs/client/feature/ide-dialogs/tsconfig.lib.json"
+				}
+			},
+			"defaultConfiguration": "production"
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/client/feature/ide-dialogs"],
+			"options": {
+				"jestConfig": "libs/client/feature/ide-dialogs/jest.config.js",
+				"passWithNoTests": true
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"options": {
+				"lintFilePatterns": [
+					"libs/client/feature/ide-dialogs/src/**/*.ts",
+					"libs/client/feature/ide-dialogs/src/**/*.html"
+				]
+			}
+		}
+	},
+	"tags": ["scope:client", "type:feature"]
+}

@@ -18,15 +18,15 @@
 				</button>
 			</mat-menu>
 
-			<button
-				class="menu-btn"
-				mat-icon-button
-				[matMenuTriggerFor]="menu"
-				disableRipple
-				data-test="explorer-menu-btn"
-			>
-				<kling-icon name="more_horiz" class="icon-light"></kling-icon>
-			</button>
+			<div class="px-2">
+				<button
+					class="w-5 rounded hover:bg-[#a1a1a141]"
+					[matMenuTriggerFor]="menu"
+					data-test="explorer-menu-btn"
+				>
+					<kling-icon name="more" size="16"></kling-icon>
+				</button>
+			</div>
 		</ng-container>
 	</kling-side-bar-header>
 
@@ -40,38 +40,30 @@
 			>
 
 			<ng-container sectionActions>
-				<div class="flex gap-1">
+				<div class="flex gap-1 pr-1">
 					<button
-						class="add-file-btn"
-						mat-icon-button
-						disableRipple
+						class="rounded hover:bg-[#a1a1a141]"
 						matTooltip="New File"
 						(click)="workspaceDialogs.openCreateFileDialog()"
 						data-test="add-file-btn"
 					>
-						<div>
-							<kling-icon
-								name="new-file"
-								size="16"
-								class="mt-[-16px] icon-light"
-							></kling-icon>
-						</div>
+						<kling-icon
+							name="new-file"
+							size="16"
+							class="mt-[-16px] icon-light"
+						></kling-icon>
 					</button>
 					<button
-						class="add-directory-btn"
-						mat-icon-button
-						disableRipple
+						class="rounded hover:bg-[#a1a1a141]"
 						matTooltip="New Folder"
 						(click)="workspaceDialogs.openCreateDirectoryDialog()"
 						data-test="add-directory-btn"
 					>
-						<div>
-							<kling-icon
-								name="new-folder"
-								size="16"
-								class="mt-[-4px] icon-light"
-							></kling-icon>
-						</div>
+						<kling-icon
+							name="new-folder"
+							size="16"
+							class="mt-[-4px] icon-light"
+						></kling-icon>
 					</button>
 				</div>
 			</ng-container>

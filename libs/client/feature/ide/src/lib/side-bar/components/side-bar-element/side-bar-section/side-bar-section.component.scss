@@ -1,0 +1,55 @@
+.section {
+	overflow: hidden;
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+}
+
+.section-content {
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.section-header {
+	background-color: var(--sidebar-section-header-bg);
+	display: flex;
+	justify-content: space-between;
+	height: 24px;
+}
+
+.section-header-left {
+	// Remove styling of native button
+	background: none;
+	border: none;
+	padding: 0;
+	outline: inherit;
+
+	display: flex;
+	width: 100%;
+	color: var(--text);
+	overflow: hidden;
+	white-space: nowrap;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	align-items: center;
+	padding-top: 2px;
+}
+
+::ng-deep .section-actions {
+	height: 24px;
+	display: flex;
+	width: fit-content;
+	padding-right: 4px;
+	button {
+		height: 24px;
+		padding-right: 4px;
+		width: fit-content !important;
+	}
+	kling-icon {
+		font-size: 16px;
+		padding: 0px !important;
+		margin-top: -16px;
+	}
+}

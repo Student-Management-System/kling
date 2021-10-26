@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { DialogService } from "@kling/client-shared";
+import { DialogService } from "@kling/client/shared/services";
 import { WorkspaceService } from "@kling/ide-services";
 import { IndexedDbService, StoredProject } from "@kling/indexed-db";
 import { BehaviorSubject } from "rxjs";

@@ -6,7 +6,7 @@ import {
 	HttpRequest
 } from "@angular/common/http";
 import { Injectable, Injector } from "@angular/core";
-import { ToastService } from "@kling/client-shared";
+import { ToastService } from "@kling/client/shared/services";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AuthService } from "./auth.service";

@@ -1,10 +1,9 @@
-import { createAction, props } from "@ngrx/store";
-import { Update } from "@ngrx/entity";
 import { Directory } from "@kling/programming";
+import { createAction, props } from "@ngrx/store";
 
 export const addDirectory = createAction(
 	"[Directory/API] Add Directory",
-	props<{ directory: Directory }>()
+	props<{ directory: Directory; remote?: boolean }>()
 );
 
 export const addDirectories = createAction(
@@ -12,14 +11,9 @@ export const addDirectories = createAction(
 	props<{ directories: Directory[] }>()
 );
 
-export const updateDirectory = createAction(
-	"[Directory/API] Update Directory",
-	props<{ directory: Update<Directory> }>()
-);
-
 export const deleteDirectory = createAction(
 	"[Directory/API] Delete Directory",
-	props<{ directory: Directory }>()
+	props<{ directory: Directory; remote?: boolean }>()
 );
 
 export const clearDirectories = createAction("[Directory/API] Clear Directories");

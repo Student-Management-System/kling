@@ -2,7 +2,6 @@
 module.exports = {
 	projects: [
 		"<rootDir>/apps/client",
-		"<rootDir>/apps/api-rest",
 		"<rootDir>/libs/client/data-access/state",
 		"<rootDir>/libs/shared/util/programming",
 		"<rootDir>/libs/client/data-access/indexed-db",
@@ -13,7 +12,10 @@ module.exports = {
 		"<rootDir>/libs/client/feature/shared",
 		"<rootDir>/libs/client/feature/code-editor",
 		"<rootDir>/libs/client/feature/ide-dialogs",
-		"<rootDir>/libs/client/feature/ide"
+		"<rootDir>/libs/client/feature/ide",
+		"<rootDir>/libs/client/feature/collaboration",
+		"<rootDir>/libs/client/shared/components",
+		"<rootDir>/libs/client/shared/services"
 	],
 	reporters:
 		process.env.NODE_ENV === "CI" ? ["default", "jest-github-actions-reporter"] : ["default"]

@@ -52,7 +52,7 @@ export class FileEffects {
 	fileSelected$ = createEffect(
 		() => {
 			return this.actions$.pipe(
-				ofType(FileActions.setSelectedFile, FileActions.setSelectedFile_FileTabRemoved),
+				ofType(FileActions.setSelectedFile),
 				tap(({ path }) => {
 					if (path) {
 						this.setFileUrlQueryParameter(path);
@@ -89,7 +89,8 @@ export class FileEffects {
 			queryParams: {
 				file: path
 			},
-			queryParamsHandling: "merge"
+			queryParamsHandling: "merge",
+			preserveFragment: true
 		});
 	}
 }

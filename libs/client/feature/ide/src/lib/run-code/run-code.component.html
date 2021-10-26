@@ -1,0 +1,14 @@
+<button
+	*ngIf="{ disabled: disabled$ | async } as obs"
+	class="h-full py-2 pl-1 pr-3 bg-green-600 disabled:bg-gray-500"
+	(click)="run()"
+	[disabled]="obs.disabled"
+	[class.disabled]="obs.disabled"
+	data-test="runCodeBtn"
+>
+	<kling-icon name="play_arrow" class="mr-1 text-white"></kling-icon>
+	<span class="font-bold text-white"
+		>{{ "Action.Run" | translate
+		}}<span *ngIf="entryPoint$ | async as entryPoint">: {{ entryPoint }}</span></span
+	>
+</button>

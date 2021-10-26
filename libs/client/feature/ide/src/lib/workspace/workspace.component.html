@@ -1,4 +1,4 @@
-<div class="full-height">
+<div class="flex h-screen">
 	<div class="activity-bar">
 		<kling-activity-bar></kling-activity-bar>
 	</div>
@@ -23,9 +23,7 @@
 			<div class="code-editor">
 				<div class="tabbar">
 					<kling-file-tabs></kling-file-tabs>
-					<span class="actions">
-						<kling-run-code></kling-run-code>
-					</span>
+					<kling-run-code></kling-run-code>
 				</div>
 				<div class="w-full h-full">
 					<kling-get-started *ngIf="!(selectedFile$ | async)"></kling-get-started>

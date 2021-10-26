@@ -6,7 +6,7 @@ export interface Directory {
 	name: string;
 }
 
-export function createDirectory(name: string, parentDirectoryPath = ""): Directory {
+export function createDirectory(name: string, parentDirectoryPath: string | null = ""): Directory {
 	return {
 		path: parentDirectoryPath ? parentDirectoryPath + "/" + name : name,
 		parentDirectoryPath,

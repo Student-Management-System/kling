@@ -20,7 +20,10 @@
 			"@kling/client-environments": ["libs/client/shared/environments/src/index.ts"],
 			"@kling/client-shared": ["libs/client/feature/shared/src/index.ts"],
 			"@kling/client/data-access/state": ["libs/client/data-access/state/src/index.ts"],
+			"@kling/client/shared/components": ["libs/client/shared/components/src/index.ts"],
+			"@kling/client/shared/services": ["libs/client/shared/services/src/index.ts"],
 			"@kling/code-editor": ["libs/client/feature/code-editor/src/index.ts"],
+			"@kling/collaboration": ["libs/client/feature/collaboration/src/index.ts"],
 			"@kling/file-tabs": ["libs/client/feature/file-tabs/src/index.ts"],
 			"@kling/get-started": ["libs/client/feature/get-started/src/index.ts"],
 			"@kling/ide": ["libs/client/feature/ide/src/index.ts"],
@@ -28,9 +31,6 @@
 			"@kling/ide-services": ["libs/client/feature/ide-services/src/index.ts"],
 			"@kling/indexed-db": ["libs/client/data-access/indexed-db/src/index.ts"],
 			"@kling/programming": ["libs/shared/util/programming/src/index.ts"],
-			"@kling/shared/data-access/api-rest-ng-client": [
-				"libs/shared/data-access/api-rest-ng-client/src/index.ts"
-			],
 			"@student-mgmt/api": ["libs/shared/data-access/student-mgmt-ng-client/src/index.ts"]
 		}
 	},

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { SidenavService, UnsubscribeOnDestroy } from "@kling/client-shared";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { SidenavService } from "@kling/client/shared/services";
 import { WorkspaceLayout, WorkspaceService, WorkspaceSettingsService } from "@kling/ide-services";
 import { IndexedDbService } from "@kling/indexed-db";
 import { Store } from "@ngrx/store";
@@ -13,7 +14,7 @@ import { Store } from "@ngrx/store";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, OnDestroy {
-	selectedFile$ = this.store.select(FileSelectors.selectCurrentFile);
+	selectedFile$ = this.store.select(FileSelectors.selectSelectedFilePath);
 	selectedSideBarTab: string;
 	layout: WorkspaceLayout;
 
@@ -37,9 +38,11 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	async handleEditorInit(): Promise<void> {
-		const { project, file } = this.route.snapshot.queryParams;
+		const { project, file, share } = this.route.snapshot.queryParams;
 
-		if (project) {
+		if (share) {
+			// Do nothing, CollaborationService will handle loading of project
+		} else if (project) {
 			await this.workspaceService.restoreProject(project, false);
 
 			if (file) {
@@ -47,7 +50,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 			}
 		} else {
 			const [mostRecentProject] = await this.indexedDb.projects.getMany();
-
 			if (mostRecentProject) {
 				await this.workspaceService.restoreProject(mostRecentProject.name, false);
 			} else {

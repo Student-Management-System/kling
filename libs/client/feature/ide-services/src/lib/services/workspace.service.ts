@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ToastService } from "@kling/client-shared";
+import { ToastService } from "@kling/client/shared/services";
 import {
 	FileActions,
 	FileSelectors,

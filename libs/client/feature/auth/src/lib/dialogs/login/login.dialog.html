@@ -29,7 +29,7 @@
 		><br />
 
 		<div id="error-container" *ngIf="authState.error">
-			<mat-error *ngIf="errorMessage">{{errorMessage | translate}}</mat-error>
+			<mat-error *ngIf="errorMessage">{{errorMessage! | translate}}</mat-error>
 		</div>
 
 		<div class="loading" *ngIf="authState.isLoading">

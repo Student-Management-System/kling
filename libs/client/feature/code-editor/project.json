@@ -1,0 +1,42 @@
+{
+	"projectType": "library",
+	"root": "libs/client/feature/code-editor",
+	"sourceRoot": "libs/client/feature/code-editor/src",
+	"prefix": "kling",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/angular:ng-packagr-lite",
+			"outputs": ["dist/libs/client/feature/code-editor"],
+			"options": {
+				"project": "libs/client/feature/code-editor/ng-package.json"
+			},
+			"configurations": {
+				"production": {
+					"tsConfig": "libs/client/feature/code-editor/tsconfig.lib.prod.json"
+				},
+				"development": {
+					"tsConfig": "libs/client/feature/code-editor/tsconfig.lib.json"
+				}
+			},
+			"defaultConfiguration": "production"
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/client/feature/code-editor"],
+			"options": {
+				"jestConfig": "libs/client/feature/code-editor/jest.config.js",
+				"passWithNoTests": true
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"options": {
+				"lintFilePatterns": [
+					"libs/client/feature/code-editor/src/**/*.ts",
+					"libs/client/feature/code-editor/src/**/*.html"
+				]
+			}
+		}
+	},
+	"tags": ["scope:client", "type:feature"]
+}

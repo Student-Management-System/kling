@@ -4,7 +4,7 @@ import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { tap } from "rxjs/operators";
 import { AuthActions, AuthSelectors } from "@kling/client/data-access/state";
-import { UnsubscribeOnDestroy } from "@kling/client-shared";
+import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
 
 /**
  * Dialogs that allows the user to login to the Student-Management-System using the Sparkyservice as authentication provider.

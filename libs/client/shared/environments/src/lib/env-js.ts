@@ -1,8 +1,8 @@
 type Env = {
-	API_BASE_PATH: string;
 	STUDENT_MGMT_BASE_PATH: string;
 	AUTH_BASE_PATH: string;
 	PISTON_CODE_EXECUTION_BASE_PATH: string;
+	CONVERGENCE_REALTIME_API_PATH: string;
 };
 
 export function getEnv(): Env | undefined {
@@ -22,7 +22,7 @@ export function getEnvVariableOrThrow<K extends keyof Env>(key: K): Env[K] | nev
 		throw new Error("Environment is undefined (env.js is missing).");
 	}
 
-	const value = getEnv()[key];
+	const value = env[key];
 	if (value === undefined) {
 		throw new Error("Environment variable from env.js was undefined: " + key);
 	}

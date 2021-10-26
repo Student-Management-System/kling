@@ -116,7 +116,6 @@ body {
 body {
 	margin: 0;
 	font-family: Segoe WPC, Segoe UI, sans-serif !important; // TODO: Other OS fonts
-	font-size: 13px;
 }
 
 kling-icon {
@@ -184,6 +183,13 @@ mat-paginator {
 	background-color: var(--vs-button-bg);
 	color: white;
 	padding: 4px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: fit-content;
+}
+
+.vs-button-bg {
+	background-color: var(--vs-button-bg);
 }
 
 .vs-button:hover {

@@ -1,7 +1,6 @@
 import { Inject, Injectable, InjectionToken } from "@angular/core";
 import {
 	Chat,
-	ChatMessageEvent,
 	connectAnonymously,
 	ConvergenceDomain,
 	ModelChangedEvent,
@@ -49,8 +48,7 @@ type DataModel = {
 @Injectable({ providedIn: "root" })
 export class CollaborationService {
 	readonly activeSessionId$ = new BehaviorSubject<string | null>(null);
-	readonly collaborators$ = new BehaviorSubject<ModelCollaborator[]>([]);
-	readonly messages$ = new BehaviorSubject<ChatMessageEvent[]>([]);
+	readonly collaborators$ = new BehaviorSubject<ModelCollaborator[] | null>(null);
 
 	private model!: RealTimeModel;
 	private chat!: Chat;
@@ -290,12 +288,6 @@ export class CollaborationService {
 		this.getRealTimeTerminalOutput().value(output);
 	}
 
-	async sendChatMessage(text: string): Promise<void> {
-		if (text.length > 0) {
-			await this.chat.send(text);
-		}
-	}
-
 	private async connectToConvergence(): Promise<void> {
 		const user = await firstValueFrom(this.store.select(AuthSelectors.selectUser));
 		const username = user?.displayName || `User-${nanoid(6)}`;
@@ -317,7 +309,6 @@ export class CollaborationService {
 		this.model.removeAllListeners();
 		await this.domain?.disconnect();
 		this.activeSessionId$.next(null);
-		this.collaborators$.next([]);
-		this.messages$.next([]);
+		this.collaborators$.next(null);
 	}
 }

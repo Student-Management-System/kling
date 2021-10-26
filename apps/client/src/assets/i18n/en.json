@@ -32,10 +32,13 @@
       "ImportFile": "Import File(s)",
       "ImportFolder": "Import Folder",
       "NewProject": "New Project",
-      "SynchronizeFolder": "Open Folder"
+      "SynchronizeFolder": "Open Folder",
+      "CreateSession": "Create Session"
     },
     "Run": "Run",
-    "Export": "Export"
+    "Export": "Export",
+    "Disconnect": "Disconnect",
+    "CopyToClipboard": "Copy to Clipboard"
   },
   "Common": {
     "All": "All",
@@ -82,7 +85,8 @@
     "User": "User",
     "Users": "Users",
     "Input": "Input",
-    "Output": "Output"
+    "Output": "Output",
+    "Collaboration": "Collaboration"
   },
   "Enum": {
     "AssignmentState": {
@@ -257,6 +261,15 @@
     "SynchronizeFolder": {
       "Description": "Enables you to choose a directory from your system. The content of this directory\nwill be synchronized with the editor, meaning existing files will be loaded and changes written back to it.",
       "Link": "This feature is available only in secure contexts (HTTPS), in some or all supporting browsers (i.e. Chrome)."
+    },
+    "Collaboration": {
+      "Description": "Create a live collaboration session for your currently opened project. Once you are connected, a link will be generated that you can share with other participants to invite them.",
+      "Description2": "You and other participants will be able to",
+      "Li1": "Receive code changes made by others",
+      "Li2": "View cursor position and selections of others",
+      "Li3": "Create and delete files and directories",
+      "Li4": "Share terminal input and code execution results",
+      "ShareLink": "Invite other participants by sending them this link"
     }
   }
 }

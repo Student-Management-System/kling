@@ -1,59 +1,68 @@
 <div
-	class="flex flex-col justify-between h-full gap-2 p-4 overflow-hidden"
+	class="flex flex-col justify-between h-full gap-2 p-4"
 	*ngIf="{ activeSessionId: activeSessionId$ | async } as obs"
 >
 	<div class="flex flex-col flex-grow-0 gap-4">
-		<div class="flex justify-between">
-			<span class="text-xl">Collaboration</span>
-			<button
-				*ngIf="obs.activeSessionId"
-				class="p-1 text-white bg-purple-600 rounded"
-				(click)="disconnect()"
-			>
-				Disconnect
+		<div class="flex justify-between gap-2">
+			<span class="text-xl">{{ "Domain.Collaboration" | translate }}</span>
+
+			<button *ngIf="obs.activeSessionId" class="vs-button" (click)="disconnect()">
+				{{ "Action.Disconnect" | translate }}
 			</button>
 		</div>
 
-		<div class="flex flex-col gap-2">
-			<span class="">Copy the URL and share it with your mates!</span>
+		<div class="flex flex-col gap-4" *ngIf="obs.activeSessionId; else noSession">
+			<span>{{ "Text.Collaboration.ShareLink" | translate }}:</span>
 
-			<div class="flex gap-2" *ngIf="obs.activeSessionId; else noSession">
-				<input [value]="shareUrl" class="w-full p-1 bg-gray-600 rounded" />
-				<button (click)="copyToClipboard(shareUrl!)">
+			<div class="flex gap-2">
+				<input [value]="shareUrl" class="w-full p-1 text-black rounded" />
+
+				<button
+					(click)="copyToClipboard(shareUrl!)"
+					class="p-1 rounded hover:bg-[#a1a1a141]"
+					[matTooltip]="'Action.CopyToClipboard' | translate"
+				>
 					<kling-icon name="file_copy" size="18"></kling-icon>
 				</button>
 			</div>
-
-			<ng-template #noSession>
-				<button class="vs-button" (click)="createSession()">Create Session</button>
-			</ng-template>
 		</div>
 
-		<div class="flex flex-col gap-2">
-			<span class="text-lg">Collaborators</span>
-			<div
-				class="p-2 bg-gray-700 rounded"
-				*ngFor="let collaborator of collaborators$ | async"
-			>
-				{{ collaborator.user.displayName }}
-			</div>
-		</div>
+		<ng-template #noSession>
+			<div class="flex flex-col gap-4">
+				<button class="vs-button" (click)="createSession()">
+					{{ "Action.Custom.CreateSession" | translate }}
+				</button>
 
-		<div class="flex flex-col flex-initial flex-grow-0 h-full gap-2">
-			<span class="text-lg">Chat</span>
-			<div class="flex flex-col flex-initial flex-grow-0 gap-2 overflow-auto">
-				<div class="flex bg-gray-700 rounded" *ngFor="let message of messages$ | async">
-					<div class="h-full p-2 bg-gray-800 rounded-l">
-						{{ message.user.displayName }}
+				<div class="grid gap-2">
+					<span>{{ "Text.Collaboration.Description" | translate }}</span>
+
+					<div class="py-2 mx-auto">
+						<img src="./assets/collaboration.gif" loading="lazy" />
 					</div>
-					<div class="p-2">{{ message.message }}</div>
+
+					<span>{{ "Text.Collaboration.Description2" | translate }}...</span>
+
+					<ul class="list-disc list-inside">
+						<li>{{ "Text.Collaboration.Li1" | translate }}</li>
+						<li>{{ "Text.Collaboration.Li2" | translate }}</li>
+						<li>{{ "Text.Collaboration.Li3" | translate }}</li>
+						<li>{{ "Text.Collaboration.Li4" | translate }}</li>
+					</ul>
 				</div>
 			</div>
-		</div>
-	</div>
+		</ng-template>
 
-	<div class="flex flex-col gap-2">
-		<textarea rows="3" class="bg-transparent rounded ring ring-gray-500"></textarea>
-		<button class="vs-button">Send</button>
+		<ng-container *ngIf="collaborators$ | async as collaborators">
+			<div class="flex flex-col gap-2">
+				<span class="text-lg">{{ "Domain.Participants" | translate }}</span>
+
+				<div
+					*ngFor="let collaborator of collaborators"
+					[title]="collaborator.user.displayName | firstChar"
+				>
+					{{ collaborator.user.displayName }}
+				</div>
+			</div>
+		</ng-container>
 	</div>
 </div>

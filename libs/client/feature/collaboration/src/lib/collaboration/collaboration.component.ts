@@ -14,6 +14,7 @@ import { CollaborationService } from "../collaboration.service";
 @Component({
 	selector: "kling-collaboration",
 	templateUrl: "./collaboration.component.html",
+	styleUrls: ["./collaboration.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CollaborationComponent implements OnInit {
@@ -22,7 +23,6 @@ export class CollaborationComponent implements OnInit {
 
 	readonly activeSessionId$ = this.collaborationService.activeSessionId$;
 	readonly collaborators$ = this.collaborationService.collaborators$;
-	readonly messages$ = this.collaborationService.messages$;
 
 	constructor(
 		readonly location: Location,
@@ -77,10 +77,6 @@ export class CollaborationComponent implements OnInit {
 
 	private generateShareUrl(id: string): string {
 		return `${window.location.origin}/ide?share=${id}`;
-	}
-
-	sendChatMessage(text: string): Promise<void> {
-		return this.collaborationService.sendChatMessage(text);
 	}
 
 	async disconnect(): Promise<void> {

@@ -32,10 +32,13 @@
       "ImportFile": "Datei(en) importieren",
       "ImportFolder": "Ordner importieren",
       "NewProject": "Neues Project",
-      "SynchronizeFolder": "Ordner öffnen"
+      "SynchronizeFolder": "Ordner öffnen",
+      "CreateSession": "Zusammenarbeit starten"
     },
     "Run": "Ausführen",
-    "Export": "Exportieren"
+    "Export": "Exportieren",
+    "Disconnect": "Verbindung trennen",
+    "CopyToClipboard": "In Zwischenablage kopieren"
   },
   "Common": {
     "All": "Alle",
@@ -82,7 +85,8 @@
     "User": "Nutzer",
     "Users": "Nutzer",
     "Input": "Eingabe",
-    "Output": "Ausgabe"
+    "Output": "Ausgabe",
+    "Collaboration": "Zusammenarbeit"
   },
   "Enum": {
     "AssignmentState": {
@@ -256,6 +260,15 @@
     "SynchronizeFolder": {
       "Description": "Erlaubt die Auswahl von einem lokalen gespeicherten Ordner. Der Inhalt des Ordners wird mit dem Editor synchronisiert, d. h. vorhandene Dateien werden geladen und Änderungen auf dem System des Nutzers gespeichert.",
       "Link": "Dieses Feature ist nur in sicheren Umgebungen (HTTPS) und in unterstützenden Browsern (z. B. Chrome) verfügbar."
+    },
+    "Collaboration": {
+      "Description2": "Du und andere Teilnehmer können",
+      "Li1": "Code-Änderungen von Anderen erhalten",
+      "Li2": "Cursor-Position und Textauswahl anderer sehen",
+      "Li3": "Dateien und Ordner erstellen und löschen",
+      "Li4": "Eingaben in das Terminal und Ergebnisse der Code-Ausführung teilen",
+      "Description": "Erstelle eine Sitzung für die Zusammenarbeit an dem aktuell geöffneten Projekt. Sobald du verbunden bist, erhälst du einen Link, den du mit anderen Teilnehmern teilen kannst, um diese zur Sitzung einzuladen. ",
+      "ShareLink": "Sende den folgenden Link an andere Teilnehmer, um sie einzuladen"
     }
   }
 }

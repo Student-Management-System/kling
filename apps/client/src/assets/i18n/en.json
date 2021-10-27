@@ -141,7 +141,8 @@
     "ValueMissing": "Value is missing.",
     "ForbiddenCharacter": "Contains a forbidden character ({{forbiddenCharacters}}).",
     "FailedToLoadProject": "Failed to load project \"{{projectName}}\".",
-    "Piston": "An error occurred while communicating with the Piston API.\nThis issue was not caused by your program."
+    "Piston": "An error occurred while communicating with the Piston API.\nThis issue was not caused by your program.",
+    "FileAlreadyExistsAtLocation": "A file named \"{{filename}}\" already exists at this location."
   },
   "Event": {
     "UserJoinedCourseEvent": "joined the course.",

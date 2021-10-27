@@ -1,21 +1,34 @@
 <div
 	class="file-explorer"
-	dropzone
+	dropZone
 	(hovered)="toggleHover($any($event))"
 	(drop)="onDrop($event)"
 	[class.hovering]="isHovering"
 	*ngIf="{ selectedFilePath: selectedFilePath$ | async } as obs"
 >
-	<ng-container *ngFor="let file of files$ | async">
-		<kling-file [file]="file" [isSelected]="obs.selectedFilePath === file.path"></kling-file>
-	</ng-container>
-
-	<div class="directories">
-		<ng-container *ngFor="let dir of directories$ | async">
+	<div class="directories" *ngIf="directories$ | async as directories">
+		<ng-container *ngFor="let dir of directories">
 			<kling-directory
 				[directory]="dir"
 				[selectedFilePath]="obs.selectedFilePath"
 			></kling-directory>
 		</ng-container>
+	</div>
+
+	<div
+		*ngIf="files$ | async as files"
+		[id]="''"
+		cdkDropList
+		[cdkDropListData]="files"
+		(cdkDropListDropped)="drop($event)"
+		[cdkDropListConnectedTo]="dragAndDrop.dropListIds"
+	>
+		<kling-file
+			*ngFor="let file of files"
+			[file]="file"
+			[isSelected]="obs.selectedFilePath === file.path"
+			cdkDrag
+			[cdkDragData]="file"
+		></kling-file>
 	</div>
 </div>

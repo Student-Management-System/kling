@@ -43,15 +43,6 @@
 	</context-menu>
 
 	<div class="indent directory-content" *ngIf="isExpanded">
-		<div class="files">
-			<ng-container *ngFor="let file of files$ | async">
-				<kling-file
-					[file]="file"
-					[isSelected]="selectedFilePath === file.path"
-				></kling-file>
-			</ng-container>
-		</div>
-
 		<div class="directories">
 			<ng-container *ngFor="let dir of directories$ | async">
 				<kling-directory
@@ -59,6 +50,24 @@
 					[selectedFilePath]="selectedFilePath"
 				></kling-directory>
 			</ng-container>
+		</div>
+
+		<div
+			class="files"
+			*ngIf="files$ | async as files"
+			cdkDropList
+			[id]="directory.path"
+			[cdkDropListData]="files"
+			(cdkDropListDropped)="drop($event)"
+			[cdkDropListConnectedTo]="dragAndDrop.dropListIds"
+		>
+			<kling-file
+				*ngFor="let file of files"
+				[file]="file"
+				[isSelected]="selectedFilePath === file.path"
+				cdkDrag
+				[cdkDragData]="file"
+			></kling-file>
 		</div>
 	</div>
 </div>

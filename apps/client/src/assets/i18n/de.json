@@ -141,7 +141,8 @@
     "ValueMissing": "Fehlender Wert.",
     "ForbiddenCharacter": "Beeinhaltet ein verbotenes Symmbol ({{forbiddenCharacters}}).",
     "FailedToLoadProject": "Project \"{{project}}\" konnte nicht geladen werden.",
-    "Piston": "Bei der Kommunikation mit der Piston API ist ein Fehler aufgetreten.\nDein Program ist nicht für dieses Problem verantwortlich."
+    "Piston": "Bei der Kommunikation mit der Piston API ist ein Fehler aufgetreten.\nDein Program ist nicht für dieses Problem verantwortlich.",
+    "FileAlreadyExistsAtLocation": "Eine Datei mit dem Namen \"{{filename}}\" existiert bereits an diesem Ort."
   },
   "Event": {
     "UserJoinedCourseEvent": "ist dem Kurs beigreten.",

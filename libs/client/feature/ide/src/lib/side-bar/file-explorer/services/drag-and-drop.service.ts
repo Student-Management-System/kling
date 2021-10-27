@@ -1,8 +1,16 @@
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { Injectable } from "@angular/core";
-import { DirectoryActions, FileActions } from "@kling/client/data-access/state";
-import { FileSystemAccess } from "@kling/ide-services";
-import { createDirectory, createFile } from "@kling/programming";
+import {
+	DirectoryActions,
+	DirectorySelectors,
+	FileActions,
+	FileSelectors
+} from "@kling/client/data-access/state";
+import { ToastService } from "@kling/client/shared/services";
+import { createDirectory, createFile, File as FileModel } from "@kling/programming";
 import { Store } from "@ngrx/store";
+import { TranslateService } from "@ngx-translate/core";
+import { firstValueFrom } from "rxjs";
 
 interface FileEntry {
 	filesystem: any;
@@ -14,7 +22,43 @@ interface FileEntry {
 
 @Injectable({ providedIn: "root" })
 export class DragAndDropService {
-	constructor(private store: Store, private fileSystem: FileSystemAccess) {}
+	dropListIds = [];
+
+	constructor(
+		private readonly store: Store,
+		private readonly toast: ToastService,
+		private readonly translate: TranslateService
+	) {
+		this.store.select(DirectorySelectors.selectAllDirectories).subscribe(directories => {
+			this.dropListIds = directories.map(d => d.path);
+			console.log(this.dropListIds);
+		});
+	}
+
+	async onFileMoved(event: CdkDragDrop<FileModel[]>): Promise<void> {
+		const droppedFile = event.item.data as FileModel;
+		const hasNameConflict = event.container.data.find(f => f.name === droppedFile.name);
+
+		if (hasNameConflict) {
+			const message = this.translate.instant("Error.FileAlreadyExistsAtLocation", {
+				filename: droppedFile.name
+			});
+			this.toast.error(message);
+			return;
+		}
+
+		const selectedFilePath = await firstValueFrom(
+			this.store.select(FileSelectors.selectSelectedFilePath)
+		);
+		const movedFile = createFile(droppedFile.name, event.container.id, droppedFile.content);
+
+		this.store.dispatch(FileActions.deleteFile({ file: droppedFile }));
+		this.store.dispatch(FileActions.addFile({ file: movedFile }));
+
+		if (droppedFile.path === selectedFilePath) {
+			this.store.dispatch(FileActions.setSelectedFile({ path: movedFile.path }));
+		}
+	}
 
 	async onDrop(event: DragEvent): Promise<void> {
 		const items = event.dataTransfer.items;

@@ -2,7 +2,6 @@
 	*ngIf="file$ | async as file"
 	class="file-tab-btn"
 	[class.selected]="selected"
-	disableRipple="true"
 	(click)="tabSelected.emit(path)"
 	(middleclick)="tabClosed.emit(path)"
 	data-test="file-tab"

@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DirectorySelectors, FileSelectors } from "@kling/client/data-access/state";
 import { WorkspaceDialogs } from "@kling/ide-dialogs";
+import { File } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { DragAndDropService } from "../../services/drag-and-drop.service";
 
@@ -10,7 +12,7 @@ import { DragAndDropService } from "../../services/drag-and-drop.service";
 	styleUrls: ["./file-explorer.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileExplorerComponent implements OnInit {
+export class FileExplorerComponent {
 	/** Top-level directories of this project. */
 	directories$ = this.store.select(DirectorySelectors.selectSubdirectories(""));
 	/** Top-level files of this project. */
@@ -23,10 +25,12 @@ export class FileExplorerComponent implements OnInit {
 	constructor(
 		readonly workspaceDialogs: WorkspaceDialogs,
 		readonly dragAndDrop: DragAndDropService,
-		private store: Store
+		private readonly store: Store
 	) {}
 
-	ngOnInit(): void {}
+	drop(event: CdkDragDrop<File[]>): Promise<void> {
+		return this.dragAndDrop.onFileMoved(event);
+	}
 
 	async onDrop(event: DragEvent): Promise<void> {
 		event.stopPropagation();

@@ -11,7 +11,7 @@ export class ThemeService {
 
 	constructor() {
 		const storedTheme = localStorage.getItem("theme");
-		const theme = (storedTheme ?? "dark") as Theme;
+		const theme = (storedTheme ?? "light") as Theme;
 		this.themeSubject = new BehaviorSubject(theme);
 		this.theme$ = this.themeSubject
 			.asObservable()

@@ -59,16 +59,16 @@
 		>
 			<!-- TOP BAR -->
 			<ng-container *ngIf="!showTitlebar; else titlebarpadding">
-				<mat-toolbar class="sidenav-titlebar">
-					<div id="nav-left">
-						<button mat-icon-button type="button" (click)="drawer.toggle()">
-							<kling-icon name="menu"></kling-icon>
-						</button>
+				<div class="flex px-5">
+					<button type="button" (click)="drawer.toggle()">
+						<kling-icon name="menu" size="16"></kling-icon>
+					</button>
+
+					<div class="flex">
 						<ng-template *ngTemplateOutlet="uniLogo"></ng-template>
-						Web-IDE
+						<span class="my-auto text-lg font-semibold">Web-IDE</span>
 					</div>
-					<div id="nav-right"></div>
-				</mat-toolbar>
+				</div>
 			</ng-container>
 			<ng-template #titlebarpadding>
 				<div class="titlebar-padding"></div>

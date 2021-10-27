@@ -1,6 +1,6 @@
 <div class="grid content-start">
 	<div class="mb-2 text-lg font-light">{{ "Common.Recent" | translate }}</div>
-	<div class="grid gap-2 pr-2 overflow-auto max-h-60">
+	<div class="grid gap-2 pr-2 overflow-auto max-h-80">
 		<div *ngIf="recentProjects$ | async as recentProjects">
 			<span *ngIf="recentProjects.length == 0"
 				>{{ "Text.Domain.NoRecentProjects" | translate }}.</span

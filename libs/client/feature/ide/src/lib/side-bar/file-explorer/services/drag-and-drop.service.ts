@@ -31,7 +31,6 @@ export class DragAndDropService {
 	) {
 		this.store.select(DirectorySelectors.selectAllDirectories).subscribe(directories => {
 			this.dropListIds = directories.map(d => d.path);
-			console.log(this.dropListIds);
 		});
 	}
 

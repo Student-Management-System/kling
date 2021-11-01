@@ -1,0 +1,46 @@
+<div
+	class="flex flex-col h-full gap-2 px-4 py-2 overflow-hidden"
+	*ngIf="{ isRunning: isRunning$ | async } as obs"
+>
+	<button *ngIf="!obs.isRunning" class="w-full vs-button" (click)="run()">
+		{{ "Action.Run" | translate }}
+	</button>
+
+	<button *ngIf="obs.isRunning" class="w-full p-1 text-white bg-red-700" (click)="stop()">
+		Stop
+	</button>
+
+	<div class="flex flex-col-reverse overflow-auto">
+		<div class="font-mono flex flex-col gap-2 p-2 rounded bg-[#EAEAEA] dark:bg-[#3B3B3C]">
+			<span class="py-2 text-light" *ngIf="lines.length == 0"
+				>{{ "Text.Terminal.InnerText" | translate }} ...</span
+			>
+
+			<div class="flex flex-col gap-1" *ngIf="lines.length > 0">
+				<ng-container *ngFor="let line of lines">
+					<ng-container [ngSwitch]="line.stream">
+						<ng-container *ngSwitchCase="'stderr'">
+							<span class="text-red-500">{{ line.content }}</span>
+						</ng-container>
+						<ng-container *ngSwitchCase="'stdin'">
+							<span class="p-1 bg-[#DEDEDE] dark:bg-[#252526] rounded"
+								>> {{ line.content }}</span
+							>
+						</ng-container>
+						<ng-container *ngSwitchDefault>
+							<span>{{ line.content }}</span>
+						</ng-container>
+					</ng-container>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+
+	<input
+		id="stdin-input"
+		[placeholder]="inputPlaceholder"
+		class="p-1 bg-transparent border rounded"
+		[(ngModel)]="input"
+		(keydown.enter)="onInput()"
+	/>
+</div>

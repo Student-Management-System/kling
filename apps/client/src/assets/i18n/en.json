@@ -33,7 +33,8 @@
       "ImportFolder": "Import Folder",
       "NewProject": "New Project",
       "SynchronizeFolder": "Open Folder",
-      "CreateSession": "Create Session"
+      "CreateSession": "Create Session",
+      "MoveTo": "Move to"
     },
     "Run": "Run",
     "Export": "Export",
@@ -86,7 +87,8 @@
     "Users": "Users",
     "Input": "Input",
     "Output": "Output",
-    "Collaboration": "Collaboration"
+    "Collaboration": "Collaboration",
+    "Interactive": "Interactive"
   },
   "Enum": {
     "AssignmentState": {
@@ -256,7 +258,8 @@
       "SaveAsNewProject": "Content of \"{{projectName}}\" will be copied into the new project."
     },
     "Terminal": {
-      "InnerText": "The output of your program will appear here"
+      "InnerText": "The output of your program will appear here",
+      "InputPlaceholder": "Type your input and press \"Enter\"..."
     },
     "SynchronizeFolder": {
       "Description": "Enables you to choose a directory from your system. The content of this directory\nwill be synchronized with the editor, meaning existing files will be loaded and changes written back to it.",

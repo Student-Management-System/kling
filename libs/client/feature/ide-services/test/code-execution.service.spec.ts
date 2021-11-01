@@ -1,4 +1,5 @@
 import { HttpClient } from "@angular/common/http";
+import { CollaborationService } from "@kling/collaboration";
 import { of } from "rxjs";
 import { CodeExecutionService } from "../src/lib/services/code-execution.service";
 
@@ -31,14 +32,18 @@ const mock_HttpClient = (): Partial<HttpClient> => ({
 	)
 });
 
+const mock_CollaborationService = () => ({});
+
 describe("CodeExecutionService", () => {
 	let service: CodeExecutionService;
 	let httpClient: HttpClient;
+	let collaboration: CollaborationService;
 	const pistonApiUrl = "abc://piston.api";
 
 	beforeEach(() => {
 		httpClient = mock_HttpClient() as HttpClient;
-		service = new CodeExecutionService(httpClient, pistonApiUrl);
+		collaboration = mock_CollaborationService() as CollaborationService;
+		service = new CodeExecutionService(httpClient, collaboration, pistonApiUrl);
 	});
 
 	it("Should be defined", () => {

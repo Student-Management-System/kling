@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { DirectorySelectors, FileActions, WorkspaceActions } from "@kling/client/data-access/state";
 import { DialogService } from "@kling/client/shared/services";
-import { FileActions, WorkspaceActions } from "@kling/client/data-access/state";
 import { WorkspaceDialogs } from "@kling/ide-dialogs";
 import { File } from "@kling/programming";
 import { Store } from "@ngrx/store";
+import { tap } from "rxjs";
 
 @Component({
 	selector: "kling-file",
@@ -11,18 +12,30 @@ import { Store } from "@ngrx/store";
 	styleUrls: ["./file.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileComponent implements OnInit {
+export class FileComponent {
 	@Input() file: File;
 	/** Determines, if this file is marked as selected (being viewed). */
 	@Input() isSelected: boolean;
+
+	directories$ = this.store.select(DirectorySelectors.selectAllDirectories).pipe(
+		tap({
+			next: result => {
+				console.log(result);
+			},
+			error: error => {
+				console.log(error);
+			},
+			complete: () => {
+				console.log("unsub");
+			}
+		})
+	);
 
 	constructor(
 		private store: Store,
 		private workspaceDialogs: WorkspaceDialogs,
 		private dialogService: DialogService
 	) {}
-
-	ngOnInit(): void {}
 
 	/**
 	 * Emits that this file has been selected.
@@ -35,6 +48,10 @@ export class FileComponent implements OnInit {
 
 	markAsEntryPoint(): void {
 		this.store.dispatch(WorkspaceActions.setEntryPoint({ path: this.file.path }));
+	}
+
+	moveTo(): void {
+		//
 	}
 
 	removeFileIfConfirmed(): void {

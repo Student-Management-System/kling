@@ -33,7 +33,8 @@
       "ImportFolder": "Ordner importieren",
       "NewProject": "Neues Project",
       "SynchronizeFolder": "Ordner öffnen",
-      "CreateSession": "Zusammenarbeit starten"
+      "CreateSession": "Zusammenarbeit starten",
+      "MoveTo": "Verschieben nach"
     },
     "Run": "Ausführen",
     "Export": "Exportieren",
@@ -86,7 +87,8 @@
     "Users": "Nutzer",
     "Input": "Eingabe",
     "Output": "Ausgabe",
-    "Collaboration": "Zusammenarbeit"
+    "Collaboration": "Zusammenarbeit",
+    "Interactive": "Interaktiv"
   },
   "Enum": {
     "AssignmentState": {
@@ -255,7 +257,8 @@
       "SaveAsNewProject": "Inhalt von \"{{projectName}}\" wird in das neue Projekt kopiert."
     },
     "Terminal": {
-      "InnerText": "Die Ausgabe des Programs wird hier erscheinen"
+      "InnerText": "Die Ausgabe des Programs wird hier erscheinen",
+      "InputPlaceholder": "Tätige eine Eingabe und bestätige per \"Enter\"..."
     },
     "SynchronizeFolder": {
       "Description": "Erlaubt die Auswahl von einem lokalen gespeicherten Ordner. Der Inhalt des Ordners wird mit dem Editor synchronisiert, d. h. vorhandene Dateien werden geladen und Änderungen auf dem System des Nutzers gespeichert.",

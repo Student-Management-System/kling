@@ -30,6 +30,13 @@
 				>{{ "Action.Custom.MarkAsEntryPoint" | translate }}</span
 			>
 		</ng-template>
+		<ng-template contextMenuItem>
+			<span class="context-menu-item" data-test="moveToFolder"
+				><kling-icon name="folder" class="icon-light"></kling-icon
+				>{{ "Action.Custom.MoveTo" | translate }}...</span
+			>
+		</ng-template>
+
 		<ng-template contextMenuItem (execute)="removeFileIfConfirmed()">
 			<span class="context-menu-item" data-test="deleteBtn"
 				><kling-icon class="icon-light" name="delete"></kling-icon

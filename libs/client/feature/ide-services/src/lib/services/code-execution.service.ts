@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Inject, Injectable, InjectionToken } from "@angular/core";
-import { getLanguageFromFilename } from "@kling/programming";
-import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
+import { File, getLanguageFromFilename } from "@kling/programming";
+import { BehaviorSubject, firstValueFrom, Subject, take } from "rxjs";
 import { CollaborationService } from "@kling/collaboration";
 
 export type PistonFile = {
@@ -9,7 +9,7 @@ export type PistonFile = {
 	content: string;
 };
 
-type ExecuteRequest = {
+export type ExecuteRequest = {
 	/** The language to use for execution, must be a string and must be installed. */
 	language: string;
 	/** The version of the language to use for execution, must be a string containing a SemVer selector for the version or the specific version number to use. */
@@ -43,6 +43,12 @@ export type ExecuteResponse = {
 	compile?: Output;
 };
 
+export type StdinMessage = {
+	type: "data";
+	stream: "stdin";
+	data: string;
+};
+
 type Output = {
 	stdout: string;
 	stderr: string;
@@ -58,11 +64,22 @@ type Runtime = {
 	runtime?: string;
 };
 
+type InteractiveMessage = {
+	type: "runtime" | "stage" | "data" | "exit";
+	stage: "run" | "compile";
+	stream: "stdout" | "stderr";
+	data: string;
+	code: number;
+	signal: string;
+};
+
 export const PISTON_API_URL = new InjectionToken<string>("URL of the piston code execution api.");
 
 @Injectable({ providedIn: "root" })
 export class CodeExecutionService {
 	readonly executeResult$ = new BehaviorSubject<ExecuteResponse | HttpErrorResponse | null>(null);
+	readonly interactiveMessage$ = new Subject<InteractiveMessage>();
+	readonly isRunning$ = new BehaviorSubject(false);
 
 	/** Map of installed programming languages mapped to their version. */
 	runtimes: { [language: string]: string } = {};
@@ -77,11 +94,9 @@ export class CodeExecutionService {
 	 */
 	readonly onTriggerExecution$ = this._onTriggerExecution$.asObservable();
 
-	isRunning$ = new BehaviorSubject(false);
-
+	private ws: WebSocket | null = null;
 	private executeUrl: string;
 	private runtimesUrl: string;
-
 	private hasCollaborationSession = false;
 
 	constructor(
@@ -161,6 +176,94 @@ export class CodeExecutionService {
 		} finally {
 			this.isRunning$.next(false);
 		}
+	}
+
+	/**
+	 * Starts an interactive code execution requests that allows users to interact with their program
+	 * via `stdin`.
+	 *
+	 * @param files Array of all files that should be included in the request.
+	 * @param mainFile File that should be used as entry point. May occur in `files`.
+	 */
+	async executeInteractively(files: File[], mainFile: File): Promise<void> {
+		this.isRunning$.next(true);
+		this.executeResult$.next(null);
+
+		const incompleteRequest: IncompleteExecuteRequest = {
+			files: this.prepareFiles(files, mainFile)
+		};
+
+		const request = await this._createExecuteRequestObject(incompleteRequest);
+
+		this.ws = new WebSocket("ws://localhost:2000/api/v2/connect");
+
+		const openFn = () => {
+			console.log("open...");
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			this.ws!.send(
+				JSON.stringify({
+					type: "init",
+					...request
+				})
+			);
+		};
+
+		const onMessageFn = (event: MessageEvent<any>) => {
+			this.interactiveMessage$.next(JSON.parse(event.data) as InteractiveMessage);
+		};
+
+		const onCloseFn = () => {
+			this.isRunning$.next(false);
+			this.ws = null;
+		};
+
+		this.ws.addEventListener("open", openFn);
+		this.ws.addEventListener("message", onMessageFn);
+		this.ws.addEventListener("close", onCloseFn);
+	}
+
+	writeToStdin(str: string): void {
+		if (!this.ws) throw new Error("WebSocket was null");
+
+		console.log("Writing to stdin: " + str);
+		this.ws.send(
+			JSON.stringify({
+				type: "data",
+				stream: "stdin",
+				data: str + "\r\n"
+			})
+		);
+	}
+
+	sendSignal(signal: string): void {
+		if (!this.ws) throw new Error("WebSocket was null");
+
+		console.log(signal);
+		this.ws.send(
+			JSON.stringify({
+				type: "signal",
+				signal
+			})
+		);
+	}
+
+	prepareFiles(files: File[], mainFile: File): PistonFile[] {
+		const pistonFiles: PistonFile[] = [
+			{
+				name: mainFile.path,
+				content: mainFile.content
+			}
+		];
+
+		const otherFiles = files
+			.filter(f => f.path !== mainFile.path)
+			.map(f => ({
+				name: f.path,
+				content: f.content
+			}));
+
+		pistonFiles.push(...otherFiles);
+		return pistonFiles;
 	}
 
 	async _createExecuteRequestObject(

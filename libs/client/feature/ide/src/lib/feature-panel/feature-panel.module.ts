@@ -7,10 +7,17 @@ import { TestingViewComponent } from "./components/testing-view/testing-view.com
 import { TerminalService } from "./services/terminal.service";
 import { MatTabsModule } from "@angular/material/tabs";
 import { TranslateModule } from "@ngx-translate/core";
+import { InteractiveTerminalModule } from "./components/interactive-terminal/interactive-terminal.component";
 
 @NgModule({
 	declarations: [FeaturePanelComponent, ProblemViewComponent, TestingViewComponent],
-	imports: [MatTabsModule, TerminalModule, CollaborationModule, TranslateModule],
+	imports: [
+		MatTabsModule,
+		TerminalModule,
+		InteractiveTerminalModule,
+		CollaborationModule,
+		TranslateModule
+	],
 	exports: [FeaturePanelComponent],
 	providers: [TerminalService]
 })

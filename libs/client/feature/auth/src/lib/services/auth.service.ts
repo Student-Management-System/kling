@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import { AuthenticationService, UserDto } from "@student-mgmt/api";
+import { AuthenticationApi, UserDto } from "@student-mgmt/api-client";
 import { AuthActions, AuthSelectors } from "@kling/client/data-access/state";
 
 type StoredAuthState = { user: UserDto | null; accessToken: string | null };
@@ -13,7 +13,7 @@ export class AuthService {
 
 	user$ = this.store.select(AuthSelectors.selectUser);
 
-	constructor(private authenticationService: AuthenticationService, private store: Store) {}
+	constructor(private authApi: AuthenticationApi, private store: Store) {}
 
 	/**
 	 * Returns the stored AccessToken (JWT), which can be assigned to the Authorization-header
@@ -42,7 +42,7 @@ export class AuthService {
 	devLogin(username: string): Observable<UserDto> {
 		AuthService.setAuthState({ accessToken: username, user: null });
 
-		return this.authenticationService.whoAmI().pipe(
+		return this.authApi.whoAmI().pipe(
 			tap(user => {
 				const state = { user, accessToken: username };
 				AuthService.setAuthState(state);

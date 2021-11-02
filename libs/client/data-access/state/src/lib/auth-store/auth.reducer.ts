@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { UserDto } from "@student-mgmt/api";
+import { UserDto } from "@student-mgmt/api-client";
 import { MetaState } from "../interfaces";
 import * as AuthActions from "./auth.actions";
 

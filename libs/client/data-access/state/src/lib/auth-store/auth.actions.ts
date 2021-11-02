@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { UserDto } from "@student-mgmt/api";
+import { UserDto } from "@student-mgmt/api-client";
 
 export const login = createAction(
 	"[Login Dialog] Login",

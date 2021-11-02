@@ -1,14 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { AuthService } from "@kling/client-auth";
+import { ToastService } from "@kling/client/shared/services";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { AuthenticationService, UserDto } from "@student-mgmt/api";
+import { AuthenticationApi } from "@student-mgmt/api-client";
 import { of } from "rxjs";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { AuthenticationInfoDto } from "./auth-info.dto";
 import * as AuthActions from "./auth.actions";
-import { AuthService } from "@kling/client-auth";
-import { ToastService } from "@kling/client/shared/services";
 
 @Injectable()
 export class AuthEffects {
@@ -53,7 +53,7 @@ export class AuthEffects {
 	constructor(
 		private actions$: Actions,
 		private http: HttpClient,
-		private authApi: AuthenticationService,
+		private authApi: AuthenticationApi,
 		private router: Router,
 		private toast: ToastService,
 		@Inject("SPARKY_AUTHENTICATE_URL") private authUrl: string

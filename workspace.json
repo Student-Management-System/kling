@@ -17,7 +17,6 @@
 		"client-shared-environments": "libs/client/shared/environments",
 		"client-shared-services": "libs/client/shared/services",
 		"client-ui-file-tabs": "libs/client/feature/file-tabs",
-		"shared-data-access-student-mgmt-ng-client": "libs/shared/data-access/student-mgmt-ng-client",
 		"shared-util-programming": "libs/shared/util/programming"
 	}
 }

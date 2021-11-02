@@ -30,8 +30,7 @@
 			"@kling/ide-dialogs": ["libs/client/feature/ide-dialogs/src/index.ts"],
 			"@kling/ide-services": ["libs/client/feature/ide-services/src/index.ts"],
 			"@kling/indexed-db": ["libs/client/data-access/indexed-db/src/index.ts"],
-			"@kling/programming": ["libs/shared/util/programming/src/index.ts"],
-			"@student-mgmt/api": ["libs/shared/data-access/student-mgmt-ng-client/src/index.ts"]
+			"@kling/programming": ["libs/shared/util/programming/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

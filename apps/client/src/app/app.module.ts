@@ -19,7 +19,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import {
 	ApiModule as StudentMgmtApiModule,
 	Configuration as StudentMgmtConfiguration
-} from "@student-mgmt/api";
+} from "@student-mgmt/api-client";
 import { ContextMenuModule } from "ngx-contextmenu";
 import { ToastrModule } from "ngx-toastr";
 import { AppRoutingModule } from "./app-routing.module";

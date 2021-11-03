@@ -9,6 +9,7 @@ import {
 import { FormsModule } from "@angular/forms";
 import { FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
 import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { ToastService } from "@kling/client/shared/services";
 import { CodeExecutionService } from "@kling/ide-services";
 import { Store } from "@ngrx/store";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -32,6 +33,7 @@ export class InteractiveTerminalComponent extends UnsubscribeOnDestroy implement
 		private readonly store: Store,
 		private readonly codeExecution: CodeExecutionService,
 		private readonly translate: TranslateService,
+		private readonly toast: ToastService,
 		private readonly cdRef: ChangeDetectorRef
 	) {
 		super();
@@ -80,9 +82,13 @@ export class InteractiveTerminalComponent extends UnsubscribeOnDestroy implement
 
 		const [mainFile] = files.filter(f => f.path === selectedFilePath);
 
-		await this.codeExecution.executeInteractively(files, mainFile);
-
-		document.getElementById("stdin-input").focus();
+		try {
+			await this.codeExecution.executeInteractively(files, mainFile);
+			document.getElementById("stdin-input").focus();
+		} catch (error) {
+			console.error(error);
+			this.toast.error("Error.SomethingWentWrong");
+		}
 	}
 
 	stop(): void {

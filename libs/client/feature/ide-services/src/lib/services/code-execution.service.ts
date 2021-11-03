@@ -74,6 +74,9 @@ type InteractiveMessage = {
 };
 
 export const PISTON_API_URL = new InjectionToken<string>("URL of the piston code execution api.");
+export const PISTON_WS_URL = new InjectionToken<string>(
+	"URL of the piston code execution websocket api."
+);
 
 @Injectable({ providedIn: "root" })
 export class CodeExecutionService {
@@ -97,6 +100,7 @@ export class CodeExecutionService {
 	private ws: WebSocket | null = null;
 	private executeUrl: string;
 	private runtimesUrl: string;
+	private websocketUrl: string;
 	private hasCollaborationSession = false;
 
 	constructor(
@@ -106,6 +110,9 @@ export class CodeExecutionService {
 	) {
 		this.executeUrl = `${this.pistonApiUrl}/api/v2/execute`;
 		this.runtimesUrl = `${this.pistonApiUrl}/api/v2/runtimes`;
+
+		const [, basePath] = this.pistonApiUrl.split("://");
+		this.websocketUrl = `ws://${basePath}/api/v2/connect`;
 
 		this.collaboration.activeSessionId$.subscribe(session => {
 			this.hasCollaborationSession = !!session;
@@ -193,33 +200,38 @@ export class CodeExecutionService {
 			files: this.prepareFiles(files, mainFile)
 		};
 
-		const request = await this._createExecuteRequestObject(incompleteRequest);
+		try {
+			const request = await this._createExecuteRequestObject(incompleteRequest);
+			this.ws = new WebSocket(this.websocketUrl);
 
-		this.ws = new WebSocket("ws://localhost:2000/api/v2/connect");
+			const openFn = () => {
+				console.log("open...");
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				this.ws!.send(
+					JSON.stringify({
+						type: "init",
+						...request
+					})
+				);
+			};
 
-		const openFn = () => {
-			console.log("open...");
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			this.ws!.send(
-				JSON.stringify({
-					type: "init",
-					...request
-				})
-			);
-		};
+			const onMessageFn = (event: MessageEvent<any>) => {
+				this.interactiveMessage$.next(JSON.parse(event.data) as InteractiveMessage);
+			};
 
-		const onMessageFn = (event: MessageEvent<any>) => {
-			this.interactiveMessage$.next(JSON.parse(event.data) as InteractiveMessage);
-		};
+			const onCloseFn = () => {
+				this.isRunning$.next(false);
+				this.ws = null;
+			};
 
-		const onCloseFn = () => {
+			this.ws.addEventListener("open", openFn);
+			this.ws.addEventListener("message", onMessageFn);
+			this.ws.addEventListener("close", onCloseFn);
+		} catch (error) {
 			this.isRunning$.next(false);
 			this.ws = null;
-		};
-
-		this.ws.addEventListener("open", openFn);
-		this.ws.addEventListener("message", onMessageFn);
-		this.ws.addEventListener("close", onCloseFn);
+			throw error;
+		}
 	}
 
 	writeToStdin(str: string): void {

@@ -7,7 +7,7 @@ import {
 	FileSelectors
 } from "@kling/client/data-access/state";
 import { ToastService } from "@kling/client/shared/services";
-import { createDirectory, createFile, File as FileModel } from "@kling/programming";
+import { createDirectory, createFile, Directory, File as FileModel } from "@kling/programming";
 import { Store } from "@ngrx/store";
 import { TranslateService } from "@ngx-translate/core";
 import { firstValueFrom } from "rxjs";
@@ -30,8 +30,22 @@ export class DragAndDropService {
 		private readonly translate: TranslateService
 	) {
 		this.store.select(DirectorySelectors.selectAllDirectories).subscribe(directories => {
-			this.dropListIds = directories.map(d => d.path);
+			// https://github.com/angular/components/issues/16671
+			// Dealing with nested drop lists is tricky ...
+			// Sorting by depth changes the internal priority and allows dropping to nested lists
+			// BUG: Start of drag in nested folder always causes item to be moved to parent folder
+			this.dropListIds = this.sortDirectoriesByDepth(directories);
 		});
+	}
+
+	private sortDirectoriesByDepth(directories: Directory[]): string[] {
+		const directoriesWithDepth = directories.map(d => {
+			const split = d.path.split("/");
+			return { path: d.path, level: split.length };
+		});
+
+		directoriesWithDepth.sort((a, b) => b.level - a.level);
+		return directoriesWithDepth.map(d => d.path);
 	}
 
 	async onFileMoved(event: CdkDragDrop<FileModel[]>): Promise<void> {

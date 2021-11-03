@@ -1,18 +1,38 @@
-<div class="directory" data-test="directory">
+<div
+	class="directory"
+	data-test="directory"
+	*ngIf="{ files: files$ | async } as obs"
+	cdkDropList
+	[id]="directory.path"
+	[cdkDropListData]="obs.files"
+	(cdkDropListDropped)="drop($event)"
+	[cdkDropListConnectedTo]="dragAndDrop.dropListIds"
+>
 	<button
 		[contextMenu]="directoryContextMenu"
 		(click)="toggleIsExpanded()"
 		(middleclick)="toggleIsExpanded()"
+		class="flex"
 	>
-		<kling-icon name="chevron_down" size="16" class="ml-[-1px]" *ngIf="isExpanded"></kling-icon>
-		<kling-icon
-			name="chevron_right"
-			size="16"
-			class="ml-[-1px]"
-			*ngIf="!isExpanded"
-		></kling-icon>
-		<kling-icon name="folder" size="18" class="pl-[6px] pr-2 folder-icon"></kling-icon>
-		<span class="directory-name">{{ directory.name }}</span>
+		<ng-container *ngIf="isExpanded; else notExpanded">
+			<kling-icon name="chevron_down" size="16" class="ml-[-1px] mt-[-1px]"></kling-icon>
+			<kling-icon
+				name="folder"
+				size="16"
+				class="pl-[6px] mt-[-1px] pr-2 folder-icon"
+			></kling-icon>
+		</ng-container>
+
+		<ng-template #notExpanded>
+			<kling-icon name="chevron_right" size="16" class="ml-[-1px] mt-[-1px]"></kling-icon>
+			<kling-icon
+				name="folder"
+				size="16"
+				class="pl-[6px] mt-[-1px] pr-2 folder-icon"
+			></kling-icon>
+		</ng-template>
+
+		<span class="directory-name whitespace-nowrap">{{ directory.name }}</span>
 	</button>
 
 	<context-menu #directoryContextMenu>
@@ -52,17 +72,9 @@
 			</ng-container>
 		</div>
 
-		<div
-			class="files"
-			*ngIf="files$ | async as files"
-			cdkDropList
-			[id]="directory.path"
-			[cdkDropListData]="files"
-			(cdkDropListDropped)="drop($event)"
-			[cdkDropListConnectedTo]="dragAndDrop.dropListIds"
-		>
+		<div class="files">
 			<kling-file
-				*ngFor="let file of files"
+				*ngFor="let file of obs.files"
 				[file]="file"
 				[isSelected]="selectedFilePath === file.path"
 				cdkDrag

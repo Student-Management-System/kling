@@ -33,8 +33,7 @@
       "ImportFolder": "Import Folder",
       "NewProject": "New Project",
       "SynchronizeFolder": "Open Folder",
-      "CreateSession": "Create Session",
-      "MoveTo": "Move to"
+      "CreateSession": "Create Session"
     },
     "Run": "Run",
     "Export": "Export",

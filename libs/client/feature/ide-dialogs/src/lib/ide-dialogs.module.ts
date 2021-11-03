@@ -12,7 +12,6 @@ import { CreateFileDialogComponent } from "./create-file/create-file.dialog";
 import { CreateProjectDialogComponent } from "./create-project/create-project.dialog";
 import { RenameDialogComponent } from "./rename/rename.dialog";
 import { WorkspaceDialogs } from "./workspace-dialogs.service";
-import { MoveToComponent } from './move-to/move-to.component';
 
 @NgModule({
 	imports: [
@@ -30,8 +29,7 @@ import { MoveToComponent } from './move-to/move-to.component';
 		CreateDirectoryDialogComponent,
 		CreateFileDialogComponent,
 		CreateProjectDialogComponent,
-		RenameDialogComponent,
-  MoveToComponent
+		RenameDialogComponent
 	],
 	providers: [WorkspaceDialogs]
 })

@@ -33,8 +33,7 @@
       "ImportFolder": "Ordner importieren",
       "NewProject": "Neues Project",
       "SynchronizeFolder": "Ordner öffnen",
-      "CreateSession": "Zusammenarbeit starten",
-      "MoveTo": "Verschieben nach"
+      "CreateSession": "Zusammenarbeit starten"
     },
     "Run": "Ausführen",
     "Export": "Exportieren",

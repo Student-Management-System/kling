@@ -35,7 +35,6 @@ export class DragAndDropService {
 			// Sorting by depth changes the internal priority and allows dropping to nested lists
 			// BUG: Start of drag in nested folder always causes item to be moved to parent folder
 			this.dropListIds = this.sortDirectoriesByDepth(directories);
-			console.log(this.dropListIds);
 		});
 	}
 

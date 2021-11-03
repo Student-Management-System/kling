@@ -9,10 +9,18 @@
 	</mat-tab>
 
 	<mat-tab [label]="'Domain.Interactive' | translate">
-		<kling-interactive-terminal></kling-interactive-terminal>
+		<ng-template matTabContent>
+			<kling-interactive-terminal></kling-interactive-terminal>
+		</ng-template>
 	</mat-tab>
 
 	<mat-tab [label]="'Domain.Collaboration' | translate">
 		<kling-collaboration></kling-collaboration>
+	</mat-tab>
+
+	<mat-tab label="Exercise Submitter">
+		<ng-template matTabContent>
+			<router-outlet name="es-outlet"></router-outlet>
+		</ng-template>
 	</mat-tab>
 </mat-tab-group>

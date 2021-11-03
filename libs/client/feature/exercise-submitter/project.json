@@ -1,0 +1,42 @@
+{
+	"projectType": "library",
+	"root": "libs/client/feature/exercise-submitter",
+	"sourceRoot": "libs/client/feature/exercise-submitter/src",
+	"prefix": "kling",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/angular:ng-packagr-lite",
+			"outputs": ["dist/libs/client/feature/exercise-submitter"],
+			"options": {
+				"project": "libs/client/feature/exercise-submitter/ng-package.json"
+			},
+			"configurations": {
+				"production": {
+					"tsConfig": "libs/client/feature/exercise-submitter/tsconfig.lib.prod.json"
+				},
+				"development": {
+					"tsConfig": "libs/client/feature/exercise-submitter/tsconfig.lib.json"
+				}
+			},
+			"defaultConfiguration": "production"
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/client/feature/exercise-submitter"],
+			"options": {
+				"jestConfig": "libs/client/feature/exercise-submitter/jest.config.js",
+				"passWithNoTests": true
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"options": {
+				"lintFilePatterns": [
+					"libs/client/feature/exercise-submitter/src/**/*.ts",
+					"libs/client/feature/exercise-submitter/src/**/*.html"
+				]
+			}
+		}
+	},
+	"tags": []
+}

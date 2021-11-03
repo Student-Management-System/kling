@@ -1,0 +1,10 @@
+<div class="mb-2 text-xl font-bold">{{ "Domain.Courses" | translate }}</div>
+
+<div class="grid gap-4">
+	<ng-container *ngFor="let course of courses$ | async">
+		<a class="flex flex-col p-2 rounded header-bg" [routerLink]="['courses', course.id]">
+			<span class="vs-blue">{{ course.title }}</span>
+			<span class="text-light">{{ course.semester }}</span>
+		</a>
+	</ng-container>
+</div>

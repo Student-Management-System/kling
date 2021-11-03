@@ -15,7 +15,8 @@ module.exports = {
 		"<rootDir>/libs/client/feature/ide",
 		"<rootDir>/libs/client/feature/collaboration",
 		"<rootDir>/libs/client/shared/components",
-		"<rootDir>/libs/client/shared/services"
+		"<rootDir>/libs/client/shared/services",
+		"<rootDir>/libs/client/feature/exercise-submitter"
 	],
 	reporters:
 		process.env.NODE_ENV === "CI" ? ["default", "jest-github-actions-reporter"] : ["default"]

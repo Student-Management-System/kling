@@ -1,0 +1,34 @@
+<ng-container *ngIf="user$ | async as user">
+	<div *ngIf="assignment$ | async as assignment" class="assignment-component">
+		<div class="grid p-2 mb-2 bg-black bg-opacity-25 rounded">
+			<span class="mb-1 text-xl font-semibold">{{ assignment.name }}</span>
+			<div class="mb-1">
+				<span class="opacity-75"
+					>{{ assignment.type }} • {{ assignment.collaboration }} •
+					{{ assignment.state }}</span
+				>
+			</div>
+			<div>
+				<span class="opacity-75">Due to: </span>
+				{{ (assignment.endDate | date: "dd.MM.yyyy (mm:hh)") ?? "/" }}
+			</div>
+		</div>
+
+		<div class="grid p-2 bg-black bg-opacity-25 rounded" *ngIf="group$ | async as group">
+			<span class="mb-1 text-lg font-semibold">{{ group.name }}</span>
+			<div class="grid gap-2">
+				<ng-container *ngFor="let member of group.members">
+					<div
+						*ngIf="member.userId !== user.id"
+						class="grid pl-1 border-l-2 border-purple-700 members"
+					>
+						<span>{{ member.displayName }}</span>
+						<span class="opacity-75">{{ member.email }}</span>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+
+		<div class="mt-4">TODO</div>
+	</div>
+</ng-container>

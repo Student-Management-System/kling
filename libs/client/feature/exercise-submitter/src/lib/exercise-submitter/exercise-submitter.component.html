@@ -1,0 +1,30 @@
+<div class="flex flex-col h-full gap-2 p-4">
+	<div class="flex justify-center p-1 overflow-hidden rounded header-bg place-content-center">
+		<ng-template [ngTemplateOutlet]="uniLogo"></ng-template>
+		<span class="my-auto text-2xl font-bold whitespace-nowrap">Exercise Submitter</span>
+	</div>
+	<router-outlet name="es-inner"></router-outlet>
+	<!-- <ng-container *ngIf="user$ | async; else login">
+		<router-outlet name="es-inner"></router-outlet>
+	</ng-container>
+
+	<ng-template #login>
+		<button class="vs-button" color="accent" (click)="openLoginDialog()">Login</button>
+	</ng-template> -->
+</div>
+
+<ng-template #uniLogo>
+	<div class="w-16 h-16">
+		<svg
+			id="logo"
+			width="64"
+			height="64"
+			fill="#B71C1C"
+			viewBox="-2.17491372 -2.17491372 76.99035344 76.84695144"
+		>
+			<path
+				d="M 18.269274,20.145 L 18.269274,41.98875 L 39.599274,29.63375 L 39.599274,20.14625 L 31.249274,20.145 L 31.249274,29.53875 L 26.555524,32.3325 L 26.556774,20.14625 L 18.269274,20.145 M 18.579274,44.8825 L 18.579274,54.4275 L 26.610524,54.4275 L 26.610524,45.06 L 52.839274,29.635 L 52.839274,20.1475 L 44.418024,20.1475 L 44.419274,29.5175 L 18.579274,44.8825 M 52.839274,54.4275 L 52.839274,32.3625 L 31.480524,44.8825 L 31.480524,54.4275 L 39.599274,54.4275 L 39.599274,45.00875 L 44.294274,42.215 L 44.293024,54.4275 L 52.839274,54.4275"
+			/>
+		</svg>
+	</div>
+</ng-template>

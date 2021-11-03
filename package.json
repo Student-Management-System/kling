@@ -53,6 +53,7 @@
 		"@ngx-translate/core": "^13.0.0",
 		"@ngx-translate/http-loader": "^6.0.0",
 		"@student-mgmt/api-client": "^1.0.1",
+		"@student-mgmt/exercise-submitter-api-client": "^1.0.0",
 		"angular-split": "^5.0.0",
 		"browser-fs-access": "^0.20.5",
 		"dexie": "^3.0.3",

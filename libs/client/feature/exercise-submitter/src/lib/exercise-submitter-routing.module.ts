@@ -8,26 +8,23 @@ import { ExerciseSubmitterComponent } from "./exercise-submitter/exercise-submit
 const routes: Routes = [
 	{
 		path: "",
-		component: ExerciseSubmitterComponent,
 		pathMatch: "full",
+		component: ExerciseSubmitterComponent,
 		children: [
 			{
-				outlet: "es-inner",
-				path: "courses/:courseId",
-				component: AssignmentListComponent,
-				pathMatch: "full"
-			},
-			{
-				outlet: "es-inner",
-				path: "courses/:courseId/assignments/:assignmentId",
-				component: AssignmentComponent,
-				pathMatch: "full"
-			},
-			{
-				outlet: "es-inner",
 				path: "",
-				component: CoursesComponent,
-				pathMatch: "full"
+				pathMatch: "full",
+				component: CoursesComponent
+			},
+			{
+				path: "courses/:courseId",
+				pathMatch: "full",
+				component: AssignmentListComponent
+			},
+			{
+				path: "courses/:courseId/assignments/:assignmentId",
+				pathMatch: "full",
+				component: AssignmentComponent
 			}
 		]
 	}

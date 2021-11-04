@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AuthModule, AuthService } from "@kling/client-auth";
 import { getEnvVariableOrThrow } from "@kling/client-environments";
 import { ClientStateModule } from "@kling/client/data-access/state";
+import { IdeModule } from "@kling/ide";
 import { IdeServicesModule } from "@kling/ide-services";
 import { INDEXED_DB } from "@kling/indexed-db";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
@@ -24,7 +25,6 @@ import { ContextMenuModule } from "ngx-contextmenu";
 import { ToastrModule } from "ngx-toastr";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { NavigationModule } from "./navigation/navigation.module";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
 
@@ -35,7 +35,6 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 @NgModule({
 	declarations: [AppComponent],
 	imports: [
-		NavigationModule,
 		MatDialogModule,
 		BrowserModule,
 		HttpClientModule,
@@ -68,7 +67,8 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 		StoreDevtoolsModule.instrument({
 			name: "Instruments DevTools",
 			maxAge: 25
-		})
+		}),
+		IdeModule
 	],
 	providers: [
 		{ provide: LOCALE_ID, useValue: "de" },

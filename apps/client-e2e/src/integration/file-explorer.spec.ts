@@ -25,7 +25,7 @@ function createFileFromDialog(filename: string) {
 describe("File Explorer", () => {
 	beforeEach(() => {
 		cy.clearIndexedDb();
-		cy.visit("/ide");
+		cy.visit("/");
 	});
 
 	describe("Create File Dialog", () => {

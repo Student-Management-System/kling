@@ -1,16 +1,12 @@
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { RouterModule, Routes } from "@angular/router";
 
-const routes: Routes = [
-	{ path: "ide", loadChildren: () => import("@kling/ide").then(m => m.IdeModule) },
-	{ path: "", pathMatch: "full", redirectTo: "ide" }
-];
+const routes: Routes = [];
 
 @NgModule({
 	imports: [
 		RouterModule.forRoot(routes, {
-			paramsInheritanceStrategy: "always",
-			relativeLinkResolution: "legacy"
+			paramsInheritanceStrategy: "always"
 		})
 	],
 	exports: [RouterModule]

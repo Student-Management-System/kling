@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { FileActions, FileSelectors } from "@kling/client/data-access/state";
 import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
-import { SidenavService } from "@kling/client/shared/services";
 import { WorkspaceLayout, WorkspaceService, WorkspaceSettingsService } from "@kling/ide-services";
 import { IndexedDbService } from "@kling/indexed-db";
 import { Store } from "@ngrx/store";
@@ -13,7 +12,7 @@ import { Store } from "@ngrx/store";
 	styleUrls: ["./workspace.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, OnDestroy {
+export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit {
 	selectedFile$ = this.store.select(FileSelectors.selectSelectedFilePath);
 	selectedSideBarTab: string;
 	layout: WorkspaceLayout;
@@ -22,7 +21,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 		public workspaceSettings: WorkspaceSettingsService,
 		private readonly workspaceService: WorkspaceService,
 		private readonly indexedDb: IndexedDbService,
-		private readonly sidenav: SidenavService,
 		private readonly route: ActivatedRoute,
 		private readonly store: Store
 	) {
@@ -30,8 +28,6 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 	}
 
 	async ngOnInit(): Promise<void> {
-		this.sidenav.forceOverlayMode(true);
-
 		this.subs.sink = this.workspaceSettings.layout$.subscribe(layout => {
 			this.layout = layout;
 		});
@@ -64,10 +60,5 @@ export class WorkspaceComponent extends UnsubscribeOnDestroy implements OnInit, 
 			editorWidth: event.sizes[1],
 			featurePanelWidth: event.sizes[2]
 		});
-	}
-
-	ngOnDestroy(): void {
-		super.ngOnDestroy();
-		this.sidenav.forceOverlayMode(false);
 	}
 }

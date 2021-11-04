@@ -1,8 +1,9 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable, InjectionToken } from "@angular/core";
 import { File, getLanguageFromFilename } from "@kling/programming";
 import { BehaviorSubject, firstValueFrom, Subject, take } from "rxjs";
 import { CollaborationService } from "@kling/collaboration";
+import { AuthService } from "@kling/client-auth";
 
 export type PistonFile = {
 	name: string;
@@ -155,7 +156,11 @@ export class CodeExecutionService {
 		try {
 			const request = await this._createExecuteRequestObject(incompleteRequest);
 			const result = await firstValueFrom(
-				this.http.post<ExecuteResponse>(this.executeUrl, request)
+				this.http.post<ExecuteResponse>(this.executeUrl, request, {
+					headers: new HttpHeaders({
+						["Authorization"]: `Bearer ${AuthService.getAccessToken()}`
+					})
+				})
 			);
 
 			this.executeResult$.next(result);
@@ -320,7 +325,11 @@ export class CodeExecutionService {
 	async _getVersionOfLanguage(language: string): Promise<string> {
 		if (!this.runtimes[language]) {
 			const installedRuntimes = await firstValueFrom(
-				this.http.get<Runtime[]>(this.runtimesUrl)
+				this.http.get<Runtime[]>(this.runtimesUrl, {
+					headers: new HttpHeaders({
+						["Authorization"]: `Bearer ${AuthService.getAccessToken()}`
+					})
+				})
 			);
 
 			installedRuntimes.forEach(runtime => {

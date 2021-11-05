@@ -23,7 +23,7 @@ import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
-import { firstValueFrom, fromEvent, merge, Subject, Subscription } from "rxjs";
+import { firstValueFrom, fromEvent, merge, debounceTime, Subject, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
@@ -44,7 +44,7 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 	@Output() codeEditorInit = new EventEmitter<void>();
 	selectedFilePath: string | null | undefined;
 
-	onFileChanged$ = new Subject<string>();
+	onFileChanged$ = new Subject<void>();
 
 	private editor!: monaco.editor.IStandaloneCodeEditor;
 	private editorModelByPath = new Map<string, EditorModelState>();
@@ -110,6 +110,10 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 			)
 			.subscribe();
 
+		this.subs.sink = this.onFileChanged$.pipe(debounceTime(1000)).subscribe(() => {
+			this.saveCurrentFile();
+		});
+
 		this.initEditor();
 	}
 
@@ -131,6 +135,8 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 				this.filesWithUnsavedChanges.add(this.selectedFilePath!);
 				this.store.dispatch(FileActions.markAsChanged({ path: this.selectedFilePath! }));
 			}
+
+			this.onFileChanged$.next();
 		});
 
 		this.registerCustomActions();

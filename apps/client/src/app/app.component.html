@@ -1,1 +1,3 @@
-<app-navigation (onLanguageChange)="handleLanguageChange($event)"></app-navigation>
+<div [class]="theme$ | async">
+	<kling-workspace></kling-workspace>
+</div>

@@ -38,7 +38,7 @@ describe("Code Execution", () => {
 	});
 
 	beforeEach(() => {
-		cy.visit("/ide", {
+		cy.visit("/", {
 			qs: {
 				project: "CodeExecutionTest",
 				file: "main.py"

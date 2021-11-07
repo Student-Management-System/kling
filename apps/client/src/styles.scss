@@ -3,14 +3,6 @@
 @import "tailwindcss/utilities";
 @import "./custom-theme.scss";
 
-/* You can add global styles to this file, and also import other style files */
-
-:root {
-	--titlebar-height: 56px;
-	--margin-default: 8px;
-	--margin-content: 128px;
-}
-
 .light {
 	height: 100%;
 	--primary: #757575;
@@ -151,25 +143,6 @@ input[type="number"] {
 	-moz-appearance: textfield;
 }
 
-.content-container {
-	padding-top: 64px;
-	padding-left: var(--margin-default);
-	padding-right: var(--margin-default);
-	padding-bottom: var(--margin-default);
-}
-
-.content-padding {
-	padding-left: var(--margin-content);
-	padding-right: var(--margin-content);
-}
-
-.background-container {
-	background-color: var(--color-bg);
-	width: 100%;
-	min-height: 100%;
-	max-height: max-content;
-}
-
 mat-card {
 	background-color: var(--card-bg) !important;
 }
@@ -194,6 +167,14 @@ mat-paginator {
 
 .vs-button:hover {
 	background-color: var(--vs-button-bg-hover);
+}
+
+.header-bg {
+	background-color: var(--sidebar-header-bg);
+}
+
+.card {
+	@apply flex flex-col p-2 rounded bg-editor-bg dark:hover:bg-gray-800 hover:bg-gray-200;
 }
 
 .mat-menu-panel,

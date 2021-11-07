@@ -1,5 +1,7 @@
+import { OverlayContainer } from "@angular/cdk/overlay";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
+import { ThemeService } from "@kling/client/shared/services";
+import { tap } from "rxjs";
 
 @Component({
 	selector: "app-root",
@@ -7,10 +9,24 @@ import { TranslateService } from "@ngx-translate/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-	constructor(private translate: TranslateService) {}
+	theme$ = this.theme.theme$.pipe(tap(t => this.onThemeChange(t)));
 
-	handleLanguageChange(lang: string): void {
-		this.translate.use(lang);
-		localStorage.setItem("language", lang);
+	constructor(
+		private readonly theme: ThemeService,
+		private readonly overlayContainer: OverlayContainer
+	) {}
+
+	private onThemeChange(theme: string): void {
+		const overlayContainerClasses = this.overlayContainer.getContainerElement().classList;
+
+		if (theme === "dark") {
+			overlayContainerClasses.remove("light");
+		} else if (theme === "light") {
+			overlayContainerClasses.remove("dark");
+		} else {
+			console.error("Unknown theme: " + theme);
+		}
+
+		overlayContainerClasses.add(theme);
 	}
 }

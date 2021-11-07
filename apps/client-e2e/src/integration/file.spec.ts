@@ -6,7 +6,7 @@ describe("File", () => {
 
 	beforeEach(() => {
 		cy.clearIndexedDb();
-		cy.visit("/ide");
+		cy.visit("/");
 		addFileWithUi(file);
 	});
 

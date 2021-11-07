@@ -7,7 +7,7 @@ function openCreateProjectDialog() {
 
 describe("Create Project", () => {
 	beforeEach(() => {
-		cy.visit("/ide");
+		cy.visit("/");
 	});
 
 	beforeEach(() => {

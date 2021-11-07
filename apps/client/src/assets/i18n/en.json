@@ -61,7 +61,8 @@
     "Settings": "Settings",
     "Actions": "Actions",
     "Recent": "Recent",
-    "Hello": "Hello"
+    "Hello": "Hello",
+    "Welcome": "Welcome"
   },
   "Domain": {
     "Assessment": "Assessment",
@@ -272,6 +273,15 @@
       "Li3": "Create and delete files and directories",
       "Li4": "Share terminal input and code execution results",
       "ShareLink": "Invite other participants by sending them this link"
+    },
+    "Assignment": {
+      "SelectAssignment": "Select an assignment",
+      "NoAssignments": "There are no assignments for this course yet"
+    },
+    "LoginToEnable": "Please login with your university credentials to enable all features of this application.",
+    "Course": {
+      "SelectCourse": "Select a course",
+      "NoCourses": "You are not registered for any courses in the Student Management System"
     }
   }
 }

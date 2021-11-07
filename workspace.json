@@ -8,6 +8,7 @@
 		"client-feature-auth": "libs/client/feature/auth",
 		"client-feature-code-editor": "libs/client/feature/code-editor",
 		"client-feature-collaboration": "libs/client/feature/collaboration",
+		"client-feature-exercise-submitter": "libs/client/feature/exercise-submitter",
 		"client-feature-get-started": "libs/client/feature/get-started",
 		"client-feature-ide": "libs/client/feature/ide",
 		"client-feature-ide-dialogs": "libs/client/feature/ide-dialogs",

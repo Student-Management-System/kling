@@ -46,6 +46,7 @@
 		},
 		"@schematics/angular:component": {
 			"style": "scss"
-		}
+		},
+		"@nrwl/angular:component": {}
 	}
 }

@@ -1,18 +1,39 @@
-<mat-tab-group
-	color="accent"
-	class="tab-group"
-	[selectedIndex]="selectedTabIndex"
-	(selectedIndexChange)="selectedIndexChanged($event)"
->
-	<mat-tab label="Terminal">
-		<kling-terminal></kling-terminal>
-	</mat-tab>
+<ng-container *ngIf="user$ | async; else login">
+	<mat-tab-group
+		color="accent"
+		class="tab-group"
+		animationDuration="0ms"
+		[selectedIndex]="selectedTabIndex"
+		(selectedIndexChange)="selectedIndexChanged($event)"
+	>
+		<mat-tab label="Terminal">
+			<kling-terminal></kling-terminal>
+		</mat-tab>
 
-	<mat-tab [label]="'Domain.Interactive' | translate">
-		<kling-interactive-terminal></kling-interactive-terminal>
-	</mat-tab>
+		<mat-tab [label]="'Domain.Interactive' | translate">
+			<ng-template matTabContent>
+				<kling-interactive-terminal></kling-interactive-terminal>
+			</ng-template>
+		</mat-tab>
 
-	<mat-tab [label]="'Domain.Collaboration' | translate">
-		<kling-collaboration></kling-collaboration>
-	</mat-tab>
-</mat-tab-group>
+		<mat-tab [label]="'Domain.Collaboration' | translate">
+			<kling-collaboration></kling-collaboration>
+		</mat-tab>
+
+		<mat-tab label="Exercise Submitter">
+			<ng-template matTabContent>
+				<kling-exercise-submitter></kling-exercise-submitter>
+			</ng-template>
+		</mat-tab>
+	</mat-tab-group>
+</ng-container>
+
+<ng-template #login>
+	<div class="w-full h-full px-4 pt-[35px]">
+		<div class="flex flex-col gap-4 p-4 rounded bg-editor-bg">
+			<span class="text-2xl text-vs-blue">{{ "Common.Welcome" | translate }}!</span>
+			<span>{{ "Text.LoginToEnable" | translate }}</span>
+			<button class="vs-button" (click)="dialogService.openLoginDialog()">Login</button>
+		</div>
+	</div>
+</ng-template>

@@ -3,7 +3,7 @@ import { Select } from "../support/element-selector";
 import { createDefaultProject, defaultProject } from "../support/mock-data";
 
 function openWorkspaceWith(project?: string, file?: string): void {
-	cy.visit("/ide", {
+	cy.visit("/", {
 		qs: {
 			project: project,
 			file: file

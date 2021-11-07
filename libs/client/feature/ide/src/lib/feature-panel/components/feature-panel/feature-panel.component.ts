@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { AuthSelectors } from "@kling/client/data-access/state";
 import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { DialogService } from "@kling/client/shared/services";
+import { Store } from "@ngrx/store";
 
 @Component({
 	selector: "kling-feature-panel",
@@ -9,10 +12,17 @@ import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeaturePanelComponent extends UnsubscribeOnDestroy implements OnInit {
-	selectedTabIndex = 0;
-	private tabs = ["terminal", "interactive", "collaboration"];
+	user$ = this.store.select(AuthSelectors.selectUser);
 
-	constructor(private route: ActivatedRoute, private router: Router) {
+	selectedTabIndex = 0;
+	private tabs = ["terminal", "interactive", "collaboration", "submit"];
+
+	constructor(
+		private route: ActivatedRoute,
+		private router: Router,
+		private store: Store,
+		readonly dialogService: DialogService
+	) {
 		super();
 	}
 
@@ -29,7 +39,10 @@ export class FeaturePanelComponent extends UnsubscribeOnDestroy implements OnIni
 	}
 
 	selectedIndexChanged(index: number): void {
-		this.router.navigate([], { fragment: this.tabs[index], queryParamsHandling: "preserve" });
+		this.router.navigate([], {
+			fragment: this.tabs[index],
+			queryParamsHandling: "preserve"
+		});
 		this.selectedTabIndex = index;
 	}
 }

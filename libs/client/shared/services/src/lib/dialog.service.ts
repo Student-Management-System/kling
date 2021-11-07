@@ -3,6 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { TranslateService } from "@ngx-translate/core";
 import { ConfirmDialog, ConfirmDialogData } from "@kling/client/shared/components";
 import { Observable } from "rxjs";
+import { LoginDialogComponent } from "@kling/client-auth";
 
 /**
  * Service that can be used by components to open common dialogs.
@@ -10,6 +11,10 @@ import { Observable } from "rxjs";
 @Injectable({ providedIn: "root" })
 export class DialogService {
 	constructor(private dialog: MatDialog, private translate: TranslateService) {}
+
+	openLoginDialog(): void {
+		this.dialog.open(LoginDialogComponent);
+	}
 
 	/**
 	 * Opens the ConfirmDialog.

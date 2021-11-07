@@ -1,12 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-const routes: Routes = [
-	{
-		path: "",
-		loadChildren: () => import("@kling/exercise-submitter").then(m => m.ExerciseSubmitterModule)
-	}
-];
+const routes: Routes = [];
 
 @NgModule({
 	imports: [RouterModule.forChild(routes)],

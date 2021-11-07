@@ -13,9 +13,13 @@ module.exports = {
 	darkMode: "class",
 	theme: {
 		extend: {
-			text: {
+			colors: {
+				"editor-bg": "var(--editor-background)",
+				"section-header-bg": "var(--sidebar-header-bg)",
+				"panel-bg": "var(--file-explorer-bg)",
 				selected: "var(--text-selected)",
-				light: "var(--text-light)"
+				light: "var(--text-light)",
+				"vs-blue": "var(--vs-blue)"
 			}
 		},
 	},

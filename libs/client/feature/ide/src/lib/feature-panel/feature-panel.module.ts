@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatTabsModule } from "@angular/material/tabs";
 import { RouterModule } from "@angular/router";
@@ -14,6 +15,7 @@ import { TerminalService } from "./services/terminal.service";
 @NgModule({
 	declarations: [FeaturePanelComponent, ProblemViewComponent, TestingViewComponent],
 	imports: [
+		CommonModule,
 		RouterModule,
 		MatTabsModule,
 		TerminalModule,

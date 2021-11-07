@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { AssignmentApi } from "@student-mgmt/api-client";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AssignmentDto } from "@student-mgmt/api-client";
 
 @Component({
 	selector: "kling-assignment-list",
@@ -8,11 +7,11 @@ import { AssignmentApi } from "@student-mgmt/api-client";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssignmentListComponent {
-	courseId = this.route.snapshot.params.courseId;
-	assignments$ = this.assignmentApi.getAssignmentsOfCourse(this.courseId);
+	@Input() courseId!: string;
+	@Input() assignments!: AssignmentDto[];
+	@Output() selected = new EventEmitter<AssignmentDto>();
 
-	constructor(
-		private readonly route: ActivatedRoute,
-		private readonly assignmentApi: AssignmentApi
-	) {}
+	typeEnum = AssignmentDto.TypeEnum;
+	collaborationEnum = AssignmentDto.CollaborationEnum;
+	stateEnum = AssignmentDto.StateEnum;
 }

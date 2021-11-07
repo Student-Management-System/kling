@@ -173,6 +173,10 @@ mat-paginator {
 	background-color: var(--sidebar-header-bg);
 }
 
+.card {
+	@apply flex flex-col p-2 rounded bg-editor-bg dark:hover:bg-gray-800 hover:bg-gray-200;
+}
+
 .mat-menu-panel,
 .mat-dialog-container,
 .mat-select-panel {

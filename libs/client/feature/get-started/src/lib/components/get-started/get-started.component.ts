@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { AuthService } from "@kling/client-auth";
+import { environment } from "@kling/client-environments";
 import { AuthSelectors, FileActions } from "@kling/client/data-access/state";
 import { createMainFile, SupportedLanguage } from "@kling/programming";
 import { Store } from "@ngrx/store";
-import { environment } from "@kling/client-environments";
-import { LoginDialogComponent } from "libs/client/feature/auth/src/lib/dialogs/login/login.dialog";
 
 @Component({
 	selector: "kling-get-started",
@@ -17,15 +15,7 @@ export class GetStartedComponent {
 
 	_isDevelopment = !environment.production;
 
-	constructor(
-		private readonly dialog: MatDialog,
-		private readonly authService: AuthService,
-		private readonly store: Store
-	) {}
-
-	openLoginDialog(): void {
-		this.dialog.open(LoginDialogComponent);
-	}
+	constructor(private readonly authService: AuthService, private readonly store: Store) {}
 
 	logout(): void {
 		this.authService.logout();

@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { AuthSelectors } from "@kling/client/data-access/state";
-import { Store } from "@ngrx/store";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { CourseDto } from "@student-mgmt/api-client";
 
 @Component({
 	selector: "kling-courses",
@@ -8,7 +7,6 @@ import { Store } from "@ngrx/store";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoursesComponent {
-	courses$ = this.store.select(AuthSelectors.selectCourses);
-
-	constructor(private store: Store) {}
+	@Input() courses!: CourseDto[];
+	@Output() selected = new EventEmitter<CourseDto>();
 }

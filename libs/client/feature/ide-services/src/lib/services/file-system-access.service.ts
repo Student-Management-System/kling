@@ -31,7 +31,7 @@ import * as JSZip from "jszip";
 import { nanoid } from "nanoid";
 import { BehaviorSubject, firstValueFrom, Subscription } from "rxjs";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class FileSystemAccess {
 	hasSynchronizedDirectory = false;
 

@@ -1,6 +1,5 @@
 import { Inject, Injectable, InjectionToken } from "@angular/core";
 import {
-	Chat,
 	connectAnonymously,
 	ConvergenceDomain,
 	ModelChangedEvent,
@@ -51,7 +50,6 @@ export class CollaborationService {
 	readonly collaborators$ = new BehaviorSubject<ModelCollaborator[] | null>(null);
 
 	private model!: RealTimeModel;
-	private chat!: Chat;
 	private domain!: ConvergenceDomain;
 	private subscriptions: Subscription[] = [];
 

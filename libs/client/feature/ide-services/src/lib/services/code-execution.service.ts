@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable, InjectionToken } from "@angular/core";
 import { File, getLanguageFromFilename } from "@kling/programming";
-import { BehaviorSubject, firstValueFrom, Subject, take } from "rxjs";
+import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
 import { CollaborationService } from "@kling/collaboration";
 import { AuthService } from "@kling/client-auth";
 
@@ -75,9 +75,6 @@ type InteractiveMessage = {
 };
 
 export const PISTON_API_URL = new InjectionToken<string>("URL of the piston code execution api.");
-export const PISTON_WS_URL = new InjectionToken<string>(
-	"URL of the piston code execution websocket api."
-);
 
 @Injectable({ providedIn: "root" })
 export class CodeExecutionService {

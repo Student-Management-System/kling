@@ -7,7 +7,6 @@ import { GetStartedModule } from "@kling/get-started";
 import { AngularSplitModule } from "angular-split";
 import { ActivityBarModule } from "./activity-bar/activity-bar.module";
 import { FeaturePanelModule } from "./feature-panel/feature-panel.module";
-import { IdeRoutingModule } from "./ide-routing.module";
 import { RunCodeModule } from "./run-code/run-code.module";
 import { SideBarModule } from "./side-bar/side-bar.module";
 import { WorkspaceComponent } from "./workspace/workspace.component";
@@ -18,7 +17,6 @@ import { WorkspaceComponent } from "./workspace/workspace.component";
 	imports: [
 		CommonModule,
 		HttpClientModule,
-		IdeRoutingModule,
 		GetStartedModule,
 		ActivityBarModule,
 		SideBarModule,

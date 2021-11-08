@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { AssignmentApi, UserApi } from "@student-mgmt/api-client";
-import { filter, switchMap, map, withLatestFrom } from "rxjs";
+import { filter, switchMap, map, withLatestFrom, catchError, of } from "rxjs";
 import { AuthSelectors } from "../auth-store";
 import * as StudentMgmtActions from "./student-mgmt.actions";
 
@@ -23,7 +23,8 @@ export class StudentMgmtEffects {
 		return this.actions$.pipe(
 			ofType(StudentMgmtActions.loadAssignments),
 			switchMap(action => this.assignmentApi.getAssignmentsOfCourse(action.courseId)),
-			map(assignments => StudentMgmtActions.setAssignments({ assignments }))
+			map(assignments => StudentMgmtActions.setAssignments({ assignments })),
+			catchError(_error => of(StudentMgmtActions.setAssignments({ assignments: [] })))
 		);
 	});
 
@@ -34,7 +35,10 @@ export class StudentMgmtEffects {
 			switchMap(([action, user]) =>
 				this.userApi.getGroupOfAllAssignments(user.id, action.courseId)
 			),
-			map(assignmentGroups => StudentMgmtActions.setAssignmentGroups({ assignmentGroups }))
+			map(assignmentGroups => StudentMgmtActions.setAssignmentGroups({ assignmentGroups })),
+			catchError(_error =>
+				of(StudentMgmtActions.setAssignmentGroups({ assignmentGroups: [] }))
+			)
 		);
 	});
 

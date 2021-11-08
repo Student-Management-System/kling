@@ -37,6 +37,16 @@ describe("File", () => {
 			cy.getBySelector(Select.file.unsavedChangesIndicator).should("not.exist");
 			cy.getBySelector(Select.fileTabs.unsavedChangesIndicator).should("not.exist");
 		});
+
+		it("Waiting for 1s -> File should save automatically", () => {
+			cy.get("#editor").type("autosave");
+
+			cy.getBySelector(Select.file.unsavedChangesIndicator).should("exist");
+			cy.getBySelector(Select.fileTabs.unsavedChangesIndicator).should("exist");
+
+			cy.getBySelector(Select.file.unsavedChangesIndicator).should("not.exist");
+			cy.getBySelector(Select.fileTabs.unsavedChangesIndicator).should("not.exist");
+		});
 	});
 });
 

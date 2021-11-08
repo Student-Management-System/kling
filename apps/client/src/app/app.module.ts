@@ -1,6 +1,6 @@
 import { LayoutModule } from "@angular/cdk/layout";
 import { registerLocaleData } from "@angular/common";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import localeDe from "@angular/common/locales/de";
 import localeDeExtra from "@angular/common/locales/extra/de";
 import { LOCALE_ID, NgModule } from "@angular/core";
@@ -25,6 +25,7 @@ import { ContextMenuModule } from "ngx-contextmenu";
 import { ToastrModule } from "ngx-toastr";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { ErrorInterceptorService } from "./error-interceptor.service";
 
 registerLocaleData(localeDe, "de", localeDeExtra);
 
@@ -73,7 +74,8 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 	providers: [
 		{ provide: LOCALE_ID, useValue: "de" },
 		{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: "outline" } },
-		{ provide: INDEXED_DB, useValue: indexedDB }
+		{ provide: INDEXED_DB, useValue: indexedDB },
+		{ provide: HTTP_INTERCEPTORS, multi: true, useClass: ErrorInterceptorService }
 	],
 	bootstrap: [AppComponent]
 })

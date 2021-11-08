@@ -1,286 +1,287 @@
 {
-	"Action": {
-		"Add": "Hinzufügen",
-		"Cancel": "Abbrechen",
-		"Close": "Schließen",
-		"Confirm": "Bestätigen",
-		"Create": "Erstellen",
-		"Delete": "Löschen",
-		"Edit": "Ändern",
-		"Join": "Beitreten",
-		"Leave": "Verlassen",
-		"No": "Nein",
-		"Ok": "Ok",
-		"Open": "Öffnen",
-		"Remove": "Entfernen",
-		"Save": "Speichern",
-		"Search": "Suchen",
-		"Select": "Auswählen",
-		"Send": "Senden",
-		"View": "Ansehen",
-		"Yes": "Ja",
-		"Rename": "Umbenennen",
-		"Custom": {
-			"AddFile": "Datei hinzufügen",
-			"AddDirectory": "Verzeichnis hinzufügen",
-			"ImportFiles": "Dateien importieren",
-			"MarkAsEntryPoint": "Als Einstiegspunkt markieren",
-			"SaveAsNewProject": "Als neues Projekt speichern",
-			"CreateNewProject": "Neues Projekt",
-			"NewFile": "Neue Datei",
-			"NewFolder": "Neuer Ordner",
-			"ImportFile": "Datei(en) importieren",
-			"ImportFolder": "Ordner importieren",
-			"NewProject": "Neues Project",
-			"SynchronizeFolder": "Ordner öffnen",
-			"CreateSession": "Zusammenarbeit starten"
-		},
-		"Run": "Ausführen",
-		"Export": "Exportieren",
-		"Disconnect": "Verbindung trennen",
-		"CopyToClipboard": "In Zwischenablage kopieren"
-	},
-	"Common": {
-		"All": "Alle",
-		"AssignedTo": "Zugewiesen an",
-		"Count": "Anzahl",
-		"Date": "Datum",
-		"For": "Für",
-		"Help": "Hilfe",
-		"Multiple": "Mehrere",
-		"My": "Meine",
-		"Name": "Name",
-		"Names": "Namen",
-		"No": "Nein",
-		"Other": "Andere",
-		"Password": "Passwort",
-		"Single": "Einzeln",
-		"Title": "Titel",
-		"Yes": "Ja",
-		"Language": "Sprache",
-		"Settings": "Einstellungen",
-		"Actions": "Aktionen",
-		"Recent": "Kürzlich",
-		"Hello": "Hallo",
-		"Welcome": "Willkommen"
-	},
-	"Domain": {
-		"Assessment": "Bewertung",
-		"Assessments": "Bewertungen",
-		"Assignment": "Aufgabe",
-		"Assignments": "Aufgaben",
-		"Course": "Veranstaltung",
-		"Courses": "Veranstaltungen",
-		"Group": "Gruppe",
-		"Groups": "Gruppen",
-		"Lecturer": "Lehrender",
-		"Lecturers": "Lehrende",
-		"Member": "Mitglied",
-		"Members": "Mitglieder",
-		"Participant": "Teilnehmer",
-		"Participants": "Teilnehmer",
-		"Problem": "Problem",
-		"Problems": "Probleme",
-		"Semester": "Semester",
-		"Solved": "Gelöst",
-		"User": "Nutzer",
-		"Users": "Nutzer",
-		"Input": "Eingabe",
-		"Output": "Ausgabe",
-		"Collaboration": "Zusammenarbeit",
-		"Interactive": "Interaktiv"
-	},
-	"Enum": {
-		"AssignmentState": {
-			"CLOSED": "Geschlossen",
-			"EVALUATED": "Bewertet",
-			"INVISIBLE": "Unsichtbar",
-			"IN_PROGRESS": "Laufend",
-			"IN_REVIEW": "In Bewertung"
-		},
-		"AssignmentType": {
-			"HOMEWORK": "Hausaufgabe",
-			"OTHER": "Sonstige",
-			"PROJECT": "Projekt",
-			"SEMINAR": "Seminar",
-			"TESTAT": "Testat"
-		},
-		"CollaborationType": {
-			"GROUP": "Gruppenabgabe",
-			"GROUP_OR_SINGLE": "Gruppen- und Einzelabgabe",
-			"SINGLE": "Einzelabgabe"
-		},
-		"CourseRole": {
-			"LECTURER": "Lehrender",
-			"STUDENT": "Student",
-			"TUTOR": "Tutor"
-		},
-		"Difficulty": {
-			"EASY": "Leicht",
-			"HARD": "Schwer",
-			"MEDIUM": "Mittel"
-		},
-		"Status": {
-			"ATTEMPTED": "Versucht",
-			"SOLVED": "Gelöst",
-			"UNSOLVED": "Ungelöst"
-		},
-		"UserRole": {
-			"ADMIN_TOOL": "ADMIN_TOOL",
-			"MGTM_ADMIN": "MGTM_ADMIN",
-			"SYSTEM_ADMIN": "SYSTEM_ADMIN",
-			"USER": "USER"
-		}
-	},
-	"Error": {
-		"AlreadyExists": "Existiert bereits.",
-		"Assessment": {
-			"AchievedPointsMaxValueExceeded": "Erreichte Punktzahl übersteigt die maximal mögliche Punktzahl."
-		},
-		"AssignmentNotInReview": "Erstellung von Bewertungen benötigt den \"In Bewertung\"-Status.",
-		"FailedToLoadRequiredData": "Benötigte Daten konnten nicht geladen werden.",
-		"SomethingWentWrong": "Ups, da ist etwas schief gelaufen!",
-		"ValueMissing": "Fehlender Wert.",
-		"ForbiddenCharacter": "Beeinhaltet ein verbotenes Symmbol ({{forbiddenCharacters}}).",
-		"FailedToLoadProject": "Project \"{{project}}\" konnte nicht geladen werden.",
-		"Piston": "Bei der Kommunikation mit der Piston API ist ein Fehler aufgetreten.\nDein Program ist nicht für dieses Problem verantwortlich.",
-		"FileAlreadyExistsAtLocation": "Eine Datei mit dem Namen \"{{filename}}\" existiert bereits an diesem Ort."
-	},
-	"Event": {
-		"UserJoinedCourseEvent": "ist dem Kurs beigreten.",
-		"UserJoinedGroupEvent": "ist der Gruppe beigreten.",
-		"UserLeftCourseEvent": "hat den Kurs verlassen.",
-		"UserLeftGroupEvent": "hat die Gruppe verlassen."
-	},
-	"Message": {
-		"Created": "Erstellt",
-		"Deleted": "Gelöscht",
-		"Error": "Fehler",
-		"Removed": "Entfernt",
-		"Saved": "Gespeichert",
-		"Success": "Erfolg"
-	},
-	"Misc": {
-		"BasicData": "Grunddaten",
-		"ExtendedOptions": "Erweiterte Optionen",
-		"Home": "Startseite",
-		"Imprint": "Impressum",
-		"Language": "Sprache",
-		"Link": "Link",
-		"Privacy": "Datenschutz",
-		"Settings": "Einstellungen",
-		"Quickstart": "Schnellstart",
-		"Theme": {
-			"Light": "Hell"
-		}
-	},
-	"Prompt": {
-		"PleaseChoose": "Bitte auswählen",
-		"Question": {
-			"AreYouSure": "Soll diese Aktion durchgeführt werden ?"
-		}
-	},
-	"Property": {
-		"Assessment": {
-			"AchievedPoints": "Erreichte Punktzahl",
-			"Comment": "Kommentar",
-			"Creator": "Bewertet von",
-			"PartialAssessments": "Teilbewertungen"
-		},
-		"Assignment": {
-			"BonusPoints": "Bonuspunkte",
-			"Collaboration": "Zusammenarbeit",
-			"Comment": "Beschreibung",
-			"EndDate": "Enddatum",
-			"Name": "Name",
-			"Points": "Punktzahl",
-			"StartDate": "Startdatum",
-			"State": "Status",
-			"Type": "Typ"
-		},
-		"AssignmentTemplate": {
-			"State": "Initialer Zustand",
-			"TemplateName": "Namen der Vorlage",
-			"Timespan": "Zeitspanne",
-			"TitleSchema": "Titel"
-		},
-		"Course": {
-			"IsClosed": "Geschlossen",
-			"Link": "Link",
-			"Shortname": "Kürzel",
-			"Title": "Titel"
-		},
-		"CourseConfig": {
-			"SubscriptionUrl": "SubscriptionUrlTODO"
-		},
-		"Group": {
-			"History": "Verlauf",
-			"IsClosed": "Geschlossen",
-			"Name": "Name"
-		},
-		"GroupSettings": {
-			"AllowGroups": "Gruppen erlauben",
-			"NameSchema": "Präfix",
-			"Selfmanaged": "Selbstverwaltend",
-			"SizeMax": "Max. Größe",
-			"SizeMin": "Min. Größe"
-		},
-		"PartialAssessment": {
-			"Comment": "Kommentar",
-			"Points": "Punkte",
-			"Severity": "Schwere",
-			"Title": "Titel",
-			"Type": "Typ"
-		},
-		"Problem": {
-			"Categories": "Kategorien",
-			"Difficulty": "Schwierigkeit",
-			"Title": "Titel"
-		},
-		"User": {
-			"CourseRole": "Rolle im Kurs",
-			"Email": "Email",
-			"Role": "Rolle",
-			"Username": "Nutzername"
-		}
-	},
-	"Title": {
-		"CompareParticipantsList": "Teilnehmerliste vergleichen",
-		"CreateDirectory": "Ordner erstellen",
-		"CreateFile": "Datei erstellen",
-		"CreateProblem": "Neues Problem erstellen",
-		"CreateProject": "Neues Project erstellen"
-	},
-	"Text": {
-		"Domain": {
-			"NoRecentProjects": "Keine zuletzt geöffneten Projekte",
-			"SaveAsNewProject": "Inhalt von \"{{projectName}}\" wird in das neue Projekt kopiert."
-		},
-		"Terminal": {
-			"InnerText": "Die Ausgabe des Programs wird hier erscheinen",
-			"InputPlaceholder": "Tätige eine Eingabe und bestätige per \"Enter\"..."
-		},
-		"SynchronizeFolder": {
-			"Description": "Erlaubt die Auswahl von einem lokalen gespeicherten Ordner. Der Inhalt des Ordners wird mit dem Editor synchronisiert, d. h. vorhandene Dateien werden geladen und Änderungen auf dem System des Nutzers gespeichert.",
-			"Link": "Dieses Feature ist nur in sicheren Umgebungen (HTTPS) und in unterstützenden Browsern (z. B. Chrome) verfügbar."
-		},
-		"Collaboration": {
-			"Description2": "Du und andere Teilnehmer können",
-			"Li1": "Code-Änderungen von Anderen erhalten",
-			"Li2": "Cursor-Position und Textauswahl anderer sehen",
-			"Li3": "Dateien und Ordner erstellen und löschen",
-			"Li4": "Eingaben in das Terminal und Ergebnisse der Code-Ausführung teilen",
-			"Description": "Erstelle eine Sitzung für die Zusammenarbeit an dem aktuell geöffneten Projekt. Sobald du verbunden bist, erhälst du einen Link, den du mit anderen Teilnehmern teilen kannst, um diese zur Sitzung einzuladen. ",
-			"ShareLink": "Sende den folgenden Link an andere Teilnehmer, um sie einzuladen"
-		},
-		"Assignment": {
-			"SelectAssignment": "Wähle eine Aufgabe aus",
-			"NoAssignments": "Diese Veranstaltung hat bisher keine Aufgaben veröffentlicht"
-		},
-		"LoginToEnable": "Bitte melde dich mit deinem Uni-Account an, um alle Features dieser Anwendung nutzen zu können.",
-		"Course": {
-			"SelectCourse": "Wähle eine Veranstaltung aus",
-			"NoCourses": "Du bist im Studenten Management System für keine Veranstaltung angemeldet"
-		}
-	}
+  "Action": {
+    "Add": "Hinzufügen",
+    "Cancel": "Abbrechen",
+    "Close": "Schließen",
+    "Confirm": "Bestätigen",
+    "Create": "Erstellen",
+    "Delete": "Löschen",
+    "Edit": "Ändern",
+    "Join": "Beitreten",
+    "Leave": "Verlassen",
+    "No": "Nein",
+    "Ok": "Ok",
+    "Open": "Öffnen",
+    "Remove": "Entfernen",
+    "Save": "Speichern",
+    "Search": "Suchen",
+    "Select": "Auswählen",
+    "Send": "Senden",
+    "View": "Ansehen",
+    "Yes": "Ja",
+    "Rename": "Umbenennen",
+    "Custom": {
+      "AddFile": "Datei hinzufügen",
+      "AddDirectory": "Verzeichnis hinzufügen",
+      "ImportFiles": "Dateien importieren",
+      "MarkAsEntryPoint": "Als Einstiegspunkt markieren",
+      "SaveAsNewProject": "Als neues Projekt speichern",
+      "CreateNewProject": "Neues Projekt",
+      "NewFile": "Neue Datei",
+      "NewFolder": "Neuer Ordner",
+      "ImportFile": "Datei(en) importieren",
+      "ImportFolder": "Ordner importieren",
+      "NewProject": "Neues Project",
+      "SynchronizeFolder": "Ordner öffnen",
+      "CreateSession": "Zusammenarbeit starten"
+    },
+    "Run": "Ausführen",
+    "Export": "Exportieren",
+    "Disconnect": "Verbindung trennen",
+    "CopyToClipboard": "In Zwischenablage kopieren"
+  },
+  "Common": {
+    "All": "Alle",
+    "AssignedTo": "Zugewiesen an",
+    "Count": "Anzahl",
+    "Date": "Datum",
+    "For": "Für",
+    "Help": "Hilfe",
+    "Multiple": "Mehrere",
+    "My": "Meine",
+    "Name": "Name",
+    "Names": "Namen",
+    "No": "Nein",
+    "Other": "Andere",
+    "Password": "Passwort",
+    "Single": "Einzeln",
+    "Title": "Titel",
+    "Yes": "Ja",
+    "Language": "Sprache",
+    "Settings": "Einstellungen",
+    "Actions": "Aktionen",
+    "Recent": "Kürzlich",
+    "Hello": "Hallo",
+    "Welcome": "Willkommen"
+  },
+  "Domain": {
+    "Assessment": "Bewertung",
+    "Assessments": "Bewertungen",
+    "Assignment": "Aufgabe",
+    "Assignments": "Aufgaben",
+    "Course": "Veranstaltung",
+    "Courses": "Veranstaltungen",
+    "Group": "Gruppe",
+    "Groups": "Gruppen",
+    "Lecturer": "Lehrender",
+    "Lecturers": "Lehrende",
+    "Member": "Mitglied",
+    "Members": "Mitglieder",
+    "Participant": "Teilnehmer",
+    "Participants": "Teilnehmer",
+    "Problem": "Problem",
+    "Problems": "Probleme",
+    "Semester": "Semester",
+    "Solved": "Gelöst",
+    "User": "Nutzer",
+    "Users": "Nutzer",
+    "Input": "Eingabe",
+    "Output": "Ausgabe",
+    "Collaboration": "Zusammenarbeit",
+    "Interactive": "Interaktiv"
+  },
+  "Enum": {
+    "AssignmentState": {
+      "CLOSED": "Geschlossen",
+      "EVALUATED": "Bewertet",
+      "INVISIBLE": "Unsichtbar",
+      "IN_PROGRESS": "Laufend",
+      "IN_REVIEW": "In Bewertung"
+    },
+    "AssignmentType": {
+      "HOMEWORK": "Hausaufgabe",
+      "OTHER": "Sonstige",
+      "PROJECT": "Projekt",
+      "SEMINAR": "Seminar",
+      "TESTAT": "Testat"
+    },
+    "CollaborationType": {
+      "GROUP": "Gruppenabgabe",
+      "GROUP_OR_SINGLE": "Gruppen- und Einzelabgabe",
+      "SINGLE": "Einzelabgabe"
+    },
+    "CourseRole": {
+      "LECTURER": "Lehrender",
+      "STUDENT": "Student",
+      "TUTOR": "Tutor"
+    },
+    "Difficulty": {
+      "EASY": "Leicht",
+      "HARD": "Schwer",
+      "MEDIUM": "Mittel"
+    },
+    "Status": {
+      "ATTEMPTED": "Versucht",
+      "SOLVED": "Gelöst",
+      "UNSOLVED": "Ungelöst"
+    },
+    "UserRole": {
+      "ADMIN_TOOL": "ADMIN_TOOL",
+      "MGTM_ADMIN": "MGTM_ADMIN",
+      "SYSTEM_ADMIN": "SYSTEM_ADMIN",
+      "USER": "USER"
+    }
+  },
+  "Error": {
+    "AlreadyExists": "Existiert bereits.",
+    "Assessment": {
+      "AchievedPointsMaxValueExceeded": "Erreichte Punktzahl übersteigt die maximal mögliche Punktzahl."
+    },
+    "AssignmentNotInReview": "Erstellung von Bewertungen benötigt den \"In Bewertung\"-Status.",
+    "FailedToLoadRequiredData": "Benötigte Daten konnten nicht geladen werden.",
+    "SomethingWentWrong": "Ups, da ist etwas schief gelaufen!",
+    "ValueMissing": "Fehlender Wert.",
+    "ForbiddenCharacter": "Beeinhaltet ein verbotenes Symmbol ({{forbiddenCharacters}}).",
+    "FailedToLoadProject": "Project \"{{project}}\" konnte nicht geladen werden.",
+    "Piston": "Bei der Kommunikation mit der Piston API ist ein Fehler aufgetreten.\nDein Program ist nicht für dieses Problem verantwortlich.",
+    "FileAlreadyExistsAtLocation": "Eine Datei mit dem Namen \"{{filename}}\" existiert bereits an diesem Ort.",
+    "ConnectionRefused": "Verbindung mit dem Server konnte nicht hergestellt werden."
+  },
+  "Event": {
+    "UserJoinedCourseEvent": "ist dem Kurs beigreten.",
+    "UserJoinedGroupEvent": "ist der Gruppe beigreten.",
+    "UserLeftCourseEvent": "hat den Kurs verlassen.",
+    "UserLeftGroupEvent": "hat die Gruppe verlassen."
+  },
+  "Message": {
+    "Created": "Erstellt",
+    "Deleted": "Gelöscht",
+    "Error": "Fehler",
+    "Removed": "Entfernt",
+    "Saved": "Gespeichert",
+    "Success": "Erfolg"
+  },
+  "Misc": {
+    "BasicData": "Grunddaten",
+    "ExtendedOptions": "Erweiterte Optionen",
+    "Home": "Startseite",
+    "Imprint": "Impressum",
+    "Language": "Sprache",
+    "Link": "Link",
+    "Privacy": "Datenschutz",
+    "Settings": "Einstellungen",
+    "Quickstart": "Schnellstart",
+    "Theme": {
+      "Light": "Hell"
+    }
+  },
+  "Prompt": {
+    "PleaseChoose": "Bitte auswählen",
+    "Question": {
+      "AreYouSure": "Soll diese Aktion durchgeführt werden ?"
+    }
+  },
+  "Property": {
+    "Assessment": {
+      "AchievedPoints": "Erreichte Punktzahl",
+      "Comment": "Kommentar",
+      "Creator": "Bewertet von",
+      "PartialAssessments": "Teilbewertungen"
+    },
+    "Assignment": {
+      "BonusPoints": "Bonuspunkte",
+      "Collaboration": "Zusammenarbeit",
+      "Comment": "Beschreibung",
+      "EndDate": "Enddatum",
+      "Name": "Name",
+      "Points": "Punktzahl",
+      "StartDate": "Startdatum",
+      "State": "Status",
+      "Type": "Typ"
+    },
+    "AssignmentTemplate": {
+      "State": "Initialer Zustand",
+      "TemplateName": "Namen der Vorlage",
+      "Timespan": "Zeitspanne",
+      "TitleSchema": "Titel"
+    },
+    "Course": {
+      "IsClosed": "Geschlossen",
+      "Link": "Link",
+      "Shortname": "Kürzel",
+      "Title": "Titel"
+    },
+    "CourseConfig": {
+      "SubscriptionUrl": "SubscriptionUrlTODO"
+    },
+    "Group": {
+      "History": "Verlauf",
+      "IsClosed": "Geschlossen",
+      "Name": "Name"
+    },
+    "GroupSettings": {
+      "AllowGroups": "Gruppen erlauben",
+      "NameSchema": "Präfix",
+      "Selfmanaged": "Selbstverwaltend",
+      "SizeMax": "Max. Größe",
+      "SizeMin": "Min. Größe"
+    },
+    "PartialAssessment": {
+      "Comment": "Kommentar",
+      "Points": "Punkte",
+      "Severity": "Schwere",
+      "Title": "Titel",
+      "Type": "Typ"
+    },
+    "Problem": {
+      "Categories": "Kategorien",
+      "Difficulty": "Schwierigkeit",
+      "Title": "Titel"
+    },
+    "User": {
+      "CourseRole": "Rolle im Kurs",
+      "Email": "Email",
+      "Role": "Rolle",
+      "Username": "Nutzername"
+    }
+  },
+  "Title": {
+    "CompareParticipantsList": "Teilnehmerliste vergleichen",
+    "CreateDirectory": "Ordner erstellen",
+    "CreateFile": "Datei erstellen",
+    "CreateProblem": "Neues Problem erstellen",
+    "CreateProject": "Neues Project erstellen"
+  },
+  "Text": {
+    "Domain": {
+      "NoRecentProjects": "Keine zuletzt geöffneten Projekte",
+      "SaveAsNewProject": "Inhalt von \"{{projectName}}\" wird in das neue Projekt kopiert."
+    },
+    "Terminal": {
+      "InnerText": "Die Ausgabe des Programs wird hier erscheinen",
+      "InputPlaceholder": "Tätige eine Eingabe und bestätige per \"Enter\"..."
+    },
+    "SynchronizeFolder": {
+      "Description": "Erlaubt die Auswahl von einem lokalen gespeicherten Ordner. Der Inhalt des Ordners wird mit dem Editor synchronisiert, d. h. vorhandene Dateien werden geladen und Änderungen auf dem System des Nutzers gespeichert.",
+      "Link": "Dieses Feature ist nur in sicheren Umgebungen (HTTPS) und in unterstützenden Browsern (z. B. Chrome) verfügbar."
+    },
+    "Collaboration": {
+      "Description2": "Du und andere Teilnehmer können",
+      "Li1": "Code-Änderungen von Anderen erhalten",
+      "Li2": "Cursor-Position und Textauswahl anderer sehen",
+      "Li3": "Dateien und Ordner erstellen und löschen",
+      "Li4": "Eingaben in das Terminal und Ergebnisse der Code-Ausführung teilen",
+      "Description": "Erstelle eine Sitzung für die Zusammenarbeit an dem aktuell geöffneten Projekt. Sobald du verbunden bist, erhälst du einen Link, den du mit anderen Teilnehmern teilen kannst, um diese zur Sitzung einzuladen. ",
+      "ShareLink": "Sende den folgenden Link an andere Teilnehmer, um sie einzuladen"
+    },
+    "Assignment": {
+      "SelectAssignment": "Wähle eine Aufgabe aus",
+      "NoAssignments": "Diese Veranstaltung hat bisher keine Aufgaben veröffentlicht"
+    },
+    "LoginToEnable": "Bitte melde dich mit deinem Uni-Account an, um alle Features dieser Anwendung nutzen zu können.",
+    "Course": {
+      "SelectCourse": "Wähle eine Veranstaltung aus",
+      "NoCourses": "Du bist im Studenten Management System für keine Veranstaltung angemeldet"
+    }
+  }
 }

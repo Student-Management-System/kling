@@ -144,7 +144,8 @@
     "ForbiddenCharacter": "Contains a forbidden character ({{forbiddenCharacters}}).",
     "FailedToLoadProject": "Failed to load project \"{{projectName}}\".",
     "Piston": "An error occurred while communicating with the Piston API.\nThis issue was not caused by your program.",
-    "FileAlreadyExistsAtLocation": "A file named \"{{filename}}\" already exists at this location."
+    "FileAlreadyExistsAtLocation": "A file named \"{{filename}}\" already exists at this location.",
+    "ConnectionRefused": "Failed to connect to the server."
   },
   "Event": {
     "UserJoinedCourseEvent": "joined the course.",

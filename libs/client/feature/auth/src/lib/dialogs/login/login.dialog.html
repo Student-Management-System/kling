@@ -1,51 +1,53 @@
-<div class="dialog-container" id="login-dialog" *ngIf="authState$ | async as authState">
-	<mat-card-title id="dialog-title">Login</mat-card-title>
+<div class="w-[300px]" data-test="loginDialog" *ngIf="loginState$ | async as loginState">
+	<span mat-dialog-title>Login</span>
 
-	<div mat-dialog-content class="dialog-content">
-		<mat-form-field class="form-field" appearance="outline">
-			<mat-label>{{ 'Property.User.Username' | translate }}</mat-label>
-			<input
-				#username
-				matInput
-				type="text"
-				name="username"
-				id="username"
-				(keydown.enter)="onLogin(username.value, password.value)"
-			/>
-			<kling-icon matSuffix class="icon-light" name="person"></kling-icon>
-		</mat-form-field>
+	<form mat-dialog-content>
+		<div class="flex flex-col gap-4">
+			<mat-form-field class="form-field" appearance="outline">
+				<mat-label>{{ 'Property.User.Username' | translate }}</mat-label>
+				<input
+					#username
+					matInput
+					type="text"
+					data-test="usernameInput"
+					(keydown.enter)="onLogin(username.value, password.value)"
+				/>
+				<kling-icon matSuffix class="icon-light" name="person"></kling-icon>
+			</mat-form-field>
 
-		<mat-form-field class="form-field" appearance="outline">
-			<mat-label>{{ 'Common.Password' | translate }}</mat-label>
-			<input
-				#password
-				matInput
-				type="password"
-				name="password"
-				id="password"
-				(keydown.enter)="onLogin(username.value, password.value)"
-			/>
-			<kling-icon matSuffix class="icon-light" name="lock"></kling-icon> </mat-form-field
-		><br />
+			<mat-form-field class="form-field" appearance="outline">
+				<mat-label>{{ 'Common.Password' | translate }}</mat-label>
+				<input
+					#password
+					matInput
+					type="password"
+					data-test="passwordInput"
+					(keydown.enter)="onLogin(username.value, password.value)"
+				/>
+				<kling-icon matSuffix class="icon-light" name="lock"></kling-icon>
+			</mat-form-field>
 
-		<div id="error-container" *ngIf="authState.error">
-			<mat-error *ngIf="errorMessage">{{errorMessage! | translate}}</mat-error>
+			<div class="p-1 mx-auto text-red-600" *ngIf="loginState.error" data-test="errorMessage">
+				{{loginState.error | translate}}
+			</div>
+
+			<div class="p-1 mx-auto" *ngIf="loginState.isLoading" data-test="loadingSpinner">
+				<mat-spinner color="primary" [diameter]="32"></mat-spinner>
+			</div>
 		</div>
+	</form>
 
-		<div class="loading" *ngIf="authState.isLoading">
-			<mat-spinner color="accent" [diameter]="32"></mat-spinner>
-		</div>
-	</div>
-
-	<div mat-dialog-actions class="dialog-actions">
+	<div mat-dialog-actions class="flex justify-between gap-4">
 		<button
-			mat-flat-button
-			color="accent"
-			id="btn-login"
+			class="w-36 vs-button disabled:opacity-25"
 			(click)="onLogin(username.value, password.value)"
-			[disabled]="authState.isLoading"
+			[disabled]="loginState.isLoading || username.value.length == 0 || password.value.length == 0"
+			data-test="loginBtn"
 		>
 			Login
+		</button>
+		<button [mat-dialog-close]="false" data-test="cancelBtn">
+			{{ 'Action.Cancel' | translate }}
 		</button>
 	</div>
 </div>

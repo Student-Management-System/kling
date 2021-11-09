@@ -1,53 +1,32 @@
 import { Injectable } from "@angular/core";
-import { AssignmentDto, CourseDto, UserDto } from "@student-mgmt/api-client";
-import { Observable, of } from "rxjs";
+import { Store } from "@ngrx/store";
+import { UserDto } from "@student-mgmt/api-client";
+import {
+	SubmissionApi,
+	SubmissionResultDto,
+	VersionDto
+} from "@student-mgmt/exercise-submitter-api-client";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class ExerciseSubmitterService {
-	user$: Observable<UserDto | null>;
-	courses$: Observable<CourseDto[]>;
-	assignments$: Observable<AssignmentDto[]>;
+	user!: UserDto;
 
-	constructor() {
-		const user: UserDto = {
-			displayName: "Max Mustermann",
-			role: "USER",
-			username: "mmustermann",
-			id: "1-2-3"
-		};
+	constructor(private readonly store: Store, private readonly submissionApi: SubmissionApi) {}
 
-		const COURSE_JAVA_1920: CourseDto = {
-			id: "java-wise1920",
-			shortname: "java",
-			semester: "wise1920",
-			title: "Programmierpraktikum I: Java",
-			isClosed: false,
-			links: [
-				{
-					name: "Example URL",
-					url: "http://example-url.com"
-				}
-			]
-		};
+	getPreviousVersions(
+		courseId: string,
+		assignmentName: string,
+		groupOrUsername: string
+	): Observable<VersionDto[]> {
+		return this.submissionApi.listVersions(courseId, assignmentName, groupOrUsername);
+	}
 
-		const COURSE_JAVA_2020: CourseDto = {
-			id: "java-sose2020",
-			shortname: "java",
-			semester: "sose2020",
-			title: "Programmierpraktikum I: Java",
-			isClosed: false,
-			links: [
-				{
-					name: "Example URL",
-					url: "http://example-url.com"
-				}
-			]
-		};
-
-		const courses: CourseDto[] = [COURSE_JAVA_1920, COURSE_JAVA_2020];
-
-		this.user$ = of(user);
-		this.courses$ = of(courses);
-		this.assignments$ = of();
+	createSubmission(
+		courseId: string,
+		assignmentName: string,
+		groupOrUsername: string
+	): Observable<SubmissionResultDto> {
+		return this.submissionApi.submit(courseId, assignmentName, groupOrUsername);
 	}
 }

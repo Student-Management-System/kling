@@ -1,6 +1,15 @@
 <div class="flex flex-col flex-grow-0 h-full gap-4 p-4 overflow-hidden">
 	<div
-		class="flex justify-center flex-shrink-0 p-1 overflow-hidden rounded  header-bg place-content-center"
+		class="
+			flex
+			justify-center
+			flex-shrink-0
+			p-1
+			overflow-hidden
+			rounded
+			header-bg
+			place-content-center
+		"
 	>
 		<ng-template [ngTemplateOutlet]="uniLogo"></ng-template>
 		<span class="my-auto text-2xl font-bold whitespace-nowrap overflow-ellipsis"
@@ -9,7 +18,13 @@
 	</div>
 
 	<ng-container *ngIf="user$ | async as user">
-		<ng-container *ngIf="{ course: course$ | async, assignment: assignment$ | async } as obs">
+		<ng-container
+			*ngIf="{
+				course: course$ | async,
+				assignment: assignment$ | async,
+				versions: versions$ | async
+			} as obs"
+		>
 			<div class="flex whitespace-nowrap">
 				<button class="hover:text-vs-blue" (click)="selectCourse(null)">
 					{{ "Domain.Courses" | translate }}
@@ -28,20 +43,24 @@
 
 			<ng-container *ngIf="!obs.course">
 				<ng-container *ngIf="courses$ | async as courses">
-					<ng-container *ngIf="courses.length > 0; else noCourses">
-						<span class="text-light"
-							>{{ "Text.Course.SelectCourse" | translate }}...</span
-						>
-						<kling-courses
-							class="overflow-y-auto"
-							[courses]="(courses$ | async)!"
-							(selected)="selectCourse($event)"
-						></kling-courses>
-					</ng-container>
+					<ng-container *ngIf="!courses.isLoading; else loading">
+						<ng-container *ngIf="courses.data.length > 0; else noCourses">
+							<span class="text-light"
+								>{{ "Text.Course.SelectCourse" | translate }}...</span
+							>
+							<kling-courses
+								class="overflow-y-auto"
+								[courses]="courses.data"
+								(selected)="selectCourse($event)"
+							></kling-courses>
+						</ng-container>
 
-					<ng-template #noCourses>
-						<span class="text-light">{{ "Text.Course.NoCourses" | translate }}.</span>
-					</ng-template>
+						<ng-template #noCourses>
+							<span class="text-light"
+								>{{ "Text.Course.NoCourses" | translate }}.</span
+							>
+						</ng-template>
+					</ng-container>
 				</ng-container>
 			</ng-container>
 
@@ -67,13 +86,6 @@
 						</ng-template>
 					</ng-container>
 				</ng-container>
-
-				<ng-template #loading>
-					<mat-progress-spinner
-						class="mx-auto mt-4"
-						mode="indeterminate"
-					></mat-progress-spinner>
-				</ng-template>
 			</ng-container>
 
 			<kling-assignment
@@ -82,10 +94,16 @@
 				[assignment]="obs.assignment"
 				[user]="user"
 				[group]="group$ | async"
+				[versions]="obs.versions!"
+				(submitSolution)="submit($event)"
 			></kling-assignment>
 		</ng-container>
 	</ng-container>
 </div>
+
+<ng-template #loading>
+	<mat-progress-spinner class="mx-auto mt-4" mode="indeterminate"></mat-progress-spinner>
+</ng-template>
 
 <ng-template #uniLogo>
 	<div class="w-16 h-16">

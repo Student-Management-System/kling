@@ -9,6 +9,7 @@ import { MatCardModule } from "@angular/material/card";
 import { CommonModule } from "@angular/common";
 import { IconModule } from "@kling/client/shared/components";
 import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
 	declarations: [LoginDialogComponent],
@@ -18,6 +19,7 @@ import { MatButtonModule } from "@angular/material/button";
 		MatFormFieldModule,
 		MatInputModule,
 		MatButtonModule,
+		MatDialogModule,
 		TranslateModule,
 		MatCardModule,
 		TranslateModule,

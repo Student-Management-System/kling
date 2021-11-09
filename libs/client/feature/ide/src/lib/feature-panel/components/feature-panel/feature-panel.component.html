@@ -33,7 +33,13 @@
 		<div class="flex flex-col gap-4 p-4 rounded bg-editor-bg">
 			<span class="text-2xl text-vs-blue">{{ "Common.Welcome" | translate }}!</span>
 			<span>{{ "Text.LoginToEnable" | translate }}</span>
-			<button class="vs-button" (click)="dialogService.openLoginDialog()">Login</button>
+			<button
+				class="vs-button"
+				(click)="dialogService.openLoginDialog()"
+				data-test="openLoginBtn"
+			>
+				Login
+			</button>
 		</div>
 	</div>
 </ng-template>

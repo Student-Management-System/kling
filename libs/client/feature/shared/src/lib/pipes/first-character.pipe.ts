@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { NgModule, Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({ name: "firstChar" })
 export class FirstCharacterPipe implements PipeTransform {
@@ -10,3 +10,9 @@ export class FirstCharacterPipe implements PipeTransform {
 		return value[0];
 	}
 }
+
+@NgModule({
+	declarations: [FirstCharacterPipe],
+	exports: [FirstCharacterPipe]
+})
+export class FirstCharacterPipeModule {}

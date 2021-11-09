@@ -1,75 +1,84 @@
 import { createReducer, on } from "@ngrx/store";
-import { AssignmentDto, GroupDto } from "@student-mgmt/api-client";
+import { AssignmentDto, CourseDto, GroupDto, UserDto } from "@student-mgmt/api-client";
+import { VersionDto } from "@student-mgmt/exercise-submitter-api-client";
+import { Loadable, setLoadable } from "../interfaces";
 import * as StudentMgmtActions from "./student-mgmt.actions";
 
 export const studentMgmtFeatureKey = "student-mgmt";
 
-export interface State {
-	selectedCourseId: string | null;
-	selectedAssignmentId: string | null;
-	assignments: {
-		data: AssignmentDto[];
-		isLoading: boolean;
-	};
-	assignmentGroups: {
-		data: Record<string, GroupDto>;
-		isLoading: boolean;
+export type State = {
+	user?: UserDto;
+	selectedCourseId?: string | null;
+	selectedAssignmentId?: string | null;
+	courses: Loadable<CourseDto[]>;
+	assignments: Loadable<AssignmentDto[]>;
+	assignmentGroups: Loadable<Record<string, GroupDto>>;
+	versions: Loadable<VersionDto[]>;
+};
+
+function createInitialState(): State {
+	const storedToken = localStorage.getItem("studentMgmtToken");
+	const user = storedToken ? JSON.parse(storedToken).user : undefined;
+
+	return {
+		user,
+		courses: setLoadable([]),
+		assignments: setLoadable([]),
+		assignmentGroups: setLoadable({}),
+		versions: setLoadable([])
 	};
 }
 
-const initialState: State = {
-	selectedCourseId: null,
-	assignments: {
-		data: [],
-		isLoading: false
-	},
-	selectedAssignmentId: null,
-	assignmentGroups: {
-		data: {},
-		isLoading: false
-	}
-};
-
 export const reducer = createReducer(
-	initialState,
+	createInitialState(),
+	on(StudentMgmtActions.setUser, (_state, action) => ({
+		...createInitialState(),
+		user: action.user
+	})),
 	on(StudentMgmtActions.selectCourse, (state, action) => ({
-		...initialState,
+		...createInitialState(),
+		user: state.user,
 		selectedCourseId: action.courseId
+	})),
+	on(StudentMgmtActions.loadCourses, state => ({
+		...state,
+		courses: setLoadable([], true)
+	})),
+	on(StudentMgmtActions.setCourses, (state, action) => ({
+		...state,
+		courses: setLoadable(action.courses)
 	})),
 	on(StudentMgmtActions.selectAssignment, (state, action) => ({
 		...state,
-		selectedAssignmentId: action.assignmentId
+		selectedAssignmentId: action.assignmentId,
+		versions: setLoadable([])
 	})),
 	on(StudentMgmtActions.setAssignments, (state, action) => ({
 		...state,
-		assignments: {
-			data: action.assignments,
-			isLoading: false
-		}
+		assignments: setLoadable(action.assignments)
 	})),
 	on(StudentMgmtActions.loadAssignments, state => ({
 		...state,
-		assignments: {
-			data: [],
-			isLoading: true
-		}
+		assignments: setLoadable([], true)
 	})),
 	on(StudentMgmtActions.loadAssignmentGroups, state => ({
 		...state,
-		assignmentGroups: {
-			data: {},
-			isLoading: true
-		}
+		assignmentGroups: setLoadable({}, true)
 	})),
 	on(StudentMgmtActions.setAssignmentGroups, (state, action) => {
-		const data = {};
-		action.assignmentGroups.forEach(t => (data[t.assignment.id] = t.group));
+		const assignmentGroups: Record<string, GroupDto> = {};
+		action.assignmentGroups.forEach(t => (assignmentGroups[t.assignment.id] = t.group));
 		return {
 			...state,
-			assignmentGroups: {
-				data,
-				isLoading: false
-			}
+			assignmentGroups: setLoadable(assignmentGroups)
 		};
-	})
+	}),
+	on(StudentMgmtActions.loadVersions, state => ({
+		...state,
+		versions: setLoadable([], true)
+	})),
+	on(StudentMgmtActions.setVersions, (state, action) => ({
+		...state,
+		versions: setLoadable(action.versions)
+	}))
 );

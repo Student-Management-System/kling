@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { AuthService } from "@kling/client-auth";
 import { environment } from "@kling/client-environments";
-import { AuthSelectors, FileActions } from "@kling/client/data-access/state";
+import { FileActions, StudentMgmtSelectors } from "@kling/client/data-access/state";
 import { createMainFile, SupportedLanguage } from "@kling/programming";
 import { Store } from "@ngrx/store";
 
@@ -11,7 +11,7 @@ import { Store } from "@ngrx/store";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GetStartedComponent {
-	user$ = this.store.select(AuthSelectors.selectUser);
+	user$ = this.store.select(StudentMgmtSelectors.user);
 
 	_isDevelopment = !environment.production;
 

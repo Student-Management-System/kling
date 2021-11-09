@@ -7,11 +7,18 @@ import { IconModule } from "@kling/client/shared/components";
 import { TranslateModule } from "@ngx-translate/core";
 import { CONVERGENCE_REALTIME_API_URL } from "./collaboration.service";
 import { CollaborationComponent } from "./collaboration/collaboration.component";
-import { FirstCharacterPipe } from "./first-character.pipe";
+import { FirstCharacterPipeModule } from "@kling/client-shared";
 
 @NgModule({
-	imports: [CommonModule, IconModule, FormsModule, MatTooltipModule, TranslateModule],
-	declarations: [CollaborationComponent, FirstCharacterPipe],
+	imports: [
+		CommonModule,
+		IconModule,
+		FormsModule,
+		MatTooltipModule,
+		TranslateModule,
+		FirstCharacterPipeModule
+	],
+	declarations: [CollaborationComponent],
 	exports: [CollaborationComponent],
 	providers: [
 		{

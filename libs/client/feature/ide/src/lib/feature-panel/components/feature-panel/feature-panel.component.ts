@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AuthSelectors } from "@kling/client/data-access/state";
+import { StudentMgmtSelectors } from "@kling/client/data-access/state";
 import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
 import { DialogService } from "@kling/client/shared/services";
 import { Store } from "@ngrx/store";
@@ -12,7 +12,7 @@ import { Store } from "@ngrx/store";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeaturePanelComponent extends UnsubscribeOnDestroy implements OnInit {
-	user$ = this.store.select(AuthSelectors.selectUser);
+	user$ = this.store.select(StudentMgmtSelectors.user);
 
 	selectedTabIndex = 0;
 	private tabs = ["terminal", "interactive", "collaboration", "submit"];

@@ -53,11 +53,23 @@ export const Select = {
 		},
 		confirm: {
 			container: "confirm-dialog"
+		},
+		login: {
+			container: "loginDialog",
+			usernameInput: "usernameInput",
+			passwordInput: "passwordInput",
+			errorMessage: "errorMessage",
+			loadingSpinner: "loadingSpinner",
+			loginBtn: "loginBtn"
 		}
 	},
 	button: {
 		create: "createBtn",
 		confirm: "confirmBtn",
 		cancel: "cancelBtn"
+	},
+	openLoginButton: "openLoginBtn",
+	getStarted: {
+		userGreeting: "userGreeting"
 	}
 } as const;

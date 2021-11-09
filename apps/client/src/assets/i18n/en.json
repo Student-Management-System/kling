@@ -38,7 +38,8 @@
     "Run": "Run",
     "Export": "Export",
     "Disconnect": "Disconnect",
-    "CopyToClipboard": "Copy to Clipboard"
+    "CopyToClipboard": "Copy to Clipboard",
+    "Submit": "Submit"
   },
   "Common": {
     "All": "All",
@@ -145,7 +146,9 @@
     "FailedToLoadProject": "Failed to load project \"{{projectName}}\".",
     "Piston": "An error occurred while communicating with the Piston API.\nThis issue was not caused by your program.",
     "FileAlreadyExistsAtLocation": "A file named \"{{filename}}\" already exists at this location.",
-    "ConnectionRefused": "Failed to connect to the server."
+    "ConnectionRefused": "Failed to connect to the server.",
+    "InvalidCredentials": "The given username or password was incorrect.",
+    "Unauthorized": "You are unauthorized."
   },
   "Event": {
     "UserJoinedCourseEvent": "joined the course.",

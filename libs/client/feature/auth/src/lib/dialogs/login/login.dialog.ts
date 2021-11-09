@@ -1,10 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Component, Inject } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
-import { Actions, ofType } from "@ngrx/effects";
-import { Store } from "@ngrx/store";
-import { tap } from "rxjs/operators";
-import { AuthActions, AuthSelectors } from "@kling/client/data-access/state";
+import { AuthenticationInfoDto, AuthService } from "@kling/client-auth";
+import { StudentMgmtActions } from "@kling/client/data-access/state";
 import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { ToastService } from "@kling/client/shared/services";
+import { Store } from "@ngrx/store";
+import { AuthenticationApi } from "@student-mgmt/api-client";
+import { BehaviorSubject, firstValueFrom } from "rxjs";
+import { switchMap } from "rxjs/operators";
 
 /**
  * Dialogs that allows the user to login to the Student-Management-System using the Sparkyservice as authentication provider.
@@ -12,55 +16,73 @@ import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
  */
 @Component({
 	selector: "kling-login",
-	templateUrl: "./login.dialog.html",
-	styleUrls: ["./login.dialog.scss"]
+	templateUrl: "./login.dialog.html"
 })
-export class LoginDialogComponent extends UnsubscribeOnDestroy implements OnInit {
-	errorMessage?: string;
-	loading = false;
-	authState$ = this.store.select(AuthSelectors.selectAuthState);
+export class LoginDialogComponent extends UnsubscribeOnDestroy {
+	loginState$ = new BehaviorSubject<{ isLoading: boolean; error?: string }>({ isLoading: false });
 
 	constructor(
 		private dialogRef: MatDialogRef<LoginDialogComponent, boolean>,
 		private store: Store,
-		private actions: Actions
+		private http: HttpClient,
+		private authApi: AuthenticationApi,
+		private toast: ToastService,
+		@Inject("SPARKY_AUTHENTICATE_URL") private authUrl: string
 	) {
 		super();
 	}
 
-	ngOnInit(): void {
-		this.subs.sink = this.actions
-			.pipe(
-				ofType(AuthActions.loginFailure),
-				tap(action => (this.errorMessage = this.getErrorMessage(action.error)))
-			)
-			.subscribe();
+	async onLogin(username: string, password: string): Promise<void> {
+		const isLoading = (await firstValueFrom(this.loginState$)).isLoading;
 
-		this.subs.sink = this.actions
-			.pipe(
-				ofType(AuthActions.loginSuccess),
-				tap(() => this.dialogRef.close(true))
-			)
-			.subscribe();
+		if (isLoading) {
+			return;
+		}
+
+		const credentials = {
+			username: username.trim(),
+			password: password.trim()
+		};
+
+		this.loginState$.next({ isLoading: true });
+
+		try {
+			let accessToken = "";
+
+			const user = await firstValueFrom(
+				this.http.post<AuthenticationInfoDto>(this.authUrl, credentials).pipe(
+					switchMap(authInfo => {
+						accessToken = authInfo.token.token;
+						AuthService.setAuthState({ accessToken, user: null });
+						return this.authApi.whoAmI();
+					})
+				)
+			);
+
+			this.loginState$.next({ isLoading: false });
+			this.toast.success(user.displayName, "Common.Welcome");
+
+			AuthService.setAuthState({ user, accessToken });
+			this.store.dispatch(StudentMgmtActions.setUser({ user }));
+
+			this.dialogRef.close(true);
+		} catch (error) {
+			console.log(error);
+
+			if (error instanceof HttpErrorResponse) {
+				this.loginState$.next({ isLoading: false, error: this.getErrorMessage(error) });
+			}
+		}
 	}
 
-	onLogin(username: string, password: string): void {
-		this.store.dispatch(
-			AuthActions.login({
-				username: username.trim(),
-				password: password.trim()
-			})
-		);
-	}
-
-	private getErrorMessage(error: any): string {
+	private getErrorMessage(error: HttpErrorResponse): string {
 		switch (error.status) {
 			case 0:
 				return "Error.ConnectionRefused";
 			case 401:
 				return "Error.InvalidCredentials";
 			default:
-				return "Login failed (Reason: Unknown).";
+				return "Error.SomethingWentWrong";
 		}
 	}
 }

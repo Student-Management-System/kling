@@ -9,6 +9,9 @@ import { CoursesComponent } from "./courses/courses.component";
 import { ExerciseSubmitterService } from "./exercise-submitter.service";
 import { ExerciseSubmitterComponent } from "./exercise-submitter/exercise-submitter.component";
 import { SemesterPipeModule } from "@kling/client-shared";
+import { ApiModule, Configuration } from "@student-mgmt/exercise-submitter-api-client";
+import { AuthService } from "@kling/client-auth";
+import { getEnvVariableOrThrow } from "@kling/client-environments";
 
 @NgModule({
 	imports: [
@@ -16,7 +19,14 @@ import { SemesterPipeModule } from "@kling/client-shared";
 		IconModule,
 		TranslateModule,
 		MatProgressSpinnerModule,
-		SemesterPipeModule
+		SemesterPipeModule,
+		ApiModule.forRoot(
+			() =>
+				new Configuration({
+					accessToken: (): string => AuthService.getAccessToken() ?? "",
+					basePath: getEnvVariableOrThrow("EXERCISE_SUBMITTER_BASE_PATH")
+				})
+		)
 	],
 	declarations: [
 		ExerciseSubmitterComponent,

@@ -38,7 +38,8 @@
     "Run": "Ausführen",
     "Export": "Exportieren",
     "Disconnect": "Verbindung trennen",
-    "CopyToClipboard": "In Zwischenablage kopieren"
+    "CopyToClipboard": "In Zwischenablage kopieren",
+    "Submit": "Abgeben"
   },
   "Common": {
     "All": "Alle",
@@ -145,7 +146,9 @@
     "FailedToLoadProject": "Project \"{{project}}\" konnte nicht geladen werden.",
     "Piston": "Bei der Kommunikation mit der Piston API ist ein Fehler aufgetreten.\nDein Program ist nicht für dieses Problem verantwortlich.",
     "FileAlreadyExistsAtLocation": "Eine Datei mit dem Namen \"{{filename}}\" existiert bereits an diesem Ort.",
-    "ConnectionRefused": "Verbindung mit dem Server konnte nicht hergestellt werden."
+    "ConnectionRefused": "Verbindung mit dem Server konnte nicht hergestellt werden.",
+    "InvalidCredentials": "Die Anmeldedaten sind ungültig.",
+    "Unauthorized": "Du bist nicht angemeldet."
   },
   "Event": {
     "UserJoinedCourseEvent": "ist dem Kurs beigreten.",

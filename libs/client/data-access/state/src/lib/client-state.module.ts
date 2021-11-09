@@ -1,8 +1,6 @@
 import { NgModule } from "@angular/core";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
-import { AuthEffects } from "./auth-store/auth.effects";
-import * as fromAuth from "./auth-store/auth.reducer";
 import { DirectoryEffects } from "./directory-store/directory.effects";
 import * as fromDirectory from "./directory-store/directory.reducer";
 import { FileEffects } from "./file-store/file.effects";
@@ -31,14 +29,12 @@ import * as fromWorkspace from "./workspace-store/workspace.reducer";
 		),
 		EffectsModule.forRoot([]),
 		EffectsModule.forFeature([
-			AuthEffects,
 			DirectoryEffects,
 			FileEffects,
 			FileTabEffects,
 			WorkspaceEffects,
 			StudentMgmtEffects
 		]),
-		StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducer),
 		StoreModule.forFeature(fromWorkspace.workspaceFeatureKey, fromWorkspace.reducer),
 		StoreModule.forFeature(fromDirectory.directoriesFeatureKey, fromDirectory.reducer),
 		StoreModule.forFeature(fromFile.filesFeatureKey, fromFile.reducer),

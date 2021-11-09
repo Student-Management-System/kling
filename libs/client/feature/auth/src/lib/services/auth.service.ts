@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
+import { StudentMgmtActions, StudentMgmtSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
+import { AuthenticationApi, UserDto } from "@student-mgmt/api-client";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import { AuthenticationApi, UserDto } from "@student-mgmt/api-client";
-import { AuthActions, AuthSelectors } from "@kling/client/data-access/state";
 
 type StoredAuthState = { user: UserDto | null; accessToken: string | null };
 
@@ -11,7 +11,7 @@ type StoredAuthState = { user: UserDto | null; accessToken: string | null };
 export class AuthService {
 	static readonly studentMgmtTokenKey = "studentMgmtToken";
 
-	user$ = this.store.select(AuthSelectors.selectUser);
+	user$ = this.store.select(StudentMgmtSelectors.user);
 
 	constructor(private authApi: AuthenticationApi, private store: Store) {}
 
@@ -46,13 +46,14 @@ export class AuthService {
 			tap(user => {
 				const state = { user, accessToken: username };
 				AuthService.setAuthState(state);
-				this.store.dispatch(AuthActions.loginSuccess(state));
+				this.store.dispatch(StudentMgmtActions.setUser(state));
 			})
 		);
 	}
 
 	logout(): void {
-		this.store.dispatch(AuthActions.logout());
+		localStorage.removeItem(AuthService.studentMgmtTokenKey);
+		this.store.dispatch(StudentMgmtActions.setUser({ user: undefined }));
 	}
 
 	/**

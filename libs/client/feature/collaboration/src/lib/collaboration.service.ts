@@ -11,9 +11,9 @@ import {
 	RealTimeString
 } from "@convergence/convergence";
 import {
-	AuthSelectors,
 	DirectoryActions,
 	FileActions,
+	StudentMgmtSelectors,
 	WorkspaceActions
 } from "@kling/client/data-access/state";
 import { ExecuteResponse } from "@kling/ide-services";
@@ -287,7 +287,7 @@ export class CollaborationService {
 	}
 
 	private async connectToConvergence(): Promise<void> {
-		const user = await firstValueFrom(this.store.select(AuthSelectors.selectUser));
+		const user = await firstValueFrom(this.store.select(StudentMgmtSelectors.user));
 		const username = user?.displayName || `User-${nanoid(6)}`;
 
 		try {

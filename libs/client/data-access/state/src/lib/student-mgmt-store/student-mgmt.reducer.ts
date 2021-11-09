@@ -38,6 +38,7 @@ export const reducer = createReducer(
 	on(StudentMgmtActions.selectCourse, (state, action) => ({
 		...createInitialState(),
 		user: state.user,
+		courses: state.courses,
 		selectedCourseId: action.courseId
 	})),
 	on(StudentMgmtActions.loadCourses, state => ({

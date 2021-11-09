@@ -66,10 +66,20 @@ export const Select = {
 	button: {
 		create: "createBtn",
 		confirm: "confirmBtn",
-		cancel: "cancelBtn"
+		cancel: "cancelBtn",
+		submit: "submitBtn"
 	},
 	openLoginButton: "openLoginBtn",
 	getStarted: {
 		userGreeting: "userGreeting"
+	},
+	exerciseSubmitter: {
+		title: "exerciseSubmitterTitle",
+		coursesBreadcrumb: "coursesBreadcrumb",
+		course: "course",
+		courseBreadcrumb: "courseBreadcrumb",
+		assignment: "assignment",
+		assignmentBreadcrumb: "assignmentBreadcrumb",
+		submitBtn: "submitBtn"
 	}
 } as const;

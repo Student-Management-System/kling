@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StudentMgmtActions, StudentMgmtSelectors } from "@kling/client/data-access/state";
-import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
 import { Store } from "@ngrx/store";
 import { AssignmentDto, CourseDto } from "@student-mgmt/api-client";
-import { firstValueFrom } from "rxjs";
 import { ExerciseSubmitterService } from "../exercise-submitter.service";
 
 export type SubmitInfo = {
@@ -18,7 +16,7 @@ export type SubmitInfo = {
 	templateUrl: "./exercise-submitter.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExerciseSubmitterComponent extends UnsubscribeOnDestroy implements OnInit {
+export class ExerciseSubmitterComponent implements OnInit {
 	user$ = this.store.select(StudentMgmtSelectors.user);
 	courses$ = this.store.select(StudentMgmtSelectors.courses);
 	assignments$ = this.store.select(StudentMgmtSelectors.assignments);
@@ -27,55 +25,50 @@ export class ExerciseSubmitterComponent extends UnsubscribeOnDestroy implements 
 	group$ = this.store.select(StudentMgmtSelectors.groupForSelectedAssignment);
 	versions$ = this.store.select(StudentMgmtSelectors.versions);
 
-	private latestCourseId: string | null = null;
-	private latestAssignmentId: string | null = null;
-
 	constructor(
 		private readonly exerciseSubmitter: ExerciseSubmitterService,
 		private readonly store: Store,
 		private readonly route: ActivatedRoute,
 		private readonly router: Router
-	) {
-		super();
-	}
+	) {}
 
-	async ngOnInit(): Promise<void> {
-		const { course, assignment } = this.route.snapshot.params;
-		const state = await firstValueFrom(
-			this.store.select(StudentMgmtSelectors.selectStudentMgmtState)
-		);
+	ngOnInit(): void {
+		if (!this.exerciseSubmitter.isInitialized) {
+			const { course, assignment } = this.route.snapshot.queryParams;
 
-		if (state.selectedCourseId !== course) {
 			this.store.dispatch(StudentMgmtActions.loadCourses());
-			this.store.dispatch(StudentMgmtActions.selectCourse({ courseId: course }));
-		}
 
-		if (course) {
-			this.store.dispatch(StudentMgmtActions.selectCourse({ courseId: course }));
-		}
+			if (course) {
+				this.store.dispatch(StudentMgmtActions.selectCourse({ courseId: course }));
+			}
 
-		if (assignment) {
-			this.store.dispatch(StudentMgmtActions.selectAssignment({ assignmentId: assignment }));
+			if (assignment) {
+				this.store.dispatch(
+					StudentMgmtActions.selectAssignment({ assignmentId: assignment })
+				);
+			}
+
+			this.exerciseSubmitter.isInitialized = true;
 		}
 	}
 
 	selectCourse(course: CourseDto | null): void {
 		this.router.navigate([], {
 			queryParams: {
-				courseId: course?.id,
-				assignmentId: undefined
+				course: course?.id,
+				assignment: undefined
 			},
 			queryParamsHandling: "merge",
 			preserveFragment: true
 		});
 
-		this.store.dispatch(StudentMgmtActions.selectCourse({ courseId: course?.id ?? null }));
+		this.store.dispatch(StudentMgmtActions.selectCourse({ courseId: course?.id }));
 	}
 
 	selectAssignment(assignment: AssignmentDto | null): void {
 		this.router.navigate([], {
 			queryParams: {
-				assignmentId: assignment?.id
+				assignment: assignment?.id
 			},
 			queryParamsHandling: "merge",
 			preserveFragment: true

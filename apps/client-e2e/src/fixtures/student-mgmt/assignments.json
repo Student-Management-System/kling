@@ -1,0 +1,26 @@
+[
+	{
+		"id": "176dc168-8b26-4b07-9826-a445a5beb6e0",
+		"name": "Assignment-01",
+		"state": "IN_PROGRESS",
+		"type": "HOMEWORK",
+		"points": 16,
+		"collaboration": "GROUP"
+	},
+	{
+		"id": "6aad63c5-f351-4d70-ab4a-64bd87cb0a2a",
+		"name": "Assignment-02",
+		"state": "IN_PROGRESS",
+		"type": "TESTAT",
+		"points": 10,
+		"collaboration": "SINGLE"
+	},
+	{
+		"id": "4db306a9-092e-4b09-904f-7b3891c2fe35",
+		"name": "Assignment-03",
+		"state": "IN_PROGRESS",
+		"type": "HOMEWORK",
+		"points": 12,
+		"collaboration": "GROUP"
+	}
+]

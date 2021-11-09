@@ -1,0 +1,84 @@
+[
+	{
+		"assignment": {
+			"id": "176dc168-8b26-4b07-9826-a445a5beb6e0",
+			"name": "Testaufgabe 1",
+			"state": "IN_PROGRESS",
+			"type": "HOMEWORK",
+			"points": 16,
+			"collaboration": "GROUP"
+		},
+		"group": {
+			"id": "e8de3d6d-8344-4d80-a59a-bc1b059b6991",
+			"name": "JAVA-001",
+			"isClosed": false,
+			"hasPassword": false,
+			"members": [
+				{
+					"userId": "41352fcc-9b4b-4215-bf29-693f7488a2df",
+					"role": "LECTURER",
+					"username": "user",
+					"displayName": "user",
+					"matrNr": null,
+					"email": null
+				}
+			],
+			"size": 1
+		}
+	},
+	{
+		"assignment": {
+			"id": "4db306a9-092e-4b09-904f-7b3891c2fe35",
+			"name": "Aufg3",
+			"state": "IN_PROGRESS",
+			"type": "HOMEWORK",
+			"points": 12,
+			"collaboration": "GROUP"
+		},
+		"group": {
+			"id": "e8de3d6d-8344-4d80-a59a-bc1b059b6991",
+			"name": "JAVA-001",
+			"isClosed": false,
+			"hasPassword": false,
+			"members": [
+				{
+					"userId": "41352fcc-9b4b-4215-bf29-693f7488a2df",
+					"role": "LECTURER",
+					"username": "user",
+					"displayName": "user",
+					"matrNr": null,
+					"email": null
+				}
+			],
+			"size": 1
+		}
+	},
+	{
+		"assignment": {
+			"id": "3bdb2ba4-85f3-4358-b95c-693dcf88234a",
+			"name": "Aufg4",
+			"state": "IN_PROGRESS",
+			"links": [],
+			"type": "HOMEWORK",
+			"points": 44,
+			"collaboration": "GROUP"
+		},
+		"group": {
+			"id": "e8de3d6d-8344-4d80-a59a-bc1b059b6991",
+			"name": "JAVA-001",
+			"isClosed": false,
+			"hasPassword": false,
+			"members": [
+				{
+					"userId": "41352fcc-9b4b-4215-bf29-693f7488a2df",
+					"role": "LECTURER",
+					"username": "user",
+					"displayName": "user",
+					"matrNr": null,
+					"email": null
+				}
+			],
+			"size": 1
+		}
+	}
+]

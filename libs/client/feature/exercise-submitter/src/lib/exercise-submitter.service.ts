@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
+import { StudentMgmtSelectors } from "@kling/client/data-access/state";
 import { Store } from "@ngrx/store";
-import { UserDto } from "@student-mgmt/api-client";
 import {
 	SubmissionApi,
 	SubmissionResultDto,
@@ -10,9 +10,20 @@ import { Observable } from "rxjs";
 
 @Injectable()
 export class ExerciseSubmitterService {
-	user!: UserDto;
+	/**
+	 * Determines, whether the Exercise Submitter has been opened before.
+	 * In that case, it is not necessary to refetch all student data from the student management system.
+	 */
+	isInitialized = false;
 
-	constructor(private readonly store: Store, private readonly submissionApi: SubmissionApi) {}
+	constructor(private readonly store: Store, private readonly submissionApi: SubmissionApi) {
+		this.store.select(StudentMgmtSelectors.user).subscribe(user => {
+			if (!user) {
+				// Obviously, student data must be reloaded when another user logs in
+				this.isInitialized = false;
+			}
+		});
+	}
 
 	getPreviousVersions(
 		courseId: string,

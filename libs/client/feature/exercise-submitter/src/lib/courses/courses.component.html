@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-2">
 	<ng-container *ngFor="let course of courses">
-		<button class="card" (click)="selected.next(course)">
+		<button class="card" (click)="selected.next(course)" data-test="course">
 			<span class="vs-blue">{{ course.title }}</span>
 			<span class="text-light">{{ course.semester | semester }}</span>
 		</button>

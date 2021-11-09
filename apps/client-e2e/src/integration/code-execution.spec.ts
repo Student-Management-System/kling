@@ -66,17 +66,16 @@ describe("Code Execution", () => {
 	});
 
 	it.only("No connection to API -> Displays error message in terminal", () => {
-		const pistonApiUrl = "http://localhost:2000";
-		const executeUrl = `${pistonApiUrl}/api/v2/execute`;
-		const runtimesUrl = `${pistonApiUrl}/api/v2/runtimes`;
+		const executeUrl = "**/api/v2/execute";
+		const runtimesUrl = "**/api/v2/runtimes";
 
 		cy.intercept("GET", runtimesUrl, {
 			forceNetworkError: true
-		});
+		}).as("runtimes");
 
 		cy.intercept("POST", executeUrl, {
 			forceNetworkError: true
-		});
+		}).as("execute");
 
 		cy.getBySelector(Select.fileExplorer.file).should("exist");
 		cy.getBySelector(Select.runCode).click();

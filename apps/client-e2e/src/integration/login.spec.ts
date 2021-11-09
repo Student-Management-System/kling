@@ -39,20 +39,20 @@ const backendWhoAmIResponse = {
 	courses: []
 };
 
-const sparkyUrl = "http://localhost:8080/api/v1/authenticate";
-const backendUrl = "http://localhost:3000/auth/whoAmI";
+const sparkyUrl = "**/api/v1/authenticate";
+const backendUrl = "**/auth/whoAmI";
 
 describe("Login", () => {
 	beforeEach(() => {
 		cy.intercept("POST", sparkyUrl, {
 			statusCode: 200,
 			body: sparkyLoginResponse
-		});
+		}).as("sparky-authenticate");
 
 		cy.intercept("GET", backendUrl, {
 			statusCode: 200,
 			body: backendWhoAmIResponse
-		});
+		}).as("backend-whoAmI");
 
 		cy.clearLocalStorage("studentMgmtTokenKey");
 		cy.visit("/");

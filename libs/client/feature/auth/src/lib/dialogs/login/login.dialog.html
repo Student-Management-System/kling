@@ -27,7 +27,7 @@
 				<kling-icon matSuffix class="icon-light" name="lock"></kling-icon>
 			</mat-form-field>
 
-			<div class="p-1 mx-auto text-red-600" *ngIf="loginState.error" data-test="errorMessage">
+			<div class="p-1 mx-auto text-red-500" *ngIf="loginState.error" data-test="errorMessage">
 				{{loginState.error | translate}}
 			</div>
 

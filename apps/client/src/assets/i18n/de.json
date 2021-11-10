@@ -285,6 +285,11 @@
     "Course": {
       "SelectCourse": "Wähle eine Veranstaltung aus",
       "NoCourses": "Du bist im Studenten Management System für keine Veranstaltung angemeldet"
+    },
+    "ExerciseSubmitter": {
+      "SubmissionAccepted": "Die Abgabe war erfolgreich",
+      "SubmissionReject": "Die Abgabe ist fehlerhaft",
+      "NoMessages": "Es ist kein weiteres Feedback vorhanden"
     }
   }
 }

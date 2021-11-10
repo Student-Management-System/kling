@@ -1,5 +1,14 @@
-<div class="flex flex-col gap-4">
-	<div class="flex flex-col gap-2">
+<div class="flex flex-col h-full gap-4" *ngIf="{ isSubmitting: isSubmitting$ | async } as obs">
+	<div class="flex flex-col gap-4">
+		<button
+			class="w-full vs-button disabled:opacity-50"
+			(click)="submit()"
+			data-test="submitBtn"
+			[disabled]="obs.isSubmitting"
+		>
+			{{ "Action.Submit" | translate }}
+		</button>
+
 		<div class="grid gap-2 p-2 rounded bg-editor-bg">
 			<span class="text-lg text-vs-blue">{{ assignment.name }}</span>
 			<div class="flex gap-2 text-light">
@@ -14,27 +23,38 @@
 				<span class="text-light">{{ "Property.Assignment.EndDate" | translate }}:</span>
 				<span>{{ assignment.endDate | date: "dd.MM.YYYY (HH:mm)" }}</span>
 			</div>
-		</div>
 
-		<div class="grid p-2 rounded bg-editor-bg" *ngIf="group">
-			<span class="text-lg">{{ group.name }}</span>
-			<div class="grid gap-2">
-				<ng-container *ngFor="let member of group.members">
-					<div
-						*ngIf="member.userId !== user.id"
-						class="grid pl-2 border-l-2 border-purple-700 members"
-					>
-						<span>{{ member.displayName }}</span>
-						<span class="text-light">{{ member.email }}</span>
-					</div>
-				</ng-container>
-			</div>
+			<ng-container *ngIf="group">
+				<span
+					><span class="text-light">{{ "Domain.Group" | translate }}: </span
+					>{{ group.name }}</span
+				>
+				<div class="grid gap-2">
+					<ng-container *ngFor="let member of group.members">
+						<div
+							*ngIf="member.userId !== user.id"
+							class="grid pl-2 border-l-2 border-vs-blue"
+						>
+							<span>{{ member.displayName }}</span>
+							<span class="text-light">{{ member.email }}</span>
+						</div>
+					</ng-container>
+				</div>
+			</ng-container>
 		</div>
 	</div>
 
-	<div class="flex">
-		<button class="w-full vs-button" (click)="submit()" data-test="submitBtn">
-			{{ "Action.Submit" | translate }}
-		</button>
+	<div class="flex flex-col h-full gap-4">
+		<ng-container *ngIf="obs.isSubmitting; else result">
+			<mat-progress-spinner
+				class="p-4 mx-auto"
+				mode="indeterminate"
+				diameter="32"
+			></mat-progress-spinner>
+		</ng-container>
+
+		<ng-template #result>
+			<web-ide-submission-result class="h-full"></web-ide-submission-result>
+		</ng-template>
 	</div>
 </div>

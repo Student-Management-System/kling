@@ -286,6 +286,11 @@
     "Course": {
       "SelectCourse": "Select a course",
       "NoCourses": "You are not registered for any courses in the Student Management System"
+    },
+    "ExerciseSubmitter": {
+      "SubmissionAccepted": "The submssion was accepted",
+      "SubmissionReject": "The submission was rejected",
+      "NoMessages": "No feedback received"
     }
   }
 }

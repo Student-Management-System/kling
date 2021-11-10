@@ -1,9 +1,21 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { AssignmentApi, UserApi } from "@student-mgmt/api-client";
+import { AssignmentApi, GroupDto, UserApi } from "@student-mgmt/api-client";
 import { SubmissionApi } from "@student-mgmt/exercise-submitter-api-client";
-import { catchError, filter, map, of, switchMap, withLatestFrom } from "rxjs";
+import {
+	catchError,
+	combineLatest,
+	filter,
+	firstValueFrom,
+	map,
+	of,
+	switchMap,
+	tap,
+	throwError,
+	withLatestFrom
+} from "rxjs";
 import { StudentMgmtSelectors } from ".";
 import * as StudentMgmtActions from "./student-mgmt.actions";
 
@@ -16,9 +28,7 @@ export class StudentMgmtEffects {
 			switchMap(action => {
 				return [
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					StudentMgmtActions.loadAssignments({ courseId: action.courseId! }),
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					StudentMgmtActions.loadAssignmentGroups({ courseId: action.courseId! })
+					StudentMgmtActions.loadAssignments({ courseId: action.courseId! })
 				];
 			})
 		);
@@ -28,9 +38,31 @@ export class StudentMgmtEffects {
 		return this.actions$.pipe(
 			ofType(StudentMgmtActions.selectAssignment),
 			filter(action => !!action.assignmentId),
-			switchMap(_action => {
-				return of(StudentMgmtActions.loadVersions());
-			})
+			withLatestFrom(
+				this.store.select(StudentMgmtSelectors.user),
+				this.store.select(StudentMgmtSelectors.selectedCourseId)
+			),
+			switchMap(async ([action, user, courseId]) => {
+				if (!courseId || !user?.id) {
+					console.error("assignmentSelected$ triggered without selectedCourseId");
+					return undefined;
+				}
+
+				let group: GroupDto | undefined = undefined;
+
+				try {
+					group = await firstValueFrom(
+						this.userApi.getGroupOfAssignment(user.id, courseId, action.assignmentId!)
+					);
+				} catch (error) {
+					if (!(error instanceof HttpErrorResponse && error.status == 404)) {
+						console.error(error);
+					}
+				}
+
+				return group;
+			}),
+			map(group => StudentMgmtActions.setGroupOfAssignment({ group }))
 		);
 	});
 
@@ -53,20 +85,6 @@ export class StudentMgmtEffects {
 		);
 	});
 
-	loadAssignmentGroups$ = createEffect(() => {
-		return this.actions$.pipe(
-			ofType(StudentMgmtActions.loadAssignmentGroups),
-			withLatestFrom(this.store.select(StudentMgmtSelectors.user)),
-			switchMap(([action, user]) =>
-				this.userApi.getGroupOfAllAssignments(user!.id, action.courseId)
-			),
-			map(assignmentGroups => StudentMgmtActions.setAssignmentGroups({ assignmentGroups })),
-			catchError(_error =>
-				of(StudentMgmtActions.setAssignmentGroups({ assignmentGroups: [] }))
-			)
-		);
-	});
-
 	loadVersions$ = createEffect(() => {
 		return this.actions$.pipe(
 			ofType(StudentMgmtActions.loadVersions),
@@ -83,8 +101,14 @@ export class StudentMgmtEffects {
 					group?.name ?? user!.username
 				)
 			),
-			map(versions => StudentMgmtActions.setVersions({ versions })),
-			catchError(_error => of(StudentMgmtActions.setVersions({ versions: [] })))
+			map(versions => {
+				console.log(versions);
+				return StudentMgmtActions.setVersions({ versions });
+			}),
+			catchError(error => {
+				console.error(error);
+				return of(StudentMgmtActions.setVersions({ versions: [] }));
+			})
 		);
 	});
 

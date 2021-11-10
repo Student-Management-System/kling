@@ -4,14 +4,10 @@
 	::ng-deep .mat-tab-body-wrapper {
 		height: 100%;
 	}
-
-	.tab-content-container {
-		height: 100%;
-	}
 }
 
 ::ng-deep .mat-tab-header .mat-tab-label {
-	height: 36px !important;
+	height: 35px !important;
 }
 
 ::ng-deep .mat-tab-label {

@@ -12,6 +12,8 @@ import { SemesterPipeModule } from "@web-ide/client-shared";
 import { ApiModule, Configuration } from "@student-mgmt/exercise-submitter-api-client";
 import { AuthService } from "@web-ide/client-auth";
 import { getEnvVariableOrThrow } from "@web-ide/client-environments";
+import { VersionListModule } from "./version-list/version-list.component";
+import { SubmissionResultModule } from "./submission-result/submission-result.component";
 
 @NgModule({
 	imports: [
@@ -26,7 +28,9 @@ import { getEnvVariableOrThrow } from "@web-ide/client-environments";
 					accessToken: (): string => AuthService.getAccessToken() ?? "",
 					basePath: getEnvVariableOrThrow("EXERCISE_SUBMITTER_BASE_PATH")
 				})
-		)
+		),
+		VersionListModule,
+		SubmissionResultModule
 	],
 	declarations: [
 		ExerciseSubmitterComponent,

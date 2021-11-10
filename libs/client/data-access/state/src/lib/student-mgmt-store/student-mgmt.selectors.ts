@@ -13,6 +13,11 @@ export const selectedCourse = createSelector(selectStudentMgmtState, courses, (s
 	state.selectedCourseId ? courses.data.find(c => c.id === state.selectedCourseId) : null
 );
 
+export const selectedCourseId = createSelector(
+	selectStudentMgmtState,
+	state => state.selectedCourseId
+);
+
 export const assignments = createSelector(selectStudentMgmtState, state => state.assignments);
 
 export const selectedAssignment = createSelector(selectStudentMgmtState, state =>
@@ -22,7 +27,12 @@ export const selectedAssignment = createSelector(selectStudentMgmtState, state =
 );
 
 export const groupForSelectedAssignment = createSelector(selectStudentMgmtState, state =>
-	state.selectedAssignmentId ? state.assignmentGroups?.data[state.selectedAssignmentId] : null
+	state.selectedAssignmentId ? state.groupForAssignment : undefined
 );
 
 export const versions = createSelector(selectStudentMgmtState, state => state.versions);
+
+export const submissionResult = createSelector(
+	selectStudentMgmtState,
+	state => state.submissionResult
+);

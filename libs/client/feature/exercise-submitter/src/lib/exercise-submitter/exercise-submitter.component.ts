@@ -1,9 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { StudentMgmtActions, StudentMgmtSelectors } from "@web-ide/client/data-access/state";
+import {
+	FileSelectors,
+	StudentMgmtActions,
+	StudentMgmtSelectors
+} from "@web-ide/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { AssignmentDto, CourseDto } from "@student-mgmt/api-client";
 import { ExerciseSubmitterService } from "../exercise-submitter.service";
+import { combineLatest, firstValueFrom, map } from "rxjs";
 
 export type SubmitInfo = {
 	courseId: string;
@@ -24,6 +29,15 @@ export class ExerciseSubmitterComponent implements OnInit {
 	course$ = this.store.select(StudentMgmtSelectors.selectedCourse);
 	group$ = this.store.select(StudentMgmtSelectors.groupForSelectedAssignment);
 	versions$ = this.store.select(StudentMgmtSelectors.versions);
+
+	loading$ = combineLatest([
+		this.store.select(StudentMgmtSelectors.courses),
+		this.store.select(StudentMgmtSelectors.assignments)
+	]).pipe(
+		map(([courses, assignments]) => {
+			return courses.isLoading || assignments.isLoading;
+		})
+	);
 
 	constructor(
 		private readonly exerciseSubmitter: ExerciseSubmitterService,
@@ -79,17 +93,15 @@ export class ExerciseSubmitterComponent implements OnInit {
 		);
 	}
 
-	submit(event: SubmitInfo): void {
+	async submit(event: SubmitInfo): Promise<void> {
 		const { courseId, assignmentName, groupOrUsername } = event;
-		this.exerciseSubmitter
-			.createSubmission(courseId, assignmentName, groupOrUsername)
-			.subscribe({
-				next: result => {
-					console.log(result);
-				},
-				error: error => {
-					console.log(error);
-				}
-			});
+		const files = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
+
+		await this.exerciseSubmitter.createSubmission(
+			courseId,
+			assignmentName,
+			groupOrUsername,
+			files
+		);
 	}
 }

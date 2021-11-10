@@ -9,7 +9,14 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { FileActions, FileSelectors } from "@web-ide/client/data-access/state";
+import { Actions, ofType } from "@ngrx/effects";
+import { Store } from "@ngrx/store";
+import { CheckMessageDto } from "@student-mgmt/exercise-submitter-api-client";
+import {
+	FileActions,
+	FileSelectors,
+	StudentMgmtSelectors
+} from "@web-ide/client/data-access/state";
 import { UnsubscribeOnDestroy } from "@web-ide/client/shared/components";
 import { ThemeService } from "@web-ide/client/shared/services";
 import { CollaborationService } from "@web-ide/collaboration";
@@ -19,11 +26,9 @@ import {
 	WorkspaceSettingsService
 } from "@web-ide/ide-services";
 import { File } from "@web-ide/programming";
-import { Actions, ofType } from "@ngrx/effects";
-import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
 import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
-import { firstValueFrom, fromEvent, merge, debounceTime, Subject, Subscription } from "rxjs";
+import { debounceTime, firstValueFrom, fromEvent, merge, Subject, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
 import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
@@ -110,11 +115,60 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 			)
 			.subscribe();
 
-		this.subs.sink = this.onFileChanged$.pipe(debounceTime(1000)).subscribe(() => {
+		this.subs.sink = this.onFileChanged$.pipe(debounceTime(500)).subscribe(() => {
 			this.saveCurrentFile();
 		});
 
+		this.subs.sink = this.store
+			.select(StudentMgmtSelectors.submissionResult)
+			.subscribe(result => {
+				this.clearDiagnostics();
+
+				if (result?.messages) {
+					this.createDiagnostics(result.messages);
+				}
+			});
+
 		this.initEditor();
+	}
+
+	private createDiagnostics(checkMessage: CheckMessageDto[]) {
+		const markersByFile = new Map<string, monaco.editor.IMarkerData[]>();
+		checkMessage.forEach(m => {
+			if (m.file) {
+				const markers = markersByFile.get(m.file) ?? [];
+				markers.push({
+					message: m.message,
+					source: m.checkName,
+					startLineNumber: m.line ?? 0,
+					endLineNumber: m.line ?? 0,
+					severity:
+						m.type === "ERROR"
+							? monaco.MarkerSeverity.Error
+							: monaco.MarkerSeverity.Warning,
+					startColumn: m.column ?? 0,
+					endColumn: m.column ?? 0
+				});
+				markersByFile.set(m.file, markers);
+			}
+		});
+
+		markersByFile.forEach((markers, path) => {
+			const model = this.editorModelByPath.get(path);
+
+			if (!model) {
+				console.error("No model for: " + path);
+				return;
+			}
+
+			monaco.editor.setModelMarkers(model.textModel, "editor", markers);
+		});
+	}
+
+	private clearDiagnostics() {
+		this.editorModelByPath.forEach(model =>
+			monaco.editor.setModelMarkers(model.textModel, "editor", [])
+		);
 	}
 
 	private initEditor(): void {

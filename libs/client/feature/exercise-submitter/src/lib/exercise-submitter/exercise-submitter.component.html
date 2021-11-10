@@ -44,9 +44,16 @@
 				</span>
 			</div>
 
-			<ng-container *ngIf="!obs.course">
-				<ng-container *ngIf="courses$ | async as courses">
-					<ng-container *ngIf="!courses.isLoading; else loading">
+			<ng-container *ngIf="loading$ | async; else content">
+				<mat-progress-spinner
+					class="mx-auto mt-4"
+					mode="indeterminate"
+				></mat-progress-spinner>
+			</ng-container>
+
+			<ng-template #content>
+				<ng-container *ngIf="!obs.course">
+					<ng-container *ngIf="courses$ | async as courses">
 						<ng-container *ngIf="courses.data.length > 0; else noCourses">
 							<span class="text-light"
 								>{{ "Text.Course.SelectCourse" | translate }}...</span
@@ -65,10 +72,8 @@
 						</ng-template>
 					</ng-container>
 				</ng-container>
-			</ng-container>
 
-			<ng-container *ngIf="assignments$ | async as assignments">
-				<ng-container *ngIf="!assignments.isLoading; else loading">
+				<ng-container *ngIf="assignments$ | async as assignments">
 					<ng-container *ngIf="obs.course && !obs.assignment">
 						<ng-container *ngIf="assignments.data.length > 0; else noAssignments">
 							<span class="text-light"
@@ -89,24 +94,20 @@
 						</ng-template>
 					</ng-container>
 				</ng-container>
-			</ng-container>
 
-			<web-ide-assignment
-				*ngIf="obs.course && obs.assignment"
-				[courseId]="obs.course.id"
-				[assignment]="obs.assignment"
-				[user]="user"
-				[group]="group$ | async"
-				[versions]="obs.versions!"
-				(submitSolution)="submit($event)"
-			></web-ide-assignment>
+				<web-ide-assignment
+					class="h-full"
+					*ngIf="obs.course && obs.assignment"
+					[courseId]="obs.course.id"
+					[assignment]="obs.assignment"
+					[user]="user"
+					[group]="group$ | async"
+					(submitSolution)="submit($event)"
+				></web-ide-assignment>
+			</ng-template>
 		</ng-container>
 	</ng-container>
 </div>
-
-<ng-template #loading>
-	<mat-progress-spinner class="mx-auto mt-4" mode="indeterminate"></mat-progress-spinner>
-</ng-template>
 
 <ng-template #uniLogo>
 	<div class="w-16 h-16">

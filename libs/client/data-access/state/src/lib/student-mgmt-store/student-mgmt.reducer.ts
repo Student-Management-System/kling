@@ -18,7 +18,22 @@ export type State = {
 
 function createInitialState(): State {
 	const storedToken = localStorage.getItem("studentMgmtToken");
-	const user = storedToken ? JSON.parse(storedToken).user : undefined;
+	let user: UserDto | undefined = undefined;
+
+	if (storedToken) {
+		const parsedToken: { user: UserDto; expiration?: string } = JSON.parse(storedToken);
+
+		if (parsedToken.expiration) {
+			const expirationDate = new Date(parsedToken.expiration);
+			if (expirationDate > new Date()) {
+				user = parsedToken.user;
+			} else {
+				localStorage.removeItem("studentMgmtToken");
+			}
+		} else {
+			user = parsedToken.user;
+		}
+	}
 
 	return {
 		user,

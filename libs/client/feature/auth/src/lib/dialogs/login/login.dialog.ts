@@ -48,12 +48,14 @@ export class LoginDialogComponent extends UnsubscribeOnDestroy {
 
 		try {
 			let accessToken = "";
+			let expiration: Date | undefined = undefined;
 
 			const user = await firstValueFrom(
 				this.http.post<AuthenticationInfoDto>(this.authUrl, credentials).pipe(
 					switchMap(authInfo => {
 						accessToken = authInfo.token.token;
-						AuthService.setAuthState({ accessToken, user: null });
+						expiration = new Date(authInfo.token.expiration);
+						AuthService.setAuthState({ accessToken, user: null, expiration });
 						return this.authApi.whoAmI();
 					})
 				)
@@ -62,7 +64,7 @@ export class LoginDialogComponent extends UnsubscribeOnDestroy {
 			this.loginState$.next({ isLoading: false });
 			this.toast.success(user.displayName, "Common.Welcome");
 
-			AuthService.setAuthState({ user, accessToken });
+			AuthService.setAuthState({ user, accessToken, expiration });
 			this.store.dispatch(StudentMgmtActions.setUser({ user }));
 
 			this.dialogRef.close(true);

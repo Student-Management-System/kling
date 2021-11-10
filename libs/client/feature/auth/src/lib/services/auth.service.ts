@@ -5,7 +5,7 @@ import { AuthenticationApi, UserDto } from "@student-mgmt/api-client";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 
-type StoredAuthState = { user: UserDto | null; accessToken: string | null };
+type StoredAuthState = { user: UserDto | null; accessToken: string | null; expiration?: Date };
 
 @Injectable({ providedIn: "root" })
 export class AuthService {

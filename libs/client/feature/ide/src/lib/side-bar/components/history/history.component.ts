@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
-	selector: "kling-history",
+	selector: "web-ide-history",
 	templateUrl: "./history.component.html",
 	styleUrls: ["./history.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

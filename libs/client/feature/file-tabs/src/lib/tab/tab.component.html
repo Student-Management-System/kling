@@ -7,26 +7,26 @@
 	data-test="file-tab"
 >
 	<div class="flex items-center w-full h-full gap-2 text-light">
-		<kling-file-icon
+		<web-ide-file-icon
 			class="mt-[-5px]"
 			[language]="file.name | programmingLanguage"
-		></kling-file-icon>
+		></web-ide-file-icon>
 		<span class="tab-name mt-[-2px]">{{ file.name }}</span>
 		<button class="w-4 h-4 hover:bg-[#a1a1a141] rounded" (click)="tabClosed.emit(path)">
-			<kling-icon
+			<web-ide-icon
 				*ngIf="!file.hasUnsavedChanges"
 				class="icon-light absolute mt-[-10px] ml-[-7px]"
 				size="14"
 				name="clear"
-			></kling-icon>
+			></web-ide-icon>
 
-			<kling-icon
+			<web-ide-icon
 				class="absolute mt-[-10px] ml-[-5px] text"
 				*ngIf="file.hasUnsavedChanges"
 				name="lens"
 				size="8"
 				data-test="fileTab_unsavedChangesIndicator"
-			></kling-icon>
+			></web-ide-icon>
 		</button>
 	</div>
 </button>

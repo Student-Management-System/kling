@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { WorkspaceService } from "@kling/ide-services";
-import { IndexedDbService } from "@kling/indexed-db";
+import { WorkspaceService } from "@web-ide/ide-services";
+import { IndexedDbService } from "@web-ide/indexed-db";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { switchMap, tap } from "rxjs/operators";
 import { DirectoryActions } from "../directory-store";

@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable, InjectionToken } from "@angular/core";
-import { File, getLanguageFromFilename } from "@kling/programming";
+import { File, getLanguageFromFilename } from "@web-ide/programming";
 import { BehaviorSubject, firstValueFrom, Subject } from "rxjs";
-import { CollaborationService } from "@kling/collaboration";
-import { AuthService } from "@kling/client-auth";
+import { CollaborationService } from "@web-ide/collaboration";
+import { AuthService } from "@web-ide/client-auth";
 
 export type PistonFile = {
 	name: string;

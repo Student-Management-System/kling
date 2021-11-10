@@ -5,14 +5,14 @@ import {
 	DirectorySelectors,
 	FileSelectors,
 	WorkspaceSelectors
-} from "@kling/client/data-access/state";
-import { ToastService } from "@kling/client/shared/services";
+} from "@web-ide/client/data-access/state";
+import { ToastService } from "@web-ide/client/shared/services";
 import { Store } from "@ngrx/store";
 import { firstValueFrom } from "rxjs";
 import { CollaborationService } from "../collaboration.service";
 
 @Component({
-	selector: "kling-collaboration",
+	selector: "web-ide-collaboration",
 	templateUrl: "./collaboration.component.html",
 	styleUrls: ["./collaboration.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

@@ -4,16 +4,16 @@ import {
 	DirectoryActions,
 	DirectorySelectors,
 	FileSelectors
-} from "@kling/client/data-access/state";
-import { DialogService } from "@kling/client/shared/services";
-import { WorkspaceDialogs } from "@kling/ide-dialogs";
-import { Directory, File } from "@kling/programming";
+} from "@web-ide/client/data-access/state";
+import { DialogService } from "@web-ide/client/shared/services";
+import { WorkspaceDialogs } from "@web-ide/ide-dialogs";
+import { Directory, File } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { DragAndDropService } from "../../services/drag-and-drop.service";
 
 @Component({
-	selector: "kling-directory",
+	selector: "web-ide-directory",
 	templateUrl: "./directory.component.html",
 	styleUrls: ["./directory.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

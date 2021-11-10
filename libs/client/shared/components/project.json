@@ -2,7 +2,7 @@
 	"projectType": "library",
 	"root": "libs/client/shared/components",
 	"sourceRoot": "libs/client/shared/components/src",
-	"prefix": "kling",
+	"prefix": "web-ide",
 	"targets": {
 		"build": {
 			"executor": "@nrwl/angular:ng-packagr-lite",

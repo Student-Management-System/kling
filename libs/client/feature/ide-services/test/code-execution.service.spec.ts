@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { CollaborationService } from "@kling/collaboration";
+import { CollaborationService } from "@web-ide/collaboration";
 import { of } from "rxjs";
 import { CodeExecutionService } from "../src/lib/services/code-execution.service";
 

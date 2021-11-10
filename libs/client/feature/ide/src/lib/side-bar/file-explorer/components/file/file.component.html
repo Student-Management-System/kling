@@ -8,17 +8,17 @@
 	<button (click)="openFile()" (middleclick)="openFile()" [contextMenu]="fileContextMenu">
 		<span class="flex content-center justify-between w-full">
 			<span class="flex gap-2">
-				<kling-file-icon [language]="file.name | programmingLanguage"></kling-file-icon>
+				<web-ide-file-icon [language]="file.name | programmingLanguage"></web-ide-file-icon>
 				<span>{{ file.name }}</span>
 			</span>
 			<span class="px-2"
-				><kling-icon
+				><web-ide-icon
 					*ngIf="file.hasUnsavedChanges"
 					name="lens"
 					size="8"
 					class="text"
 					data-test="unsavedChangesIndicator"
-				></kling-icon
+				></web-ide-icon
 			></span>
 		</span>
 	</button>
@@ -26,14 +26,14 @@
 	<context-menu #fileContextMenu class="context-menu">
 		<ng-template contextMenuItem (execute)="markAsEntryPoint()">
 			<span class="context-menu-item" data-test="markAsEntryPointBtn"
-				><kling-icon name="play_arrow" class="icon-light"></kling-icon
+				><web-ide-icon name="play_arrow" class="icon-light"></web-ide-icon
 				>{{ "Action.Custom.MarkAsEntryPoint" | translate }}</span
 			>
 		</ng-template>
 
 		<ng-template contextMenuItem (execute)="removeFileIfConfirmed()">
 			<span class="context-menu-item" data-test="deleteBtn"
-				><kling-icon class="icon-light" name="delete"></kling-icon
+				><web-ide-icon class="icon-light" name="delete"></web-ide-icon
 				>{{ "Action.Delete" | translate }}</span
 			>
 		</ng-template>

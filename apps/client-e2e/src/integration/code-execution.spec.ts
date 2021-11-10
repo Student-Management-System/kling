@@ -1,4 +1,4 @@
-import { createFile } from "@kling/programming";
+import { createFile } from "@web-ide/programming";
 import { Select } from "../support/element-selector";
 
 const mainPyOutput = "Hello world from main.py";

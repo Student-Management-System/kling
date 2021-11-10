@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { WorkspaceSettingsService } from "@kling/ide-services";
+import { WorkspaceSettingsService } from "@web-ide/ide-services";
 
 type Tab = "EXPLORER" | "HISTORY";
 
 @Component({
-	selector: "kling-activity-bar",
+	selector: "web-ide-activity-bar",
 	templateUrl: "./activity-bar.component.html",
 	styleUrls: ["./activity-bar.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

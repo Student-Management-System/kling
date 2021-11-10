@@ -1,6 +1,6 @@
 <div class="flex h-screen">
 	<div class="activity-bar">
-		<kling-activity-bar></kling-activity-bar>
+		<web-ide-activity-bar></web-ide-activity-bar>
 	</div>
 
 	<as-split
@@ -15,19 +15,21 @@
 			*ngIf="(workspaceSettings.sideBarComponent$ | async) !== 'HIDDEN'"
 		>
 			<div class="side-bar">
-				<kling-side-bar></kling-side-bar>
+				<web-ide-side-bar></web-ide-side-bar>
 			</div>
 		</as-split-area>
 
 		<as-split-area [size]="layout.editorWidth" [order]="2" (dragEnd)="onDragEnd($any($event))">
 			<div class="code-editor">
 				<div class="tabbar">
-					<kling-file-tabs></kling-file-tabs>
-					<kling-run-code></kling-run-code>
+					<web-ide-file-tabs></web-ide-file-tabs>
+					<web-ide-run-code></web-ide-run-code>
 				</div>
 				<div class="w-full h-full">
-					<kling-get-started *ngIf="!(selectedFile$ | async)"></kling-get-started>
-					<kling-code-editor (codeEditorInit)="handleEditorInit()"></kling-code-editor>
+					<web-ide-get-started *ngIf="!(selectedFile$ | async)"></web-ide-get-started>
+					<web-ide-code-editor
+						(codeEditorInit)="handleEditorInit()"
+					></web-ide-code-editor>
 				</div>
 			</div>
 		</as-split-area>
@@ -38,7 +40,7 @@
 			(dragEnd)="onDragEnd($any($event))"
 		>
 			<div class="feature-panel">
-				<kling-feature-panel></kling-feature-panel>
+				<web-ide-feature-panel></web-ide-feature-panel>
 			</div>
 		</as-split-area>
 	</as-split>

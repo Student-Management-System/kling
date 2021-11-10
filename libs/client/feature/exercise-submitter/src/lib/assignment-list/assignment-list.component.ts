@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { AssignmentDto } from "@student-mgmt/api-client";
 
 @Component({
-	selector: "kling-assignment-list",
+	selector: "web-ide-assignment-list",
 	templateUrl: "./assignment-list.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { WorkspaceDialogs } from "@kling/ide-dialogs";
-import { FileSystemAccess } from "@kling/ide-services";
+import { WorkspaceDialogs } from "@web-ide/ide-dialogs";
+import { FileSystemAccess } from "@web-ide/ide-services";
 
 @Component({
-	selector: "kling-actions",
+	selector: "web-ide-actions",
 	templateUrl: "./actions.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

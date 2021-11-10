@@ -1,13 +1,13 @@
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { DirectorySelectors, FileSelectors } from "@kling/client/data-access/state";
-import { WorkspaceDialogs } from "@kling/ide-dialogs";
-import { File } from "@kling/programming";
+import { DirectorySelectors, FileSelectors } from "@web-ide/client/data-access/state";
+import { WorkspaceDialogs } from "@web-ide/ide-dialogs";
+import { File } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 import { DragAndDropService } from "../../services/drag-and-drop.service";
 
 @Component({
-	selector: "kling-file-explorer",
+	selector: "web-ide-file-explorer",
 	templateUrl: "./file-explorer.component.html",
 	styleUrls: ["./file-explorer.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

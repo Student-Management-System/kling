@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { StudentMgmtActions, StudentMgmtSelectors } from "@kling/client/data-access/state";
+import { StudentMgmtActions, StudentMgmtSelectors } from "@web-ide/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { AuthenticationApi, UserDto } from "@student-mgmt/api-client";
 import { Observable } from "rxjs";

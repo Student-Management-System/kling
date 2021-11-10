@@ -1,5 +1,5 @@
 {
-	"name": "@kling/file-tabs",
+	"name": "@web-ide/file-tabs",
 	"version": "0.0.1",
 	"peerDependencies": {
 		"@angular/common": "^12.2.0",

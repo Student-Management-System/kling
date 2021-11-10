@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from "@angular/core";
 
 @Component({
-	selector: "kling-side-bar-section",
+	selector: "web-ide-side-bar-section",
 	templateUrl: "./side-bar-section.component.html",
 	styleUrls: ["./side-bar-section.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

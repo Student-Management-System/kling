@@ -6,13 +6,13 @@ import {
 	OnInit,
 	Output
 } from "@angular/core";
-import { FileSelectors } from "@kling/client/data-access/state";
-import { File } from "@kling/programming";
+import { FileSelectors } from "@web-ide/client/data-access/state";
+import { File } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
 @Component({
-	selector: "kling-tab",
+	selector: "web-ide-tab",
 	templateUrl: "./tab.component.html",
 	styleUrls: ["./tab.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

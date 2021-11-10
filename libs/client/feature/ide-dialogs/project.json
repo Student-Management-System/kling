@@ -2,7 +2,7 @@
 	"projectType": "library",
 	"root": "libs/client/feature/ide-dialogs",
 	"sourceRoot": "libs/client/feature/ide-dialogs/src",
-	"prefix": "kling",
+	"prefix": "web-ide",
 	"targets": {
 		"build": {
 			"executor": "@nrwl/angular:ng-packagr-lite",

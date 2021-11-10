@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
-import { getEnvVariableOrThrow } from "@kling/client-environments";
-import { CollaborationModule } from "@kling/collaboration";
+import { getEnvVariableOrThrow } from "@web-ide/client-environments";
+import { CollaborationModule } from "@web-ide/collaboration";
 import { PISTON_API_URL } from "./services/code-execution.service";
 
 @NgModule({

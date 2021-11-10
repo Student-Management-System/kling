@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CourseDto } from "@student-mgmt/api-client";
 
 @Component({
-	selector: "kling-courses",
+	selector: "web-ide-courses",
 	templateUrl: "./courses.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

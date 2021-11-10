@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { StudentMgmtSelectors } from "@kling/client/data-access/state";
-import { CodeExecutionService, WorkspaceService } from "@kling/ide-services";
+import { StudentMgmtSelectors } from "@web-ide/client/data-access/state";
+import { CodeExecutionService, WorkspaceService } from "@web-ide/ide-services";
 import { Store } from "@ngrx/store";
 import { combineLatest, map } from "rxjs";
 
 @Component({
-	selector: "kling-run-code",
+	selector: "web-ide-run-code",
 	templateUrl: "./run-code.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

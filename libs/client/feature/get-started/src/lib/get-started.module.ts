@@ -5,7 +5,7 @@ import { ActionsComponent } from "./components/actions/actions.component";
 import { GetStartedComponent } from "./components/get-started/get-started.component";
 import { RecentProjectsComponent } from "./components/recent-projects/recent-projects.component";
 import { TranslateModule } from "@ngx-translate/core";
-import { FileIconModule, IconModule } from "@kling/client/shared/components";
+import { FileIconModule, IconModule } from "@web-ide/client/shared/components";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatDividerModule } from "@angular/material/divider";

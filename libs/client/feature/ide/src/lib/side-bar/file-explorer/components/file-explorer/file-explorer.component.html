@@ -8,10 +8,10 @@
 >
 	<div class="directories" *ngIf="directories$ | async as directories">
 		<ng-container *ngFor="let dir of directories">
-			<kling-directory
+			<web-ide-directory
 				[directory]="dir"
 				[selectedFilePath]="obs.selectedFilePath"
-			></kling-directory>
+			></web-ide-directory>
 		</ng-container>
 	</div>
 
@@ -23,12 +23,12 @@
 		(cdkDropListDropped)="drop($event)"
 		[cdkDropListConnectedTo]="dragAndDrop.dropListIds"
 	>
-		<kling-file
+		<web-ide-file
 			*ngFor="let file of files"
 			[file]="file"
 			[isSelected]="obs.selectedFilePath === file.path"
 			cdkDrag
 			[cdkDragData]="file"
-		></kling-file>
+		></web-ide-file>
 	</div>
 </div>

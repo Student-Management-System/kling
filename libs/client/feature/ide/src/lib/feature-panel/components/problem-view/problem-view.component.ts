@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
 @Component({
-	selector: "kling-problem-view",
+	selector: "web-ide-problem-view",
 	templateUrl: "./problem-view.component.html",
 	styleUrls: ["./problem-view.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from "@angular/core";
 import { AsyncValidatorFn, FormControl, ValidatorFn, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { FileActions, WorkspaceActions } from "@kling/client/data-access/state";
-import { IndexedDbService } from "@kling/indexed-db";
+import { FileActions, WorkspaceActions } from "@web-ide/client/data-access/state";
+import { IndexedDbService } from "@web-ide/indexed-db";
 import {
 	createDirectoriesFromFiles,
 	File,
 	forbiddenCharacters,
 	isProjectNameValid
-} from "@kling/programming";
+} from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 
 export type CreateProjectDialogData = {
@@ -26,7 +26,7 @@ export function ProjectNameValidator(): ValidatorFn {
 }
 
 @Component({
-	selector: "kling-create-project",
+	selector: "web-ide-create-project",
 	templateUrl: "./create-project.dialog.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

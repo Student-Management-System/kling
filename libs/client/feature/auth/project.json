@@ -2,7 +2,7 @@
 	"projectType": "library",
 	"root": "libs/client/feature/auth",
 	"sourceRoot": "libs/client/feature/auth/src",
-	"prefix": "kling",
+	"prefix": "web-ide",
 	"targets": {
 		"build": {
 			"executor": "@nrwl/angular:ng-packagr-lite",

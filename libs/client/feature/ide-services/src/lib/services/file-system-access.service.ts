@@ -8,15 +8,15 @@ import {
 	FileSelectors,
 	WorkspaceActions,
 	WorkspaceSelectors
-} from "@kling/client/data-access/state";
-import { FsProject, IndexedDbService } from "@kling/indexed-db";
+} from "@web-ide/client/data-access/state";
+import { FsProject, IndexedDbService } from "@web-ide/indexed-db";
 import {
 	createDirectoriesFromFiles,
 	createDirectory,
 	createFile,
 	Directory,
 	File
-} from "@kling/programming";
+} from "@web-ide/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import {

@@ -1,13 +1,13 @@
 import { NgModule } from "@angular/core";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { getEnvVariableOrThrow } from "@kling/client-environments";
+import { getEnvVariableOrThrow } from "@web-ide/client-environments";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoginDialogComponent } from "./dialogs/login/login.dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatCardModule } from "@angular/material/card";
 import { CommonModule } from "@angular/common";
-import { IconModule } from "@kling/client/shared/components";
+import { IconModule } from "@web-ide/client/shared/components";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialogModule } from "@angular/material/dialog";
 

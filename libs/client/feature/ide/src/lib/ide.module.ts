@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { CodeEditorModule } from "@kling/code-editor";
-import { FileTabsModule } from "@kling/file-tabs";
-import { GetStartedModule } from "@kling/get-started";
+import { CodeEditorModule } from "@web-ide/code-editor";
+import { FileTabsModule } from "@web-ide/file-tabs";
+import { GetStartedModule } from "@web-ide/get-started";
 import { AngularSplitModule } from "angular-split";
 import { ActivityBarModule } from "./activity-bar/activity-bar.module";
 import { FeaturePanelModule } from "./feature-panel/feature-panel.module";

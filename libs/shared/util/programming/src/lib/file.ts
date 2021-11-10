@@ -1,4 +1,4 @@
-import { getFileExtension, SupportedLanguage } from "@kling/programming";
+import { getFileExtension, SupportedLanguage } from "@web-ide/programming";
 
 export type File = {
 	/**

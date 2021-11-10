@@ -1,4 +1,4 @@
-import { File, createFile } from "@kling/programming";
+import { File, createFile } from "@web-ide/programming";
 import { IndexedDbService, StoredProject } from "../src";
 const FDBFactory = require("fake-indexeddb/lib/FDBFactory");
 

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { AuthService } from "@kling/client-auth";
-import { environment } from "@kling/client-environments";
-import { FileActions, StudentMgmtSelectors } from "@kling/client/data-access/state";
-import { createMainFile, SupportedLanguage } from "@kling/programming";
+import { AuthService } from "@web-ide/client-auth";
+import { environment } from "@web-ide/client-environments";
+import { FileActions, StudentMgmtSelectors } from "@web-ide/client/data-access/state";
+import { createMainFile, SupportedLanguage } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 
 @Component({
-	selector: "kling-get-started",
+	selector: "web-ide-get-started",
 	templateUrl: "./get-started.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

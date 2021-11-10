@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
-import { CollaborationService } from "@kling/collaboration";
-import { WorkspaceService } from "@kling/ide-services";
+import { UnsubscribeOnDestroy } from "@web-ide/client/shared/components";
+import { CollaborationService } from "@web-ide/collaboration";
+import { WorkspaceService } from "@web-ide/ide-services";
 
 @Component({
-	selector: "kling-terminal-input",
+	selector: "web-ide-terminal-input",
 	templateUrl: "./input.component.html",
 	styleUrls: ["./input.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

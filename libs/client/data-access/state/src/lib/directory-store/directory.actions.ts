@@ -1,4 +1,4 @@
-import { Directory } from "@kling/programming";
+import { Directory } from "@web-ide/programming";
 import { createAction, props } from "@ngrx/store";
 
 export const addDirectory = createAction(

@@ -1,4 +1,4 @@
-import { IndexedDbService } from "@kling/indexed-db";
+import { IndexedDbService } from "@web-ide/indexed-db";
 import { Store } from "@ngrx/store";
 
 /* eslint-disable @typescript-eslint/no-namespace */

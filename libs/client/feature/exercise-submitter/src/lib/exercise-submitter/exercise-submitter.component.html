@@ -27,7 +27,7 @@
 					{{ "Domain.Courses" | translate }}
 				</button>
 				<span *ngIf="obs.course">
-					<kling-icon name="chevron_right" size="14" class="px-2"></kling-icon>
+					<web-ide-icon name="chevron_right" size="14" class="px-2"></web-ide-icon>
 					<button
 						(click)="selectAssignment(null)"
 						class="hover:text-vs-blue"
@@ -37,7 +37,7 @@
 					</button>
 				</span>
 				<span *ngIf="obs.assignment">
-					<kling-icon name="chevron_right" size="14" class="px-2"></kling-icon>
+					<web-ide-icon name="chevron_right" size="14" class="px-2"></web-ide-icon>
 					<button class="hover:text-vs-blue" data-test="assignmentBreadcrumb">
 						{{ obs.assignment.name }}
 					</button>
@@ -51,11 +51,11 @@
 							<span class="text-light"
 								>{{ "Text.Course.SelectCourse" | translate }}...</span
 							>
-							<kling-courses
+							<web-ide-courses
 								class="overflow-y-auto"
 								[courses]="courses.data"
 								(selected)="selectCourse($event)"
-							></kling-courses>
+							></web-ide-courses>
 						</ng-container>
 
 						<ng-template #noCourses>
@@ -74,12 +74,12 @@
 							<span class="text-light"
 								>{{ "Text.Assignment.SelectAssignment" | translate }}...</span
 							>
-							<kling-assignment-list
+							<web-ide-assignment-list
 								class="overflow-y-auto"
 								[courseId]="obs.course.id"
 								[assignments]="assignments.data"
 								(selected)="selectAssignment($event)"
-							></kling-assignment-list>
+							></web-ide-assignment-list>
 						</ng-container>
 
 						<ng-template #noAssignments>
@@ -91,7 +91,7 @@
 				</ng-container>
 			</ng-container>
 
-			<kling-assignment
+			<web-ide-assignment
 				*ngIf="obs.course && obs.assignment"
 				[courseId]="obs.course.id"
 				[assignment]="obs.assignment"
@@ -99,7 +99,7 @@
 				[group]="group$ | async"
 				[versions]="obs.versions!"
 				(submitSolution)="submit($event)"
-			></kling-assignment>
+			></web-ide-assignment>
 		</ng-container>
 	</ng-container>
 </div>

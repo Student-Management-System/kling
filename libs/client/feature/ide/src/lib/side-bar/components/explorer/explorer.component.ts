@@ -3,14 +3,14 @@ import {
 	DirectorySelectors,
 	FileSelectors,
 	WorkspaceSelectors
-} from "@kling/client/data-access/state";
-import { WorkspaceDialogs } from "@kling/ide-dialogs";
-import { FileSystemAccess } from "@kling/ide-services";
+} from "@web-ide/client/data-access/state";
+import { WorkspaceDialogs } from "@web-ide/ide-dialogs";
+import { FileSystemAccess } from "@web-ide/ide-services";
 import { Store } from "@ngrx/store";
 import { firstValueFrom } from "rxjs";
 
 @Component({
-	selector: "kling-explorer",
+	selector: "web-ide-explorer",
 	templateUrl: "./explorer.component.html",
 	styleUrls: ["./explorer.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

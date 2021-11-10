@@ -5,7 +5,7 @@
 	flex-direction: column;
 	background-color: var(--activity-bar-bg);
 
-	kling-icon {
+	web-ide-icon {
 		fill: var(--activity-inactive);
 	}
 }
@@ -38,7 +38,7 @@
 }
 
 .selected {
-	kling-icon {
+	web-ide-icon {
 		fill: var(--activity-active);
 		margin-left: -2px;
 	}
@@ -53,7 +53,7 @@
 }
 
 button:hover {
-	kling-icon {
+	web-ide-icon {
 		fill: var(--activity-active);
 	}
 }

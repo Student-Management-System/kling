@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { tap } from "rxjs/operators";
-import { WorkspaceService } from "@kling/ide-services";
+import { WorkspaceService } from "@web-ide/ide-services";
 import * as FileActions from "./file.actions";
 import { Store } from "@ngrx/store";
 

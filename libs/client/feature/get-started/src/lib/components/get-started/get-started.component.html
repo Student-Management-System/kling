@@ -48,7 +48,7 @@
 					(click)="createMainFile('java')"
 				>
 					<div class="flex items-center w-full h-full gap-2">
-						<kling-file-icon class="mt-[-4px]" language="java"></kling-file-icon>
+						<web-ide-file-icon class="mt-[-4px]" language="java"></web-ide-file-icon>
 						<span>Java</span>
 					</div>
 				</button>
@@ -59,7 +59,7 @@
 					(click)="createMainFile('python')"
 				>
 					<div class="flex items-center w-full h-full gap-2">
-						<kling-file-icon class="mt-[-4px]" language="python"></kling-file-icon>
+						<web-ide-file-icon class="mt-[-4px]" language="python"></web-ide-file-icon>
 						<span>Python</span>
 					</div>
 				</button>
@@ -70,7 +70,10 @@
 					(click)="createMainFile('typescript')"
 				>
 					<div class="flex items-center w-full h-full gap-2">
-						<kling-file-icon class="mt-[-4px]" language="typescript"></kling-file-icon>
+						<web-ide-file-icon
+							class="mt-[-4px]"
+							language="typescript"
+						></web-ide-file-icon>
 						<span>TypeScript</span>
 					</div>
 				</button>
@@ -81,7 +84,10 @@
 					(click)="createMainFile('javascript')"
 				>
 					<div class="flex items-center w-full h-full gap-2">
-						<kling-file-icon class="mt-[-4px]" language="javascript"></kling-file-icon>
+						<web-ide-file-icon
+							class="mt-[-4px]"
+							language="javascript"
+						></web-ide-file-icon>
 						<span>JavaScript</span>
 					</div>
 				</button>
@@ -89,8 +95,8 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-8">
-			<kling-actions></kling-actions>
-			<kling-recent-projects></kling-recent-projects>
+			<web-ide-actions></web-ide-actions>
+			<web-ide-recent-projects></web-ide-recent-projects>
 		</div>
 	</div>
 </div>

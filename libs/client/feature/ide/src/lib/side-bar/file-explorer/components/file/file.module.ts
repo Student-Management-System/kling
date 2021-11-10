@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { MiddleClickModule, ProgrammingLanguageModule } from "@kling/client-shared";
-import { FileIconModule, IconModule } from "@kling/client/shared/components";
+import { MiddleClickModule, ProgrammingLanguageModule } from "@web-ide/client-shared";
+import { FileIconModule, IconModule } from "@web-ide/client/shared/components";
 import { TranslateModule } from "@ngx-translate/core";
 import { ContextMenuModule } from "ngx-contextmenu";
 import { FileComponent } from "./file.component";

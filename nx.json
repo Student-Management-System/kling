@@ -13,7 +13,7 @@
 	"affected": {
 		"defaultBase": "master"
 	},
-	"npmScope": "kling",
+	"npmScope": "web-ide",
 	"tasksRunnerOptions": {
 		"default": {
 			"runner": "@nrwl/nx-cloud",

@@ -1,5 +1,5 @@
 {
-	"name": "@kling/ide",
+	"name": "@web-ide/ide",
 	"version": "0.0.1",
 	"peerDependencies": {
 		"@angular/common": "^12.2.0",

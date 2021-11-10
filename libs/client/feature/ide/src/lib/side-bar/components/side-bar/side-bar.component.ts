@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { WorkspaceSettingsService } from "@kling/ide-services";
+import { WorkspaceSettingsService } from "@web-ide/ide-services";
 
 @Component({
-	selector: "kling-side-bar",
+	selector: "web-ide-side-bar",
 	templateUrl: "./side-bar.component.html",
 	styleUrls: ["./side-bar.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

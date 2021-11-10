@@ -4,7 +4,7 @@ import { VersionDto } from "@student-mgmt/exercise-submitter-api-client";
 import { SubmitInfo } from "../exercise-submitter/exercise-submitter.component";
 
 @Component({
-	selector: "kling-assignment",
+	selector: "web-ide-assignment",
 	templateUrl: "./assignment.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

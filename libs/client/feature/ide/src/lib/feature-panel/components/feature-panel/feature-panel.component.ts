@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { StudentMgmtSelectors } from "@kling/client/data-access/state";
-import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
-import { DialogService } from "@kling/client/shared/services";
+import { StudentMgmtSelectors } from "@web-ide/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@web-ide/client/shared/components";
+import { DialogService } from "@web-ide/client/shared/services";
 import { Store } from "@ngrx/store";
 
 @Component({
-	selector: "kling-feature-panel",
+	selector: "web-ide-feature-panel",
 	templateUrl: "./feature-panel.component.html",
 	styleUrls: ["./feature-panel.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

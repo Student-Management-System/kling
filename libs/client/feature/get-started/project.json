@@ -2,7 +2,7 @@
 	"projectType": "library",
 	"root": "libs/client/feature/get-started",
 	"sourceRoot": "libs/client/feature/get-started/src",
-	"prefix": "kling",
+	"prefix": "web-ide",
 	"targets": {
 		"build": {
 			"executor": "@nrwl/angular:ng-packagr-lite",

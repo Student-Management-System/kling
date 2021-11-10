@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { IconModule } from "@kling/client/shared/components";
+import { IconModule } from "@web-ide/client/shared/components";
 import { ExplorerModule } from "./components/explorer/explorer.module";
 import { HistoryModule } from "./components/history/history.module";
 import { SideBarComponent } from "./components/side-bar/side-bar.component";

@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { ToastService } from "@kling/client/shared/services";
+import { ToastService } from "@web-ide/client/shared/services";
 import {
 	FileActions,
 	FileSelectors,
 	WorkspaceActions,
 	WorkspaceSelectors
-} from "@kling/client/data-access/state";
-import { IndexedDbService, InMemoryProject } from "@kling/indexed-db";
-import { createDirectoriesFromFiles, File } from "@kling/programming";
+} from "@web-ide/client/data-access/state";
+import { IndexedDbService, InMemoryProject } from "@web-ide/indexed-db";
+import { createDirectoriesFromFiles, File } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 import { firstValueFrom, Subject } from "rxjs";
 import { FileSystemAccess } from "./file-system-access.service";

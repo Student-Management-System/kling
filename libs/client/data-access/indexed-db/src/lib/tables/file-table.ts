@@ -1,4 +1,4 @@
-import { File } from "@kling/programming";
+import { File } from "@web-ide/programming";
 import { createFileId, WebIdeDatabase } from "../web-ide-database";
 
 export class FileTable {

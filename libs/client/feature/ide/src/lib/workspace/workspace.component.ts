@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { FileActions, FileSelectors } from "@kling/client/data-access/state";
-import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
-import { WorkspaceLayout, WorkspaceService, WorkspaceSettingsService } from "@kling/ide-services";
-import { IndexedDbService } from "@kling/indexed-db";
+import { FileActions, FileSelectors } from "@web-ide/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@web-ide/client/shared/components";
+import { WorkspaceLayout, WorkspaceService, WorkspaceSettingsService } from "@web-ide/ide-services";
+import { IndexedDbService } from "@web-ide/indexed-db";
 import { Store } from "@ngrx/store";
 
 @Component({
-	selector: "kling-workspace",
+	selector: "web-ide-workspace",
 	templateUrl: "./workspace.component.html",
 	styleUrls: ["./workspace.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

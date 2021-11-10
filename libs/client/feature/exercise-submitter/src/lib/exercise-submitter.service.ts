@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { StudentMgmtSelectors } from "@kling/client/data-access/state";
+import { StudentMgmtSelectors } from "@web-ide/client/data-access/state";
 import { Store } from "@ngrx/store";
 import {
 	SubmissionApi,

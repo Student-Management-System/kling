@@ -1,4 +1,4 @@
-import { createFile, File } from "@kling/programming";
+import { createFile, File } from "@web-ide/programming";
 import { Select } from "../support/element-selector";
 
 describe("File", () => {

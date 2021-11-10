@@ -2,7 +2,7 @@
 	"projectType": "library",
 	"root": "libs/client/data-access/state",
 	"sourceRoot": "libs/client/data-access/state/src",
-	"prefix": "kling",
+	"prefix": "web-ide",
 	"targets": {
 		"lint": {
 			"executor": "@nrwl/linter:eslint",

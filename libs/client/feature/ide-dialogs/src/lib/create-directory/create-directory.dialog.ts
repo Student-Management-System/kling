@@ -11,7 +11,7 @@ export type CreateDirectoryDialogData = {
  * @returns `string` - name of the new directory.
  */
 @Component({
-	selector: "kling-create-directory",
+	selector: "web-ide-create-directory",
 	templateUrl: "./create-directory.dialog.html",
 	styleUrls: ["./create-directory.dialog.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

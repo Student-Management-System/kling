@@ -1,4 +1,4 @@
-import { createFile } from "@kling/programming";
+import { createFile } from "@web-ide/programming";
 import { Select } from "../support/element-selector";
 import { createDefaultProject, defaultProject } from "../support/mock-data";
 

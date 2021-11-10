@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { TerminalService } from "../../../../services/terminal.service";
 
 @Component({
-	selector: "kling-terminal",
+	selector: "web-ide-terminal",
 	templateUrl: "./terminal.component.html",
 	styleUrls: ["./terminal.component.scss"]
 })

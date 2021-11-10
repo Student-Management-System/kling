@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
-import { ThemeService, ToastService } from "@kling/client/shared/services";
-import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
+import { ThemeService, ToastService } from "@web-ide/client/shared/services";
+import { UnsubscribeOnDestroy } from "@web-ide/client/shared/components";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-	selector: "kling-workspace-settings",
+	selector: "web-ide-workspace-settings",
 	templateUrl: "./workspace-settings.component.html",
 	styleUrls: ["./workspace-settings.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

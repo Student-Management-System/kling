@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
-	selector: "kling-action",
+	selector: "web-ide-action",
 	templateUrl: "./action.component.html"
 })
 export class ActionComponent {

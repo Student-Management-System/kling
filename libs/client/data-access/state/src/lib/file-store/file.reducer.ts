@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { createReducer, on } from "@ngrx/store";
 import * as FileActions from "./file.actions";
-import { File } from "@kling/programming";
+import { File } from "@web-ide/programming";
 
 export const filesFeatureKey = "files";
 

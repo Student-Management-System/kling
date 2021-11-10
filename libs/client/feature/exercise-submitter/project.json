@@ -2,7 +2,7 @@
 	"projectType": "library",
 	"root": "libs/client/feature/exercise-submitter",
 	"sourceRoot": "libs/client/feature/exercise-submitter/src",
-	"prefix": "kling",
+	"prefix": "web-ide",
 	"targets": {
 		"build": {
 			"executor": "@nrwl/angular:ng-packagr-lite",

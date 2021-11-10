@@ -1,4 +1,4 @@
-import { File } from "@kling/programming";
+import { File } from "@web-ide/programming";
 import { StoredProject } from "../project";
 import { createFileId, WebIdeDatabase } from "../web-ide-database";
 

@@ -1,5 +1,5 @@
 <div class="explorer">
-	<kling-side-bar-header>
+	<web-ide-side-bar-header>
 		<ng-container headerTitle>Explorer</ng-container>
 		<ng-container headerMenu>
 			<mat-menu #menu>
@@ -24,15 +24,15 @@
 					[matMenuTriggerFor]="menu"
 					data-test="explorer-menu-btn"
 				>
-					<kling-icon name="more" size="16"></kling-icon>
+					<web-ide-icon name="more" size="16"></web-ide-icon>
 				</button>
 			</div>
 		</ng-container>
-	</kling-side-bar-header>
+	</web-ide-side-bar-header>
 
 	<div class="sections">
 		<!-- Project (File Explorer) -->
-		<kling-side-bar-section class="h-full">
+		<web-ide-side-bar-section class="h-full">
 			<ng-container sectionTitle
 				><span data-test="projectName">{{
 					(workspace$ | async)?.projectName
@@ -47,11 +47,11 @@
 						(click)="workspaceDialogs.openCreateFileDialog()"
 						data-test="add-file-btn"
 					>
-						<kling-icon
+						<web-ide-icon
 							name="new-file"
 							size="16"
 							class="mt-[-16px] icon-light"
-						></kling-icon>
+						></web-ide-icon>
 					</button>
 					<button
 						class="rounded hover:bg-[#a1a1a141]"
@@ -59,26 +59,26 @@
 						(click)="workspaceDialogs.openCreateDirectoryDialog()"
 						data-test="add-directory-btn"
 					>
-						<kling-icon
+						<web-ide-icon
 							name="new-folder"
 							size="16"
 							class="mt-[-4px] icon-light"
-						></kling-icon>
+						></web-ide-icon>
 					</button>
 				</div>
 			</ng-container>
 
 			<ng-container sectionContent>
-				<kling-file-explorer></kling-file-explorer>
+				<web-ide-file-explorer></web-ide-file-explorer>
 			</ng-container>
-		</kling-side-bar-section>
+		</web-ide-side-bar-section>
 
 		<!-- Settings -->
-		<kling-side-bar-section>
+		<web-ide-side-bar-section>
 			<ng-container sectionTitle>{{ "Common.Settings" | translate }}</ng-container>
 			<ng-container sectionContent>
-				<kling-workspace-settings></kling-workspace-settings>
+				<web-ide-workspace-settings></web-ide-workspace-settings>
 			</ng-container>
-		</kling-side-bar-section>
+		</web-ide-side-bar-section>
 	</div>
 </div>

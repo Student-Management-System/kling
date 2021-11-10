@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
-	selector: "kling-paginator",
+	selector: "web-ide-paginator",
 	templateUrl: "./paginator.component.html",
 	styleUrls: ["./paginator.component.scss"]
 })

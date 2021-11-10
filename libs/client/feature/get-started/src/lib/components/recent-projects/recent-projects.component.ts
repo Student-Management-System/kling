@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { DialogService } from "@kling/client/shared/services";
-import { WorkspaceService } from "@kling/ide-services";
-import { IndexedDbService, StoredProject } from "@kling/indexed-db";
+import { DialogService } from "@web-ide/client/shared/services";
+import { WorkspaceService } from "@web-ide/ide-services";
+import { IndexedDbService, StoredProject } from "@web-ide/indexed-db";
 import { BehaviorSubject } from "rxjs";
 
 @Component({
-	selector: "kling-recent-projects",
+	selector: "web-ide-recent-projects",
 	templateUrl: "./recent-projects.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

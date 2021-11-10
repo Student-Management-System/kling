@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
-import { File } from "@kling/programming";
+import { File } from "@web-ide/programming";
 
 /**
  * Dialog that allows the user to enter a filename and possibly some options.
@@ -8,7 +8,7 @@ import { File } from "@kling/programming";
  * @returns `File` - The file that should be created by the opening component/service.
  */
 @Component({
-	selector: "kling-create-file",
+	selector: "web-ide-create-file",
 	templateUrl: "./create-file.dialog.html",
 	styleUrls: ["./create-file.dialog.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

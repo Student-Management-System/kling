@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { TranslateService } from "@ngx-translate/core";
-import { ConfirmDialog, ConfirmDialogData } from "@kling/client/shared/components";
+import { ConfirmDialog, ConfirmDialogData } from "@web-ide/client/shared/components";
 import { Observable } from "rxjs";
-import { LoginDialogComponent } from "@kling/client-auth";
+import { LoginDialogComponent } from "@web-ide/client-auth";
 
 /**
  * Service that can be used by components to open common dialogs.

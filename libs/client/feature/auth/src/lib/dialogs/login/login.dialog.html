@@ -12,7 +12,7 @@
 					data-test="usernameInput"
 					(keydown.enter)="onLogin(username.value, password.value)"
 				/>
-				<kling-icon matSuffix class="icon-light" name="person"></kling-icon>
+				<web-ide-icon matSuffix class="icon-light" name="person"></web-ide-icon>
 			</mat-form-field>
 
 			<mat-form-field class="form-field" appearance="outline">
@@ -24,7 +24,7 @@
 					data-test="passwordInput"
 					(keydown.enter)="onLogin(username.value, password.value)"
 				/>
-				<kling-icon matSuffix class="icon-light" name="lock"></kling-icon>
+				<web-ide-icon matSuffix class="icon-light" name="lock"></web-ide-icon>
 			</mat-form-field>
 
 			<div class="p-1 mx-auto text-red-500" *ngIf="loginState.error" data-test="errorMessage">

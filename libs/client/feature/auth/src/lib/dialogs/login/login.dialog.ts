@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Component, Inject } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
-import { AuthenticationInfoDto, AuthService } from "@kling/client-auth";
-import { StudentMgmtActions } from "@kling/client/data-access/state";
-import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
-import { ToastService } from "@kling/client/shared/services";
+import { AuthenticationInfoDto, AuthService } from "@web-ide/client-auth";
+import { StudentMgmtActions } from "@web-ide/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@web-ide/client/shared/components";
+import { ToastService } from "@web-ide/client/shared/services";
 import { Store } from "@ngrx/store";
 import { AuthenticationApi } from "@student-mgmt/api-client";
 import { BehaviorSubject, firstValueFrom } from "rxjs";
@@ -15,7 +15,7 @@ import { switchMap } from "rxjs/operators";
  * @returns `True`, if user logged in successfully.
  */
 @Component({
-	selector: "kling-login",
+	selector: "web-ide-login",
 	templateUrl: "./login.dialog.html"
 })
 export class LoginDialogComponent extends UnsubscribeOnDestroy {

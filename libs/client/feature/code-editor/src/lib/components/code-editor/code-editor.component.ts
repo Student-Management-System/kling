@@ -9,16 +9,16 @@ import {
 	Output
 } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { FileActions, FileSelectors } from "@kling/client/data-access/state";
-import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
-import { ThemeService } from "@kling/client/shared/services";
-import { CollaborationService } from "@kling/collaboration";
+import { FileActions, FileSelectors } from "@web-ide/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@web-ide/client/shared/components";
+import { ThemeService } from "@web-ide/client/shared/services";
+import { CollaborationService } from "@web-ide/collaboration";
 import {
 	CodeExecutionService,
 	WorkspaceService,
 	WorkspaceSettingsService
-} from "@kling/ide-services";
-import { File } from "@kling/programming";
+} from "@web-ide/ide-services";
+import { File } from "@web-ide/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as monaco from "monaco-editor";
@@ -35,7 +35,7 @@ interface EditorModelState {
 }
 
 @Component({
-	selector: "kling-code-editor",
+	selector: "web-ide-code-editor",
 	templateUrl: "./code-editor.component.html",
 	styleUrls: ["./code-editor.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

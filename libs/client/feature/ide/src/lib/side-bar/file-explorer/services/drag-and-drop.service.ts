@@ -5,9 +5,9 @@ import {
 	DirectorySelectors,
 	FileActions,
 	FileSelectors
-} from "@kling/client/data-access/state";
-import { ToastService } from "@kling/client/shared/services";
-import { createDirectory, createFile, Directory, File as FileModel } from "@kling/programming";
+} from "@web-ide/client/data-access/state";
+import { ToastService } from "@web-ide/client/shared/services";
+import { createDirectory, createFile, Directory, File as FileModel } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 import { TranslateService } from "@ngx-translate/core";
 import { firstValueFrom } from "rxjs";

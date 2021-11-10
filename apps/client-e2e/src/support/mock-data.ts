@@ -1,4 +1,4 @@
-import { createDirectory, createFile } from "@kling/programming";
+import { createDirectory, createFile } from "@web-ide/programming";
 
 export const defaultProject = {
 	files: [

@@ -4,11 +4,11 @@ import {
 	FileSelectors,
 	FileTabActions,
 	FileTabSelectors
-} from "@kling/client/data-access/state";
+} from "@web-ide/client/data-access/state";
 import { Store } from "@ngrx/store";
 
 @Component({
-	selector: "kling-file-tabs",
+	selector: "web-ide-file-tabs",
 	templateUrl: "./file-tabs.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

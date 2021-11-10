@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { CodeExecutionService, ExecuteResponse } from "@kling/ide-services";
+import { CodeExecutionService, ExecuteResponse } from "@web-ide/ide-services";
 import { TranslateService } from "@ngx-translate/core";
 import { BehaviorSubject } from "rxjs";
 

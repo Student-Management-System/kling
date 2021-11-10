@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { DirectoryActions, DirectoryState, FileActions } from "@kling/client/data-access/state";
-import { createDirectory, createFile } from "@kling/programming";
+import { DirectoryActions, DirectoryState, FileActions } from "@web-ide/client/data-access/state";
+import { createDirectory, createFile } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import {
@@ -11,7 +11,7 @@ import {
 	CreateProjectDialogComponent,
 	CreateProjectDialogData,
 	RenameDialogComponent
-} from "@kling/ide-dialogs";
+} from "@web-ide/ide-dialogs";
 
 /**
  * Facade for dialogs that are used in the workspace.

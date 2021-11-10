@@ -1,4 +1,4 @@
-import { File } from "@kling/programming";
+import { File } from "@web-ide/programming";
 import Dexie, { DexieOptions } from "dexie";
 import { StoredProject } from "./project";
 

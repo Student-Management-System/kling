@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { File, Directory } from "@kling/programming";
+import { File, Directory } from "@web-ide/programming";
 
 export const loadProject = createAction(
 	"[Workspace] Load Project",

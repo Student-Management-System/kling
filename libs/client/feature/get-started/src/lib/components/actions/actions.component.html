@@ -1,45 +1,45 @@
 <div class="grid content-start">
 	<div class="mb-2 text-lg font-light">{{ "Common.Actions" | translate }}</div>
 	<div class="grid gap-2 vs-blue">
-		<kling-action
+		<web-ide-action
 			[title]="'Action.Custom.NewFile' | translate"
 			icon="new-file"
 			(actionClicked)="addFile()"
-		></kling-action>
-		<kling-action
+		></web-ide-action>
+		<web-ide-action
 			[title]="'Action.Custom.NewFolder' | translate"
 			icon="new-folder"
 			(actionClicked)="addFolder()"
-		></kling-action>
+		></web-ide-action>
 
 		<mat-divider></mat-divider>
 
-		<kling-action
+		<web-ide-action
 			[title]="'Action.Custom.ImportFile' | translate"
 			icon="file"
 			(actionClicked)="importFile()"
-		></kling-action>
-		<kling-action
+		></web-ide-action>
+		<web-ide-action
 			[title]="'Action.Custom.ImportFolder' | translate"
 			icon="folder-opened"
 			(actionClicked)="importFolder()"
-		></kling-action>
+		></web-ide-action>
 
 		<mat-divider></mat-divider>
 
 		<div class="grid gap-1">
-			<kling-action
+			<web-ide-action
 				[title]="'Action.Custom.NewProject' | translate"
 				icon="bookmark"
 				(actionClicked)="newProject()"
-			></kling-action>
+			></web-ide-action>
 
-			<kling-action
+			<web-ide-action
 				[title]="'Action.Custom.SynchronizeFolder' | translate"
 				icon="file-symlink-directory"
 				(actionClicked)="synchronizeFolder()"
 				[disabled]="!hasFileSystemAccessSupport"
-			></kling-action>
+			></web-ide-action>
 
 			<span class="max-w-xs min-w-min text-light">
 				{{ "Text.SynchronizeFolder.Description" | translate }}

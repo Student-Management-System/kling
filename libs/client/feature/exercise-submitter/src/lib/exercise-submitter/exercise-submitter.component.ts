@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { StudentMgmtActions, StudentMgmtSelectors } from "@kling/client/data-access/state";
+import { StudentMgmtActions, StudentMgmtSelectors } from "@web-ide/client/data-access/state";
 import { Store } from "@ngrx/store";
 import { AssignmentDto, CourseDto } from "@student-mgmt/api-client";
 import { ExerciseSubmitterService } from "../exercise-submitter.service";
@@ -12,7 +12,7 @@ export type SubmitInfo = {
 };
 
 @Component({
-	selector: "kling-exercise-submitter",
+	selector: "web-ide-exercise-submitter",
 	templateUrl: "./exercise-submitter.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

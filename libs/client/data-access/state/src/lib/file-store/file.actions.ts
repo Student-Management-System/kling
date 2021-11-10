@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { File } from "@kling/programming";
+import { File } from "@web-ide/programming";
 
 export const addFile = createAction(
 	"[Workspace] Add File",

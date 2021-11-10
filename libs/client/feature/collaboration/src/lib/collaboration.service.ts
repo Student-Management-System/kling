@@ -15,9 +15,9 @@ import {
 	FileActions,
 	StudentMgmtSelectors,
 	WorkspaceActions
-} from "@kling/client/data-access/state";
-import { ExecuteResponse } from "@kling/ide-services";
-import { Directory, File } from "@kling/programming";
+} from "@web-ide/client/data-access/state";
+import { ExecuteResponse } from "@web-ide/ide-services";
+import { Directory, File } from "@web-ide/programming";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { nanoid } from "nanoid";

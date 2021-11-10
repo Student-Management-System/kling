@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
  * @returns `string` - new name
  */
 @Component({
-	selector: "kling-rename",
+	selector: "web-ide-rename",
 	templateUrl: "./rename.dialog.html",
 	styleUrls: ["./rename.dialog.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

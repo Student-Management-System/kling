@@ -1,4 +1,4 @@
-import { isProjectNameValid } from "@kling/programming";
+import { isProjectNameValid } from "@web-ide/programming";
 
 describe("Validation", () => {
 	describe("isProjectNameValid", () => {

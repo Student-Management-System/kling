@@ -7,10 +7,10 @@ import {
 	OnInit
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { FileSelectors, WorkspaceSelectors } from "@kling/client/data-access/state";
-import { UnsubscribeOnDestroy } from "@kling/client/shared/components";
-import { ToastService } from "@kling/client/shared/services";
-import { CodeExecutionService } from "@kling/ide-services";
+import { FileSelectors, WorkspaceSelectors } from "@web-ide/client/data-access/state";
+import { UnsubscribeOnDestroy } from "@web-ide/client/shared/components";
+import { ToastService } from "@web-ide/client/shared/services";
+import { CodeExecutionService } from "@web-ide/ide-services";
 import { Store } from "@ngrx/store";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { firstValueFrom } from "rxjs";
@@ -18,7 +18,7 @@ import { firstValueFrom } from "rxjs";
 type Line = { content: string; stream: "stdout" | "stderr" | "stdin" };
 
 @Component({
-	selector: "kling-interactive-terminal",
+	selector: "web-ide-interactive-terminal",
 	templateUrl: "interactive-terminal.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -7,22 +7,22 @@
 		(selectedIndexChange)="selectedIndexChanged($event)"
 	>
 		<mat-tab label="Terminal">
-			<kling-terminal></kling-terminal>
+			<web-ide-terminal></web-ide-terminal>
 		</mat-tab>
 
 		<mat-tab [label]="'Domain.Interactive' | translate">
 			<ng-template matTabContent>
-				<kling-interactive-terminal></kling-interactive-terminal>
+				<web-ide-interactive-terminal></web-ide-interactive-terminal>
 			</ng-template>
 		</mat-tab>
 
 		<mat-tab [label]="'Domain.Collaboration' | translate">
-			<kling-collaboration></kling-collaboration>
+			<web-ide-collaboration></web-ide-collaboration>
 		</mat-tab>
 
 		<mat-tab label="Exercise Submitter">
 			<ng-template matTabContent>
-				<kling-exercise-submitter></kling-exercise-submitter>
+				<web-ide-exercise-submitter></web-ide-exercise-submitter>
 			</ng-template>
 		</mat-tab>
 	</mat-tab-group>

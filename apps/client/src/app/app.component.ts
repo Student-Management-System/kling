@@ -1,6 +1,6 @@
 import { OverlayContainer } from "@angular/cdk/overlay";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ThemeService } from "@kling/client/shared/services";
+import { ThemeService } from "@web-ide/client/shared/services";
 import { tap } from "rxjs";
 
 @Component({

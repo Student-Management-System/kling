@@ -2,7 +2,7 @@
 	"projectType": "library",
 	"root": "libs/client/feature/file-tabs",
 	"sourceRoot": "libs/client/feature/file-tabs/src",
-	"prefix": "kling",
+	"prefix": "web-ide",
 	"targets": {
 		"build": {
 			"executor": "@nrwl/angular:ng-packagr-lite",

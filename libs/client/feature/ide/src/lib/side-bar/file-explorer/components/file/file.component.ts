@@ -1,13 +1,17 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { DirectorySelectors, FileActions, WorkspaceActions } from "@kling/client/data-access/state";
-import { DialogService } from "@kling/client/shared/services";
-import { WorkspaceDialogs } from "@kling/ide-dialogs";
-import { File } from "@kling/programming";
+import {
+	DirectorySelectors,
+	FileActions,
+	WorkspaceActions
+} from "@web-ide/client/data-access/state";
+import { DialogService } from "@web-ide/client/shared/services";
+import { WorkspaceDialogs } from "@web-ide/ide-dialogs";
+import { File } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
 import { tap } from "rxjs";
 
 @Component({
-	selector: "kling-file",
+	selector: "web-ide-file",
 	templateUrl: "./file.component.html",
 	styleUrls: ["./file.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush

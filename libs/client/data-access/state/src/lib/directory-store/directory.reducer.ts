@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { createReducer, on } from "@ngrx/store";
 import * as DirectoryActions from "./directory.actions";
-import { createDirectory, Directory } from "@kling/programming";
+import { createDirectory, Directory } from "@web-ide/programming";
 
 export const directoriesFeatureKey = "directories";
 

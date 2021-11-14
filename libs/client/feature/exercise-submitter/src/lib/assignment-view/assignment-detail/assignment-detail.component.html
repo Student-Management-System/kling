@@ -1,0 +1,30 @@
+<div class="grid gap-2 p-2 rounded bg-editor-bg">
+	<span class="text-lg text-vs-blue">{{ assignment.name }}</span>
+	<div class="flex gap-2 text-light">
+		<span>{{ "Enum.AssignmentType." + assignment.type | translate }}</span>
+		-
+		<span>{{ "Enum.AssignmentState." + assignment.state | translate }}</span>
+		-
+		<span>{{ "Enum.CollaborationType." + assignment.collaboration | translate }}</span>
+	</div>
+
+	<div *ngIf="assignment.endDate">
+		<span class="text-light">{{ "Property.Assignment.EndDate" | translate }}: </span>
+		<span>{{ assignment.endDate | date: "dd.MM.YYYY (HH:mm)" }}</span>
+	</div>
+
+	<ng-container *ngIf="group">
+		<span
+			><span class="text-light">{{ "Domain.Group" | translate }}: </span
+			>{{ group.name }}</span
+		>
+		<div class="grid gap-2">
+			<ng-container *ngFor="let member of group.members">
+				<div class="grid pl-2 border-l-2 border-vs-blue">
+					<span>{{ member.displayName }}</span>
+					<span class="text-light">{{ member.email }}</span>
+				</div>
+			</ng-container>
+		</div>
+	</ng-container>
+</div>

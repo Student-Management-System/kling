@@ -7,11 +7,8 @@ import {
 	NgModule,
 	Output
 } from "@angular/core";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { TranslateModule } from "@ngx-translate/core";
 import { AssignmentDto } from "@student-mgmt/api-client";
-import { AssignmentComponent } from "../assignment/assignment.component";
-import { SubmissionResultModule } from "../submission-result/submission-result.component";
 
 @Component({
 	selector: "web-ide-assignment-list",
@@ -29,8 +26,8 @@ export class AssignmentListComponent {
 }
 
 @NgModule({
-	declarations: [AssignmentListComponent, AssignmentComponent],
+	declarations: [AssignmentListComponent],
 	exports: [AssignmentListComponent],
-	imports: [CommonModule, TranslateModule, MatProgressSpinnerModule, SubmissionResultModule]
+	imports: [CommonModule, TranslateModule]
 })
 export class AssignmentListModule {}

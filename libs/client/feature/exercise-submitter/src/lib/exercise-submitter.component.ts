@@ -1,14 +1,25 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ChangeDetectionStrategy, Component, NgModule, OnInit } from "@angular/core";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { TranslateModule } from "@ngx-translate/core";
+import { AssignmentDto, CourseDto } from "@student-mgmt/api-client";
+import { ApiModule, Configuration } from "@student-mgmt/exercise-submitter-api-client";
+import { AuthService } from "@web-ide/client-auth";
+import { getEnvVariableOrThrow } from "@web-ide/client-environments";
 import {
 	FileSelectors,
 	StudentMgmtActions,
 	StudentMgmtSelectors
 } from "@web-ide/client/data-access/state";
-import { Store } from "@ngrx/store";
-import { AssignmentDto, CourseDto } from "@student-mgmt/api-client";
-import { ExerciseSubmitterService } from "../exercise-submitter.service";
+import { IconModule } from "@web-ide/client/shared/components";
 import { combineLatest, firstValueFrom, map } from "rxjs";
+import { AssignmentListModule } from "./assignment-list/assignment-list.component";
+import { AssignmentViewComponentModule } from "./assignment-view/assignment-view.component";
+import { VersionListModule } from "./assignment-view/version-list/version-list.component";
+import { CoursesComponentModule } from "./courses/courses.component";
+import { ExerciseSubmitterService } from "./exercise-submitter.service";
 
 export type SubmitInfo = {
 	courseId: string;
@@ -105,3 +116,27 @@ export class ExerciseSubmitterComponent implements OnInit {
 		);
 	}
 }
+
+@NgModule({
+	imports: [
+		CommonModule,
+		IconModule,
+		TranslateModule,
+		MatProgressSpinnerModule,
+		ApiModule.forRoot(
+			() =>
+				new Configuration({
+					accessToken: (): string => AuthService.getAccessToken() ?? "",
+					basePath: getEnvVariableOrThrow("EXERCISE_SUBMITTER_BASE_PATH")
+				})
+		),
+		AssignmentViewComponentModule,
+		AssignmentListModule,
+		VersionListModule,
+		CoursesComponentModule
+	],
+	declarations: [ExerciseSubmitterComponent],
+	exports: [ExerciseSubmitterComponent],
+	providers: [ExerciseSubmitterService]
+})
+export class ExerciseSubmitterModule {}

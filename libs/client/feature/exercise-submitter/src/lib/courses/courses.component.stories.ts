@@ -1,4 +1,5 @@
 import { Meta, moduleMetadata, Story } from "@storybook/angular";
+import { StorybookTranslateModule } from "@web-ide/shared/storybook";
 import { CoursesComponent, CoursesComponentModule } from "./courses.component";
 
 export default {
@@ -6,7 +7,7 @@ export default {
 	component: CoursesComponent,
 	decorators: [
 		moduleMetadata({
-			imports: [CoursesComponentModule]
+			imports: [CoursesComponentModule, StorybookTranslateModule]
 		})
 	]
 } as Meta<CoursesComponent>;

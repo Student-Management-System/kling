@@ -7,6 +7,7 @@ import {
 	NgModule,
 	Output
 } from "@angular/core";
+import { TranslateModule } from "@ngx-translate/core";
 import { CourseDto } from "@student-mgmt/api-client";
 import { SemesterPipeModule } from "@web-ide/client-shared";
 
@@ -23,6 +24,6 @@ export class CoursesComponent {
 @NgModule({
 	declarations: [CoursesComponent],
 	exports: [CoursesComponent],
-	imports: [CommonModule, SemesterPipeModule]
+	imports: [CommonModule, SemesterPipeModule, TranslateModule]
 })
 export class CoursesComponentModule {}

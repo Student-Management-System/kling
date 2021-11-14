@@ -31,7 +31,8 @@
 			"@web-ide/ide-dialogs": ["libs/client/feature/ide-dialogs/src/index.ts"],
 			"@web-ide/ide-services": ["libs/client/feature/ide-services/src/index.ts"],
 			"@web-ide/indexed-db": ["libs/client/data-access/indexed-db/src/index.ts"],
-			"@web-ide/programming": ["libs/shared/util/programming/src/index.ts"]
+			"@web-ide/programming": ["libs/shared/util/programming/src/index.ts"],
+			"@web-ide/shared/storybook": ["libs/shared/storybook/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

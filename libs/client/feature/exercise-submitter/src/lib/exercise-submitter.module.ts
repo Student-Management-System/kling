@@ -1,19 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { IconModule } from "@web-ide/client/shared/components";
 import { TranslateModule } from "@ngx-translate/core";
-import { AssignmentListComponent } from "./assignment-list/assignment-list.component";
-import { AssignmentComponent } from "./assignment/assignment.component";
-import { CoursesComponent } from "./courses/courses.component";
-import { ExerciseSubmitterService } from "./exercise-submitter.service";
-import { ExerciseSubmitterComponent } from "./exercise-submitter/exercise-submitter.component";
-import { SemesterPipeModule } from "@web-ide/client-shared";
 import { ApiModule, Configuration } from "@student-mgmt/exercise-submitter-api-client";
 import { AuthService } from "@web-ide/client-auth";
 import { getEnvVariableOrThrow } from "@web-ide/client-environments";
+import { IconModule } from "@web-ide/client/shared/components";
+import { AssignmentListModule } from "./assignment-list/assignment-list.component";
+import { CoursesComponentModule } from "./courses/courses.component";
+import { ExerciseSubmitterService } from "./exercise-submitter.service";
+import { ExerciseSubmitterComponent } from "./exercise-submitter/exercise-submitter.component";
 import { VersionListModule } from "./version-list/version-list.component";
-import { SubmissionResultModule } from "./submission-result/submission-result.component";
 
 @NgModule({
 	imports: [
@@ -21,7 +18,6 @@ import { SubmissionResultModule } from "./submission-result/submission-result.co
 		IconModule,
 		TranslateModule,
 		MatProgressSpinnerModule,
-		SemesterPipeModule,
 		ApiModule.forRoot(
 			() =>
 				new Configuration({
@@ -29,15 +25,11 @@ import { SubmissionResultModule } from "./submission-result/submission-result.co
 					basePath: getEnvVariableOrThrow("EXERCISE_SUBMITTER_BASE_PATH")
 				})
 		),
+		AssignmentListModule,
 		VersionListModule,
-		SubmissionResultModule
+		CoursesComponentModule
 	],
-	declarations: [
-		ExerciseSubmitterComponent,
-		CoursesComponent,
-		AssignmentListComponent,
-		AssignmentComponent
-	],
+	declarations: [ExerciseSubmitterComponent],
 	exports: [ExerciseSubmitterComponent],
 	providers: [ExerciseSubmitterService]
 })

@@ -56,8 +56,6 @@ export class ExerciseSubmitterService {
 			submissionResult = await firstValueFrom(
 				this.submissionApi.submit(courseId, assignmentName, groupOrUsername, encodedFiles)
 			);
-
-			console.log(submissionResult);
 		} catch (error) {
 			console.error(error);
 		} finally {

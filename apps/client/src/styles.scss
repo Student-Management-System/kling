@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities";
 @import "./custom-theme.scss";
 
-.light {
+:root {
 	height: 100%;
 	--primary: #757575;
 	--accent: #b71c1c;

@@ -1,5 +1,5 @@
 import { ASSIGNMENT_INPROGRESS_GROUP, GROUP_JAVA001, Select } from "@web-ide/testing";
-type StoryName = "default" | "without-end-date" | "without-group";
+type StoryName = "default" | "without-end-date" | "without-group" | "submission-disabled";
 const component = "assignmentdetailcomponent";
 describe("AssignmentDetailComponent", () => {
 	describe("Default", () => {
@@ -7,6 +7,8 @@ describe("AssignmentDetailComponent", () => {
 
 		it("Displays end date and group", () => {
 			const assignment = ASSIGNMENT_INPROGRESS_GROUP;
+
+			cy.getBySelector(Select.assignment.submissionDisabledWarning).should("not.exist");
 
 			cy.contains(assignment.name);
 			cy.getBySelector(Select.assignment.endDate);
@@ -36,6 +38,14 @@ describe("AssignmentDetailComponent", () => {
 
 		it("Does not display group", () => {
 			cy.getBySelector(Select.assignment.group).should("not.exist");
+		});
+	});
+
+	describe("Submission disabled", () => {
+		beforeEach(() => cy.visitIFrame<StoryName>(component, "submission-disabled"));
+
+		it("Displays 'Submissions Disabled' warning", () => {
+			cy.getBySelector(Select.assignment.submissionDisabledWarning).should("exist");
 		});
 	});
 });

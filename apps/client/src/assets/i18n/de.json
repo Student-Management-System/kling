@@ -289,7 +289,8 @@
     "ExerciseSubmitter": {
       "SubmissionAccepted": "Die Abgabe war erfolgreich",
       "SubmissionReject": "Die Abgabe ist fehlerhaft",
-      "NoMessages": "Es ist kein weiteres Feedback vorhanden"
+      "NoMessages": "Es ist kein weiteres Feedback vorhanden",
+      "SubmissionDisabled": "Abgaben für diese Aufgabe sind nicht möglich"
     }
   }
 }

@@ -290,7 +290,8 @@
     "ExerciseSubmitter": {
       "SubmissionAccepted": "The submssion was accepted",
       "SubmissionReject": "The submission was rejected",
-      "NoMessages": "No feedback received"
+      "NoMessages": "No feedback received",
+      "SubmissionDisabled": "Submissions for this assignment are disabled"
     }
   }
 }

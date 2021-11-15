@@ -41,3 +41,11 @@ WithoutGroup.args = {
 	assignment: ASSIGNMENT_INPROGRESS_GROUP,
 	group: undefined
 };
+
+export const SubmissionDisabled = Template.bind({});
+SubmissionDisabled.args = {
+	assignment: {
+		...ASSIGNMENT_INPROGRESS_GROUP,
+		state: "IN_REVIEW"
+	}
+};

@@ -1,4 +1,13 @@
 <div class="grid gap-2 p-2 rounded bg-editor-bg">
+	<div
+		class="flex gap-2 p-1 text-white bg-red-500 rounded"
+		*ngIf="assignment.state !== assignmentState.IN_PROGRESS"
+		data-test="submissionDisabledWarning"
+	>
+		<web-ide-icon class="fill-current" name="warning"></web-ide-icon>
+		<span>{{ "Text.ExerciseSubmitter.SubmissionDisabled" | translate }}.</span>
+	</div>
+
 	<span class="text-lg text-vs-blue">{{ assignment.name }}</span>
 	<div class="flex gap-2 text-light">
 		<span>{{ "Enum.AssignmentType." + assignment.type | translate }}</span>
@@ -20,12 +29,16 @@
 			>{{ group.name }}</span
 		>
 		<div class="grid gap-2">
-			<ng-container *ngFor="let member of group.members">
-				<div class="grid pl-2 border-l-2 border-vs-blue">
+			<div class="flex gap-2" *ngFor="let member of group.members">
+				<web-ide-person-icon
+					class="flex items-center pl-2"
+					[name]="member.displayName"
+				></web-ide-person-icon>
+				<div class="grid pl-2">
 					<span>{{ member.displayName }}</span>
-					<span class="text-light">{{ member.email }}</span>
+					<span class="text-light">{{ member.email ?? "(Email missing)" }}</span>
 				</div>
-			</ng-container>
+			</div>
 		</div>
 	</ng-container>
 </div>

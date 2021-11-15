@@ -84,6 +84,7 @@ export const Select = {
 	},
 	assignment: {
 		endDate: "assignmentEndDate",
-		group: "assignmentGroup"
+		group: "assignmentGroup",
+		submissionDisabledWarning: "submissionDisabledWarning"
 	}
 } as const;

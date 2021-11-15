@@ -1,5 +1,10 @@
 /* eslint-disable no-undef */
 module.exports = {
+	globals: {
+		"ts-jest": {
+			isolatedModules: true
+		}
+	},
 	projects: [
 		"<rootDir>/apps/client",
 		"<rootDir>/libs/client/data-access/state",

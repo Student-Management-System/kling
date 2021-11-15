@@ -1,9 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, NgModule } from "@angular/core";
-import { TranslateModule } from "@ngx-translate/core";
-import { IconModule } from "@web-ide/client/shared/components";
 import { ExerciseSubmitterService } from "../../exercise-submitter.service";
-import { CheckMessageModule } from "./check-message/check-message.component";
+import { ResultComponentModule } from "./result/result.component";
 
 @Component({
 	selector: "web-ide-submission-result",
@@ -19,6 +17,6 @@ export class SubmissionResultComponent {
 @NgModule({
 	declarations: [SubmissionResultComponent],
 	exports: [SubmissionResultComponent],
-	imports: [CommonModule, TranslateModule, CheckMessageModule, IconModule]
+	imports: [CommonModule, ResultComponentModule]
 })
 export class SubmissionResultModule {}

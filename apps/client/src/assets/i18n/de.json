@@ -89,7 +89,9 @@
     "Input": "Eingabe",
     "Output": "Ausgabe",
     "Collaboration": "Zusammenarbeit",
-    "Interactive": "Interaktiv"
+    "Interactive": "Interaktiv",
+    "Line": "Zeile",
+    "Column": "Spalte"
   },
   "Enum": {
     "AssignmentState": {
@@ -290,7 +292,8 @@
       "SubmissionAccepted": "Die Abgabe war erfolgreich",
       "SubmissionReject": "Die Abgabe ist fehlerhaft",
       "NoMessages": "Es ist kein weiteres Feedback vorhanden",
-      "SubmissionDisabled": "Abgaben für diese Aufgabe sind nicht möglich"
+      "SubmissionDisabled": "Abgaben für diese Aufgabe sind nicht möglich",
+      "Problems": "Deine Lösung beinhaltet die folgenden Probleme"
     }
   }
 }

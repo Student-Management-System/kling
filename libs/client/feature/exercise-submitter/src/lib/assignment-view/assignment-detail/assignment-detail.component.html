@@ -1,11 +1,11 @@
 <div class="grid gap-2 p-2 rounded bg-editor-bg">
 	<div
-		class="flex gap-2 p-1 text-white bg-red-500 rounded"
+		class="flex p-1 text-white bg-red-500 rounded"
 		*ngIf="assignment.state !== assignmentState.IN_PROGRESS"
 		data-test="submissionDisabledWarning"
 	>
-		<web-ide-icon class="fill-current" name="warning"></web-ide-icon>
-		<span>{{ "Text.ExerciseSubmitter.SubmissionDisabled" | translate }}.</span>
+		<web-ide-icon class="absolute fill-current mt-[-1px]" name="warning"></web-ide-icon>
+		<span class="ml-8">{{ "Text.ExerciseSubmitter.SubmissionDisabled" | translate }}.</span>
 	</div>
 
 	<span class="text-lg text-vs-blue">{{ assignment.name }}</span>

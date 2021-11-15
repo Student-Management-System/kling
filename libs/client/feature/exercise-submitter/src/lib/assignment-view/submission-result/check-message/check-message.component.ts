@@ -1,11 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, Input, NgModule } from "@angular/core";
+import { TranslateModule } from "@ngx-translate/core";
 import { CheckMessageDto } from "@student-mgmt/exercise-submitter-api-client";
+import { IconModule } from "@web-ide/client/shared/components";
 
 @Component({
 	selector: "web-ide-check-message",
 	templateUrl: "./check-message.component.html",
-	styleUrls: ["./check-message.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckMessageComponent {
@@ -17,6 +18,6 @@ export class CheckMessageComponent {
 @NgModule({
 	declarations: [CheckMessageComponent],
 	exports: [CheckMessageComponent],
-	imports: [CommonModule]
+	imports: [CommonModule, IconModule, TranslateModule]
 })
 export class CheckMessageModule {}

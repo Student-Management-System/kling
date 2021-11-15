@@ -1,7 +1,23 @@
-<div
-	class="p-1 rounded"
-	[class.WARNING]="message.type === typeEnum.WARNING"
-	[class.ERROR]="message.type === typeEnum.ERROR"
->
-	<pre>{{ message | json }}</pre>
+<div class="flex gap-2">
+	<web-ide-icon
+		*ngIf="message.type === typeEnum.ERROR"
+		name="error"
+		class="text-red-500 fill-current"
+	></web-ide-icon>
+	<web-ide-icon
+		*ngIf="message.type === typeEnum.WARNING"
+		name="warning"
+		class="text-yellow-600 fill-current"
+	></web-ide-icon>
+
+	<div class="text-light">{{ message.checkName }}</div>
+
+	<div>{{ message.message }}</div>
+
+	<div class="text-light">in</div>
+	<div>{{ message.file }}</div>
+	<div class="text-light" *ngIf="message.line">
+		({{ "Domain.Line" | translate }}: {{ message.line }}, {{ "Domain.Column" | translate }}:
+		{{ message.column }})
+	</div>
 </div>

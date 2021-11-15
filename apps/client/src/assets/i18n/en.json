@@ -89,7 +89,9 @@
     "Input": "Input",
     "Output": "Output",
     "Collaboration": "Collaboration",
-    "Interactive": "Interactive"
+    "Interactive": "Interactive",
+    "Line": "Line",
+    "Column": "Column"
   },
   "Enum": {
     "AssignmentState": {
@@ -291,7 +293,8 @@
       "SubmissionAccepted": "The submssion was accepted",
       "SubmissionReject": "The submission was rejected",
       "NoMessages": "No feedback received",
-      "SubmissionDisabled": "Submissions for this assignment are disabled"
+      "SubmissionDisabled": "Submissions for this assignment are disabled",
+      "Problems": "Your solution contains the following problems"
     }
   }
 }

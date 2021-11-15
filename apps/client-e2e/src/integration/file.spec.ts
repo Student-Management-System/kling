@@ -1,5 +1,5 @@
 import { createFile, File } from "@web-ide/programming";
-import { Select } from "../support/element-selector";
+import { Select } from "@web-ide/testing";
 
 describe("File", () => {
 	const file = createFile("test.ts", undefined, "// test");

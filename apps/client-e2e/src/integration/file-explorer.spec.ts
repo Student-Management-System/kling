@@ -1,5 +1,5 @@
 import { loadProject } from "libs/client/data-access/state/src/lib/workspace-store/workspace.actions";
-import { Select } from "../support/element-selector";
+import { Select } from "@web-ide/testing";
 import { defaultProject } from "../support/mock-data";
 
 function openCreateFileDialog() {

@@ -1,5 +1,5 @@
 import { useAccount } from "../support/auth";
-import { Select } from "../support/element-selector";
+import { Select } from "@web-ide/testing";
 
 const coursesUrl = "**/users/**/courses";
 const assignmentsUrl = "**/courses/*/assignments";

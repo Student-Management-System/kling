@@ -1,13 +1,13 @@
 {
-	"root": "libs/shared/mock-data",
-	"sourceRoot": "libs/shared/mock-data/src",
+	"root": "libs/shared/testing",
+	"sourceRoot": "libs/shared/testing/src",
 	"projectType": "library",
 	"targets": {
 		"lint": {
 			"executor": "@nrwl/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["libs/shared/mock-data/**/*.ts"]
+				"lintFilePatterns": ["libs/shared/testing/**/*.ts"]
 			}
 		}
 	},

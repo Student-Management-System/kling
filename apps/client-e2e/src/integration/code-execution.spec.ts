@@ -1,5 +1,5 @@
 import { createFile } from "@web-ide/programming";
-import { Select } from "../support/element-selector";
+import { Select } from "@web-ide/testing";
 
 const mainPyOutput = "Hello world from main.py";
 const secondPyOutput = "Hello world from second.py";

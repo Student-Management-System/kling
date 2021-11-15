@@ -33,7 +33,8 @@
 			"@web-ide/indexed-db": ["libs/client/data-access/indexed-db/src/index.ts"],
 			"@web-ide/mock-data": ["libs/shared/mock-data/src/index.ts"],
 			"@web-ide/programming": ["libs/shared/util/programming/src/index.ts"],
-			"@web-ide/shared/storybook": ["libs/shared/storybook/src/index.ts"]
+			"@web-ide/shared/storybook": ["libs/shared/storybook/src/index.ts"],
+			"@web-ide/testing": ["libs/shared/testing/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

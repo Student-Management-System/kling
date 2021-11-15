@@ -81,5 +81,9 @@ export const Select = {
 		assignment: "assignment",
 		assignmentBreadcrumb: "assignmentBreadcrumb",
 		submitBtn: "submitBtn"
+	},
+	assignment: {
+		endDate: "assignmentEndDate",
+		group: "assignmentGroup"
 	}
 } as const;

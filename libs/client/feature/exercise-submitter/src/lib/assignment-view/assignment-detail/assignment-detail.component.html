@@ -8,14 +8,15 @@
 		<span>{{ "Enum.CollaborationType." + assignment.collaboration | translate }}</span>
 	</div>
 
-	<div *ngIf="assignment.endDate">
+	<div *ngIf="assignment.endDate" data-test="assignmentEndDate">
 		<span class="text-light">{{ "Property.Assignment.EndDate" | translate }}: </span>
 		<span>{{ assignment.endDate | date: "dd.MM.YYYY (HH:mm)" }}</span>
 	</div>
 
 	<ng-container *ngIf="group">
 		<span
-			><span class="text-light">{{ "Domain.Group" | translate }}: </span
+			><span class="text-light" data-test="assignmentGroup"
+				>{{ "Domain.Group" | translate }}: </span
 			>{{ group.name }}</span
 		>
 		<div class="grid gap-2">

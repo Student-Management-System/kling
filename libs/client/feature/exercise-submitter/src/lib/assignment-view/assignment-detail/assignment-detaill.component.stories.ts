@@ -3,7 +3,7 @@ import {
 	AssignmentDetailComponent,
 	AssignmentDetailComponentModule
 } from "./assignment-detail.component";
-import { ASSIGNMENT_INPROGRESS_GROUP, GROUP_JAVA001 } from "@web-ide/mock-data";
+import { ASSIGNMENT_INPROGRESS_GROUP, GROUP_JAVA001 } from "@web-ide/testing";
 import { StorybookTranslateModule } from "@web-ide/shared/storybook";
 
 export default {
@@ -21,8 +21,8 @@ const Template: Story<AssignmentDetailComponent> = (args: AssignmentDetailCompon
 	props: args
 });
 
-export const WithEndDate = Template.bind({});
-WithEndDate.args = {
+export const Default = Template.bind({});
+Default.args = {
 	assignment: ASSIGNMENT_INPROGRESS_GROUP,
 	group: GROUP_JAVA001
 };

@@ -1,3 +1,3 @@
-# shared-mock-data
+# shared-testing
 
 This library was generated with [Nx](https://nx.dev).

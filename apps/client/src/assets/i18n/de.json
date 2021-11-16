@@ -33,13 +33,18 @@
       "ImportFolder": "Ordner importieren",
       "NewProject": "Neues Project",
       "SynchronizeFolder": "Ordner öffnen",
-      "CreateSession": "Zusammenarbeit starten"
+      "CreateSession": "Zusammenarbeit starten",
+      "ExerciseSubmitter": {
+        "Compare": "Änderungen ansehen",
+        "Replay": "Auf Version zurücksetzen"
+      }
     },
     "Run": "Ausführen",
     "Export": "Exportieren",
     "Disconnect": "Verbindung trennen",
     "CopyToClipboard": "In Zwischenablage kopieren",
-    "Submit": "Abgeben"
+    "Submit": "Abgeben",
+    "Refresh": "Aktualisieren"
   },
   "Common": {
     "All": "Alle",
@@ -255,7 +260,10 @@
     "CreateDirectory": "Ordner erstellen",
     "CreateFile": "Datei erstellen",
     "CreateProblem": "Neues Problem erstellen",
-    "CreateProject": "Neues Project erstellen"
+    "CreateProject": "Neues Project erstellen",
+    "ExerciseSubmitter": {
+      "PreviousSubmissions": "Vorherige Abgaben"
+    }
   },
   "Text": {
     "Domain": {
@@ -293,7 +301,9 @@
       "SubmissionReject": "Die Abgabe ist fehlerhaft",
       "NoMessages": "Es ist kein weiteres Feedback vorhanden",
       "SubmissionDisabled": "Abgaben für diese Aufgabe sind nicht möglich",
-      "Problems": "Deine Lösung beinhaltet die folgenden Probleme"
+      "Problems": "Deine Lösung beinhaltet die folgenden Probleme",
+      "NoSubmissions": "Du hast bisher noch keine Lösung abgegeben",
+      "ConfirmReplay": "Möchtest du wirklich auf diese Vesion zurücksetzen ? Der Inhalt des aktuellen Projekts wird dadurch überschrieben."
     }
   }
 }

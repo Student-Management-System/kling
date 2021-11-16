@@ -17,8 +17,7 @@ export class ConfirmDialogData {
 }
 
 @Component({
-	templateUrl: "./confirm-dialog.dialog.html",
-	styleUrls: ["./confirm-dialog.dialog.scss"]
+	templateUrl: "./confirm-dialog.dialog.html"
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ConfirmDialog {

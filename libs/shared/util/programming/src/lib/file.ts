@@ -35,6 +35,35 @@ export function createFile(name: string, directoryPath = "", content?: string): 
 	};
 }
 
+/**
+ * Returns the filename from a path.
+ *
+ * @example
+ * getFileNameFromPath("src/hello/world.ts")
+ * // world.ts
+ */
+export function getFileNameFromPath(path: string): string {
+	const split = path.split("/");
+	return split[split.length - 1];
+}
+
+/**
+ * Returns the directory path from a path.
+ *
+ * @example
+ * getDirectoryPathFromPath("src/hello/world.ts")
+ * // src/hello
+ */
+export function getDirectoryPathFromPath(path: string): string {
+	const index = path.lastIndexOf("/");
+
+	if (index == -1) {
+		return "";
+	}
+
+	return path.substring(0, index);
+}
+
 export function createMainFile(language: SupportedLanguage): File {
 	const name = language === "java" ? "Main" : "main";
 	const extension = getFileExtension(language);

@@ -102,7 +102,6 @@ export class StudentMgmtEffects {
 				)
 			),
 			map(versions => {
-				console.log(versions);
 				return StudentMgmtActions.setVersions({ versions });
 			}),
 			catchError(error => {

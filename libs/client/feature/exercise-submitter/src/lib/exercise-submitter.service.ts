@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { StudentMgmtActions, StudentMgmtSelectors } from "@web-ide/client/data-access/state";
 import { Store } from "@ngrx/store";
 import {
 	FileDto,
@@ -7,8 +6,10 @@ import {
 	SubmissionResultDto,
 	VersionDto
 } from "@student-mgmt/exercise-submitter-api-client";
+import { StudentMgmtActions, StudentMgmtSelectors } from "@web-ide/client/data-access/state";
+import { createDirectoriesFromFiles, Directory, File } from "@web-ide/programming";
 import { BehaviorSubject, firstValueFrom, Observable } from "rxjs";
-import { File } from "@web-ide/programming";
+import { toFileModel, toBase64 } from "./encoding";
 
 @Injectable()
 export class ExerciseSubmitterService {
@@ -30,6 +31,22 @@ export class ExerciseSubmitterService {
 		});
 	}
 
+	async getVersion(
+		courseId: string,
+		assignmentName: string,
+		groupOrUsername: string,
+		version: number
+	): Promise<{ files: File[]; directories: Directory[] }> {
+		const encodedFiles = await firstValueFrom(
+			this.submissionApi.getVersion(courseId, assignmentName, groupOrUsername, version)
+		);
+
+		const files: File[] = encodedFiles.map(toFileModel);
+		const directories = createDirectoriesFromFiles(files);
+
+		return { files, directories };
+	}
+
 	getPreviousVersions(
 		courseId: string,
 		assignmentName: string,
@@ -46,7 +63,7 @@ export class ExerciseSubmitterService {
 	): Promise<void> {
 		const encodedFiles: FileDto[] = files.map(f => ({
 			path: f.path,
-			content: this.toBase64(f.content)
+			content: toBase64(f.content)
 		}));
 
 		this.isSubmitting$.next(true);
@@ -56,21 +73,11 @@ export class ExerciseSubmitterService {
 			submissionResult = await firstValueFrom(
 				this.submissionApi.submit(courseId, assignmentName, groupOrUsername, encodedFiles)
 			);
-
-			console.log(submissionResult);
 		} catch (error) {
 			console.error(error);
 		} finally {
 			this.store.dispatch(StudentMgmtActions.setSubmissionResult({ submissionResult }));
 			this.isSubmitting$.next(false);
 		}
-	}
-
-	toBase64(str: string): string {
-		return btoa(unescape(encodeURIComponent(str)));
-	}
-
-	fromBase64(encodedStr: string): string {
-		return decodeURIComponent(escape(window.atob(encodedStr)));
 	}
 }

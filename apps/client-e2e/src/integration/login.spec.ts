@@ -1,4 +1,4 @@
-import { Select } from "../support/element-selector";
+import { Select } from "@web-ide/testing";
 
 /** Opens the login dialog, enters credentials and clicks login button. */
 function loginWith(username: string, password: string): void {

@@ -1,4 +1,4 @@
-import { Select } from "../support/element-selector";
+import { Select } from "@web-ide/testing";
 
 function openCreateProjectDialog() {
 	cy.getBySelector(Select.sidebar.explorerMenu.button).click();

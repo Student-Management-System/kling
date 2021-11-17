@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { tap } from "rxjs/operators";
+import { tap, withLatestFrom } from "rxjs/operators";
 import { WorkspaceService } from "@web-ide/ide-services";
 import * as FileActions from "./file.actions";
 import { Store } from "@ngrx/store";
+import { WorkspaceActions, WorkspaceSelectors } from "../workspace-store";
 
 @Injectable()
 export class FileEffects {
@@ -40,9 +41,14 @@ export class FileEffects {
 		() => {
 			return this.actions$.pipe(
 				ofType(FileActions.deleteFile),
-				tap(async action => {
+				withLatestFrom(this.store.select(WorkspaceSelectors.selectEntryPoint)),
+				tap(async ([action, entryPoint]) => {
 					this.workspace.emitFileRemoved(action.file);
 					await this.workspace.deleteFile(action.file.path);
+
+					if (action.file.path === entryPoint) {
+						this.store.dispatch(WorkspaceActions.setEntryPoint({ path: null }));
+					}
 				})
 			);
 		},

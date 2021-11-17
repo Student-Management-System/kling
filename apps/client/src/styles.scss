@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities";
 @import "./custom-theme.scss";
 
-.light {
+:root {
 	height: 100%;
 	--primary: #757575;
 	--accent: #b71c1c;
@@ -108,6 +108,7 @@ body {
 body {
 	margin: 0;
 	font-family: Segoe WPC, Segoe UI, sans-serif !important; // TODO: Other OS fonts
+	font-size: 13px;
 }
 
 web-ide-icon {

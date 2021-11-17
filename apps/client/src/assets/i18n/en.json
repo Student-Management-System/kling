@@ -33,13 +33,18 @@
       "ImportFolder": "Import Folder",
       "NewProject": "New Project",
       "SynchronizeFolder": "Open Folder",
-      "CreateSession": "Create Session"
+      "CreateSession": "Create Session",
+      "ExerciseSubmitter": {
+        "Compare": "Compare changes",
+        "Replay": "Reset to version"
+      }
     },
     "Run": "Run",
     "Export": "Export",
     "Disconnect": "Disconnect",
     "CopyToClipboard": "Copy to Clipboard",
-    "Submit": "Submit"
+    "Submit": "Submit",
+    "Refresh": "Refresh"
   },
   "Common": {
     "All": "All",
@@ -89,7 +94,9 @@
     "Input": "Input",
     "Output": "Output",
     "Collaboration": "Collaboration",
-    "Interactive": "Interactive"
+    "Interactive": "Interactive",
+    "Line": "Line",
+    "Column": "Column"
   },
   "Enum": {
     "AssignmentState": {
@@ -254,7 +261,10 @@
     "CreateDirectory": "Create Directory",
     "CreateFile": "Create File",
     "CreateProblem": "Create new problem",
-    "CreateProject": "Create Project"
+    "CreateProject": "Create Project",
+    "ExerciseSubmitter": {
+      "PreviousSubmissions": "Previous Submissions"
+    }
   },
   "Text": {
     "Domain": {
@@ -290,7 +300,11 @@
     "ExerciseSubmitter": {
       "SubmissionAccepted": "The submssion was accepted",
       "SubmissionReject": "The submission was rejected",
-      "NoMessages": "No feedback received"
+      "NoMessages": "No feedback received",
+      "SubmissionDisabled": "Submissions for this assignment are disabled",
+      "Problems": "Your solution contains the following problems",
+      "NoSubmissions": "You have not made any submissions yet",
+      "ConfirmReplay": "Do you really want to reset to this version ? You current project will be overwritten."
     }
   }
 }

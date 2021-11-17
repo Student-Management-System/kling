@@ -1,1 +1,1 @@
-export * from "./lib/exercise-submitter.module";
+export { ExerciseSubmitterModule } from "./lib/exercise-submitter.component";

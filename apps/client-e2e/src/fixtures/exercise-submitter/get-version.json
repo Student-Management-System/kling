@@ -1,0 +1,10 @@
+[
+	{
+		"content": "aW1wb3J0IGZvbGRlci5TZWNvbmQ7DQppbXBvcnQgamF2YS51dGlsLlNjYW5uZXI7DQoNCnB1YmxpYyBjbGFzcyBNYWluIHsNCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgbWFpbihTdHJpbmdbXSBhcmdzKSB7DQogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiSGVsbG8gd29ybGQgw6Qgw7wgw58gc2RzZCA0IOKckyDDoCA6KSIpOw0KICAgICAgICBTY2FubmVyIHNjYW5uZXIgPSBuZXcgU2Nhbm5lcihTeXN0ZW0uaW4pOw0KICAgICAgICBuZXcgU2Vjb25kKCk7DQogICAgfQ0KfQ==",
+		"path": "Main.java"
+	},
+	{
+		"content": "cGFja2FnZSBmb2xkZXI7DQoNCnB1YmxpYyBjbGFzcyBTZWNvbmQgew0KICAgIHB1YmxpYyBTZWNvbmQoKSB7DQogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiSGVsbG8gZnJvbSBTZWNvbmQhIik7DQogICAgfQ0KfQ==",
+		"path": "folder/Second.java"
+	}
+]

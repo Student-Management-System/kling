@@ -1,11 +1,13 @@
 import { useAccount } from "../support/auth";
-import { Select } from "../support/element-selector";
+import { Select } from "@web-ide/testing";
 
 const coursesUrl = "**/users/**/courses";
 const assignmentsUrl = "**/courses/*/assignments";
-const assignmentGroupsUrl = "**/users/*/courses/**/assignments/groups";
+const assignmentUrl = "**/courses/*/assignments/*";
+const groupUrl = "**/users/*/courses/*/assignments/*/group";
 
-const listVersionsUrl = "**/submission/*/*/*/versions";
+const exerciseSubmitter_listVersionsUrl = "**/submission/*/*/*/versions";
+const exerciseSubmitter_getVersionUrl = "**/submission/*/*/*/1637072123";
 
 const course = "test-course-1-wise2122";
 
@@ -19,13 +21,21 @@ describe("Exercise Submitter", () => {
 			fixture: "student-mgmt/assignments"
 		}).as("assignments");
 
-		cy.intercept("GET", assignmentGroupsUrl, {
-			fixture: "student-mgmt/assignment-groups"
-		}).as("assignment-groups");
+		cy.intercept("GET", assignmentUrl, {
+			fixture: "student-mgmt/assignment"
+		}).as("assignment");
 
-		cy.intercept("GET", listVersionsUrl, {
-			fixture: "student-mgmt/assignment-groups"
-		}).as("versions");
+		cy.intercept("GET", groupUrl, {
+			fixture: "student-mgmt/group"
+		}).as("group");
+
+		cy.intercept("GET", exerciseSubmitter_listVersionsUrl, {
+			fixture: "exercise-submitter/list-versions"
+		}).as("list-versions");
+
+		cy.intercept("GET", exerciseSubmitter_getVersionUrl, {
+			fixture: "exercise-submitter/get-version"
+		}).as("get-version");
 
 		useAccount();
 		cy.visit("#submit");
@@ -66,13 +76,34 @@ describe("Exercise Submitter", () => {
 			cy.getBySelector(Select.exerciseSubmitter.assignment).should("have.length", 3);
 		});
 
-		it.only("Clicking on assignment -> Displays Assignment-Page", () => {
+		it("Clicking on assignment -> Displays Assignment-Page", () => {
 			cy.getBySelector(Select.exerciseSubmitter.assignment).first().click();
 			cy.getBySelector(Select.exerciseSubmitter.assignmentBreadcrumb).should(
 				"contain.text",
 				"Assignment-01"
 			);
 			cy.getBySelector(Select.button.submit).should("be.visible");
+		});
+	});
+
+	describe.only("Version List", () => {
+		beforeEach(() => {
+			cy.getBySelector(Select.exerciseSubmitter.course).first().click();
+			cy.getBySelector(Select.exerciseSubmitter.assignment).first().click();
+			cy.contains("Previous Submissions").click();
+		});
+
+		it("Should navigate to version list", () => {
+			cy.getBySelector(Select.exerciseSubmitter.versionList.reload).should("exist");
+		});
+
+		describe("Replay", () => {
+			it("Asks user to confirm -> Overwrites current project", () => {
+				cy.getBySelector(Select.exerciseSubmitter.versionList.replay).first().click();
+				cy.getBySelector(Select.button.confirm).click();
+
+				cy.contains("Main.java");
+			});
 		});
 	});
 });

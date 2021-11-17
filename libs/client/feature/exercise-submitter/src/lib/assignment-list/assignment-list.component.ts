@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+	ChangeDetectionStrategy,
+	Component,
+	EventEmitter,
+	Input,
+	NgModule,
+	Output
+} from "@angular/core";
+import { TranslateModule } from "@ngx-translate/core";
 import { AssignmentDto } from "@student-mgmt/api-client";
 
 @Component({
@@ -15,3 +24,10 @@ export class AssignmentListComponent {
 	collaborationEnum = AssignmentDto.CollaborationEnum;
 	stateEnum = AssignmentDto.StateEnum;
 }
+
+@NgModule({
+	declarations: [AssignmentListComponent],
+	exports: [AssignmentListComponent],
+	imports: [CommonModule, TranslateModule]
+})
+export class AssignmentListModule {}

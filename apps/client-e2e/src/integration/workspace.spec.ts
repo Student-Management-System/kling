@@ -1,5 +1,5 @@
 import { createFile } from "@web-ide/programming";
-import { Select } from "../support/element-selector";
+import { Select } from "@web-ide/testing";
 import { createDefaultProject, defaultProject } from "../support/mock-data";
 
 function openWorkspaceWith(project?: string, file?: string): void {

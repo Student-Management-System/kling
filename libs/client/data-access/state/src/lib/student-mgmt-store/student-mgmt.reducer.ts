@@ -9,8 +9,8 @@ export const studentMgmtFeatureKey = "student-mgmt";
 export type State = {
 	user?: UserDto;
 	selectedCourseId?: string | null;
-	selectedAssignmentId?: string | null;
-	groupForAssignment?: GroupDto;
+	assignment?: AssignmentDto | null;
+	group?: GroupDto | null;
 	courses: Loadable<CourseDto[]>;
 	assignments: Loadable<AssignmentDto[]>;
 	versions: Loadable<VersionDto[]>;
@@ -78,10 +78,10 @@ export const reducer = createReducer(
 	),
 	on(
 		StudentMgmtActions.selectAssignment,
-		(state, action): State => ({
+		(state, _action): State => ({
 			...state,
-			selectedAssignmentId: action.assignmentId,
-			groupForAssignment: undefined,
+			assignment: null,
+			group: null,
 			submissionResult: undefined,
 			versions: setLoadable([])
 		})
@@ -101,10 +101,11 @@ export const reducer = createReducer(
 		})
 	),
 	on(
-		StudentMgmtActions.setGroupOfAssignment,
+		StudentMgmtActions.setAssignmentAndGroup,
 		(state, action): State => ({
 			...state,
-			groupForAssignment: action.group
+			assignment: action.assignment,
+			group: action.group
 		})
 	),
 	on(

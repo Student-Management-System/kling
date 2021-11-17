@@ -18,6 +18,9 @@
 		"client-shared-environments": "libs/client/shared/environments",
 		"client-shared-services": "libs/client/shared/services",
 		"client-ui-file-tabs": "libs/client/feature/file-tabs",
+		"shared-storybook": "libs/shared/storybook",
+		"shared-storybook-e2e": "apps/shared-storybook-e2e",
+		"shared-testing": "libs/shared/testing",
 		"shared-util-programming": "libs/shared/util/programming"
 	}
 }

@@ -5,16 +5,14 @@
 		class="card"
 		data-test="assignment"
 	>
-		<div class="flex flex-col items-start gap-1">
-			<span class="font-bold text-vs-blue">{{ assignment.name }}</span>
+		<span class="font-bold text-vs-blue">{{ assignment.name }}</span>
 
-			<div class="flex gap-2 text-light">
-				<span>{{ "Enum.AssignmentType." + assignment.type | translate }}</span>
-				-
-				<span>{{ "Enum.AssignmentState." + assignment.state | translate }}</span>
-				-
-				<span>{{ "Enum.CollaborationType." + assignment.collaboration | translate }}</span>
-			</div>
+		<div class="flex gap-2 text-light">
+			<span>{{ "Enum.AssignmentType." + assignment.type | translate }}</span>
+			-
+			<span>{{ "Enum.AssignmentState." + assignment.state | translate }}</span>
+			-
+			<span>{{ "Enum.CollaborationType." + assignment.collaboration | translate }}</span>
 		</div>
 	</button>
 </div>

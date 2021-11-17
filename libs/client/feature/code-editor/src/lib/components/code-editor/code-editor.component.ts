@@ -8,7 +8,6 @@ import {
 	OnInit,
 	Output
 } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { CheckMessageDto } from "@student-mgmt/exercise-submitter-api-client";
@@ -31,7 +30,6 @@ import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
 import { debounceTime, firstValueFrom, fromEvent, merge, Subject, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
 import { MonacoConvergenceAdapter } from "./convergence/monaco-adapter";
-import { DiffEditorDialog, DiffEditorDialogData } from "./diff-editor.dialog";
 import { main } from "./src/app";
 
 interface EditorModelState {
@@ -64,7 +62,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		private readonly workspace: WorkspaceService,
 		private readonly workspaceSettings: WorkspaceSettingsService,
 		private readonly themeService: ThemeService,
-		private readonly dialog: MatDialog,
 		private readonly codeExecution: CodeExecutionService,
 		private readonly collaboration: CollaborationService,
 		private readonly cdRef: ChangeDetectorRef
@@ -238,46 +235,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 		});
 
 		this.editor.addAction({
-			id: "VIEW_DIFFERENCE",
-			label: "View Difference",
-			contextMenuOrder: 2,
-			contextMenuGroupId: "Custom",
-			run: () => {
-				const modified = this.getCurrentModel();
-				const original = monaco.editor.createModel(
-					modified!.getValue(),
-					undefined,
-					this.createFileUri(this.selectedFilePath!)
-				);
-
-				this.openDiffEditorDialog({
-					model: { original, modified: modified! },
-					filename: this.selectedFilePath!,
-					previousVersionName: new Date().toLocaleString("de")
-				});
-			}
-		});
-
-		this.editor.addAction({
-			id: "SET_DIAGNOSTICS",
-			label: "Set Diagnostics",
-			contextMenuOrder: 3,
-			contextMenuGroupId: "Custom",
-			run: () => {
-				this.setDiagnostics(this.getCurrentModel()!, [
-					{
-						message: "Custom message",
-						startLineNumber: 1,
-						startColumn: 0,
-						endLineNumber: 2,
-						endColumn: 5,
-						severity: monaco.MarkerSeverity.Warning
-					}
-				]);
-			}
-		});
-
-		this.editor.addAction({
 			id: "TOGGLE_RULER",
 			label: "Toggle Ruler (80 characters)",
 			contextMenuOrder: 6,
@@ -333,12 +290,6 @@ export class CodeEditorComponent extends UnsubscribeOnDestroy implements OnInit,
 
 	private setDiagnostics(model: monaco.editor.ITextModel, markers: monaco.editor.IMarkerData[]) {
 		monaco.editor.setModelMarkers(model, "???", markers);
-	}
-
-	private openDiffEditorDialog(data: DiffEditorDialogData): void {
-		this.dialog.open<DiffEditorDialog, DiffEditorDialogData, undefined>(DiffEditorDialog, {
-			data
-		});
 	}
 
 	private subscribeToFileRemoved(): Subscription {

@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { DirectoryActions, DirectoryState, FileActions } from "@web-ide/client/data-access/state";
-import { createDirectory, createFile } from "@web-ide/programming";
 import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { DirectoryActions, DirectoryState, FileActions } from "@web-ide/client/data-access/state";
 import {
 	CreateDirectoryDialogComponent,
 	CreateDirectoryDialogData,
@@ -12,6 +10,9 @@ import {
 	CreateProjectDialogData,
 	RenameDialogComponent
 } from "@web-ide/ide-dialogs";
+import { createDirectory, createFile } from "@web-ide/programming";
+import { Observable } from "rxjs";
+import { DifferenceDialogComponent, DifferenceDialogData } from "./difference/difference.component";
 
 /**
  * Facade for dialogs that are used in the workspace.
@@ -84,5 +85,18 @@ export class WorkspaceDialogs {
 	 */
 	openRenameDialog(currentName: string): Observable<string> {
 		return this.dialog.open(RenameDialogComponent, { data: currentName }).afterClosed();
+	}
+
+	/**
+	 * Opens a dialog containing a DiffEditor that compares the given file arrays.
+	 * If the user clicks on the "replay" button inside the dialog, `true` is returned.
+	 */
+	openDiffDialog(data: DifferenceDialogData): Observable<boolean | undefined> {
+		return this.dialog
+			.open<DifferenceDialogComponent, DifferenceDialogData, boolean>(
+				DifferenceDialogComponent,
+				{ data }
+			)
+			.afterClosed();
 	}
 }

@@ -1,0 +1,23 @@
+<div class="flex flex-col gap-4">
+	<span class="text-xl"
+		>{{ "Action.Custom.ExerciseSubmitter.Compare" | translate }}:
+		{{ data.date | date: "dd.MM.YYYY (HH:mm)" }}</span
+	>
+
+	<div class="flex gap-4">
+		<button class="vs-button" [matDialogClose]="true">
+			{{ "Action.Custom.ExerciseSubmitter.Replay" | translate }}
+		</button>
+		<button [matDialogClose]="false">{{ "Action.Cancel" | translate }}</button>
+	</div>
+
+	<select class="w-full p-1 rounded appearance-none bg-editor-bg" (change)="change($event)">
+		<option *ngFor="let option of selectableDiffs" [value]="option.path" class="flex gap-2">
+			<span *ngIf="option.type === 'added'" class="text-green-500">[{{ option.type }}]</span>
+			<span *ngIf="option.type === 'removed'" class="text-red-500">[{{ option.type }}]</span>
+			<span>{{ option.path }}</span>
+		</option>
+	</select>
+
+	<div id="diff-editor" class="h-[600px] w-[1200px]"></div>
+</div>

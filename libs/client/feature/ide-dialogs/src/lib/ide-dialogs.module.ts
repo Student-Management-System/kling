@@ -10,6 +10,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { CreateDirectoryDialogComponent } from "./create-directory/create-directory.dialog";
 import { CreateFileDialogComponent } from "./create-file/create-file.dialog";
 import { CreateProjectDialogComponent } from "./create-project/create-project.dialog";
+import { DifferenceDialogModule } from "./difference/difference.component";
 import { RenameDialogComponent } from "./rename/rename.dialog";
 import { WorkspaceDialogs } from "./workspace-dialogs.service";
 
@@ -23,7 +24,8 @@ import { WorkspaceDialogs } from "./workspace-dialogs.service";
 		MatCardModule,
 		MatButtonModule,
 		MatDialogModule,
-		TranslateModule
+		TranslateModule,
+		DifferenceDialogModule
 	],
 	declarations: [
 		CreateDirectoryDialogComponent,

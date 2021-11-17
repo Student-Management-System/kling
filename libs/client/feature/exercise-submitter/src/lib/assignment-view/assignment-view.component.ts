@@ -24,6 +24,8 @@ import {
 	WorkspaceSelectors
 } from "@web-ide/client/data-access/state";
 import { DialogService, ToastService } from "@web-ide/client/shared/services";
+import { WorkspaceDialogs } from "@web-ide/ide-dialogs";
+import { DifferenceDialogData } from "libs/client/feature/ide-dialogs/src/lib/difference/difference.component";
 import { firstValueFrom, map } from "rxjs";
 import { SubmitInfo } from "../exercise-submitter.component";
 import { ExerciseSubmitterService } from "../exercise-submitter.service";
@@ -70,6 +72,7 @@ export class AssignmentViewComponent implements OnInit {
 		private readonly exerciseSubmitter: ExerciseSubmitterService,
 		private readonly store: Store,
 		private readonly dialog: DialogService,
+		private readonly workspaceDialogs: WorkspaceDialogs,
 		private readonly toast: ToastService,
 		private readonly translate: TranslateService,
 		private readonly route: ActivatedRoute,
@@ -143,8 +146,31 @@ export class AssignmentViewComponent implements OnInit {
 		}
 	}
 
-	compare(version: VersionWithDate): void {
-		// this.ex
+	async compare(version: VersionWithDate): Promise<void> {
+		const { files: original } = await this.exerciseSubmitter.getVersion(
+			this.courseId,
+			this.assignment.name,
+			this.getGroupOrUsername(),
+			version.timestamp
+		);
+
+		const modified = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
+		const selectedFile = await firstValueFrom(
+			this.store.select(FileSelectors.selectSelectedFilePath)
+		);
+
+		const data: DifferenceDialogData = {
+			date: version.date,
+			original,
+			modified,
+			selectedFile
+		};
+
+		this.workspaceDialogs.openDiffDialog(data).subscribe(replayRequested => {
+			if (replayRequested) {
+				this.replay(version);
+			}
+		});
 	}
 
 	onTabChange(event: MatTabChangeEvent): void {

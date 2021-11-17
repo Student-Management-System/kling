@@ -80,7 +80,12 @@ export const Select = {
 		courseBreadcrumb: "courseBreadcrumb",
 		assignment: "assignment",
 		assignmentBreadcrumb: "assignmentBreadcrumb",
-		submitBtn: "submitBtn"
+		submitBtn: "submitBtn",
+		versionList: {
+			reload: "reloadBtn",
+			replay: "replayBtn",
+			compare: "compareBtn"
+		}
 	},
 	assignment: {
 		endDate: "assignmentEndDate",

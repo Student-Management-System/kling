@@ -11,6 +11,14 @@ export const loadProject = createAction(
 	}>()
 );
 
+export const overwriteProject = createAction(
+	"[Workspace] Overwrite Project",
+	props<{
+		files: File[];
+		directories: Directory[];
+	}>()
+);
+
 export const createProject = createAction(
 	"[Workspace] Save as new project",
 	props<{
@@ -18,4 +26,7 @@ export const createProject = createAction(
 	}>()
 );
 
-export const setEntryPoint = createAction("[File] Mark as entry point", props<{ path: string }>());
+export const setEntryPoint = createAction(
+	"[File] Mark as entry point",
+	props<{ path: string | null }>()
+);

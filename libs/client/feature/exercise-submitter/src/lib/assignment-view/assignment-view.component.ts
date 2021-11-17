@@ -10,15 +10,18 @@ import {
 } from "@angular/core";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
-import { ActivatedRoute, Route, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { AssignmentDto, GroupDto, UserDto } from "@student-mgmt/api-client";
 import { SubmissionResultDto } from "@student-mgmt/exercise-submitter-api-client";
 import {
+	FileActions,
+	FileSelectors,
 	StudentMgmtActions,
 	StudentMgmtSelectors,
-	WorkspaceActions
+	WorkspaceActions,
+	WorkspaceSelectors
 } from "@web-ide/client/data-access/state";
 import { DialogService, ToastService } from "@web-ide/client/shared/services";
 import { firstValueFrom, map } from "rxjs";
@@ -107,16 +110,36 @@ export class AssignmentViewComponent implements OnInit {
 		);
 
 		if (confirmed) {
-			this.toast.info(`${title}: ${date}`);
+			await this._replay(title, date, version);
+		}
+	}
 
-			const { files, directories } = await this.exerciseSubmitter.getVersion(
-				this.courseId,
-				this.assignment.name,
-				this.getGroupOrUsername(),
-				version.timestamp
-			);
+	private async _replay(title: any, date: string, version: VersionWithDate): Promise<void> {
+		this.toast.info(`${title}: ${date}`);
 
-			// TODO: Dispatch actions
+		const { files, directories } = await this.exerciseSubmitter.getVersion(
+			this.courseId,
+			this.assignment.name,
+			this.getGroupOrUsername(),
+			version.timestamp
+		);
+
+		const currentFile = await firstValueFrom(
+			this.store.select(FileSelectors.selectSelectedFilePath)
+		);
+
+		const entryPoint = await firstValueFrom(
+			this.store.select(WorkspaceSelectors.selectEntryPoint)
+		);
+
+		this.store.dispatch(WorkspaceActions.overwriteProject({ files, directories }));
+
+		if (files.find(f => f.path === currentFile)) {
+			this.store.dispatch(FileActions.setSelectedFile({ path: currentFile }));
+		}
+
+		if (entryPoint && files.find(f => f.path === entryPoint)) {
+			this.store.dispatch(WorkspaceActions.setEntryPoint({ path: entryPoint }));
 		}
 	}
 

@@ -22,6 +22,10 @@ export const reducer = createReducer(
 		projectName: action.projectName,
 		entryPoint: action.entryPoint
 	})),
+	on(WorkspaceActions.overwriteProject, (state, _action) => ({
+		...state,
+		entryPoint: null
+	})),
 	on(WorkspaceActions.setEntryPoint, (state, action) => ({
 		...state,
 		entryPoint: action.path

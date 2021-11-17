@@ -1,0 +1,17 @@
+{
+	"id": "e8de3d6d-8344-4d80-a59a-bc1b059b6991",
+	"name": "JAVA-001",
+	"isClosed": false,
+	"hasPassword": false,
+	"members": [
+		{
+			"userId": "41352fcc-9b4b-4215-bf29-693f7488a2df",
+			"role": "LECTURER",
+			"username": "user",
+			"displayName": "user",
+			"matrNr": null,
+			"email": null
+		}
+	],
+	"size": 1
+}

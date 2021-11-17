@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-4">
-	<button class="vs-button" (click)="_refreshDebounce$.next()">
+	<button class="vs-button" (click)="_refreshDebounce$.next()" data-test="reloadBtn">
 		{{ "Action.Refresh" | translate }}
 	</button>
 
@@ -21,12 +21,14 @@
 						<button
 							[matTooltip]="'Action.Custom.ExerciseSubmitter.Replay' | translate"
 							(click)="replayVersion.next(version)"
+							data-test="replayBtn"
 						>
 							<web-ide-icon name="download"></web-ide-icon>
 						</button>
 						<button
 							[matTooltip]="'Action.Custom.ExerciseSubmitter.Compare' | translate"
 							(click)="compareVersion.next(version)"
+							data-test="compareBtn"
 						>
 							<web-ide-icon name="eye"></web-ide-icon>
 						</button>

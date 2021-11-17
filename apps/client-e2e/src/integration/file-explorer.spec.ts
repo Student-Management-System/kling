@@ -60,11 +60,12 @@ describe("File Explorer", () => {
 
 	describe("File", () => {
 		describe("Delete", () => {
-			it("Removes the file", () => {
-				const filename = "to-be-deleted.ts";
-
+			const filename = "to-be-deleted.ts";
+			beforeEach(() => {
 				createFileFromDialog(filename);
+			});
 
+			it("Removes the file", () => {
 				cy.getBySelector(Select.fileExplorer.file).contains(filename).rightclick();
 				cy.getBySelector(Select.fileExplorer.fileContextMenu.delete).click();
 
@@ -74,6 +75,24 @@ describe("File Explorer", () => {
 					const files = await idb.files.getFiles("Playground");
 					expect(files).empty;
 				});
+			});
+
+			it("File marked as entry point -> Clears entry point", () => {
+				// Mark as entry point
+				cy.getBySelector(Select.fileExplorer.file).contains(filename).rightclick();
+				cy.getBySelector(Select.fileExplorer.fileContextMenu.markAsEntryPoint).click();
+				cy.getBySelector(Select.runCode).should("contain.text", filename);
+
+				// Delete
+				cy.getBySelector(Select.fileExplorer.file).contains(filename).rightclick();
+				cy.getBySelector(Select.fileExplorer.fileContextMenu.delete).click();
+
+				// File is gone
+				cy.getBySelector(Select.button.confirm).click();
+				cy.getBySelector(Select.fileExplorer.file).contains(filename).should("not.exist");
+
+				// Entry point is cleared
+				cy.getBySelector(Select.runCode).should("not.contain.text", filename);
 			});
 		});
 	});

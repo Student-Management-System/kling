@@ -25,14 +25,14 @@ export const selectAssignment = createAction(
 	props<{ assignmentId: string | null }>()
 );
 
-export const loadGroupOfAssignment = createAction(
-	"[Assignment] Load Group of Assignment",
+export const loadAssignmentAndGroup = createAction(
+	"[Assignment] Load Assignment and Group",
 	props<{ courseId: string; assignmentId: string }>()
 );
 
-export const setGroupOfAssignment = createAction(
-	"[Assignment] Set Group of Assignment",
-	props<{ group?: GroupDto }>()
+export const setAssignmentAndGroup = createAction(
+	"[Assignment] Set Assignment and Group",
+	props<{ assignment: AssignmentDto; group?: GroupDto }>()
 );
 
 export const loadVersions = createAction("[Exercise Submitter] Load Versions");

@@ -3,19 +3,8 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { AssignmentApi, GroupDto, UserApi } from "@student-mgmt/api-client";
-import { SubmissionApi } from "@student-mgmt/exercise-submitter-api-client";
-import {
-	catchError,
-	combineLatest,
-	filter,
-	firstValueFrom,
-	map,
-	of,
-	switchMap,
-	tap,
-	throwError,
-	withLatestFrom
-} from "rxjs";
+import { SubmissionApi, VersionDto } from "@student-mgmt/exercise-submitter-api-client";
+import { catchError, filter, firstValueFrom, map, of, switchMap, withLatestFrom } from "rxjs";
 import { StudentMgmtSelectors } from ".";
 import * as StudentMgmtActions from "./student-mgmt.actions";
 
@@ -44,25 +33,29 @@ export class StudentMgmtEffects {
 			),
 			switchMap(async ([action, user, courseId]) => {
 				if (!courseId || !user?.id) {
-					console.error("assignmentSelected$ triggered without selectedCourseId");
-					return undefined;
-				}
-
-				let group: GroupDto | undefined = undefined;
-
-				try {
-					group = await firstValueFrom(
-						this.userApi.getGroupOfAssignment(user.id, courseId, action.assignmentId!)
+					throw new Error(
+						"assignmentSelected$ triggered without selectedCourseId or user"
 					);
-				} catch (error) {
-					if (!(error instanceof HttpErrorResponse && error.status == 404)) {
-						console.error(error);
-					}
 				}
 
-				return group;
+				const [assignment, group] = await Promise.all([
+					firstValueFrom(
+						this.assignmentApi.getAssignmentById(courseId, action.assignmentId!)
+					),
+					this.tryLoadGroup(user.id, courseId, action.assignmentId!)
+				]);
+
+				return { assignment, group };
 			}),
-			map(group => StudentMgmtActions.setGroupOfAssignment({ group }))
+			map(assignmentAndGroup => StudentMgmtActions.setAssignmentAndGroup(assignmentAndGroup))
+		);
+	});
+
+	setAssignmentAndGroup$ = createEffect(() => {
+		return this.actions$.pipe(
+			ofType(StudentMgmtActions.setAssignmentAndGroup),
+			filter(action => !!action.assignment),
+			map(() => StudentMgmtActions.loadVersions())
 		);
 	});
 
@@ -95,19 +88,9 @@ export class StudentMgmtEffects {
 				this.store.select(StudentMgmtSelectors.groupForSelectedAssignment)
 			),
 			switchMap(([_action, user, course, assignment, group]) =>
-				this.submissionApi.listVersions(
-					course!.id,
-					assignment!.name,
-					group?.name ?? user!.username
-				)
+				this.tryLoadVersions(course!.id, assignment!.name, group?.name ?? user!.username)
 			),
-			map(versions => {
-				return StudentMgmtActions.setVersions({ versions });
-			}),
-			catchError(error => {
-				console.error(error);
-				return of(StudentMgmtActions.setVersions({ versions: [] }));
-			})
+			map(versions => StudentMgmtActions.setVersions({ versions }))
 		);
 	});
 
@@ -118,4 +101,43 @@ export class StudentMgmtEffects {
 		private readonly userApi: UserApi,
 		private readonly submissionApi: SubmissionApi
 	) {}
+
+	private async tryLoadGroup(
+		userId: string,
+		courseId: string,
+		assignmentId: string
+	): Promise<GroupDto | undefined> {
+		let group: GroupDto | undefined = undefined;
+
+		try {
+			group = await firstValueFrom(
+				this.userApi.getGroupOfAssignment(userId, courseId, assignmentId)
+			);
+		} catch (error) {
+			// 404 error is expected, if user has no group for this assignment
+			if (!(error instanceof HttpErrorResponse && error.status == 404)) {
+				console.error(error);
+			}
+		}
+
+		return group;
+	}
+
+	private async tryLoadVersions(
+		courseId: string,
+		assignmentName: string,
+		groupOrUsername: string
+	): Promise<VersionDto[]> {
+		let versions: VersionDto[] = [];
+
+		try {
+			versions = await firstValueFrom(
+				this.submissionApi.listVersions(courseId, assignmentName, groupOrUsername)
+			);
+		} catch (error) {
+			console.error();
+		}
+
+		return versions;
+	}
 }

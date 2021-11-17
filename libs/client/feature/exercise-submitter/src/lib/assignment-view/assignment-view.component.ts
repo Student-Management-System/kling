@@ -5,10 +5,12 @@ import {
 	EventEmitter,
 	Input,
 	NgModule,
+	OnInit,
 	Output
 } from "@angular/core";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
+import { ActivatedRoute, Route, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { AssignmentDto, GroupDto, UserDto } from "@student-mgmt/api-client";
@@ -31,7 +33,7 @@ import { VersionListModule, VersionWithDate } from "./version-list/version-list.
 	templateUrl: "./assignment-view.component.html",
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssignmentViewComponent {
+export class AssignmentViewComponent implements OnInit {
 	@Input() courseId!: string;
 	@Input() assignment!: AssignmentDto;
 	@Input() user!: UserDto;
@@ -58,6 +60,7 @@ export class AssignmentViewComponent {
 		})
 	);
 
+	selectedTabIndex = 0;
 	assignmentState = AssignmentDto.StateEnum;
 
 	constructor(
@@ -65,8 +68,18 @@ export class AssignmentViewComponent {
 		private readonly store: Store,
 		private readonly dialog: DialogService,
 		private readonly toast: ToastService,
-		private readonly translate: TranslateService
+		private readonly translate: TranslateService,
+		private readonly route: ActivatedRoute,
+		private readonly router: Router
 	) {}
+
+	ngOnInit(): void {
+		const showVersions = this.route.snapshot.queryParams.showVersions;
+
+		if (showVersions) {
+			this.selectedTabIndex = 1;
+		}
+	}
 
 	submit(): void {
 		this.submitSolution.next({
@@ -112,9 +125,21 @@ export class AssignmentViewComponent {
 	}
 
 	onTabChange(event: MatTabChangeEvent): void {
+		this.selectedTabIndex = event.index;
+		let showVersions: boolean | undefined = undefined;
+
 		if (event.index === 1) {
 			this.loadVersions();
+			showVersions = true;
 		}
+
+		this.router.navigate([], {
+			preserveFragment: true,
+			queryParamsHandling: "merge",
+			queryParams: {
+				showVersions
+			}
+		});
 	}
 
 	private getGroupOrUsername(): string {

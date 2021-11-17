@@ -6,21 +6,31 @@
 	<ng-container *ngIf="!isLoading; else loading">
 		<ng-container *ngIf="versions.length > 0; else empty">
 			<div class="grid gap-2">
-				<div class="flex gap-2 p-2 bg-editor-bg" *ngFor="let version of versions">
-					<button
-						[matTooltip]="'Action.Custom.ExerciseSubmitter.Replay' | translate"
-						(click)="replayVersion.next(version)"
-					>
-						<web-ide-icon name="download"></web-ide-icon>
-					</button>
-					<button
-						[matTooltip]="'Action.Custom.ExerciseSubmitter.Compare' | translate"
-						(click)="compareVersion.next(version)"
-					>
-						<web-ide-icon name="eye"></web-ide-icon>
-					</button>
-					<span class="text-light">{{ version.date | date: "dd.MM.YYYY (HH:mm)" }}</span>
-					<span>{{ version.author }}</span>
+				<div
+					class="flex justify-between gap-2 p-2  bg-editor-bg flex-nowrap whitespace-nowrap"
+					*ngFor="let version of versions"
+				>
+					<div class="flex gap-2">
+						<span class="text-light">{{
+							version.date | date: "dd.MM.YYYY (HH:mm)"
+						}}</span>
+						<span>{{ version.author }}</span>
+					</div>
+
+					<div class="flex gap-2">
+						<button
+							[matTooltip]="'Action.Custom.ExerciseSubmitter.Replay' | translate"
+							(click)="replayVersion.next(version)"
+						>
+							<web-ide-icon name="download"></web-ide-icon>
+						</button>
+						<button
+							[matTooltip]="'Action.Custom.ExerciseSubmitter.Compare' | translate"
+							(click)="compareVersion.next(version)"
+						>
+							<web-ide-icon name="eye"></web-ide-icon>
+						</button>
+					</div>
 				</div>
 			</div>
 		</ng-container>

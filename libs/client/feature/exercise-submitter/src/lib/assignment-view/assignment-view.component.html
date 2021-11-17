@@ -1,4 +1,8 @@
-<mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event)">
+<mat-tab-group
+	animationDuration="0ms"
+	[selectedIndex]="selectedTabIndex"
+	(selectedTabChange)="onTabChange($event)"
+>
 	<mat-tab [label]="'Action.Submit' | translate">
 		<ng-template matTabContent>
 			<div

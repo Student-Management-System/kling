@@ -81,7 +81,8 @@ export class ExerciseSubmitterComponent implements OnInit {
 		this.router.navigate([], {
 			queryParams: {
 				course: course?.id,
-				assignment: undefined
+				assignment: undefined,
+				showVersions: undefined
 			},
 			queryParamsHandling: "merge",
 			preserveFragment: true
@@ -93,7 +94,8 @@ export class ExerciseSubmitterComponent implements OnInit {
 	selectAssignment(assignment: AssignmentDto | null): void {
 		this.router.navigate([], {
 			queryParams: {
-				assignment: assignment?.id
+				assignment: assignment?.id,
+				showVersions: undefined
 			},
 			queryParamsHandling: "merge",
 			preserveFragment: true

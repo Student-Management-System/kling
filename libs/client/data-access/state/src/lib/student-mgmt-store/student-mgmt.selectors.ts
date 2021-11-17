@@ -20,14 +20,11 @@ export const selectedCourseId = createSelector(
 
 export const assignments = createSelector(selectStudentMgmtState, state => state.assignments);
 
-export const selectedAssignment = createSelector(selectStudentMgmtState, state =>
-	state.selectedAssignmentId
-		? state.assignments?.data.find(a => a.id === state.selectedAssignmentId)
-		: null
-);
+export const selectedAssignment = createSelector(selectStudentMgmtState, state => state.assignment);
 
-export const groupForSelectedAssignment = createSelector(selectStudentMgmtState, state =>
-	state.selectedAssignmentId ? state.groupForAssignment : undefined
+export const groupForSelectedAssignment = createSelector(
+	selectStudentMgmtState,
+	state => state.group
 );
 
 export const versions = createSelector(selectStudentMgmtState, state => state.versions);

@@ -75,8 +75,8 @@ export class CollaborationComponent implements OnInit {
 		this.toast.success("Connected to session: " + sessionId, "Collaboration");
 	}
 
-	private generateShareUrl(id: string): string {
-		return `${window.location.origin}/ide?share=${id}`;
+	generateShareUrl(id: string): string {
+		return `${window.location.origin}${window.location.pathname}?share=${id}`;
 	}
 
 	async disconnect(): Promise<void> {

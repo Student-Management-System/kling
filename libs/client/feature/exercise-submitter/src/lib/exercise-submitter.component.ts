@@ -14,6 +14,7 @@ import {
 	StudentMgmtSelectors
 } from "@web-ide/client/data-access/state";
 import { IconModule } from "@web-ide/client/shared/components";
+import { ToastService } from "@web-ide/client/shared/services";
 import { combineLatest, firstValueFrom, map } from "rxjs";
 import { AssignmentListModule } from "./assignment-list/assignment-list.component";
 import { AssignmentViewComponentModule } from "./assignment-view/assignment-view.component";
@@ -54,7 +55,8 @@ export class ExerciseSubmitterComponent implements OnInit {
 		private readonly exerciseSubmitter: ExerciseSubmitterService,
 		private readonly store: Store,
 		private readonly route: ActivatedRoute,
-		private readonly router: Router
+		private readonly router: Router,
+		private readonly toast: ToastService
 	) {}
 
 	ngOnInit(): void {
@@ -109,6 +111,11 @@ export class ExerciseSubmitterComponent implements OnInit {
 	async submit(event: SubmitInfo): Promise<void> {
 		const { courseId, assignmentName, groupOrUsername } = event;
 		const files = await firstValueFrom(this.store.select(FileSelectors.selectAllFiles));
+
+		if (files.length == 0) {
+			this.toast.error("Error.EmptySubmission");
+			return;
+		}
 
 		await this.exerciseSubmitter.createSubmission(
 			courseId,

@@ -155,7 +155,8 @@
     "FileAlreadyExistsAtLocation": "A file named \"{{filename}}\" already exists at this location.",
     "ConnectionRefused": "Failed to connect to the server.",
     "InvalidCredentials": "The given username or password was incorrect.",
-    "Unauthorized": "You are unauthorized."
+    "Unauthorized": "You are unauthorized.",
+    "EmptySubmission": "There are no files to submit."
   },
   "Event": {
     "UserJoinedCourseEvent": "joined the course.",

@@ -155,7 +155,8 @@
     "FileAlreadyExistsAtLocation": "Eine Datei mit dem Namen \"{{filename}}\" existiert bereits an diesem Ort.",
     "ConnectionRefused": "Verbindung mit dem Server konnte nicht hergestellt werden.",
     "InvalidCredentials": "Die Anmeldedaten sind ungültig.",
-    "Unauthorized": "Du bist nicht angemeldet."
+    "Unauthorized": "Du bist nicht angemeldet.",
+    "EmptySubmission": "Es sind keine Dateien zum Abgeben vorhanden."
   },
   "Event": {
     "UserJoinedCourseEvent": "ist dem Kurs beigreten.",

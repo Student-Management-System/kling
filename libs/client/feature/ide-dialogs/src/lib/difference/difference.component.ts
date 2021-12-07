@@ -9,6 +9,7 @@ import {
 	OnInit
 } from "@angular/core";
 import { MatDialogModule, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatSelectChange, MatSelectModule } from "@angular/material/select";
 import { TranslateModule } from "@ngx-translate/core";
 import { File } from "@web-ide/programming";
 import * as monaco from "monaco-editor";
@@ -22,7 +23,7 @@ export type DifferenceDialogData = {
 
 type SelectOption = {
 	path: string;
-	type: "added" | "removed" | undefined;
+	type: "added" | "removed" | "modified" | undefined;
 };
 
 @Component({
@@ -34,6 +35,7 @@ type SelectOption = {
 export class DifferenceDialogComponent implements OnInit, OnDestroy {
 	diffEditor: monaco.editor.IStandaloneDiffEditor | null = null;
 	selectableDiffs: SelectOption[] = [];
+	selectedFilePath: string | null = null;
 
 	private diffModels = new Map<string, monaco.editor.IDiffEditorModel>();
 
@@ -58,6 +60,8 @@ export class DifferenceDialogComponent implements OnInit, OnDestroy {
 		this.selectableDiffs = this.categorizeChangedFiles(original, modified);
 
 		if (selectedFile) {
+			this.selectedFilePath = selectedFile;
+
 			const model = this.diffModels.get(selectedFile);
 
 			if (model) {
@@ -81,14 +85,15 @@ export class DifferenceDialogComponent implements OnInit, OnDestroy {
 		this.cdRef.detectChanges();
 	}
 
-	change(event: any): void {
-		const path = event.target.value;
+	change(event: MatSelectChange): void {
+		const path = event.value;
 		const model = this.diffModels.get(path);
 
 		if (!model) {
 			throw new Error("Model does not exist: " + path);
 		}
 
+		this.selectedFilePath = path;
 		this.diffEditor?.setModel(model);
 	}
 
@@ -101,7 +106,7 @@ export class DifferenceDialogComponent implements OnInit, OnDestroy {
 			if (existingFile) {
 				selectableDiffs.push({
 					path: file.path,
-					type: undefined
+					type: file.content !== existingFile.content ? "modified" : undefined
 				});
 
 				this.diffModels.set(file.path, {
@@ -177,6 +182,6 @@ export class DifferenceDialogComponent implements OnInit, OnDestroy {
 @NgModule({
 	declarations: [DifferenceDialogComponent],
 	exports: [DifferenceDialogComponent],
-	imports: [CommonModule, MatDialogModule, TranslateModule]
+	imports: [CommonModule, MatDialogModule, MatSelectModule, TranslateModule]
 })
 export class DifferenceDialogModule {}

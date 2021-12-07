@@ -117,7 +117,7 @@ export class AssignmentViewComponent implements OnInit {
 		}
 	}
 
-	private async _replay(title: any, date: string, version: VersionWithDate): Promise<void> {
+	private async _replay(title: string, date: string, version: VersionWithDate): Promise<void> {
 		this.toast.info(`${title}: ${date}`);
 
 		const { files, directories } = await this.exerciseSubmitter.getVersion(

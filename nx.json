@@ -21,7 +21,8 @@
 				"accessToken": "MGI1YTViOWMtM2E5OC00NDQyLTk5MGEtZDQxZGE5YmI1YWFkfHJlYWQtd3JpdGU=",
 				"cacheableOperations": ["build", "test", "lint", "e2e"],
 				"canTrackAnalytics": false,
-				"showUsageWarnings": true
+				"showUsageWarnings": true,
+				"parallel": 1
 			}
 		}
 	},

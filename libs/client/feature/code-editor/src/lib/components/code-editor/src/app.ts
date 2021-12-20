@@ -19,14 +19,13 @@ import { registerLanguages } from "./register";
 import { rehydrateRegexps } from "./configuration";
 import VsCodeDarkTheme from "./vs-dark-plus-theme";
 import VsCodeLightTheme from "./vs-light-plus-theme";
-import { environment } from "@web-ide/client-environments";
 
 interface DemoScopeNameInfo extends ScopeNameInfo {
 	path: string;
 }
 
 let wasmLoaded = false;
-const baseHref = environment.production ? "/WEB-IDE" : "";
+const baseHref = window.location.pathname;
 
 export async function main(theme: string): Promise<monaco.editor.IStandaloneCodeEditor> {
 	// Note that adding a new TextMate grammar entails the following:
@@ -82,7 +81,7 @@ export async function main(theme: string): Promise<monaco.editor.IStandaloneCode
 
 	const fetchGrammar = async (scopeName: ScopeName): Promise<TextMateGrammar> => {
 		const { path } = grammars[scopeName];
-		const uri = `${baseHref}/grammars/${path}`;
+		const uri = `${baseHref}grammars/${path}`;
 		const response = await fetch(uri);
 		const grammar = await response.text();
 		const type = path.endsWith(".json") ? "json" : "plist";
@@ -92,7 +91,7 @@ export async function main(theme: string): Promise<monaco.editor.IStandaloneCode
 	const fetchConfiguration = async (
 		language: LanguageId
 	): Promise<monaco.languages.LanguageConfiguration> => {
-		const uri = `${baseHref}/configurations/${language}.json`;
+		const uri = `${baseHref}configurations/${language}.json`;
 		const response = await fetch(uri);
 		const rawConfiguration = await response.text();
 		return rehydrateRegexps(rawConfiguration);
@@ -134,20 +133,20 @@ export async function main(theme: string): Promise<monaco.editor.IStandaloneCode
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	self.MonacoEnvironment = {
-		getWorkerUrl: function (moduleId: any, label: any) {
+		getWorkerUrl: function (moduleId: string, label: string) {
 			if (label === "json") {
-				return `${baseHref}/workers/json.worker.bundle.js`;
+				return `${baseHref}workers/json.worker.bundle.js`;
 			}
 			if (label === "css" || label === "scss" || label === "less") {
-				return `${baseHref}/workers/css.worker.bundle.js`;
+				return `${baseHref}workers/css.worker.bundle.js`;
 			}
 			if (label === "html" || label === "handlebars" || label === "razor") {
-				return `${baseHref}/workers/html.worker.bundle.js`;
+				return `${baseHref}workers/html.worker.bundle.js`;
 			}
 			if (label === "typescript" || label === "javascript") {
-				return `${baseHref}/workers/ts.worker.bundle.js`;
+				return `${baseHref}workers/ts.worker.bundle.js`;
 			}
-			return `${baseHref}/workers/editor.worker.bundle.js`;
+			return `${baseHref}workers/editor.worker.bundle.js`;
 		}
 	};
 
@@ -170,7 +169,7 @@ export async function main(theme: string): Promise<monaco.editor.IStandaloneCode
 
 // Taken from https://github.com/microsoft/vscode/blob/829230a5a83768a3494ebbc61144e7cde9105c73/src/vs/workbench/services/textMate/browser/textMateService.ts#L33-L40
 async function loadVSCodeOnigurumWASM(): Promise<Response | ArrayBuffer> {
-	const response = await fetch(baseHref + "/node_modules/vscode-oniguruma/release/onig.wasm");
+	const response = await fetch(`${baseHref}node_modules/vscode-oniguruma/release/onig.wasm`);
 	const contentType = response.headers.get("content-type");
 	if (contentType === "application/wasm") {
 		return response;

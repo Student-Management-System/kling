@@ -45,8 +45,8 @@ pipeline {
                         rm -f -r *
                         exit
                     EOF
-                    scp -i ~/.ssh/id_rsa_student_mgmt_backend -r dist/apps/client/* elscha@${env.DEMO_SERVER}:/var/www/html2/WEB-IDE
                     """
+                sh "scp -i ~/.ssh/id_rsa_student_mgmt_backend -r dist/apps/client/* elscha@${env.DEMO_SERVER}:/var/www/html2/WEB-IDE"
             }
         }
         

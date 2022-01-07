@@ -5,6 +5,10 @@ pipeline {
     
     environment {
         DEMO_SERVER = '147.172.178.30'
+        DEMO_SERVER_BACKEND_PORT = '3000'
+        DEMO_SERVER_AUTH_PORT = '8080'
+        DEMO_SERVER_BACKEND_URL = "http://${env.DEMO_SERVER}:${env.DEMO_SERVER_BACKEND_PORT}"
+        DEMO_SERVER_AUTH_URL = "http://${env.DEMO_SERVER}:${env.DEMO_SERVER_AUTH_PORT}"
     }
     
     stages {
@@ -45,8 +49,15 @@ pipeline {
                         rm -f -r *
                         exit
                     EOF
-                    """
+                """
                 sh "scp -i ~/.ssh/id_rsa_student_mgmt_backend -r dist/apps/client/* elscha@${env.DEMO_SERVER}:/var/www/html2/WEB-IDE"
+                sh """
+                    ssh -i ~/.ssh/id_rsa_student_mgmt_backend elscha@${env.DEMO_SERVER} <<EOF
+                        sed -i "s|window\\.__env\\.STUDENT_MGMT_BASE_PATH = .*|window\\.__env\\.STUDENT_MGMT_BASE_PATH = \\"${env.DEMO_SERVER_BACKEND_URL}\\";|g" /var/www/html2/WEB-IDE/env.js
+                        sed -i "s|window\\.__env\\.AUTH_BASE_PATH = .*|window\\.__env\\.AUTH_BASE_PATH = \\"${env.DEMO_SERVER_AUTH_URL}\\";|g" /var/www/html2/WEB-IDE/env.js
+                        exit
+                    EOF
+                """
             }
         }
         

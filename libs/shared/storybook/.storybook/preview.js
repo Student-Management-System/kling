@@ -1,3 +1,3 @@
 export const globalTypes = {
-	darkMode: true,
+	darkMode: true
 };

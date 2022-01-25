@@ -24,6 +24,8 @@
 		"format": "nx format:write",
 		"format:write": "nx format:write",
 		"format:check": "nx format:check",
+		"prettier:check": "prettier --check **/*",
+		"prettier:write": "prettier --write **/*",
 		"update": "nx migrate latest",
 		"dep-graph": "nx dep-graph",
 		"help": "nx help",

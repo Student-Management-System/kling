@@ -11,7 +11,8 @@
 				"port": 4400,
 				"config": {
 					"configFolder": "libs/shared/storybook/.storybook"
-				}
+				},
+				"projectBuildConfig": "shared-storybook:build-storybook"
 			},
 			"configurations": {
 				"ci": {
@@ -27,7 +28,8 @@
 				"outputPath": "dist/storybook/shared-storybook",
 				"config": {
 					"configFolder": "libs/shared/storybook/.storybook"
-				}
+				},
+				"projectBuildConfig": "shared-storybook:build-storybook"
 			},
 			"configurations": {
 				"ci": {

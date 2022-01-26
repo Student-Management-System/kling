@@ -21,7 +21,7 @@ import {
 	ApiModule as StudentMgmtApiModule,
 	Configuration as StudentMgmtConfiguration
 } from "@student-mgmt/api-client";
-import { ContextMenuModule } from "ngx-contextmenu";
+import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import { ToastrModule } from "ngx-toastr";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";

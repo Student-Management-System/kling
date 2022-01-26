@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { MiddleClickModule, ProgrammingLanguageModule } from "@web-ide/client-shared";
 import { FileIconModule, IconModule } from "@web-ide/client/shared/components";
 import { TranslateModule } from "@ngx-translate/core";
-import { ContextMenuModule } from "ngx-contextmenu";
+import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import { FileComponent } from "./file.component";
 
 @NgModule({

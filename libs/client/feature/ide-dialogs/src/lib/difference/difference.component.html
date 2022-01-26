@@ -13,7 +13,7 @@
 
 	<mat-select
 		(selectionChange)="change($event)"
-		class="p-2 bg-editor-bg"
+		class="bg-editor-bg p-2"
 		[value]="selectedFilePath"
 	>
 		<mat-option *ngFor="let file of selectableDiffs" [value]="file.path">

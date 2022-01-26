@@ -1,6 +1,6 @@
 <div class="grid content-start">
 	<div class="mb-2 text-lg font-light">{{ "Common.Actions" | translate }}</div>
-	<div class="grid gap-2 vs-blue">
+	<div class="vs-blue grid gap-2">
 		<web-ide-action
 			[title]="'Action.Custom.NewFile' | translate"
 			icon="new-file"
@@ -41,7 +41,7 @@
 				[disabled]="!hasFileSystemAccessSupport"
 			></web-ide-action>
 
-			<span class="max-w-xs min-w-min text-light">
+			<span class="min-w-min max-w-xs text-light">
 				{{ "Text.SynchronizeFolder.Description" | translate }}
 				<a
 					class="underline"

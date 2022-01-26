@@ -25,7 +25,7 @@
 					<web-ide-file-tabs></web-ide-file-tabs>
 					<web-ide-run-code></web-ide-run-code>
 				</div>
-				<div class="w-full h-full">
+				<div class="h-full w-full">
 					<web-ide-get-started *ngIf="!(selectedFile$ | async)"></web-ide-get-started>
 					<web-ide-code-editor
 						(codeEditorInit)="handleEditorInit()"

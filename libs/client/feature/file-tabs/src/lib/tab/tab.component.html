@@ -6,13 +6,13 @@
 	(middleclick)="tabClosed.emit(path)"
 	data-test="file-tab"
 >
-	<div class="flex items-center w-full h-full gap-2 text-light">
+	<div class="flex h-full w-full items-center gap-2 text-light">
 		<web-ide-file-icon
 			class="mt-[-5px]"
 			[language]="file.name | programmingLanguage"
 		></web-ide-file-icon>
 		<span class="tab-name mt-[-2px]">{{ file.name }}</span>
-		<button class="w-4 h-4 hover:bg-[#a1a1a141] rounded" (click)="tabClosed.emit(path)">
+		<button class="h-4 w-4 rounded hover:bg-[#a1a1a141]" (click)="tabClosed.emit(path)">
 			<web-ide-icon
 				*ngIf="!file.hasUnsavedChanges"
 				class="icon-light absolute mt-[-10px] ml-[-7px]"
@@ -21,7 +21,7 @@
 			></web-ide-icon>
 
 			<web-ide-icon
-				class="absolute mt-[-10px] ml-[-5px] text"
+				class="text absolute mt-[-10px] ml-[-5px]"
 				*ngIf="file.hasUnsavedChanges"
 				name="lens"
 				size="8"

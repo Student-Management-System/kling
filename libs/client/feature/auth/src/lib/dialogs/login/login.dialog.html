@@ -27,11 +27,11 @@
 				<web-ide-icon matSuffix class="icon-light" name="lock"></web-ide-icon>
 			</mat-form-field>
 
-			<div class="p-1 mx-auto text-red-500" *ngIf="loginState.error" data-test="errorMessage">
+			<div class="mx-auto p-1 text-red-500" *ngIf="loginState.error" data-test="errorMessage">
 				{{loginState.error | translate}}
 			</div>
 
-			<div class="p-1 mx-auto" *ngIf="loginState.isLoading" data-test="loadingSpinner">
+			<div class="mx-auto p-1" *ngIf="loginState.isLoading" data-test="loadingSpinner">
 				<mat-spinner color="primary" [diameter]="32"></mat-spinner>
 			</div>
 		</div>
@@ -39,7 +39,7 @@
 
 	<div mat-dialog-actions class="flex justify-between gap-4">
 		<button
-			class="w-36 vs-button disabled:opacity-25"
+			class="vs-button w-36 disabled:opacity-25"
 			(click)="onLogin(username.value, password.value)"
 			[disabled]="loginState.isLoading || username.value.length == 0 || password.value.length == 0"
 			data-test="loginBtn"

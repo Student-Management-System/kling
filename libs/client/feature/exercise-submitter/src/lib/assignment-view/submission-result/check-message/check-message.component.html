@@ -2,12 +2,12 @@
 	<web-ide-icon
 		*ngIf="message.type === typeEnum.ERROR"
 		name="error"
-		class="text-red-500 fill-current"
+		class="fill-current text-red-500"
 	></web-ide-icon>
 	<web-ide-icon
 		*ngIf="message.type === typeEnum.WARNING"
 		name="warning"
-		class="text-yellow-600 fill-current"
+		class="fill-current text-yellow-600"
 	></web-ide-icon>
 
 	<div class="text-light">{{ message.checkName }}</div>

@@ -1,5 +1,5 @@
-<div class="h-full pb-4 overflow-auto">
-	<div class="grid justify-center w-full gap-8 p-6 text-light">
+<div class="h-full overflow-auto pb-4">
+	<div class="grid w-full justify-center gap-8 p-6 text-light">
 		<div class="mx-auto">
 			<ng-template [ngTemplateOutlet]="uniLogo"></ng-template>
 		</div>
@@ -19,7 +19,7 @@
 
 			<ng-template #loginButton>
 				<div class="relative grid w-full gap-2">
-					<div class="absolute right-0 grid gap-2 -mt-32" *ngIf="_isDevelopment">
+					<div class="absolute right-0 -mt-32 grid gap-2" *ngIf="_isDevelopment">
 						<button class="vs-button" (click)="_devLogin(devLoginUsername.value)">
 							DevLogin
 						</button>
@@ -47,7 +47,7 @@
 					class="flex justify-items-center"
 					(click)="createMainFile('java')"
 				>
-					<div class="flex items-center w-full h-full gap-2">
+					<div class="flex h-full w-full items-center gap-2">
 						<web-ide-file-icon class="mt-[-4px]" language="java"></web-ide-file-icon>
 						<span>Java</span>
 					</div>
@@ -58,7 +58,7 @@
 					class="flex justify-items-center"
 					(click)="createMainFile('python')"
 				>
-					<div class="flex items-center w-full h-full gap-2">
+					<div class="flex h-full w-full items-center gap-2">
 						<web-ide-file-icon class="mt-[-4px]" language="python"></web-ide-file-icon>
 						<span>Python</span>
 					</div>
@@ -69,7 +69,7 @@
 					class="flex justify-items-center"
 					(click)="createMainFile('typescript')"
 				>
-					<div class="flex items-center w-full h-full gap-2">
+					<div class="flex h-full w-full items-center gap-2">
 						<web-ide-file-icon
 							class="mt-[-4px]"
 							language="typescript"
@@ -83,7 +83,7 @@
 					class="flex justify-items-center"
 					(click)="createMainFile('javascript')"
 				>
-					<div class="flex items-center w-full h-full gap-2">
+					<div class="flex h-full w-full items-center gap-2">
 						<web-ide-file-icon
 							class="mt-[-4px]"
 							language="javascript"
@@ -104,7 +104,7 @@
 <ng-template #uniLogo>
 	<svg
 		id="uni-logo-with-text"
-		class="text-black fill-current w-72 h-72 dark:text-[#bebebe]"
+		class="h-72 w-72 fill-current text-black dark:text-[#bebebe]"
 		viewBox="-2.17491372 -2.17491372 76.99035344 76.84695144"
 	>
 		<defs id="defs3511" />

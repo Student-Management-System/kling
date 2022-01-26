@@ -167,7 +167,7 @@ mat-paginator {
 }
 
 .card {
-	@apply flex flex-col p-2 rounded bg-editor-bg dark:hover:bg-gray-800 hover:bg-gray-200;
+	@apply flex flex-col rounded bg-editor-bg p-2 hover:bg-gray-200 dark:hover:bg-gray-800;
 }
 
 .mat-menu-panel,

@@ -1,11 +1,11 @@
-<div class="flex flex-col h-full max-h-full gap-4 px-4 py-2">
+<div class="flex h-full max-h-full flex-col gap-4 px-4 py-2">
 	<web-ide-terminal-input></web-ide-terminal-input>
 
 	<!-- Output -->
-	<div class="flex flex-col h-full gap-2 overflow-hidden">
+	<div class="flex h-full flex-col gap-2 overflow-hidden">
 		<span class="text-xl">{{ "Domain.Output" | translate }}</span>
 		<div
-			class="flex-1 h-full p-2 overflow-auto rounded font-mono bg-[#EAEAEA] dark:bg-[#3B3B3C]"
+			class="h-full flex-1 overflow-auto rounded bg-[#EAEAEA] p-2 font-mono dark:bg-[#3B3B3C]"
 		>
 			<ng-container *ngIf="{ loading: displayLoadingIndicator$ | async } as obs">
 				<ng-container *ngIf="obs.loading">
@@ -22,7 +22,7 @@
 							}}</pre>
 						</div>
 
-						<div class="text-red-500 stderr" *ngIf="output.stderr?.length > 0">
+						<div class="stderr text-red-500" *ngIf="output.stderr?.length > 0">
 							<pre data-test="stderr" class="whitespace-pre-line">{{
 								output.stderr
 							}}</pre>

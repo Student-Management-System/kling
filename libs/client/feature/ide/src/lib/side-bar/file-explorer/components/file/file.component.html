@@ -6,7 +6,7 @@
 	data-test="file"
 >
 	<button (click)="openFile()" (middleclick)="openFile()" [contextMenu]="fileContextMenu">
-		<span class="flex content-center justify-between w-full">
+		<span class="flex w-full content-center justify-between">
 			<span class="flex gap-2">
 				<web-ide-file-icon [language]="file.name | programmingLanguage"></web-ide-file-icon>
 				<span>{{ file.name }}</span>

@@ -1,4 +1,4 @@
-<div class="flex gap-[2px] h-full" *ngIf="selectedFilePath$ | async as selectedFilePath">
+<div class="flex h-full gap-[2px]" *ngIf="selectedFilePath$ | async as selectedFilePath">
 	<web-ide-tab
 		*ngFor="let tab of tabs$ | async"
 		[path]="tab"

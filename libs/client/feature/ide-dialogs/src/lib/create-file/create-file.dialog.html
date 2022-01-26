@@ -17,11 +17,9 @@
 	</mat-form-field>
 </div>
 
-<div mat-dialog-actions>
-	<button mat-raised-button color="accent" (click)="create()" data-test="createBtn">
+<div mat-dialog-actions class="flex justify-between">
+	<button class="vs-button" (click)="create()" data-test="createBtn">
 		{{ 'Action.Create' | translate }}
 	</button>
-	<button mat-flat-button (click)="close()" data-test="cancelBtn">
-		{{ 'Action.Cancel' | translate }}
-	</button>
+	<button (click)="close()" data-test="cancelBtn">{{ 'Action.Cancel' | translate }}</button>
 </div>

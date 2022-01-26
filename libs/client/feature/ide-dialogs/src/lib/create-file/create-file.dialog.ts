@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
 import { File } from "@web-ide/programming";
 
@@ -13,14 +13,12 @@ import { File } from "@web-ide/programming";
 	styleUrls: ["./create-file.dialog.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateFileDialogComponent implements OnInit {
+export class CreateFileDialogComponent {
 	/** Name of the file that should be created. Must include extension (i.e. `MyFile.java`) */
 	filename!: string;
 	errors?: string;
 
 	constructor(private dialogRef: MatDialogRef<CreateFileDialogComponent>) {}
-
-	ngOnInit(): void {}
 
 	/** Closes the dialog and returns `undefined` to the calling component/service. */
 	close(): void {

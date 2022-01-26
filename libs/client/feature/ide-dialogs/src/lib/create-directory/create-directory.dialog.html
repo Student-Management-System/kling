@@ -16,22 +16,14 @@
 		/>
 	</mat-form-field>
 
-	<div class="error">
-		<mat-error *ngIf="error$ | async as error">{{error | translate}}</mat-error>
+	<div class="flex" *ngIf="error$ | async as error">
+		<mat-error class="mx-auto">{{error | translate}}</mat-error>
 	</div>
 </div>
 
-<div mat-dialog-actions class="actions">
-	<button
-		mat-raised-button
-		color="accent"
-		(click)="create()"
-		[disabled]="error$ | async"
-		data-test="createBtn"
-	>
+<div mat-dialog-actions class="flex justify-between">
+	<button class="vs-button" (click)="create()" [disabled]="error$ | async" data-test="createBtn">
 		{{ 'Action.Create' | translate }}
 	</button>
-	<button mat-flat-button (click)="close()" data-test="cancelBtn">
-		{{ 'Action.Cancel' | translate }}
-	</button>
+	<button (click)="close()" data-test="cancelBtn">{{ 'Action.Cancel' | translate }}</button>
 </div>

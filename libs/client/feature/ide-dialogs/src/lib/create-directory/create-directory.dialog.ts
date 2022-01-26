@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Subject } from "rxjs";
 
@@ -13,10 +13,9 @@ export type CreateDirectoryDialogData = {
 @Component({
 	selector: "web-ide-create-directory",
 	templateUrl: "./create-directory.dialog.html",
-	styleUrls: ["./create-directory.dialog.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateDirectoryDialogComponent implements OnInit {
+export class CreateDirectoryDialogComponent {
 	name = "";
 	error$ = new Subject<string | undefined>();
 
@@ -24,8 +23,6 @@ export class CreateDirectoryDialogComponent implements OnInit {
 		private dialogRef: MatDialogRef<CreateDirectoryDialogComponent, string>,
 		@Inject(MAT_DIALOG_DATA) private data: CreateDirectoryDialogData
 	) {}
-
-	ngOnInit(): void {}
 
 	close(): void {
 		this.dialogRef.close();

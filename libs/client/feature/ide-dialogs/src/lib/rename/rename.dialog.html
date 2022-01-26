@@ -8,9 +8,7 @@
 	</mat-form-field>
 </div>
 
-<div mat-dialog-actions>
-	<button mat-raised-button color="accent" (click)="save()">
-		{{ 'Action.Save' | translate }}
-	</button>
-	<button mat-flat-button (click)="close()">{{ 'Action.Cancel' | translate }}</button>
+<div mat-dialog-actions class="flex justify-between">
+	<button class="vs-button" (click)="save()">{{ 'Action.Save' | translate }}</button>
+	<button (click)="close()">{{ 'Action.Cancel' | translate }}</button>
 </div>

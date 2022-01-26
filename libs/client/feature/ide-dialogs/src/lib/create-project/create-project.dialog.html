@@ -42,18 +42,15 @@
 		</li>
 	</ul>
 
-	<div mat-dialog-actions>
+	<div mat-dialog-actions class="flex justify-between">
 		<button
-			mat-flat-button
-			color="accent"
+			class="vs-button"
 			data-test="createBtn"
 			[disabled]="projectNameControl.invalid"
 			(click)="onCreate(projectNameControl.value)"
 		>
 			{{ 'Action.Create' | translate }}
 		</button>
-		<button mat-button data-test="cancelBtn" matDialogClose>
-			{{ 'Action.Cancel' | translate }}
-		</button>
+		<button data-test="cancelBtn" matDialogClose>{{ 'Action.Cancel' | translate }}</button>
 	</div>
 </div>

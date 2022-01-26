@@ -2,3 +2,6 @@
 
 /dist
 /coverage
+/.angular
+/apps/client/generated
+/libs/client/feature/code-editor/src/lib/components/code-editor/vscode-oniguruma

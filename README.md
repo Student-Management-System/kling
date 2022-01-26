@@ -51,7 +51,6 @@ I recommend using [VS Code](https://github.com/microsoft/vscode) as IDE with the
 -   [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template) - Angular related code completion and diagnostics
 -   [Angular Snippets](https://marketplace.visualstudio.com/items?itemName=Mikael.Angular-BeastCode) - Collection of useful Angular snippets
 -   [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) - Auto-completion for CSS classes
--   [Headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind) - Opinionated CSS class sorter
 -   [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - Opinionated code formatter
 -   [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) - Static Program Analysis
 -   [i18n Ally](https://marketplace.visualstudio.com/items?itemName=Lokalise.i18n-ally) - Translation management
